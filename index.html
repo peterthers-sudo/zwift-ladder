@@ -1049,8 +1049,9 @@ function scoreRiderForCourse(r, fp) {
 
 function getBestLineupForCourse(course, teamSize) {
   const fp = getCourseFingerprint(course);
+  const pool = riders.filter(r => r.selected);
 
-  const scored = riders.map(r => ({
+  const scored = pool.map(r => ({
     rider: r,
     score: scoreRiderForCourse(r, fp)
   }));
@@ -1101,7 +1102,7 @@ function getBestOppLineupForCourse(course, teamSize) {
   const fn = opponentTeam.getRiderWatts;
 
   const scored = opponentTeam.riders
-    .filter(r => r.active !== false)   // only include active (non-excluded) riders
+    .filter(r => r.active !== false && (r.wkg > 0 || r.watt > 0))   // exclude inactive and no-data riders
     .map(r => ({
       rider: r,
       score: scoreOppRiderForCourse(r, fp, fn)
@@ -1288,9 +1289,6 @@ function renderRiders() {
               ${hasCurveData(r) ? '<span style="color:var(--accent3);font-size:0.6rem">● CURVE</span>' : '<span style="color:var(--text-dim);font-size:0.6rem">○ est.</span>'}
             </div>
           </div>
-        </div>
-        <div class="rider-actions">
-          <button class="btn-icon" onclick="deleteRider(${r.id})" style="background:transparent; border:none; color:var(--red); cursor:pointer; font-size:1.1rem;">✕</button>
         </div>
       </div>
     `;
@@ -1535,8 +1533,8 @@ function runMatch() {
   const selectedRiders = riders.filter(r => r.selected);
 
   const teamSize = parseInt(document.getElementById('team-size').value) || 5;
-  if (riders.length < teamSize) {
-    alertEl.textContent = `Not enough riders in roster — need at least ${teamSize} (have ${riders.length})`;
+  if (selectedRiders.length < teamSize) {
+    alertEl.textContent = `Not enough riders selected — need at least ${teamSize} (have ${selectedRiders.length} selected)`;
     alertEl.className = 'alert show';
     return;
   }
