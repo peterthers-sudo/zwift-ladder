@@ -1619,17 +1619,15 @@ function runMatch() {
         lineup: lineup   // now the best N riders for this specific course
       };
     })
-    .sort((a, b) => {
-      if (opponentTeam) return b.diff - a.diff;
-      return b.score - a.score;
-    })
-    .slice(0, 15);
+    .sort((a, b) => opponentTeam ? b.diff - a.diff : b.score - a.score);
 
     const maxScore = Math.max(...ranked.map(r => r.score));
+    const maxDiff  = opponentTeam ? Math.max(...ranked.map(r => r.diff)) : null;
 
     grid.innerHTML = ranked.map((r, i) => {
-      const pct = Math.round((r.score / (maxScore || 1)) * 100);
-      const why = generateMatchWhy(team, r.course, r.fp, i === 0);
+      const pct      = Math.round((r.score / (maxScore || 1)) * 100);
+      const isBest   = opponentTeam ? r.diff === maxDiff : r.score === maxScore;
+      const why = generateMatchWhy(team, r.course, r.fp, isBest);
 
       // Pre-compute lineup stats outside the template literal to avoid nesting issues
       const ln = r.lineup.length;
@@ -1642,10 +1640,13 @@ function runMatch() {
       const lineupStats = `Lineup avg: ${lAvgFtp}W FTP · ${lAvgSprint}W sprint · ${lAvg1min}W 1min · ${lAvg5min}W 5min · ${lAvgWkg} W/kg${lCurve}`;
 
       return `
-        <div class="result-card rank-${i+1}" style="animation:slideIn 0.25s ease ${i*0.06}s both">
-          <div class="result-rank">${i+1}</div>
+        <div class="result-card ${isBest ? 'rank-1' : ''}" style="animation:slideIn 0.25s ease ${i*0.06}s both">
+          <div class="result-rank" style="color:${isBest ? 'var(--accent2)' : 'var(--border)'}">${i+1}</div>
           <div class="result-info">
-            <div class="result-course-name">${r.course.name}</div>
+            <div class="result-course-name">
+              ${r.course.name}
+              ${isBest ? '<span style="font-family:\'JetBrains Mono\',monospace;font-size:0.6rem;color:var(--accent2);margin-left:8px;letter-spacing:1px">★ BEST MATCH</span>' : ''}
+            </div>
             <div class="result-meta">${r.course.world} · ${r.course.distance}km · ${r.course.elevation}m ↑ (${(r.course.elevation/r.course.distance).toFixed(1)} m/km)</div>
             ${r.vsHTML}
             <div class="result-why">${why}</div>
