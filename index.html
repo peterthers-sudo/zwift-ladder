@@ -34,7 +34,7 @@
   .logo-sub { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--text-dim); letter-spacing: 3px; margin-top: 2px; }
   .status-badge { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--accent3); background: rgba(127,255,107,0.08); border: 1px solid rgba(127,255,107,0.2); padding: 6px 14px; letter-spacing: 2px; }
 
-  .tabs { display: flex; gap: 2px; margin-bottom: 32px; background: var(--surface); padding: 4px; width: fit-content; flex-wrap: wrap; }
+  .tabs { display: flex; gap: 2px; margin-bottom: 32px; background: var(--surface); padding: 4px; width: 100%; flex-wrap: wrap; }
   .tab { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; padding: 10px 20px; cursor: pointer; color: var(--text-dim); border: none; background: transparent; transition: all 0.2s; }
   .tab.active { background: var(--accent); color: var(--bg); font-weight: 600; }
   .tab:hover:not(.active) { color: var(--text); background: var(--border); }
@@ -85,7 +85,7 @@
   .world-btn { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 1px; padding: 4px 10px; background: transparent; border: 1px solid var(--border); color: var(--text-dim); cursor: pointer; transition: all 0.15s; }
   .world-btn.active { border-color: var(--accent); color: var(--accent); background: rgba(0,229,255,0.15); font-weight:600; }
 
-  .course-list { display: flex; flex-direction: column; gap: 6px; max-height: 420px; overflow-y: auto; }
+  .course-list { display: flex; flex-direction: column; gap: 6px; }
   .course-item { background: var(--surface2); border: 1px solid var(--border); padding: 12px 14px; display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; cursor: pointer; transition: border-color 0.15s; }
   .course-item:hover { border-color: rgba(0,229,255,0.3); }
   .course-item.selected { border-color: var(--accent); background: rgba(0,229,255,0.05); }
@@ -189,16 +189,17 @@
     <div class="header-inner">
       <div class="logo">
         <div class="logo-title">Zwift Ladder Race Matcher</div>
-        <div class="logo-sub">Course × Rider Intelligence System · LEQP Ladder Edition v5</div>
+        <div class="logo-sub">Course × Rider Intelligence System · LEQP Ladder Edition v1</div>
       </div>
       <div class="status-badge">● LEQP TOURMALET</div>
     </div>
   </header>
 
-  <div class="tabs">
+  <div class="tabs" style="display:flex">
     <button class="tab active" onclick="switchTab('riders')">Riders</button>
     <button class="tab" onclick="switchTab('courses')">Courses <span class="count-badge" id="course-count">0</span></button>
     <button class="tab" onclick="switchTab('results')">Match Results</button>
+    <button class="tab" onclick="switchTab('help')" style="margin-left:auto; opacity:0.7">? Help</button>
   </div>
 
   <!-- ═══════════ MATCH CONTEXT BAR ═══════════ -->
@@ -364,12 +365,167 @@
         <label style="margin:0">Select Course</label>
         <select id="match-course-select" style="width:auto;margin-top:6px"></select>
       </div>
+      <div id="sort-toggle-wrap">
+        <label style="margin:0">Sort by</label>
+        <div style="display:flex;gap:6px;margin-top:6px">
+          <button id="sort-btn-advantage" class="btn btn-sm btn-secondary" onclick="setSortMode('advantage')" style="font-size:0.7rem;padding:6px 12px">⚔ Advantage</button>
+          <button id="sort-btn-score" class="btn btn-sm btn-ghost" onclick="setSortMode('score')" style="font-size:0.7rem;padding:6px 12px">★ Match Score</button>
+        </div>
+      </div>
       <button class="btn btn-primary" onclick="runMatch()">⚡ RUN MATCH</button>
       <div class="run-info" id="run-info"></div>
     </div>
     <div class="alert" id="match-alert"></div>
     <div class="results-grid" id="results-grid">
       <div class="empty">Add riders, select courses, then click Run Match</div>
+    </div>
+  </div>
+  <!-- ═══════════ HELP TAB ═══════════ -->
+  <div class="panel" id="panel-help">
+    <div class="card" style="max-width:780px; margin:0 auto;">
+      <div class="card-title">📖 Guide & Glossary</div>
+
+      <div style="font-size:0.8rem; color:var(--text-dim); margin-bottom:24px">
+        Zwift Ladder Race Matcher helps you pick the route that best suits your team's strengths — and exploits your opponent's weaknesses.
+      </div>
+
+      <!-- WORKFLOW -->
+      <div style="margin-bottom:28px">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2); letter-spacing:1px; margin-bottom:10px">🚀 How to use the app</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">1. Riders</div>
+            <div style="font-size:0.78rem; color:var(--text)">Add your riders with name, weight and power data. The more ZwiftPower data you have, the better. Check the riders available for the current match.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">2. Opponent</div>
+            <div style="font-size:0.78rem; color:var(--text)">Select the opponent team from the library — or leave empty for absolute scoring without comparison.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">3. Courses</div>
+            <div style="font-size:0.78rem; color:var(--text)">All Zwift routes are pre-loaded. Use the distance slider and world filters to narrow the pool to routes relevant for your ladder format.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">4. Match Results → RUN MATCH</div>
+            <div style="font-size:0.78rem; color:var(--text)">The app calculates which of your riders form the optimal lineup for each route, and compares against the opponent's best lineup.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">5. Sorting</div>
+            <div style="font-size:0.78rem; color:var(--text)">Sort by ⚔ Advantage to find routes where you have the biggest edge over the opponent — or by ★ Match Score for absolute team strength.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SCORE CONCEPTS -->
+      <div style="margin-bottom:28px">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2); letter-spacing:1px; margin-bottom:10px">📊 Score concepts</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">Match Score</div>
+            <div style="font-size:0.78rem; color:var(--text)">A number from 0–100 showing how well your team profile matches the route's demands. High score = the route suits your strengths. Independent of the opponent.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent3)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent3); min-width:180px; padding-top:1px">Advantage (⚔)</div>
+            <div style="font-size:0.78rem; color:var(--text)">The difference in match score between your team and the opponent on this route. +2.1 means you have a strategic edge of 2.1 points. Negative = opponent is stronger on this route.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent3)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent3); min-width:180px; padding-top:1px">Strategic Advantage</div>
+            <div style="font-size:0.78rem; color:var(--text)">Advantage weighted by the route's fingerprint — edges on relevant dimensions count more. A +5 punch advantage on a punchy route is worth more than +5 on a flat TT route.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FINGERPRINT -->
+      <div style="margin-bottom:28px">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2); letter-spacing:1px; margin-bottom:10px">🖐 Route fingerprint (5 dimensions)</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">TT</div>
+            <div style="font-size:0.78rem; color:var(--text)">Time trial / flat headwind. Flat routes with little elevation. Favours heavier riders with high absolute watt output (FTP in watts).</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent2)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent2); min-width:180px; padding-top:1px">Sprint</div>
+            <div style="font-size:0.78rem; color:var(--text)">Short flat routes with a sprint finish. Favours riders with extreme 5-second sprint power in watts.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--purple)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--purple); min-width:180px; padding-top:1px">Punch</div>
+            <div style="font-size:0.78rem; color:var(--text)">Routes with short sharp climbs (30 sec – 2 min). Favours riders with high 1-minute power — both watts and W/kg matter.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid #ff9f43">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:#ff9f43; min-width:180px; padding-top:1px">Medium</div>
+            <div style="font-size:0.78rem; color:var(--text)">Routes with medium-length climbs (3–10 min). Favours climbers with good 5-minute power. W/kg dominates.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent3)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent3); min-width:180px; padding-top:1px">Climb</div>
+            <div style="font-size:0.78rem; color:var(--text)">Long sustained climbs (10+ min). Almost entirely W/kg — light riders with high FTP W/kg dominate.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- RIDER CONCEPTS -->
+      <div style="margin-bottom:28px">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2); letter-spacing:1px; margin-bottom:10px">🚴 Rider concepts</div>
+        <div style="display:flex; flex-direction:column; gap:6px;">
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent3)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent3); min-width:180px; padding-top:1px">★ curve</div>
+            <div style="font-size:0.78rem; color:var(--text)">The rider has real power curve data from ZwiftPower (w5s → w30min). Gives significantly more accurate calculations than estimated W/kg figures alone.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--text-dim)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--text-dim); min-width:180px; padding-top:1px">○ est.</div>
+            <div style="font-size:0.78rem; color:var(--text)">Only estimated W/kg figures (sprint, 1min, 5min, 20min). Calculations are still useful but less precise than curve data.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">FTP</div>
+            <div style="font-size:0.78rem; color:var(--text)">Functional Threshold Power — your 20-minute maximum effort. Used as a proxy for endurance. Expressed in both watts and W/kg.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent3)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent3); min-width:180px; padding-top:1px">W/kg</div>
+            <div style="font-size:0.78rem; color:var(--text)">Watts per kilogram — critical on climbs because you are lifting your own weight. High W/kg = strong climber.</div>
+          </div>
+
+          <div style="display:flex; gap:12px; padding:10px; background:var(--surface2); border-radius:6px; border-left:3px solid var(--accent)">
+            <div style="font-family:'JetBrains Mono',monospace; font-size:0.7rem; color:var(--accent); min-width:180px; padding-top:1px">Watts (absolute)</div>
+            <div style="font-size:0.78rem; color:var(--text)">Raw power output regardless of body weight. Critical on flat roads in Zwift because air resistance is the main enemy — and it depends on speed, not weight.</div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- TIPS -->
+      <div style="margin-bottom:12px">
+        <div style="font-family:'Bebas Neue',sans-serif; font-size:1.1rem; color:var(--accent2); letter-spacing:1px; margin-bottom:10px">💡 Tips</div>
+        <div style="display:flex; flex-direction:column; gap:6px; font-size:0.78rem; color:var(--text);">
+          <div style="padding:10px; background:var(--surface2); border-radius:6px">📌 Upload curve data from ZwiftPower for all riders — it makes a noticeable difference in accuracy.</div>
+          <div style="padding:10px; background:var(--surface2); border-radius:6px">📌 Only check riders who are actually available for the match — the app automatically picks the best N per route.</div>
+          <div style="padding:10px; background:var(--surface2); border-radius:6px">📌 Have 7 riders available for a 5v5? Select all 7 — the app finds the optimal 5-rider lineup per route.</div>
+          <div style="padding:10px; background:var(--surface2); border-radius:6px">📌 Don't just pick the highest Advantage — also consider whether the route is actually available in Zwift that week.</div>
+          <div style="padding:10px; background:var(--surface2); border-radius:6px">📌 The route database is based on Zwift Insider (Jan 2025). Distances and elevation do <em>not</em> include lead-in.</div>
+        </div>
+      </div>
+
+      <div style="font-size:0.65rem; color:var(--text-dim); margin-top:16px; text-align:center">
+        Zwift Ladder Race Matcher · LEQP Edition · Route database from Zwift Insider Jan 2025
+      </div>
     </div>
   </div>
 </div>
@@ -581,7 +737,19 @@ const ZWIFT_ROUTES = [
 
 // Give each route an id and initialize as selected
 let courses = ZWIFT_ROUTES.map((r, i) => ({ ...r, id: i + 1, selected: true, custom: false }));
-let opponentTeam = null; 
+let opponentTeam = null;
+let sortMode = 'advantage'; // 'advantage' | 'score'
+
+function setSortMode(mode) {
+  sortMode = mode;
+  document.getElementById('sort-btn-advantage').className = mode === 'advantage' ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-ghost';
+  document.getElementById('sort-btn-score').className     = mode === 'score'     ? 'btn btn-sm btn-secondary' : 'btn btn-sm btn-ghost';
+  document.getElementById('sort-btn-advantage').style.fontSize = '0.7rem';
+  document.getElementById('sort-btn-advantage').style.padding  = '6px 12px';
+  document.getElementById('sort-btn-score').style.fontSize = '0.7rem';
+  document.getElementById('sort-btn-score').style.padding  = '6px 12px';
+  runMatch();
+}
 
 const OPPONENT_LIBRARY = {
   "valhalla_hoors": {
@@ -1298,7 +1466,7 @@ function toggleOppRider(index) {
 // UI — TABS
 // ═══════════════════════════════════════════════════════
 function switchTab(tab) {
-  const tabs = ['riders','courses','results'];
+  const tabs = ['riders','courses','results','help'];
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
   document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', `panel-${tabs[i]}` === `panel-${tab}`));
   if (tab === 'results') { updateMatchMode(); populateCourseSelect(); }
@@ -1370,6 +1538,15 @@ function deleteRider(id) {
   runMatch();
 }
 
+function toggleRiderDetails(id) {
+  const panel = document.getElementById('rider-details-' + id);
+  const icon  = document.getElementById('rider-toggle-icon-' + id);
+  if (!panel) return;
+  const open = panel.style.display === 'none';
+  panel.style.display = open ? 'block' : 'none';
+  if (icon) icon.textContent = open ? '▲' : '▼';
+}
+
 function renderRiders() {
   const listEl = document.getElementById('rider-list');
   const bar = document.getElementById('team-profile-bar');
@@ -1384,23 +1561,78 @@ function renderRiders() {
 
   // 1. Generer HTML for hver rytter i listen
   const ridersHTML = riders.map(r => {
-    // Beregn FTP i watt (bruger watt feltet hvis det findes, ellers regner den det ud)
     const ftpWatts = r.watt ? r.watt : Math.round(r.twentyMin * r.weight);
-    
+    const hasCurve = hasCurveData(r);
+
+    // Power curve rows — only show watts if hasCurve, else show estimated w/kg-derived
+    const curveRows = hasCurve ? `
+      <table style="width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:0.65rem; margin-top:6px;">
+        <tr style="color:var(--text-dim); border-bottom:1px solid var(--border)">
+          <th style="text-align:left; padding:2px 6px; font-weight:400">Interval</th>
+          <th style="text-align:right; padding:2px 6px; font-weight:400">Watt</th>
+          <th style="text-align:right; padding:2px 6px; font-weight:400">W/kg</th>
+        </tr>
+        ${[
+          ['5 sek',   r.w5s,   r.w5s   && r.weight ? (r.w5s   / r.weight).toFixed(2) : '—'],
+          ['10 sek',  r.w10s,  r.w10s  && r.weight ? (r.w10s  / r.weight).toFixed(2) : '—'],
+          ['15 sek',  r.w15s,  r.w15s  && r.weight ? (r.w15s  / r.weight).toFixed(2) : '—'],
+          ['30 sek',  r.w30s,  r.w30s  && r.weight ? (r.w30s  / r.weight).toFixed(2) : '—'],
+          ['1 min',   r.w1min, r.w1min && r.weight ? (r.w1min / r.weight).toFixed(2) : '—'],
+          ['2 min',   r.w2min, r.w2min && r.weight ? (r.w2min / r.weight).toFixed(2) : '—'],
+          ['5 min',   r.w5min, r.w5min && r.weight ? (r.w5min / r.weight).toFixed(2) : '—'],
+          ['10 min',  r.w10min,r.w10min&& r.weight ? (r.w10min/ r.weight).toFixed(2) : '—'],
+          ['20 min',  r.w20min,r.w20min&& r.weight ? (r.w20min/ r.weight).toFixed(2) : '—'],
+          ['30 min',  r.w30min,r.w30min&& r.weight ? (r.w30min/ r.weight).toFixed(2) : '—'],
+        ].map(([label, w, wkg]) => `
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:2px 6px; color:var(--text-dim)">${label}</td>
+            <td style="padding:2px 6px; text-align:right; color:var(--accent)">${w ? w + 'W' : '—'}</td>
+            <td style="padding:2px 6px; text-align:right; color:var(--accent3)">${wkg}</td>
+          </tr>`).join('')}
+      </table>` : `
+      <table style="width:100%; border-collapse:collapse; font-family:'JetBrains Mono',monospace; font-size:0.65rem; margin-top:6px;">
+        <tr style="color:var(--text-dim); border-bottom:1px solid var(--border)">
+          <th style="text-align:left; padding:2px 6px; font-weight:400">Interval</th>
+          <th style="text-align:right; padding:2px 6px; font-weight:400">W/kg (est.)</th>
+        </tr>
+        ${[
+          ['Sprint (~5s)', r.sprint.toFixed(2)],
+          ['1 min',        r.oneMin.toFixed(2)],
+          ['5 min',        r.fiveMin.toFixed(2)],
+          ['20 min (FTP)', r.twentyMin.toFixed(2)],
+        ].map(([label, wkg]) => `
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.04)">
+            <td style="padding:2px 6px; color:var(--text-dim)">${label}</td>
+            <td style="padding:2px 6px; text-align:right; color:var(--accent3)">${wkg} W/kg</td>
+          </tr>`).join('')}
+        <tr><td colspan="2" style="padding:4px 6px; color:rgba(255,255,255,0.3); font-size:0.58rem">Ingen curve-data — bruger estimerede W/kg</td></tr>
+      </table>`;
+
     return `
-      <div class="rider-card ${r.selected ? 'selected' : ''}" style="display: flex; align-items: center; gap: 12px; padding: 10px; border-bottom: 1px solid var(--border); margin-bottom: 5px; background: var(--surface2); border-radius: 8px;">
-        <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
-          <input type="checkbox" ${r.selected ? 'checked' : ''} onchange="toggleRiderSelection(${r.id})" style="cursor:pointer">
-          <div class="rider-info">
-            <div class="rider-name" style="font-weight: bold; color: white;">${r.name}</div>
-            <div class="rider-stats" style="font-size: 0.75rem; color: var(--text-dim); display:flex; gap:10px; flex-wrap:wrap;">
+      <div class="rider-card ${r.selected ? 'selected' : ''}" style="border-bottom: 1px solid var(--border); margin-bottom: 5px; background: var(--surface2); border-radius: 8px; overflow:hidden;">
+        <div style="display:flex; align-items:center; gap:12px; padding:10px; cursor:pointer" onclick="toggleRiderDetails(${r.id})">
+          <input type="checkbox" ${r.selected ? 'checked' : ''} onchange="toggleRiderSelection(${r.id})" onclick="event.stopPropagation()" style="cursor:pointer">
+          <div class="rider-info" style="flex:1; min-width:0;">
+            <div class="rider-name" style="font-weight:bold; color:white;">${r.name}</div>
+            <div class="rider-stats" style="font-size:0.75rem; color:var(--text-dim); display:flex; gap:10px; flex-wrap:wrap; margin-top:2px;">
               <span>${r.twentyMin.toFixed(2)} W/kg</span>
               <span><strong style="color:var(--accent)">${ftpWatts}W</strong> FTP</span>
-              ${r.w5s ? `<span style="color:var(--accent2)">🔥 ${r.w5s}W sprint</span>` : ''}
-              ${r.w5min ? `<span style="color:var(--accent3)">⛰ ${r.w5min}W 5min</span>` : ''}
-              ${hasCurveData(r) ? '<span style="color:var(--accent3);font-size:0.6rem">● CURVE</span>' : '<span style="color:var(--text-dim);font-size:0.6rem">○ est.</span>'}
+              ${r.w5s   ? `<span style="color:var(--accent2)">${r.w5s}W sprint</span>` : ''}
+              ${r.w5min ? `<span style="color:var(--accent3)">${r.w5min}W 5min</span>` : ''}
+              ${hasCurve
+                ? '<span style="color:var(--accent3);font-size:0.6rem">★ curve</span>'
+                : '<span style="color:var(--text-dim);font-size:0.6rem">○ est.</span>'}
             </div>
           </div>
+          <span style="font-size:0.65rem; color:var(--text-dim); user-select:none" id="rider-toggle-icon-${r.id}">▼</span>
+        </div>
+        <div id="rider-details-${r.id}" style="display:none; padding:0 10px 10px 10px; border-top:1px solid var(--border)">
+          <div style="font-size:0.6rem; color:var(--text-dim); margin-bottom:4px; padding-top:6px; display:flex; gap:12px;">
+            <span>Vægt: <strong style="color:var(--text)">${r.weight ? r.weight + ' kg' : '—'}</strong></span>
+            <span>FTP: <strong style="color:var(--accent)">${ftpWatts}W</strong> / <strong style="color:var(--accent3)">${r.twentyMin.toFixed(2)} W/kg</strong></span>
+            ${hasCurve ? '<span style="color:var(--accent3)">★ ZwiftPower curve-data</span>' : '<span style="color:rgba(255,255,255,0.3)">○ Estimerede tal</span>'}
+          </div>
+          ${curveRows}
         </div>
       </div>
     `;
@@ -1629,7 +1861,8 @@ function addCustomCourse() {
 // ═══════════════════════════════════════════════════════
 function updateMatchMode() {
   const mode = document.getElementById('match-mode').value;
-  document.getElementById('rider-filter-wrap').style.display = mode === 'rider' ? 'block' : 'none';
+  document.getElementById('rider-filter-wrap').style.display  = mode === 'rider'  ? 'block' : 'none';
+  document.getElementById('sort-toggle-wrap').style.display   = mode === 'course' ? 'block' : 'none';
 }
 
 function populateCourseSelect() {
@@ -1690,6 +1923,7 @@ function runMatch() {
         tt:      Math.min(100, Math.round(profile.tt)),
         sprint:  Math.min(100, Math.round(profile.sprint)),
         punch:   Math.min(100, Math.round(profile.punch)),
+        medium:  Math.min(100, Math.round(profile.medium  || 0)),
         climber: Math.min(100, Math.round(profile.climber))
       };
 
@@ -1733,14 +1967,17 @@ function runMatch() {
         lineup: lineup   // now the best N riders for this specific course
       };
     })
-    .sort((a, b) => opponentTeam ? b.diff - a.diff : b.score - a.score);
+    .sort((a, b) => {
+      if (sortMode === 'advantage' && opponentTeam) return b.diff - a.diff;
+      return b.score - a.score;
+    });
 
     const maxScore = Math.max(...ranked.map(r => r.score));
     const maxDiff  = opponentTeam ? Math.max(...ranked.map(r => r.diff)) : null;
 
     grid.innerHTML = ranked.map((r, i) => {
-      const pct      = Math.round((r.score / (maxScore || 1)) * 100);
-      const isBest   = opponentTeam ? r.diff === maxDiff : r.score === maxScore;
+      const pct    = Math.round((r.score / (maxScore || 1)) * 100);
+      const isBest = (sortMode === 'advantage' && opponentTeam) ? r.diff === maxDiff : r.score === maxScore;
       const why = generateMatchWhy(team, r.course, r.fp, isBest);
 
       // Pre-compute lineup stats outside the template literal to avoid nesting issues
@@ -1780,9 +2017,18 @@ function runMatch() {
             </div>
           </div>
           <div class="result-score-wrap">
-            <div class="result-score">${Math.round(r.score)}</div>
-            <span class="result-score-label">MATCH SCORE</span>
-            <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div>
+            ${opponentTeam ? `
+              <div class="result-score" style="color:${r.diff >= 0 ? 'var(--accent3)' : 'var(--red)'};font-size:1.6rem">${r.diff >= 0 ? '+' : ''}${r.diff.toFixed(1)}</div>
+              <span class="result-score-label" style="color:${r.diff >= 0 ? 'var(--accent3)' : 'var(--red)'}">ADVANTAGE</span>
+              <div style="margin-top:10px;border-top:1px solid var(--border);padding-top:8px">
+                <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:var(--text-dim)">${Math.round(r.score)}</div>
+                <span class="result-score-label">MATCH SCORE</span>
+              </div>
+            ` : `
+              <div class="result-score">${Math.round(r.score)}</div>
+              <span class="result-score-label">MATCH SCORE</span>
+              <div class="score-bar"><div class="score-bar-fill" style="width:${pct}%"></div></div>
+            `}
           </div>
         </div>
       `;
@@ -1926,7 +2172,7 @@ function saveToStorage() {
   localStorage.setItem('zwift_riders', JSON.stringify(riders));
 }
 
-const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
+const RIDERS_VERSION = 'v5.2'; // bump this whenever the built-in roster changes
 
 function loadFromStorage() {
   const savedVersion = localStorage.getItem('zwift_riders_version');
