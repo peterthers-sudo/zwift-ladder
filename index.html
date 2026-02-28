@@ -241,10 +241,10 @@
         COURSE × RIDER INTELLIGENCE SYSTEM · LEQP LADDER EDITION v5
       </p>
 
-      <h2>Hvad er det her?</h2>
+      <h2>What is this?</h2>
       <p>Race Matcher helps your team select the best route before a ladder race — and the best rider lineup for that route. The system automatically fetches rider data from ZwiftPower (the last 90 days of power curve data), analyses strengths and weaknesses for both teams, and ranks all available routes by who has the advantage.</p>
 
-      <h2>Daglig brug</h2>
+      <h2>How to use</h2>
 
       <h3>1. Select your team</h3>
       <p>Select your active team from the dropdown at the top of the page. The rider list, captains and team profile update instantly. Switch teams to simulate internal matches.</p>
@@ -282,30 +282,6 @@
 
       <h2>Feedback og finjustering</h2>
       <p>Under each result you can mark <strong>✓ Correct</strong>, <strong>↑ Too high</strong> or <strong>↓ Too low</strong>. Ratings are saved locally and help identify systematic errors in the scoring model that can be used to fine-tune the weights.</p>
-
-      <h2>Update data</h2>
-      <pre><code># Download source code for all opponent teams (requires login)
-python download_teams.py
-
-# Fetch rider data from ZwiftPower API and update index.html
-python get_data.py</code></pre>
-      <p>It is recommended to run both scripts once a week or before an important match.</p>
-
-      <h2>Mappestruktur</h2>
-      <pre><code>C:\zwiftpower-api-main\
-├── index.html          ← The matcher (this file)
-├── get_data.py         ← Updates rider data
-├── download_teams.py   ← Downloads opponent teams
-├── start.bat           ← Starts the entire system
-├── my_team\           ← HTML source for your own teams
-└── source_code\       ← HTML source for opponent teams</code></pre>
-
-      <h2>Troubleshooting</h2>
-      <ul>
-        <li><strong>"Could not fetch rider"</strong> — The rider is not registered on ZwiftPower or has a private profile. Ask them to sign up at zwiftpower.com and set their profile to public.</li>
-        <li><strong>WinError 10048 / port in use</strong> — Run <code>taskkill /F /IM python.exe</code> and wait a minute, or restart your PC.</li>
-        <li><strong>download_teams.py finds no teams</strong> — The page loads with JavaScript. Try increasing the wait time in the script (<code>time.sleep(6)</code>).</li>
-      </ul>
 
     </div>
   </div>
@@ -4874,22 +4850,8 @@ function populateOppByRung() {
       teamSel.appendChild(opt);
     });
   } else if (rungVal === 'leqp') {
-    // All LEQP teams from OPPONENT_LIBRARY + own teams
-    Object.entries(OPPONENT_LIBRARY).forEach(([key, team]) => {
-      if (team.name.toUpperCase().includes('LEQP')) {
-        const opt = document.createElement('option');
-        opt.value = key;
-        opt.textContent = team.name;
-        teamSel.appendChild(opt);
-      }
-    });
-    // Also add own teams
-    Object.entries(MY_TEAMS).forEach(([key, team]) => {
-      const opt = document.createElement('option');
-      opt.value = 'MY_TEAM::' + key;
-      opt.textContent = '⚡ ' + team.name;
-      teamSel.appendChild(opt);
-    });
+    // Handled entirely by rebuildOppOwnTeams() which adds the LEQP optgroup
+    rebuildOppOwnTeams();
   } else {
     // Filter by rung number
     const rungNum = parseInt(rungVal);
