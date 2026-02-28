@@ -353,18 +353,17 @@ python get_data.py</code></pre>
           <select id="opp-rung-select" onchange="populateOppByRung()"
                   style="width:100%; background:var(--bg); border:1px solid var(--border); color:var(--text); font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:10px 12px;">
             <option value="">— Select rung —</option>
-            <option value="leqp">⚡ LEQP Teams</option>
-            <option value="1">Rung 1 — Anquetil</option>
-            <option value="2">Rung 2 — Brand</option>
-            <option value="3">Rung 3 — Cavendish</option>
-            <option value="4">Rung 4 — Desgrange</option>
-            <option value="5">Rung 5 — Eisel</option>
-            <option value="6">Rung 6 — Fignon</option>
-            <option value="7">Rung 7 — Gilbert</option>
-            <option value="8">Rung 8 — Hamm</option>
-            <option value="9">Rung 9 — Indurain</option>
+                   <option value="1">Rung 1 — Anquetil</option>
+            <option value="2">Rung 2 — Coppi</option>
+            <option value="3">Rung 3 — Merckx</option>
+            <option value="4">Rung 4 — Hinault</option>
+            <option value="5">Rung 5 — Indurain</option>
+            <option value="6">Rung 6 — Armstrong</option>
+            <option value="7">Rung 7 — LeMond</option>
+            <option value="8">Rung 8 — Pantani</option>
+            <option value="9">Rung 9 — Ullrich</option>
             <option value="10">Rung 10 — Janssen</option>
-            <option value="own">── Own Teams ──</option>
+            <option value="leqp">⚡ LEQP Teams</option>
           </select>
           <select id="opp-library-select" onchange="loadOpponentFromLibrary()"
                   style="width:100%; background:var(--bg); border:1px solid var(--border); color:var(--text); font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:10px 12px;" disabled>
@@ -4913,9 +4912,24 @@ function rebuildOppOwnTeams() {
   if (existing) existing.remove();
   // Build new optgroup
   const grp = document.createElement('optgroup');
-  grp.label = '── Own Teams ──';
+  grp.label = 'LEQP Teams';
   grp.dataset.own = '1';
+  // LEQP teams from OPPONENT_LIBRARY
+  Object.entries(OPPONENT_LIBRARY).forEach(([key, team]) => {
+    if (!team.name.toUpperCase().includes('LEQP')) return;
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = team.name;
+    grp.appendChild(opt);
+  });
+  // Own LEQP teams not already in library
+  const leqpLibNames = new Set(
+    Object.values(OPPONENT_LIBRARY)
+      .filter(t => t.name.toUpperCase().includes('LEQP'))
+      .map(t => t.name.toUpperCase().trim())
+  );
   Object.entries(MY_TEAMS).forEach(([key, team]) => {
+    if (leqpLibNames.has(team.name.toUpperCase().trim())) return;
     const opt = document.createElement('option');
     opt.value = 'MY_TEAM::' + key;
     opt.textContent = '⚡ ' + team.name;
