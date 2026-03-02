@@ -103,8 +103,14 @@
   .tag-medium { color: #ff9f43; border-color: rgba(255,159,67,0.3); background: rgba(255,159,67,0.06); }
 
   /* Results */
-  .run-section { display: flex; align-items: flex-end; gap: 16px; margin: 24px 0; flex-wrap: nowrap; }
+  .run-section { display: flex; align-items: flex-end; gap: 12px; margin: 24px 0; flex-wrap: wrap; }
   .run-section .btn { white-space: nowrap; }
+  .run-section > div { flex: 1; min-width: 160px; }
+  .run-section select { width: 100%; }
+  @media (max-width: 500px) {
+    .run-section { flex-direction: column; align-items: stretch; gap: 10px; }
+    .run-section .btn { width: 100%; justify-content: center; }
+  }
   .run-info { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--text-dim); }
 
   .results-grid { display: flex; flex-direction: column; gap: 12px; }
@@ -221,7 +227,7 @@
         <div class="logo-title">Zwift Ladder Race Matcher</div>
         <div class="logo-sub">Course × Rider Intelligence System · LEQP Ladder Edition v1 · Live on 49.dk</div>
       </div>
-      <div style="font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-dim); letter-spacing:1px; white-space:nowrap; margin-left:auto;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: Mar 2, 2026 · 01:31<!-- LAST_UPDATED_END --></div>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-dim); letter-spacing:1px; white-space:nowrap; margin-left:auto;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: Mar 2, 2026 · 12:00<!-- LAST_UPDATED_END --></div>
       <div style="flex-shrink:0"><select id="my-team-select" class="status-badge"
         onchange="switchMyTeam(this.value)"
         style="cursor:pointer;border:none;outline:none;appearance:none;-webkit-appearance:none;width:auto;max-width:fit-content;padding-right:20px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%228%22 viewBox=%220 0 8 8%22><path fill=%22%237fffbf%22 d=%22M0 2l4 4 4-4z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
@@ -451,6 +457,12 @@
         <div style="font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-dim); margin-bottom:10px; letter-spacing:1px;">
           Uncheck riders not available for this match
         </div>
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+          <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);cursor:pointer;margin:0">
+            <input type="checkbox" id="opp-select-all" checked onchange="toggleAllOppRiders(this.checked)" style="cursor:pointer;accent-color:var(--accent2)">
+            All
+          </label>
+        </div>
         <div id="opp-rider-list" style="display:flex; flex-direction:column; gap:6px;"></div>
       </div>
 
@@ -573,7 +585,6 @@
         <select id="match-course-select" style="width:auto;max-width:260px;margin-top:6px"></select>
       </div>
       <button class="btn btn-primary" onclick="runMatch()">⚡ RUN MATCH</button>
-      <button class="btn btn-secondary" onclick="openMatchupAnalysis()" id="analyze-btn" style="opacity:0.5" title="Select an opponent to enable">🔍 ANALYZE MATCHUP</button>
       <div class="run-info" id="run-info"></div>
     </div>
     <div class="alert" id="match-alert"></div>
@@ -658,12 +669,12 @@
   font-family:'Bebas Neue',sans-serif; font-size:1.6rem; color:var(--border);
 }
 .matchup-vs-header {
-  display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+  display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap;
   background:var(--surface2); border:1px solid var(--border);
   padding:14px 16px; margin-bottom:16px;
 }
 .matchup-team-name {
-  font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px; flex:1;
+  font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:2px;
 }
 .matchup-vs-badge {
   font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--accent2);
@@ -1156,7 +1167,7 @@ const OPPONENT_LIBRARY = {
     riders: [
       { name: "Pelle Iversen  [ZU4R]", weight: 76.3, watt: 296, wkg: 3.9, w5s: 886, w10s: 0, w15s: 800, w30s: 627, w1min: 498, w2min: 413, w5min: 355, w10min: 0, w20min: 296, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.3, wkg1min: 6.6, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Sam Leahy", weight: 91.0, watt: 329, wkg: 3.6, w5s: 1075, w10s: 0, w15s: 984, w30s: 794, w1min: 597, w2min: 467, w5min: 394, w10min: 0, w20min: 329, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.7, wkg1min: 6.6, wkg2min: 5.1, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: "Rob Griffin", weight: 82.0, watt: 334, wkg: 4.3, w5s: 911, w10s: 0, w15s: 784, w30s: 610, w1min: 476, w2min: 426, w5min: 377, w10min: 0, w20min: 334, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.6, wkg1min: 5.8, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
+      { name: "Rob Griffin", weight: 82.0, watt: 334, wkg: 4.3, w5s: 915, w10s: 0, w15s: 784, w30s: 610, w1min: 480, w2min: 444, w5min: 377, w10min: 0, w20min: 334, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.6, wkg1min: 6.0, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { name: "Andrew Mc", weight: 78.0, watt: 315, wkg: 4.1, w5s: 989, w10s: 0, w15s: 877, w30s: 569, w1min: 525, w2min: 435, w5min: 372, w10min: 0, w20min: 315, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 7.3, wkg1min: 6.7, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { name: "L.", weight: 85.0, watt: 294, wkg: 3.5, w5s: 951, w10s: 0, w15s: 871, w30s: 621, w1min: 514, w2min: 423, w5min: 344, w10min: 0, w20min: 294, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.3, wkg1min: 6.0, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Sam Hampton", weight: 73.0, watt: 288, wkg: 3.9, w5s: 902, w10s: 0, w15s: 722, w30s: 615, w1min: 510, w2min: 417, w5min: 352, w10min: 0, w20min: 288, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 8.5, wkg1min: 7.1, wkg2min: 5.8, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
@@ -1260,7 +1271,7 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_CRYO_GEN_DERAILLEUR_DYNASTY": {
     rung: 4,
-    name: "ryo-Gen Derailleur Dynast",
+    name: "Cryo-Gen Derailleur Dynas",
     riders: [
       { name: "Sander Pricker [CRYO-GEN]", weight: 79.1, watt: 299, wkg: 3.8, w5s: 1192, w10s: 0, w15s: 1088, w30s: 924, w1min: 609, w2min: 424, w5min: 372, w10min: 0, w20min: 299, w30min: 0, wkg5s: 15.1, wkg10s: 0.0, wkg15s: 13.8, wkg30s: 11.7, wkg1min: 7.7, wkg2min: 5.4, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { name: "Simon The Chimp Aldridge [CRYO-GEN]", weight: 80.7, watt: 302, wkg: 3.8, w5s: 779, w10s: 0, w15s: 678, w30s: 517, w1min: 429, w2min: 393, w5min: 343, w10min: 0, w20min: 302, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
@@ -1382,7 +1393,7 @@ const OPPONENT_LIBRARY = {
       { name: "Eric  Johnson(Dirt)", weight: 77.6, watt: 308, wkg: 4.0, w5s: 872, w10s: 0, w15s: 746, w30s: 646, w1min: 529, w2min: 426, w5min: 355, w10min: 0, w20min: 308, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.3, wkg1min: 6.8, wkg2min: 5.5, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Kieren McKenna (DiRT)", weight: 75.7, watt: 317, wkg: 4.2, w5s: 673, w10s: 0, w15s: 622, w30s: 578, w1min: 495, w2min: 439, w5min: 356, w10min: 0, w20min: 317, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.6, wkg1min: 6.5, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Paul Wojciak", weight: 61.2, watt: 253, wkg: 4.1, w5s: 774, w10s: 0, w15s: 628, w30s: 495, w1min: 415, w2min: 345, w5min: 304, w10min: 0, w20min: 253, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.1, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { name: "Diogo (Cycos)", weight: 74.6, watt: 308, wkg: 4.1, w5s: 787, w10s: 0, w15s: 733, w30s: 613, w1min: 496, w2min: 411, w5min: 361, w10min: 0, w20min: 308, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.2, wkg1min: 6.6, wkg2min: 5.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
+      { name: "Diogo (Cycos)", weight: 74.7, watt: 308, wkg: 4.1, w5s: 787, w10s: 0, w15s: 733, w30s: 613, w1min: 496, w2min: 411, w5min: 361, w10min: 0, w20min: 308, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.2, wkg1min: 6.6, wkg2min: 5.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { name: "Paul Robertson (DIRT)", weight: 77.8, watt: 290, wkg: 3.7, w5s: 890, w10s: 0, w15s: 747, w30s: 655, w1min: 546, w2min: 406, w5min: 346, w10min: 0, w20min: 290, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.4, wkg1min: 7.0, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Ollie&#9889;&#65039;&#128642;&#129435; (DIRT)", weight: 79.4, watt: 306, wkg: 3.9, w5s: 938, w10s: 0, w15s: 827, w30s: 656, w1min: 546, w2min: 433, w5min: 353, w10min: 0, w20min: 306, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 8.2, wkg1min: 6.9, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Erik August", weight: 77.5, watt: 322, wkg: 4.2, w5s: 888, w10s: 0, w15s: 801, w30s: 713, w1min: 567, w2min: 428, w5min: 381, w10min: 0, w20min: 322, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 9.0, wkg1min: 7.1, wkg2min: 5.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
@@ -1405,7 +1416,7 @@ const OPPONENT_LIBRARY = {
       { name: "Steve Day (DIRT)", weight: 87.8, watt: 288, wkg: 3.3, w5s: 962, w10s: 0, w15s: 828, w30s: 647, w1min: 463, w2min: 396, w5min: 338, w10min: 0, w20min: 288, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.4, wkg1min: 5.3, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "5 Paul (MEGAS)", weight: 77.3, watt: 274, wkg: 3.5, w5s: 818, w10s: 0, w15s: 716, w30s: 626, w1min: 475, w2min: 362, w5min: 302, w10min: 0, w20min: 274, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 8.1, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Jeff Kitto (Strangers)", weight: 87.0, watt: 281, wkg: 3.2, w5s: 1038, w10s: 0, w15s: 926, w30s: 718, w1min: 495, w2min: 393, w5min: 340, w10min: 0, w20min: 281, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.3, wkg1min: 5.7, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
-      { name: "G ERMAR DIRT Frenzy", weight: 88.0, watt: 298, wkg: 3.4, w5s: 855, w10s: 0, w15s: 821, w30s: 600, w1min: 495, w2min: 393, w5min: 346, w10min: 0, w20min: 298, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 6.8, wkg1min: 5.6, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { name: "G ERMAR DIRT Frenzy", weight: 88.0, watt: 298, wkg: 3.4, w5s: 875, w10s: 0, w15s: 821, w30s: 695, w1min: 495, w2min: 395, w5min: 346, w10min: 0, w20min: 298, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.9, wkg1min: 5.6, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Ryan Parker", weight: 91.5, watt: 301, wkg: 3.3, w5s: 1343, w10s: 0, w15s: 1130, w30s: 914, w1min: 545, w2min: 421, w5min: 374, w10min: 0, w20min: 301, w30min: 0, wkg5s: 14.4, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 10.0, wkg1min: 6.0, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "Clint Moore", weight: 80.0, watt: 260, wkg: 3.2, w5s: 693, w10s: 0, w15s: 643, w30s: 521, w1min: 466, w2min: 354, w5min: 292, w10min: 0, w20min: 260, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 6.5, wkg1min: 5.8, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
@@ -1447,7 +1458,7 @@ const OPPONENT_LIBRARY = {
     riders: [
       { name: "d starr ", weight: 69.3, watt: 271, wkg: 3.9, w5s: 748, w10s: 0, w15s: 677, w30s: 527, w1min: 385, w2min: 345, w5min: 311, w10min: 0, w20min: 271, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.6, wkg1min: 5.6, wkg2min: 5.0, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Dave Edmonds", weight: 69.8, watt: 258, wkg: 3.7, w5s: 850, w10s: 0, w15s: 813, w30s: 618, w1min: 506, w2min: 377, w5min: 294, w10min: 0, w20min: 258, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.4, wkg1min: 7.2, wkg2min: 5.1, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { name: "James Allison", weight: 72.5, watt: 248, wkg: 3.4, w5s: 855, w10s: 0, w15s: 819, w30s: 669, w1min: 464, w2min: 336, w5min: 292, w10min: 0, w20min: 248, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.2, wkg1min: 6.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { name: "James Allison", weight: 72.5, watt: 251, wkg: 3.5, w5s: 855, w10s: 0, w15s: 819, w30s: 669, w1min: 464, w2min: 354, w5min: 292, w10min: 0, w20min: 251, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.2, wkg1min: 6.4, wkg2min: 4.9, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "B.Smith (DIRT)", weight: 81.0, watt: 278, wkg: 3.4, w5s: 1080, w10s: 0, w15s: 849, w30s: 662, w1min: 470, w2min: 388, w5min: 324, w10min: 0, w20min: 278, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.2, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Alex Silva", weight: 70.0, watt: 259, wkg: 3.7, w5s: 656, w10s: 0, w15s: 631, w30s: 521, w1min: 448, w2min: 366, w5min: 303, w10min: 0, w20min: 259, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.4, wkg1min: 6.4, wkg2min: 5.2, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "B. Reiffer", weight: 88.0, watt: 305, wkg: 3.5, w5s: 869, w10s: 0, w15s: 815, w30s: 663, w1min: 486, w2min: 411, w5min: 352, w10min: 0, w20min: 305, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.5, wkg1min: 5.5, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -1457,7 +1468,7 @@ const OPPONENT_LIBRARY = {
       { name: "Mikael Brostrom", weight: 82.5, watt: 271, wkg: 3.3, w5s: 842, w10s: 0, w15s: 796, w30s: 619, w1min: 456, w2min: 395, w5min: 329, w10min: 0, w20min: 271, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.5, wkg1min: 5.5, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "Campbell Menzies", weight: 68.0, watt: 252, wkg: 3.7, w5s: 953, w10s: 0, w15s: 752, w30s: 609, w1min: 420, w2min: 339, w5min: 278, w10min: 0, w20min: 252, w30min: 0, wkg5s: 14.0, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 9.0, wkg1min: 6.2, wkg2min: 5.0, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Matt Miller", weight: 77.5, watt: 277, wkg: 3.6, w5s: 710, w10s: 0, w15s: 672, w30s: 551, w1min: 441, w2min: 364, w5min: 332, w10min: 0, w20min: 277, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.9, wkg1min: 5.6, wkg2min: 4.7, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: " G reg C&#127797; (Strangers)", weight: 81.2, watt: 304, wkg: 3.8, w5s: 729, w10s: 0, w15s: 666, w30s: 532, w1min: 423, w2min: 391, w5min: 333, w10min: 0, w20min: 304, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.6, wkg1min: 5.2, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { name: " * Greg C&#127797; (Strangers)", weight: 81.2, watt: 304, wkg: 3.8, w5s: 729, w10s: 0, w15s: 666, w30s: 532, w1min: 423, w2min: 391, w5min: 333, w10min: 0, w20min: 304, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.6, wkg1min: 5.2, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { name: ". MaoistMailman&#9874;&#65039;", weight: 81.9, watt: 297, wkg: 3.6, w5s: 1070, w10s: 0, w15s: 953, w30s: 744, w1min: 565, w2min: 417, w5min: 354, w10min: 0, w20min: 297, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.0, wkg1min: 6.8, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 }
     ]
   },
@@ -1562,7 +1573,7 @@ const OPPONENT_LIBRARY = {
       { name: " 6 Dan (Condors)", weight: 100.5, watt: 295, wkg: 2.9, w5s: 1071, w10s: 0, w15s: 913, w30s: 722, w1min: 525, w2min: 428, w5min: 350, w10min: 0, w20min: 295, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.1, wkg1min: 5.1, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { name: "Chris Temple", weight: 73.5, watt: 230, wkg: 3.1, w5s: 903, w10s: 0, w15s: 803, w30s: 553, w1min: 399, w2min: 329, w5min: 280, w10min: 0, w20min: 230, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 7.5, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Paul Hickman", weight: 85.6, watt: 260, wkg: 3.0, w5s: 932, w10s: 0, w15s: 803, w30s: 632, w1min: 467, w2min: 374, w5min: 297, w10min: 0, w20min: 260, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.4, wkg1min: 5.4, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { name: "Mick Ronald (DIRT/GXY)", weight: 83.0, watt: 259, wkg: 3.1, w5s: 1101, w10s: 0, w15s: 1008, w30s: 631, w1min: 416, w2min: 375, w5min: 303, w10min: 0, w20min: 259, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 7.6, wkg1min: 5.1, wkg2min: 4.6, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { name: "Mick Ronald (DIRT/GXY)", weight: 83.0, watt: 259, wkg: 3.1, w5s: 1101, w10s: 0, w15s: 1008, w30s: 631, w1min: 416, w2min: 375, w5min: 296, w10min: 0, w20min: 259, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 7.6, wkg1min: 5.1, wkg2min: 4.6, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Jem Randell", weight: 67.5, watt: 240, wkg: 3.5, w5s: 589, w10s: 0, w15s: 536, w30s: 479, w1min: 360, w2min: 275, w5min: 254, w10min: 0, w20min: 240, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 7.1, wkg1min: 5.3, wkg2min: 4.1, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Tony Bennett", weight: 72.3, watt: 230, wkg: 3.2, w5s: 751, w10s: 0, w15s: 673, w30s: 545, w1min: 394, w2min: 312, w5min: 263, w10min: 0, w20min: 230, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.5, wkg1min: 5.4, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
@@ -1577,7 +1588,7 @@ const OPPONENT_LIBRARY = {
       { name: "Andres Fernandez (DIRT)", weight: 82.0, watt: 237, wkg: 2.9, w5s: 729, w10s: 0, w15s: 647, w30s: 511, w1min: 424, w2min: 358, w5min: 320, w10min: 0, w20min: 237, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.2, wkg1min: 5.2, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { name: "Richard Shelton", weight: 76.5, watt: 293, wkg: 3.8, w5s: 615, w10s: 0, w15s: 562, w30s: 527, w1min: 421, w2min: 361, w5min: 332, w10min: 0, w20min: 293, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.9, wkg1min: 5.5, wkg2min: 4.7, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { name: "KayDan [DIRT]", weight: 87.0, watt: 291, wkg: 3.3, w5s: 768, w10s: 0, w15s: 721, w30s: 609, w1min: 433, w2min: 382, w5min: 341, w10min: 0, w20min: 291, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 7.0, wkg1min: 5.0, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { name: "Larry Webb(Dirt)", weight: 61.0, watt: 215, wkg: 3.5, w5s: 593, w10s: 0, w15s: 500, w30s: 417, w1min: 352, w2min: 300, w5min: 243, w10min: 0, w20min: 215, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.8, wkg1min: 5.8, wkg2min: 4.9, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { name: "Larry Webb(Dirt)", weight: 61.0, watt: 215, wkg: 3.5, w5s: 593, w10s: 0, w15s: 501, w30s: 417, w1min: 352, w2min: 300, w5min: 243, w10min: 0, w20min: 215, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.8, wkg1min: 5.8, wkg2min: 4.9, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Sergio ", weight: 69.0, watt: 253, wkg: 3.7, w5s: 696, w10s: 0, w15s: 600, w30s: 485, w1min: 398, w2min: 339, w5min: 298, w10min: 0, w20min: 253, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.0, wkg1min: 5.8, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Simon Bond (Espresso Library)", weight: 80.3, watt: 283, wkg: 3.5, w5s: 810, w10s: 0, w15s: 726, w30s: 629, w1min: 474, w2min: 377, w5min: 322, w10min: 0, w20min: 283, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.8, wkg1min: 5.9, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Martin Cote (Down n DIRTy)", weight: 80.0, watt: 293, wkg: 3.7, w5s: 823, w10s: 0, w15s: 687, w30s: 583, w1min: 447, w2min: 375, w5min: 332, w10min: 0, w20min: 293, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.3, wkg1min: 5.6, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -1597,7 +1608,6 @@ const OPPONENT_LIBRARY = {
       { name: "Mike Hardy [DIRT]", weight: 63.8, watt: 317, wkg: 5.0, w5s: 988, w10s: 0, w15s: 907, w30s: 738, w1min: 547, w2min: 445, w5min: 354, w10min: 0, w20min: 317, w30min: 0, wkg5s: 15.8, wkg10s: 0.0, wkg15s: 14.5, wkg30s: 11.6, wkg1min: 8.6, wkg2min: 7.0, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
       { name: "Clive Vallance ", weight: 80.2, watt: 402, wkg: 5.0, w5s: 1000, w10s: 0, w15s: 911, w30s: 837, w1min: 640, w2min: 606, w5min: 466, w10min: 0, w20min: 402, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 10.4, wkg1min: 7.9, wkg2min: 7.5, wkg5min: 5.8, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
       { name: "Tom Stagg", weight: 71.0, watt: 352, wkg: 5.0, w5s: 1049, w10s: 0, w15s: 979, w30s: 761, w1min: 615, w2min: 475, w5min: 406, w10min: 0, w20min: 352, w30min: 0, wkg5s: 14.8, wkg10s: 0.0, wkg15s: 13.8, wkg30s: 10.9, wkg1min: 8.8, wkg2min: 6.8, wkg5min: 5.7, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
-      { name: "Jeff Haig", weight: 75.0, watt: 328, wkg: 4.4, w5s: 970, w10s: 0, w15s: 771, w30s: 623, w1min: 530, w2min: 479, w5min: 391, w10min: 0, w20min: 328, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.3, wkg1min: 7.1, wkg2min: 6.4, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "Matthew Wight", weight: 72.2, watt: 364, wkg: 5.0, w5s: 1122, w10s: 0, w15s: 1002, w30s: 850, w1min: 620, w2min: 487, w5min: 418, w10min: 0, w20min: 364, w30min: 0, wkg5s: 15.4, wkg10s: 0.0, wkg15s: 13.8, wkg30s: 11.8, wkg1min: 8.6, wkg2min: 6.7, wkg5min: 5.8, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
       { name: "Ty Schmidt [Mitten]", weight: 71.2, watt: 334, wkg: 4.6, w5s: 790, w10s: 0, w15s: 761, w30s: 705, w1min: 555, w2min: 469, w5min: 412, w10min: 0, w20min: 334, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 9.9, wkg1min: 7.7, wkg2min: 6.4, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
       { name: "Tim Brook", weight: 84.0, watt: 355, wkg: 4.3, w5s: 1174, w10s: 0, w15s: 1038, w30s: 868, w1min: 601, w2min: 490, w5min: 447, w10min: 0, w20min: 355, w30min: 0, wkg5s: 14.0, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 10.3, wkg1min: 7.1, wkg2min: 5.9, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
@@ -1766,7 +1776,7 @@ const OPPONENT_LIBRARY = {
       { name: "lolo  lorenzo4615 (Foudre)", weight: 73.0, watt: 243, wkg: 3.3, w5s: 715, w10s: 0, w15s: 609, w30s: 511, w1min: 402, w2min: 327, w5min: 292, w10min: 0, w20min: 243, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 7.0, wkg1min: 5.5, wkg2min: 4.5, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "Alexandre Ounanian [Team Chantilly]", weight: 84.0, watt: 258, wkg: 3.1, w5s: 829, w10s: 0, w15s: 696, w30s: 530, w1min: 434, w2min: 398, w5min: 306, w10min: 0, w20min: 258, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.3, wkg1min: 5.2, wkg2min: 4.7, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Vince Feelgood (Foudre) &#9889;&#65039;", weight: 72.0, watt: 228, wkg: 3.1, w5s: 743, w10s: 0, w15s: 683, w30s: 563, w1min: 416, w2min: 308, w5min: 251, w10min: 0, w20min: 228, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.6, wkg1min: 5.6, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { name: "Denis Falaise&#9889;(Foudre)", weight: 69.1, watt: 224, wkg: 3.2, w5s: 728, w10s: 0, w15s: 619, w30s: 495, w1min: 355, w2min: 285, w5min: 265, w10min: 0, w20min: 224, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.2, wkg1min: 5.1, wkg2min: 4.1, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { name: "Denis Falaise&#9889;(Foudre)", weight: 69.1, watt: 220, wkg: 3.2, w5s: 728, w10s: 0, w15s: 619, w30s: 495, w1min: 355, w2min: 285, w5min: 265, w10min: 0, w20min: 220, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.2, wkg1min: 5.1, wkg2min: 4.1, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Williams Burlet ( FOUDRE ) ", weight: 83.0, watt: 267, wkg: 3.2, w5s: 990, w10s: 0, w15s: 815, w30s: 587, w1min: 446, w2min: 353, w5min: 315, w10min: 0, w20min: 267, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.2, wkg1min: 5.4, wkg2min: 4.3, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "S&eacute;bastien Hamon &#9889; (Foudre)", weight: 73.0, watt: 243, wkg: 3.4, w5s: 665, w10s: 0, w15s: 567, w30s: 430, w1min: 311, w2min: 282, w5min: 263, w10min: 0, w20min: 243, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 5.9, wkg1min: 4.3, wkg2min: 3.9, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "WALTER AMICO (FOUDRE)", weight: 75.0, watt: 236, wkg: 3.1, w5s: 706, w10s: 0, w15s: 641, w30s: 538, w1min: 414, w2min: 332, w5min: 272, w10min: 0, w20min: 236, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 7.2, wkg1min: 5.5, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -1867,7 +1877,7 @@ const OPPONENT_LIBRARY = {
       { name: "Spunky McDougal [GTR] ", weight: 88.0, watt: 290, wkg: 3.3, w5s: 793, w10s: 0, w15s: 699, w30s: 598, w1min: 479, w2min: 385, w5min: 322, w10min: 0, w20min: 290, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.8, wkg1min: 5.4, wkg2min: 4.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "	Tate &#10084;&#65039; (GTR)", weight: 69.0, watt: 207, wkg: 3.0, w5s: 794, w10s: 0, w15s: 706, w30s: 532, w1min: 361, w2min: 291, w5min: 246, w10min: 0, w20min: 207, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.7, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { name: "Gry Bruun-Rasmussen", weight: 62.5, watt: 214, wkg: 3.4, w5s: 468, w10s: 0, w15s: 405, w30s: 365, w1min: 301, w2min: 273, w5min: 249, w10min: 0, w20min: 214, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 5.8, wkg1min: 4.8, wkg2min: 4.3, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { name: "2. Rob", weight: 85.7, watt: 257, wkg: 3.0, w5s: 979, w10s: 0, w15s: 865, w30s: 687, w1min: 489, w2min: 384, w5min: 334, w10min: 0, w20min: 257, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.0, wkg1min: 5.7, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { name: "Rob Lonsdale (GTR)", weight: 85.7, watt: 257, wkg: 3.0, w5s: 979, w10s: 0, w15s: 865, w30s: 687, w1min: 489, w2min: 384, w5min: 334, w10min: 0, w20min: 257, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.0, wkg1min: 5.7, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { name: "Christyn S (RAVE)", weight: 87.9, watt: 279, wkg: 3.2, w5s: 690, w10s: 0, w15s: 589, w30s: 535, w1min: 449, w2min: 352, w5min: 320, w10min: 0, w20min: 279, w30min: 0, wkg5s: 7.8, wkg10s: 0.0, wkg15s: 6.7, wkg30s: 6.1, wkg1min: 5.1, wkg2min: 4.0, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Daz Maloney (GTR)", weight: 79.0, watt: 252, wkg: 3.2, w5s: 922, w10s: 0, w15s: 789, w30s: 616, w1min: 500, w2min: 391, w5min: 319, w10min: 0, w20min: 252, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.9, wkg1min: 6.4, wkg2min: 5.0, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Max Min", weight: 67.8, watt: 235, wkg: 3.5, w5s: 646, w10s: 0, w15s: 562, w30s: 425, w1min: 361, w2min: 308, w5min: 261, w10min: 0, w20min: 235, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.3, wkg1min: 5.3, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -1900,14 +1910,14 @@ const OPPONENT_LIBRARY = {
     name: "Galaxy Avengers",
     riders: [
       { name: "Scott Gavens", weight: 86.4, watt: 332, wkg: 3.8, w5s: 958, w10s: 0, w15s: 908, w30s: 735, w1min: 605, w2min: 496, w5min: 395, w10min: 0, w20min: 332, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.5, wkg1min: 7.0, wkg2min: 5.7, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { name: "Paul Morrison (NJC Chipembere)", weight: 70.0, watt: 261, wkg: 3.7, w5s: 652, w10s: 0, w15s: 589, w30s: 517, w1min: 395, w2min: 357, w5min: 308, w10min: 0, w20min: 261, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.4, wkg1min: 5.6, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { name: "Paul Morrison (NJC Chipembere)", weight: 70.0, watt: 274, wkg: 3.9, w5s: 652, w10s: 0, w15s: 589, w30s: 517, w1min: 395, w2min: 357, w5min: 315, w10min: 0, w20min: 274, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.4, wkg1min: 5.6, wkg2min: 5.1, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Tom Andrews [GXY]", weight: 71.5, watt: 285, wkg: 4.0, w5s: 697, w10s: 0, w15s: 647, w30s: 522, w1min: 459, w2min: 371, w5min: 332, w10min: 0, w20min: 285, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.3, wkg1min: 6.4, wkg2min: 5.2, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Jonathan Hunt (GXY)", weight: 83.9, watt: 318, wkg: 3.8, w5s: 1007, w10s: 0, w15s: 934, w30s: 752, w1min: 624, w2min: 515, w5min: 385, w10min: 0, w20min: 318, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.0, wkg1min: 7.4, wkg2min: 6.1, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { name: "Alan Bates (GXY)", weight: 85.1, watt: 373, wkg: 4.4, w5s: 852, w10s: 0, w15s: 772, w30s: 712, w1min: 549, w2min: 495, w5min: 456, w10min: 0, w20min: 373, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.4, wkg1min: 6.5, wkg2min: 5.8, wkg5min: 5.4, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "Steve Cole [GXY]", weight: 83.0, watt: 340, wkg: 4.1, w5s: 761, w10s: 0, w15s: 721, w30s: 689, w1min: 556, w2min: 481, w5min: 387, w10min: 0, w20min: 340, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 8.3, wkg1min: 6.7, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { name: "Duke &ldquo;An Adventure&rdquo; Norton", weight: 68.0, watt: 326, wkg: 4.8, w5s: 606, w10s: 0, w15s: 574, w30s: 535, w1min: 464, w2min: 413, w5min: 378, w10min: 0, w20min: 326, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.9, wkg1min: 6.8, wkg2min: 6.1, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.8, wkg30min: 0.0 },
       { name: "Paul Rigg [GXY]", weight: 71.7, watt: 307, wkg: 4.3, w5s: 833, w10s: 0, w15s: 777, w30s: 616, w1min: 506, w2min: 435, w5min: 372, w10min: 0, w20min: 307, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 8.7, wkg1min: 7.1, wkg2min: 6.1, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
-      { name: "Marnix van Zetten", weight: 84.5, watt: 362, wkg: 4.2, w5s: 1315, w10s: 0, w15s: 1135, w30s: 904, w1min: 700, w2min: 545, w5min: 444, w10min: 0, w20min: 362, w30min: 0, wkg5s: 15.3, wkg10s: 0.0, wkg15s: 13.2, wkg30s: 10.7, wkg1min: 8.3, wkg2min: 6.3, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { name: "Marnix van Zetten", weight: 84.4, watt: 362, wkg: 4.2, w5s: 1315, w10s: 0, w15s: 1135, w30s: 904, w1min: 700, w2min: 545, w5min: 444, w10min: 0, w20min: 362, w30min: 0, wkg5s: 15.3, wkg10s: 0.0, wkg15s: 13.2, wkg30s: 10.7, wkg1min: 8.3, wkg2min: 6.3, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Stuart Day", weight: 82.0, watt: 318, wkg: 3.9, w5s: 838, w10s: 0, w15s: 677, w30s: 522, w1min: 484, w2min: 414, w5min: 381, w10min: 0, w20min: 318, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.4, wkg1min: 5.9, wkg2min: 5.0, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Connor W__", weight: 83.6, watt: 365, wkg: 4.4, w5s: 1061, w10s: 0, w15s: 975, w30s: 769, w1min: 601, w2min: 538, w5min: 423, w10min: 0, w20min: 365, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 9.2, wkg1min: 7.1, wkg2min: 6.3, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "jamie taylor", weight: 83.8, watt: 336, wkg: 4.0, w5s: 1388, w10s: 0, w15s: 1254, w30s: 893, w1min: 635, w2min: 522, w5min: 420, w10min: 0, w20min: 336, w30min: 0, wkg5s: 16.5, wkg10s: 0.0, wkg15s: 14.9, wkg30s: 10.7, wkg1min: 7.5, wkg2min: 6.2, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
@@ -2173,7 +2183,7 @@ const OPPONENT_LIBRARY = {
     riders: [
       { name: "B. Bolland (HISP)", weight: 72.0, watt: 243, wkg: 3.4, w5s: 619, w10s: 0, w15s: 533, w30s: 455, w1min: 371, w2min: 348, w5min: 274, w10min: 0, w20min: 243, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 6.3, wkg1min: 5.2, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "salillas", weight: 0.0, watt: 235, wkg: 2.7, w5s: 910, w10s: 0, w15s: 808, w30s: 591, w1min: 475, w2min: 334, w5min: 273, w10min: 0, w20min: 235, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 6.7, wkg1min: 5.4, wkg2min: 3.8, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
-      { name: "Miguel Fleta", weight: 71.0, watt: 221, wkg: 3.1, w5s: 650, w10s: 0, w15s: 546, w30s: 433, w1min: 317, w2min: 278, w5min: 259, w10min: 0, w20min: 221, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.1, wkg1min: 4.5, wkg2min: 3.9, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { name: "Miguel Fleta", weight: 71.0, watt: 221, wkg: 3.1, w5s: 650, w10s: 0, w15s: 546, w30s: 433, w1min: 317, w2min: 280, w5min: 260, w10min: 0, w20min: 221, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.1, wkg1min: 4.5, wkg2min: 3.9, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Francisco Barrales [HISP]", weight: 94.0, watt: 254, wkg: 2.7, w5s: 845, w10s: 0, w15s: 748, w30s: 640, w1min: 428, w2min: 328, w5min: 284, w10min: 0, w20min: 254, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 6.8, wkg1min: 4.6, wkg2min: 3.5, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { name: "oscar sabucedo [HISP]", weight: 91.0, watt: 291, wkg: 3.2, w5s: 1142, w10s: 0, w15s: 848, w30s: 661, w1min: 510, w2min: 415, w5min: 340, w10min: 0, w20min: 291, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.3, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Alvaro CS [HISP]", weight: 80.0, watt: 213, wkg: 2.7, w5s: 943, w10s: 0, w15s: 842, w30s: 602, w1min: 401, w2min: 321, w5min: 245, w10min: 0, w20min: 213, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 7.5, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
@@ -2214,7 +2224,7 @@ const OPPONENT_LIBRARY = {
       { name: "Tobias M&uuml;nsch (KLUB)", weight: 82.0, watt: 280, wkg: 3.4, w5s: 601, w10s: 0, w15s: 552, w30s: 482, w1min: 416, w2min: 357, w5min: 324, w10min: 0, w20min: 280, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.7, wkg30s: 5.9, wkg1min: 5.1, wkg2min: 4.4, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Enrico Nicolai [KLUB]", weight: 78.0, watt: 247, wkg: 3.2, w5s: 743, w10s: 0, w15s: 623, w30s: 503, w1min: 399, w2min: 340, w5min: 274, w10min: 0, w20min: 247, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 6.4, wkg1min: 5.1, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Stefan Kraus[KLUB]", weight: 82.0, watt: 269, wkg: 3.3, w5s: 636, w10s: 0, w15s: 513, w30s: 446, w1min: 365, w2min: 328, w5min: 302, w10min: 0, w20min: 269, w30min: 0, wkg5s: 7.8, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.4, wkg1min: 4.5, wkg2min: 4.0, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { name: "Speedmax Oliver [KLUB]", weight: 80.0, watt: 272, wkg: 3.4, w5s: 750, w10s: 0, w15s: 726, w30s: 646, w1min: 520, w2min: 397, w5min: 308, w10min: 0, w20min: 272, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.1, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { name: "Speedmax Oliver [KLUB]", weight: 52.0, watt: 272, wkg: 3.4, w5s: 750, w10s: 0, w15s: 726, w30s: 646, w1min: 520, w2min: 397, w5min: 308, w10min: 0, w20min: 272, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.1, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Markus Clever - Der Hohenlimburger", weight: 75.9, watt: 260, wkg: 3.4, w5s: 814, w10s: 0, w15s: 718, w30s: 557, w1min: 425, w2min: 375, w5min: 296, w10min: 0, w20min: 260, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 7.3, wkg1min: 5.6, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Christian H. [KLUB]", weight: 67.4, watt: 238, wkg: 3.5, w5s: 753, w10s: 0, w15s: 693, w30s: 548, w1min: 418, w2min: 337, w5min: 281, w10min: 0, w20min: 238, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.1, wkg1min: 6.2, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: " Gerhard HINTERH&Ouml;LZL[KLUB]", weight: 82.0, watt: 276, wkg: 3.6, w5s: 520, w10s: 0, w15s: 520, w30s: 485, w1min: 396, w2min: 341, w5min: 311, w10min: 0, w20min: 276, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.8, wkg30s: 5.9, wkg1min: 4.8, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
@@ -2381,8 +2391,8 @@ const OPPONENT_LIBRARY = {
       { name: "Jamie Carpenter (LEQP x STAGES)", weight: 66.1, watt: 242, wkg: 3.7, w5s: 609, w10s: 0, w15s: 597, w30s: 546, w1min: 420, w2min: 332, w5min: 282, w10min: 0, w20min: 242, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.4, wkg1min: 6.4, wkg2min: 5.0, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Steve GLA [LEQP]", weight: 64.0, watt: 236, wkg: 3.7, w5s: 529, w10s: 0, w15s: 459, w30s: 408, w1min: 339, w2min: 299, w5min: 265, w10min: 0, w20min: 236, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Jo Harris (LEQP)", weight: 70.0, watt: 253, wkg: 3.6, w5s: 568, w10s: 0, w15s: 496, w30s: 408, w1min: 326, w2min: 313, w5min: 284, w10min: 0, w20min: 253, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 5.9, wkg1min: 4.7, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: "Rob King", weight: 78.0, watt: 283, wkg: 3.6, w5s: 653, w10s: 0, w15s: 603, w30s: 540, w1min: 424, w2min: 352, w5min: 313, w10min: 0, w20min: 283, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.9, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: "5 Ciaran", weight: 67.0, watt: 259, wkg: 3.9, w5s: 577, w10s: 0, w15s: 565, w30s: 481, w1min: 415, w2min: 327, w5min: 285, w10min: 0, w20min: 259, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.2, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { name: "Rob King", weight: 78.0, watt: 283, wkg: 3.6, w5s: 653, w10s: 0, w15s: 603, w30s: 540, w1min: 424, w2min: 362, w5min: 313, w10min: 0, w20min: 283, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.9, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { name: "5 Ciaran", weight: 67.0, watt: 260, wkg: 3.9, w5s: 577, w10s: 0, w15s: 565, w30s: 481, w1min: 415, w2min: 327, w5min: 286, w10min: 0, w20min: 260, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.2, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Taimar P&auml;rtel", weight: 75.0, watt: 249, wkg: 3.3, w5s: 875, w10s: 0, w15s: 781, w30s: 639, w1min: 510, w2min: 381, w5min: 299, w10min: 0, w20min: 249, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 8.5, wkg1min: 6.8, wkg2min: 5.1, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "Dave Greening LEQP", weight: 73.0, watt: 261, wkg: 3.6, w5s: 1004, w10s: 0, w15s: 939, w30s: 711, w1min: 442, w2min: 358, w5min: 306, w10min: 0, w20min: 261, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 9.7, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { name: "Barry Johns | LEQP", weight: 76.0, watt: 277, wkg: 3.6, w5s: 829, w10s: 0, w15s: 715, w30s: 523, w1min: 475, w2min: 390, w5min: 322, w10min: 0, w20min: 277, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 6.9, wkg1min: 6.2, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
@@ -2454,7 +2464,7 @@ const OPPONENT_LIBRARY = {
       { name: "Marc Nyvang // SR", weight: 62.0, watt: 271, wkg: 4.4, w5s: 710, w10s: 0, w15s: 660, w30s: 523, w1min: 458, w2min: 385, w5min: 331, w10min: 0, w20min: 271, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.4, wkg1min: 7.4, wkg2min: 6.2, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "Martin Vissing [DBR]#HAC#", weight: 85.0, watt: 344, wkg: 4.0, w5s: 970, w10s: 0, w15s: 904, w30s: 729, w1min: 623, w2min: 485, w5min: 397, w10min: 0, w20min: 344, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.6, wkg1min: 7.3, wkg2min: 5.7, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Christian Jessen", weight: 65.0, watt: 261, wkg: 4.1, w5s: 725, w10s: 0, w15s: 656, w30s: 556, w1min: 479, w2min: 392, w5min: 318, w10min: 0, w20min: 261, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.7, wkg1min: 7.4, wkg2min: 6.1, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { name: "Anton Moller Christensen [DBR]", weight: 79.0, watt: 333, wkg: 4.2, w5s: 728, w10s: 0, w15s: 692, w30s: 614, w1min: 508, w2min: 457, w5min: 384, w10min: 0, w20min: 333, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 7.8, wkg1min: 6.3, wkg2min: 5.8, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { name: "Anton Moller Christensen [DBR]", weight: 79.0, watt: 333, wkg: 4.2, w5s: 759, w10s: 0, w15s: 736, w30s: 614, w1min: 508, w2min: 457, w5min: 384, w10min: 0, w20min: 333, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.8, wkg1min: 6.3, wkg2min: 5.8, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Frederik Holt(TND) ", weight: 83.0, watt: 360, wkg: 4.5, w5s: 969, w10s: 0, w15s: 938, w30s: 809, w1min: 606, w2min: 474, w5min: 407, w10min: 0, w20min: 360, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.9, wkg1min: 7.6, wkg2min: 5.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { name: "Thomas Bolding [DBR] ", weight: 87.0, watt: 319, wkg: 3.7, w5s: 1214, w10s: 0, w15s: 1136, w30s: 1031, w1min: 636, w2min: 460, w5min: 382, w10min: 0, w20min: 319, w30min: 0, wkg5s: 14.0, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 11.9, wkg1min: 7.3, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Brian Lindahl", weight: 84.0, watt: 349, wkg: 4.2, w5s: 1104, w10s: 0, w15s: 1007, w30s: 770, w1min: 593, w2min: 471, w5min: 408, w10min: 0, w20min: 349, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 9.2, wkg1min: 7.1, wkg2min: 5.6, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
@@ -2597,7 +2607,7 @@ const OPPONENT_LIBRARY = {
       { name: "Shane McAloon (RollCo)", weight: 86.5, watt: 297, wkg: 3.4, w5s: 1097, w10s: 0, w15s: 934, w30s: 746, w1min: 529, w2min: 434, w5min: 365, w10min: 0, w20min: 297, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.6, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "DQ5studios [RC]", weight: 74.5, watt: 294, wkg: 3.9, w5s: 785, w10s: 0, w15s: 720, w30s: 605, w1min: 504, w2min: 415, w5min: 357, w10min: 0, w20min: 294, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.2, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Adam Check (RollCo)", weight: 62.2, watt: 270, wkg: 4.3, w5s: 761, w10s: 0, w15s: 718, w30s: 594, w1min: 434, w2min: 353, w5min: 312, w10min: 0, w20min: 270, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.8, wkg30s: 9.8, wkg1min: 7.1, wkg2min: 5.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
-      { name: "Crank Sinatra (RollCo)", weight: 69.8, watt: 286, wkg: 4.2, w5s: 859, w10s: 0, w15s: 779, w30s: 595, w1min: 471, w2min: 394, w5min: 339, w10min: 0, w20min: 286, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.6, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { name: "Crank Sinatra (RollCo)", weight: 68.9, watt: 286, wkg: 4.2, w5s: 859, w10s: 0, w15s: 779, w30s: 595, w1min: 471, w2min: 394, w5min: 339, w10min: 0, w20min: 286, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.6, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Ben Simpkin", weight: 90.0, watt: 327, wkg: 3.7, w5s: 1255, w10s: 0, w15s: 1226, w30s: 1035, w1min: 644, w2min: 523, w5min: 404, w10min: 0, w20min: 327, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 13.7, wkg30s: 11.6, wkg1min: 7.2, wkg2min: 5.9, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 }
     ]
   },
@@ -2722,7 +2732,7 @@ const OPPONENT_LIBRARY = {
       { name: "Yannick Janssens (SRT)", weight: 67.5, watt: 284, wkg: 4.2, w5s: 917, w10s: 0, w15s: 830, w30s: 623, w1min: 453, w2min: 370, w5min: 315, w10min: 0, w20min: 284, w30min: 0, wkg5s: 13.6, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 9.2, wkg1min: 6.7, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "edward trenchard [SRT]", weight: 0.0, watt: 266, wkg: 4.2, w5s: 644, w10s: 0, w15s: 599, w30s: 503, w1min: 412, w2min: 358, w5min: 305, w10min: 0, w20min: 266, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.9, wkg1min: 6.4, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Stefan Slater [SRT]", weight: 79.0, watt: 280, wkg: 3.5, w5s: 901, w10s: 0, w15s: 675, w30s: 578, w1min: 446, w2min: 341, w5min: 315, w10min: 0, w20min: 280, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 7.3, wkg1min: 5.6, wkg2min: 4.3, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
-      { name: "stephen pallister (SRT R)", weight: 71.5, watt: 281, wkg: 3.9, w5s: 629, w10s: 0, w15s: 550, w30s: 496, w1min: 424, w2min: 385, w5min: 336, w10min: 0, w20min: 281, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.9, wkg1min: 5.9, wkg2min: 5.4, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { name: "stephen pallister (SRT R)", weight: 71.5, watt: 276, wkg: 3.9, w5s: 629, w10s: 0, w15s: 550, w30s: 496, w1min: 424, w2min: 385, w5min: 336, w10min: 0, w20min: 276, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.9, wkg1min: 5.9, wkg2min: 5.4, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Alex Fox [SRT]", weight: 73.5, watt: 306, wkg: 4.2, w5s: 765, w10s: 0, w15s: 715, w30s: 584, w1min: 492, w2min: 421, w5min: 368, w10min: 0, w20min: 306, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.9, wkg1min: 6.7, wkg2min: 5.7, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "Matthew Hulett [SRT]", weight: 81.0, watt: 322, wkg: 4.0, w5s: 896, w10s: 0, w15s: 764, w30s: 644, w1min: 504, w2min: 430, w5min: 378, w10min: 0, w20min: 322, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.0, wkg1min: 6.2, wkg2min: 5.3, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Ant Davis [SRT]", weight: 73.0, watt: 308, wkg: 4.2, w5s: 967, w10s: 0, w15s: 877, w30s: 731, w1min: 524, w2min: 416, w5min: 350, w10min: 0, w20min: 308, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 10.0, wkg1min: 7.2, wkg2min: 5.7, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
@@ -2823,7 +2833,7 @@ const OPPONENT_LIBRARY = {
       { name: "Johan Ros&eacute;n [SZR]", weight: 80.0, watt: 284, wkg: 3.5, w5s: 1022, w10s: 0, w15s: 936, w30s: 705, w1min: 527, w2min: 416, w5min: 365, w10min: 0, w20min: 284, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 8.8, wkg1min: 6.6, wkg2min: 5.2, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Mattias Halvarsson [SZR]", weight: 67.0, watt: 267, wkg: 4.0, w5s: 974, w10s: 0, w15s: 881, w30s: 617, w1min: 462, w2min: 378, w5min: 322, w10min: 0, w20min: 267, w30min: 0, wkg5s: 14.3, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 9.1, wkg1min: 6.9, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Stefan Pernetta (FS) - [SZR]  ", weight: 68.0, watt: 279, wkg: 4.0, w5s: 840, w10s: 0, w15s: 734, w30s: 640, w1min: 443, w2min: 399, w5min: 335, w10min: 0, w20min: 279, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 9.3, wkg1min: 6.4, wkg2min: 5.8, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { name: "Fredrik Ljungblad [SZR]", weight: 72.0, watt: 263, wkg: 3.7, w5s: 1056, w10s: 0, w15s: 934, w30s: 707, w1min: 496, w2min: 370, w5min: 323, w10min: 0, w20min: 263, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 9.8, wkg1min: 6.7, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 }
+      { name: "Fredrik Ljungblad [SZR]", weight: 72.0, watt: 263, wkg: 3.7, w5s: 1056, w10s: 0, w15s: 934, w30s: 707, w1min: 509, w2min: 370, w5min: 323, w10min: 0, w20min: 263, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 9.8, wkg1min: 7.1, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_G_FORCE": {
@@ -2841,7 +2851,7 @@ const OPPONENT_LIBRARY = {
       { name: "Peter Rosenqvist [SZR]", weight: 80.0, watt: 248, wkg: 3.2, w5s: 759, w10s: 0, w15s: 684, w30s: 595, w1min: 400, w2min: 325, w5min: 280, w10min: 0, w20min: 248, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 7.6, wkg1min: 5.1, wkg2min: 4.2, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { name: "Mathias Kangas [SZR]", weight: 75.0, watt: 255, wkg: 3.4, w5s: 896, w10s: 0, w15s: 812, w30s: 617, w1min: 484, w2min: 354, w5min: 320, w10min: 0, w20min: 255, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.2, wkg1min: 6.5, wkg2min: 4.7, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Jonas Johansson [SZR]", weight: 82.0, watt: 284, wkg: 3.5, w5s: 941, w10s: 0, w15s: 824, w30s: 650, w1min: 536, w2min: 403, w5min: 354, w10min: 0, w20min: 284, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.9, wkg1min: 6.5, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
-      { name: "Linus Andersson [SZR]", weight: 85.0, watt: 298, wkg: 3.5, w5s: 629, w10s: 0, w15s: 549, w30s: 485, w1min: 437, w2min: 398, w5min: 340, w10min: 0, w20min: 298, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.7, wkg1min: 5.1, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { name: "Linus Andersson [SZR]", weight: 85.0, watt: 298, wkg: 3.5, w5s: 629, w10s: 0, w15s: 549, w30s: 485, w1min: 438, w2min: 400, w5min: 340, w10min: 0, w20min: 298, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.7, wkg1min: 5.2, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Tobias Adler [SZR]", weight: 88.0, watt: 298, wkg: 3.4, w5s: 1072, w10s: 0, w15s: 935, w30s: 697, w1min: 543, w2min: 399, w5min: 339, w10min: 0, w20min: 298, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 7.9, wkg1min: 6.2, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 }
     ]
   },
@@ -3147,7 +3157,7 @@ const OPPONENT_LIBRARY = {
     name: "TSE Aquile",
     riders: [
       { name: "Diego Casale ( TSE )", weight: 60.0, watt: 242, wkg: 4.0, w5s: 696, w10s: 0, w15s: 670, w30s: 590, w1min: 457, w2min: 359, w5min: 304, w10min: 0, w20min: 242, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 9.8, wkg1min: 7.6, wkg2min: 6.0, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { name: "GT 72 (TSE)", weight: 63.5, watt: 280, wkg: 4.4, w5s: 795, w10s: 0, w15s: 732, w30s: 638, w1min: 477, w2min: 377, w5min: 331, w10min: 0, w20min: 280, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 10.0, wkg1min: 7.5, wkg2min: 5.9, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
+      { name: "GT 72 (TSE)", weight: 63.5, watt: 280, wkg: 4.4, w5s: 795, w10s: 0, w15s: 732, w30s: 638, w1min: 477, w2min: 384, w5min: 331, w10min: 0, w20min: 280, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 10.0, wkg1min: 7.5, wkg2min: 6.0, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "Sam Plett [TSE]", weight: 90.0, watt: 329, wkg: 3.7, w5s: 1006, w10s: 0, w15s: 864, w30s: 725, w1min: 537, w2min: 452, w5min: 388, w10min: 0, w20min: 329, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.1, wkg1min: 6.0, wkg2min: 5.0, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Simone Samparisi [TSE]", weight: 68.0, watt: 390, wkg: 5.7, w5s: 905, w10s: 0, w15s: 878, w30s: 814, w1min: 693, w2min: 545, w5min: 440, w10min: 0, w20min: 390, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 12.0, wkg1min: 10.2, wkg2min: 8.0, wkg5min: 6.5, wkg10min: 0.0, wkg20min: 5.7, wkg30min: 0.0 },
       { name: "Marzio Vanoni [TSE]", weight: 80.0, watt: 433, wkg: 5.4, w5s: 1033, w10s: 0, w15s: 904, w30s: 752, w1min: 615, w2min: 562, w5min: 480, w10min: 0, w20min: 433, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.3, wkg1min: 7.7, wkg2min: 7.0, wkg5min: 6.0, wkg10min: 0.0, wkg20min: 5.4, wkg30min: 0.0 },
@@ -3258,7 +3268,7 @@ const OPPONENT_LIBRARY = {
       { name: "Martijn Prop", weight: 116.0, watt: 337, wkg: 2.9, w5s: 1336, w10s: 0, w15s: 1219, w30s: 927, w1min: 699, w2min: 558, w5min: 392, w10min: 0, w20min: 337, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 7.9, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { name: "Jan van Leuverden #418 [BEAT]", weight: 82.0, watt: 286, wkg: 3.4, w5s: 766, w10s: 0, w15s: 739, w30s: 687, w1min: 517, w2min: 448, w5min: 340, w10min: 0, w20min: 286, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 8.4, wkg1min: 6.2, wkg2min: 5.3, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Jeroen Visser", weight: 82.0, watt: 268, wkg: 3.3, w5s: 884, w10s: 0, w15s: 776, w30s: 593, w1min: 415, w2min: 349, w5min: 320, w10min: 0, w20min: 268, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 7.2, wkg1min: 5.1, wkg2min: 4.3, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { name: "Steven  Bakker [TeamNL C2]", weight: 82.0, watt: 254, wkg: 3.1, w5s: 871, w10s: 0, w15s: 792, w30s: 596, w1min: 442, w2min: 349, w5min: 295, w10min: 0, w20min: 254, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.3, wkg1min: 5.4, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { name: "Steven  Bakker [TeamNL]", weight: 82.0, watt: 254, wkg: 3.1, w5s: 871, w10s: 0, w15s: 792, w30s: 596, w1min: 442, w2min: 349, w5min: 295, w10min: 0, w20min: 254, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.3, wkg1min: 5.4, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Jan Louws [TeamNL]", weight: 78.0, watt: 270, wkg: 3.5, w5s: 767, w10s: 0, w15s: 632, w30s: 549, w1min: 432, w2min: 350, w5min: 303, w10min: 0, w20min: 270, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.0, wkg1min: 5.5, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Bouke Ceelen", weight: 80.0, watt: 276, wkg: 3.5, w5s: 999, w10s: 0, w15s: 844, w30s: 680, w1min: 485, w2min: 420, w5min: 321, w10min: 0, w20min: 276, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.6, wkg1min: 6.0, wkg2min: 5.2, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Ron Oud ", weight: 90.0, watt: 265, wkg: 2.9, w5s: 868, w10s: 0, w15s: 752, w30s: 546, w1min: 415, w2min: 369, w5min: 305, w10min: 0, w20min: 265, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.1, wkg1min: 4.6, wkg2min: 4.1, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -3692,7 +3702,7 @@ const OPPONENT_LIBRARY = {
     rung: 1,
     name: "Vegan Vanguard",
     riders: [
-      { name: "Luis Medeiros [T-VGN)", weight: 75.0, watt: 382, wkg: 5.1, w5s: 841, w10s: 0, w15s: 780, w30s: 694, w1min: 537, w2min: 489, w5min: 427, w10min: 0, w20min: 382, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 9.1, wkg1min: 7.2, wkg2min: 6.5, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 5.1, wkg30min: 0.0 },
+      { name: "Luis Medeiros [T-VGN)", weight: 75.0, watt: 382, wkg: 5.1, w5s: 888, w10s: 0, w15s: 827, w30s: 740, w1min: 537, w2min: 489, w5min: 427, w10min: 0, w20min: 382, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.8, wkg1min: 7.2, wkg2min: 6.5, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 5.1, wkg30min: 0.0 },
       { name: "Luis Goncalves &#9419;", weight: 68.0, watt: 348, wkg: 5.1, w5s: 687, w10s: 0, w15s: 650, w30s: 543, w1min: 466, w2min: 417, w5min: 376, w10min: 0, w20min: 348, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.0, wkg1min: 6.9, wkg2min: 6.1, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 5.1, wkg30min: 0.0 },
       { name: "Evert Schots ", weight: 63.2, watt: 313, wkg: 4.9, w5s: 984, w10s: 0, w15s: 822, w30s: 609, w1min: 556, w2min: 438, w5min: 386, w10min: 0, w20min: 313, w30min: 0, wkg5s: 15.6, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 9.6, wkg1min: 8.8, wkg2min: 7.0, wkg5min: 6.1, wkg10min: 0.0, wkg20min: 4.9, wkg30min: 0.0 },
       { name: "Erich Byers [Team Vegan Antelopes]", weight: 69.3, watt: 325, wkg: 4.7, w5s: 955, w10s: 0, w15s: 890, w30s: 703, w1min: 499, w2min: 438, w5min: 357, w10min: 0, w20min: 325, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 12.8, wkg30s: 10.1, wkg1min: 7.2, wkg2min: 6.3, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.7, wkg30min: 0.0 },
@@ -3728,17 +3738,17 @@ const OPPONENT_LIBRARY = {
     name: "Vikings Fimbulvetr",
     riders: [
       { name: "Anders Folkenborg [V]", weight: 98.0, watt: 324, wkg: 3.3, w5s: 1001, w10s: 0, w15s: 928, w30s: 768, w1min: 589, w2min: 483, w5min: 401, w10min: 0, w20min: 324, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.0, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { name: "Trygve  Syvertsen [V]", weight: 84.0, watt: 296, wkg: 3.5, w5s: 834, w10s: 0, w15s: 757, w30s: 661, w1min: 457, w2min: 412, w5min: 362, w10min: 0, w20min: 296, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.9, wkg1min: 5.4, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { name: "Trygve  Syvertsen [V]", weight: 84.0, watt: 296, wkg: 3.5, w5s: 834, w10s: 0, w15s: 757, w30s: 661, w1min: 535, w2min: 412, w5min: 362, w10min: 0, w20min: 296, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.9, wkg1min: 6.4, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { name: "Bjorn Tore Nergard (V)", weight: 69.0, watt: 266, wkg: 3.9, w5s: 709, w10s: 0, w15s: 622, w30s: 511, w1min: 424, w2min: 345, w5min: 318, w10min: 0, w20min: 266, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.4, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { name: "Rudi Lille&oslash;deg&aring;rd BBC", weight: 87.0, watt: 314, wkg: 3.6, w5s: 776, w10s: 0, w15s: 678, w30s: 576, w1min: 499, w2min: 423, w5min: 381, w10min: 0, w20min: 314, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.6, wkg1min: 5.7, wkg2min: 4.9, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: "Hakon Svendsen V, CKJ", weight: 88.0, watt: 271, wkg: 3.1, w5s: 692, w10s: 0, w15s: 595, w30s: 529, w1min: 430, w2min: 390, w5min: 343, w10min: 0, w20min: 271, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 6.8, wkg30s: 6.0, wkg1min: 4.9, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { name: "Hakon Svendsen V, CKJ", weight: 88.0, watt: 271, wkg: 3.1, w5s: 818, w10s: 0, w15s: 642, w30s: 545, w1min: 435, w2min: 392, w5min: 344, w10min: 0, w20min: 271, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.2, wkg1min: 4.9, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Rolf Pedersen [V]", weight: 78.0, watt: 282, wkg: 3.6, w5s: 763, w10s: 0, w15s: 698, w30s: 573, w1min: 462, w2min: 403, w5min: 332, w10min: 0, w20min: 282, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.3, wkg1min: 5.9, wkg2min: 5.2, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { name: "Anders Holm [V]", weight: 68.0, watt: 250, wkg: 3.7, w5s: 658, w10s: 0, w15s: 628, w30s: 548, w1min: 437, w2min: 358, w5min: 298, w10min: 0, w20min: 250, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.1, wkg1min: 6.4, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { name: "Anders Holm [V]", weight: 68.0, watt: 250, wkg: 3.7, w5s: 664, w10s: 0, w15s: 628, w30s: 548, w1min: 437, w2min: 358, w5min: 298, w10min: 0, w20min: 250, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.1, wkg1min: 6.4, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Axel  Bendiksby [V]", weight: 87.0, watt: 295, wkg: 3.4, w5s: 956, w10s: 0, w15s: 927, w30s: 862, w1min: 548, w2min: 429, w5min: 363, w10min: 0, w20min: 295, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 9.9, wkg1min: 6.3, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { name: "Lars Kristoffer Reksten [V]", weight: 86.0, watt: 329, wkg: 3.8, w5s: 1034, w10s: 0, w15s: 946, w30s: 775, w1min: 571, w2min: 448, w5min: 379, w10min: 0, w20min: 329, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.0, wkg1min: 6.6, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { name: "Geir Kolsung [V]", weight: 88.6, watt: 284, wkg: 3.3, w5s: 1063, w10s: 0, w15s: 979, w30s: 771, w1min: 571, w2min: 442, w5min: 351, w10min: 0, w20min: 284, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.8, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { name: "Arild Ytredal [V , CKJ]", weight: 90.0, watt: 283, wkg: 3.1, w5s: 647, w10s: 0, w15s: 636, w30s: 547, w1min: 452, w2min: 413, w5min: 339, w10min: 0, w20min: 283, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 6.1, wkg1min: 5.0, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { name: "Torstein Fjogstad (V)", weight: 90.0, watt: 336, wkg: 3.7, w5s: 953, w10s: 0, w15s: 860, w30s: 713, w1min: 559, w2min: 470, w5min: 403, w10min: 0, w20min: 336, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.9, wkg1min: 6.2, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 }
+      { name: "Torstein Fjogstad [V]", weight: 90.0, watt: 336, wkg: 3.7, w5s: 953, w10s: 0, w15s: 860, w30s: 713, w1min: 559, w2min: 470, w5min: 403, w10min: 0, w20min: 336, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.9, wkg1min: 6.2, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VIKINGS_SLEIPNIR": {
@@ -4053,6 +4063,7 @@ const OPPONENT_LIBRARY = {
       { name: "Michael Gerstenberger [ZRG-R]", weight: 69.0, watt: 318, wkg: 4.5, w5s: 784, w10s: 0, w15s: 671, w30s: 592, w1min: 501, w2min: 409, w5min: 360, w10min: 0, w20min: 318, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.5, wkg1min: 7.2, wkg2min: 5.8, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { name: "Toni Herold [ZRG-R]", weight: 66.0, watt: 310, wkg: 4.7, w5s: 667, w10s: 0, w15s: 616, w30s: 515, w1min: 481, w2min: 428, w5min: 366, w10min: 0, w20min: 310, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.8, wkg1min: 7.3, wkg2min: 6.5, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.7, wkg30min: 0.0 },
       { name: "Matthias Pfefferle [ZRG-R]", weight: 69.0, watt: 278, wkg: 4.0, w5s: 1001, w10s: 0, w15s: 818, w30s: 680, w1min: 491, w2min: 401, w5min: 339, w10min: 0, w20min: 278, w30min: 0, wkg5s: 14.5, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 9.9, wkg1min: 7.1, wkg2min: 5.6, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
+      { name: "Christian  Lange[ZRG-R]", weight: 91.0, watt: 338, wkg: 3.7, w5s: 1164, w10s: 0, w15s: 926, w30s: 752, w1min: 524, w2min: 465, w5min: 401, w10min: 0, w20min: 338, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.3, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Enrico Meissner[ZRG-R]", weight: 64.5, watt: 267, wkg: 4.1, w5s: 783, w10s: 0, w15s: 715, w30s: 638, w1min: 449, w2min: 355, w5min: 317, w10min: 0, w20min: 267, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.8, wkg1min: 6.9, wkg2min: 5.4, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { name: "Gerald_S [ZRG-R]", weight: 73.0, watt: 324, wkg: 4.4, w5s: 813, w10s: 0, w15s: 772, w30s: 623, w1min: 461, w2min: 415, w5min: 382, w10min: 0, w20min: 324, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.5, wkg1min: 6.3, wkg2min: 5.7, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "pattn [ZRG-R]", weight: 85.0, watt: 351, wkg: 4.1, w5s: 1148, w10s: 0, w15s: 1108, w30s: 887, w1min: 609, w2min: 465, w5min: 403, w10min: 0, w20min: 351, w30min: 0, wkg5s: 13.5, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 10.3, wkg1min: 7.2, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -4060,7 +4071,7 @@ const OPPONENT_LIBRARY = {
       { name: "Andreas Boss [ZRG-R]", weight: 87.0, watt: 372, wkg: 4.3, w5s: 1240, w10s: 0, w15s: 1056, w30s: 801, w1min: 623, w2min: 539, w5min: 451, w10min: 0, w20min: 372, w30min: 0, wkg5s: 14.3, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.2, wkg1min: 7.2, wkg2min: 6.2, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { name: "Christian Rueckert [ZRG-R]", weight: 73.4, watt: 330, wkg: 4.5, w5s: 980, w10s: 0, w15s: 924, w30s: 642, w1min: 499, w2min: 403, w5min: 363, w10min: 0, w20min: 330, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 12.6, wkg30s: 8.7, wkg1min: 6.8, wkg2min: 5.5, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { name: "Paul SCHREINER", weight: 78.0, watt: 315, wkg: 4.0, w5s: 1100, w10s: 0, w15s: 957, w30s: 696, w1min: 472, w2min: 408, w5min: 354, w10min: 0, w20min: 315, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 8.9, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { name: "Martin Briegnitz [ZRG-R]", weight: 66.0, watt: 329, wkg: 5.0, w5s: 935, w10s: 0, w15s: 851, w30s: 655, w1min: 516, w2min: 417, w5min: 366, w10min: 0, w20min: 329, w30min: 0, wkg5s: 14.2, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 9.9, wkg1min: 7.8, wkg2min: 6.3, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
+      { name: "Martin Briegnitz [ZRG-R]", weight: 66.0, watt: 330, wkg: 5.0, w5s: 935, w10s: 0, w15s: 851, w30s: 655, w1min: 516, w2min: 417, w5min: 366, w10min: 0, w20min: 330, w30min: 0, wkg5s: 14.2, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 9.9, wkg1min: 7.8, wkg2min: 6.3, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
       { name: "Sash Bai", weight: 80.9, watt: 333, wkg: 4.1, w5s: 803, w10s: 0, w15s: 745, w30s: 650, w1min: 507, w2min: 432, w5min: 394, w10min: 0, w20min: 333, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.0, wkg1min: 6.3, wkg2min: 5.3, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 }
     ]
   },
@@ -4248,7 +4259,7 @@ const OPPONENT_LIBRARY = {
       { name: "J. vanWoude", weight: 63.0, watt: 278, wkg: 4.4, w5s: 711, w10s: 0, w15s: 609, w30s: 536, w1min: 436, w2min: 344, w5min: 299, w10min: 0, w20min: 278, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.5, wkg1min: 6.9, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { name: "Eltjo de Waard", weight: 77.5, watt: 287, wkg: 3.7, w5s: 618, w10s: 0, w15s: 594, w30s: 488, w1min: 411, w2min: 399, w5min: 331, w10min: 0, w20min: 287, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 6.3, wkg1min: 5.3, wkg2min: 5.1, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Joost de Korte [ZWB]", weight: 82.0, watt: 270, wkg: 3.3, w5s: 1008, w10s: 0, w15s: 829, w30s: 684, w1min: 541, w2min: 388, w5min: 321, w10min: 0, w20min: 270, w30min: 0, wkg5s: 12.1, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 8.3, wkg1min: 6.6, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { name: "Henk Schouten", weight: 71.0, watt: 282, wkg: 4.0, w5s: 521, w10s: 0, w15s: 492, w30s: 474, w1min: 400, w2min: 358, w5min: 335, w10min: 0, w20min: 282, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 6.7, wkg1min: 5.6, wkg2min: 5.0, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
+      { name: "Henk Schouten", weight: 71.0, watt: 282, wkg: 4.0, w5s: 546, w10s: 0, w15s: 492, w30s: 474, w1min: 400, w2min: 358, w5min: 335, w10min: 0, w20min: 282, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 6.7, wkg1min: 5.6, wkg2min: 5.0, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { name: "Han Vaessen [ZWB]", weight: 77.5, watt: 318, wkg: 4.1, w5s: 1030, w10s: 0, w15s: 971, w30s: 701, w1min: 530, w2min: 441, w5min: 380, w10min: 0, w20min: 318, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.0, wkg1min: 6.8, wkg2min: 5.7, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { name: "Harmen Reinders", weight: 71.0, watt: 295, wkg: 4.2, w5s: 1000, w10s: 0, w15s: 841, w30s: 665, w1min: 516, w2min: 448, w5min: 359, w10min: 0, w20min: 295, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 11.8, wkg30s: 9.4, wkg1min: 7.3, wkg2min: 6.1, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { name: "5. Dirk Huibers (ZWB) ", weight: 85.0, watt: 288, wkg: 3.4, w5s: 849, w10s: 0, w15s: 810, w30s: 655, w1min: 522, w2min: 429, w5min: 352, w10min: 0, w20min: 288, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 7.7, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -4256,7 +4267,7 @@ const OPPONENT_LIBRARY = {
       { name: "Gotha Zpiff", weight: 82.0, watt: 306, wkg: 3.7, w5s: 839, w10s: 0, w15s: 767, w30s: 678, w1min: 567, w2min: 450, w5min: 384, w10min: 0, w20min: 306, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.3, wkg1min: 6.9, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { name: "Jeroen Janssen (ZWB)", weight: 94.0, watt: 305, wkg: 3.1, w5s: 1165, w10s: 0, w15s: 1015, w30s: 794, w1min: 562, w2min: 423, w5min: 370, w10min: 0, w20min: 305, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.4, wkg1min: 6.0, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { name: "Boaz Huisman (ZWB)", weight: 82.0, watt: 301, wkg: 3.7, w5s: 694, w10s: 0, w15s: 625, w30s: 563, w1min: 477, w2min: 387, w5min: 336, w10min: 0, w20min: 301, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 6.9, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { name: "Egbert van Veen", weight: 82.8, watt: 313, wkg: 3.8, w5s: 1020, w10s: 0, w15s: 958, w30s: 687, w1min: 523, w2min: 441, w5min: 352, w10min: 0, w20min: 313, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 7.9, wkg1min: 6.3, wkg2min: 5.3, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 }
+      { name: "Egbert van Veen", weight: 82.8, watt: 313, wkg: 3.8, w5s: 1020, w10s: 0, w15s: 958, w30s: 687, w1min: 531, w2min: 444, w5min: 352, w10min: 0, w20min: 313, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 7.9, wkg1min: 6.4, wkg2min: 5.3, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZWBEASTS": {
@@ -4514,8 +4525,8 @@ const MY_TEAMS = {
       { id:3, name:'Jamie Carpenter (LEQP x STAGES)', sprint:9.3, oneMin:6.4, fiveMin:4.4, twentyMin:3.7, watt:242, weight:66.1, selected: false, w5s:609, w10s:0, w15s:597, w30s:546, w1min:420, w2min:332, w5min:282, w10min:0, w20min:242, w30min:0 },
       { id:4, name:'Steve GLA [LEQP]', sprint:8.3, oneMin:5.3, fiveMin:4.1, twentyMin:3.7, watt:236, weight:64.0, selected: false, w5s:529, w10s:0, w15s:459, w30s:408, w1min:339, w2min:299, w5min:265, w10min:0, w20min:236, w30min:0 },
       { id:5, name:'Jo Harris (LEQP)', sprint:8.1, oneMin:4.7, fiveMin:4.1, twentyMin:3.6, watt:253, weight:70.0, selected: false, w5s:568, w10s:0, w15s:496, w30s:408, w1min:326, w2min:313, w5min:284, w10min:0, w20min:253, w30min:0 },
-      { id:6, name:'Rob King', sprint:8.4, oneMin:5.4, fiveMin:4.0, twentyMin:3.6, watt:283, weight:78.0, selected: false, w5s:653, w10s:0, w15s:603, w30s:540, w1min:424, w2min:352, w5min:313, w10min:0, w20min:283, w30min:0 },
-      { id:7, name:'5 Ciaran', sprint:8.6, oneMin:6.2, fiveMin:4.3, twentyMin:3.9, watt:259, weight:67.0, selected: false, w5s:577, w10s:0, w15s:565, w30s:481, w1min:415, w2min:327, w5min:285, w10min:0, w20min:259, w30min:0 },
+      { id:6, name:'Rob King', sprint:8.4, oneMin:5.4, fiveMin:4.0, twentyMin:3.6, watt:283, weight:78.0, selected: false, w5s:653, w10s:0, w15s:603, w30s:540, w1min:424, w2min:362, w5min:313, w10min:0, w20min:283, w30min:0 },
+      { id:7, name:'5 Ciaran', sprint:8.6, oneMin:6.2, fiveMin:4.3, twentyMin:3.9, watt:260, weight:67.0, selected: false, w5s:577, w10s:0, w15s:565, w30s:481, w1min:415, w2min:327, w5min:286, w10min:0, w20min:260, w30min:0 },
       { id:8, name:'Taimar P&auml;rtel', sprint:11.7, oneMin:6.8, fiveMin:4.0, twentyMin:3.3, watt:249, weight:75.0, selected: false, w5s:875, w10s:0, w15s:781, w30s:639, w1min:510, w2min:381, w5min:299, w10min:0, w20min:249, w30min:0 },
       { id:9, name:'Dave Greening LEQP', sprint:13.8, oneMin:6.1, fiveMin:4.2, twentyMin:3.6, watt:261, weight:73.0, selected: false, w5s:1004, w10s:0, w15s:939, w30s:711, w1min:442, w2min:358, w5min:306, w10min:0, w20min:261, w30min:0 },
       { id:10, name:'Barry Johns | LEQP', sprint:10.9, oneMin:6.2, fiveMin:4.2, twentyMin:3.6, watt:277, weight:76.0, selected: false, w5s:829, w10s:0, w15s:715, w30s:523, w1min:475, w2min:390, w5min:322, w10min:0, w20min:277, w30min:0 },
@@ -4647,6 +4658,7 @@ function getRiderWatts(r, key) {
   const weight   = r.weight   || 70;
   const map = {
     sprint: r.w5s   ?? Math.round(sprint   * weight),
+    w15s:   r.w15s  ?? Math.round(sprint   * weight * 0.82),
     w30s:   r.w30s  ?? Math.round(sprint   * weight * 0.65),
     w1min:  r.w1min ?? Math.round(oneMin   * weight),
     w2min:  r.w2min ?? Math.round(oneMin   * weight * 0.88),
@@ -4951,6 +4963,14 @@ function toggleOppExpand(detailId, arrowId) {
   if (arrow) arrow.textContent = open ? '▶' : '▼';
 }
 
+function toggleAllOppRiders(checked) {
+  if (!opponentTeam || !opponentTeam.riders) return;
+  opponentTeam.riders.forEach(function(r) { r.active = checked; });
+  renderOppRoster();
+  updateContextBar();
+  runMatch();
+}
+
 function toggleOppRider(index) {
   if (!opponentTeam || !opponentTeam.riders[index]) return;
   const r = opponentTeam.riders[index];
@@ -4963,12 +4983,23 @@ function toggleOppRider(index) {
 // ═══════════════════════════════════════════════════════
 // UI — TABS
 // ═══════════════════════════════════════════════════════
+function showResultsReady() {
+  const grid = document.getElementById('results-grid');
+  if (grid) grid.innerHTML = '';
+}
+
 function switchTab(tab) {
   const tabs = ['riders','courses','results','analyze'];
   document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', tabs[i] === tab));
   document.querySelectorAll('.panel').forEach((p, i) => p.classList.toggle('active', `panel-${tabs[i]}` === `panel-${tab}`));
-  if (tab === 'results') { updateMatchMode(); populateCourseSelect(); }
+  if (tab === 'results') { updateMatchMode(); populateCourseSelect(); showResultsReady(); }
   if (tab === 'analyze') { renderMatchupAnalysis(); }
+  const teamSizeEl = document.getElementById('team-size');
+  if (teamSizeEl) {
+    teamSizeEl.disabled = (tab === 'analyze');
+    teamSizeEl.style.opacity = (tab === 'analyze') ? '0.35' : '1';
+    teamSizeEl.style.cursor  = (tab === 'analyze') ? 'not-allowed' : '';
+  }
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
@@ -5835,6 +5866,146 @@ window.onload = function() {
 // ANALYZE MATCHUP FEATURE
 // ═══════════════════════════════════════════════════════
 
+function toggleCompareSection(id, arrowEl) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const hidden = el.style.display === 'none' || el.style.display === '';
+  el.style.display = hidden ? 'table-row-group' : 'none';
+  if (arrowEl) arrowEl.textContent = hidden ? '▼' : '▶';
+}
+
+function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
+  const intervals = [
+    { label:'5 sec',  wattKey:'sprint', wkgMinutes:'5s'    },
+    { label:'15 sec', wattKey:'w15s',   wkgMinutes:'15s'   },
+    { label:'30 sec', wattKey:'w30s',   wkgMinutes:'30s'   },
+    { label:'1 min',  wattKey:'w1min',  wkgMinutes:'1min'  },
+    { label:'2 min',  wattKey:'w2min',  wkgMinutes:'2min'  },
+    { label:'5 min',  wattKey:'w5min',  wkgMinutes:'5min'  },
+    { label:'20 min', wattKey:'ftp',    wkgMinutes:'20min' },
+  ];
+
+  var myR  = selectedRiders;
+  var oppR = oppRiders;
+
+  const wkgMap = {
+    '5s':   function(r) { return r.wkg5s   || fn(r,'sprint')/(r.weight||70); },
+    '15s':  function(r) { return r.wkg15s  || fn(r,'w15s')  /(r.weight||70); },
+    '30s':  function(r) { return r.wkg30s  || fn(r,'w30s')  /(r.weight||70); },
+    '1min': function(r) { return r.wkg1min || fn(r,'w1min') /(r.weight||70); },
+    '2min': function(r) { return r.wkg2min || fn(r,'w2min') /(r.weight||70); },
+    '5min': function(r) { return r.wkg5min || fn(r,'w5min') /(r.weight||70); },
+    '20min':function(r) { return r.wkg     || fn(r,'ftp')   /(r.weight||70); },
+  };
+  const wMap2 = {'5s':'sprint','15s':'w15s','30s':'w30s','1min':'w1min','2min':'w2min','5min':'w5min','20min':'ftp'};
+
+  function myRiderW(r, key)  { return getRiderWatts(r, key); }
+  function myRiderK(r, min)  { var k = wMap2[min]||'ftp'; return getRiderWatts(r,k)/(r.weight||70); }
+  function oppRiderW(r, key) { return fn(r, key); }
+  function oppRiderK(r, min) { return (wkgMap[min] ? wkgMap[min](r) : 0); }
+
+  function teamAvgW(riders, key, getW) { return riders.reduce(function(s,r){ return s+getW(r,key); },0)/riders.length; }
+  function teamAvgK(riders, min, getK) { return riders.reduce(function(s,r){ return s+getK(r,min); },0)/riders.length; }
+
+  var myW  = intervals.map(function(iv){ return teamAvgW(myR,  iv.wattKey,    myRiderW); });
+  var oppW = intervals.map(function(iv){ return teamAvgW(oppR, iv.wattKey,    oppRiderW); });
+  var myK  = intervals.map(function(iv){ return teamAvgK(myR,  iv.wkgMinutes, myRiderK); });
+  var oppK = intervals.map(function(iv){ return teamAvgK(oppR, iv.wkgMinutes, oppRiderK); });
+  var dW   = intervals.map(function(_,i){ return myW[i]-oppW[i]; });
+  var dK   = intervals.map(function(_,i){ return myK[i]-oppK[i]; });
+  var maxDW = Math.max.apply(null, dW.map(Math.abs).concat([1]));
+  var maxDK = Math.max.apply(null, dK.map(Math.abs).concat([0.1]));
+
+  function cellBg(delta, max) {
+    var t = Math.min(1, Math.abs(delta) / max);
+    if (delta > 0) return 'rgba(50,' + Math.round(100+t*100) + ',70,0.55)';
+    if (delta < 0) return 'rgba(' + Math.round(120+t*100) + ',40,50,0.55)';
+    return 'transparent';
+  }
+  function cellColor(delta) {
+    return delta > 0 ? 'var(--accent3)' : delta < 0 ? 'var(--red)' : 'var(--text-dim)';
+  }
+
+  var base   = 'font-family:JetBrains Mono,monospace;';
+  var thBase = base + 'font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;';
+  var tdAvg  = base + 'font-size:0.72rem;text-align:center;padding:5px 8px;color:var(--text);';
+  var tdSub  = base + 'font-size:0.65rem;text-align:center;padding:4px 8px;color:var(--text-dim);';
+
+  var uid = 'cmp' + Date.now();
+
+  function riderRow(r, getW, getK, color, bg) {
+    var row = '<tr style="background:' + bg + ';border-top:1px solid rgba(255,255,255,0.04)">';
+    row += '<td style="' + tdSub + 'text-align:left;padding-left:20px;color:' + color + ';opacity:0.85">' + r.name + '</td>';
+    intervals.forEach(function(iv) {
+      var w = getW(r, iv.wattKey);
+      var k = getK(r, iv.wkgMinutes);
+      row += '<td style="' + tdSub + '">' + Math.round(w) + '</td>';
+      row += '<td style="' + tdSub + '">' + k.toFixed(2) + '</td>';
+    });
+    row += '</tr>';
+    return row;
+  }
+
+  var html = '<div class="matchup-section-title">&#128202; Power Comparison</div>';
+
+  html += '<div style="overflow-x:auto;margin-bottom:4px">';
+  html += '<table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border)">';
+
+  // Header row 1
+  html += '<tr>';
+  html += '<th style="' + thBase + 'text-align:left;min-width:130px">TEAM</th>';
+  intervals.forEach(function(iv) {
+    html += '<th style="' + thBase + 'text-align:center" colspan="2">' + iv.label + '</th>';
+  });
+  html += '</tr><tr>';
+  html += '<th style="' + thBase + 'text-align:left"></th>';
+  intervals.forEach(function() {
+    html += '<th style="' + thBase + 'text-align:center">W</th>';
+    html += '<th style="' + thBase + 'text-align:center">W/kg</th>';
+  });
+  html += '</tr>';
+
+  // My team avg row
+  html += '<tr style="background:rgba(0,229,255,0.06);cursor:pointer" onclick="toggleCompareSection(' + "'" + uid + '-my' + "'" + ', this.querySelector(' + "'" + '.arr' + "'" + '))">';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + myName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  intervals.forEach(function(_,i) {
+    html += '<td style="' + tdAvg + '">' + Math.round(myW[i]) + '</td>';
+    html += '<td style="' + tdAvg + '">' + myK[i].toFixed(2) + '</td>';
+  });
+  html += '</tr>';
+  html += '<tbody id="' + uid + '-my" style="display:none">';
+  myR.forEach(function(r) { html += riderRow(r, myRiderW, myRiderK, 'var(--accent)', 'rgba(0,229,255,0.03)'); });
+  html += '</tbody>';
+
+  // Opp avg row
+  html += '<tr style="background:rgba(255,107,53,0.06);cursor:pointer" onclick="toggleCompareSection(' + "'" + uid + '-opp' + "'" + ', this.querySelector(' + "'" + '.arr' + "'" + '))">';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent2);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + oppName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  intervals.forEach(function(_,i) {
+    html += '<td style="' + tdAvg + '">' + Math.round(oppW[i]) + '</td>';
+    html += '<td style="' + tdAvg + '">' + oppK[i].toFixed(2) + '</td>';
+  });
+  html += '</tr>';
+  html += '<tbody id="' + uid + '-opp" style="display:none">';
+  oppR.forEach(function(r) { html += riderRow(r, oppRiderW, oppRiderK, 'var(--accent2)', 'rgba(255,107,53,0.03)'); });
+  html += '</tbody>';
+
+  // Delta row
+  html += '<tr style="border-top:2px solid var(--border)">';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--text-dim);font-weight:600">AVG DIFF</td>';
+  intervals.forEach(function(_,i) {
+    var wSign = dW[i] >= 0 ? '+' : '';
+    var kSign = dK[i] >= 0 ? '+' : '';
+    html += '<td style="' + tdAvg + 'background:' + cellBg(dW[i],maxDW) + ';color:' + cellColor(dW[i]) + ';font-weight:600">' + wSign + Math.round(dW[i]) + '</td>';
+    html += '<td style="' + tdAvg + 'background:' + cellBg(dK[i],maxDK) + ';color:' + cellColor(dK[i]) + ';font-weight:600">' + kSign + dK[i].toFixed(2) + '</td>';
+  });
+  html += '</tr>';
+
+  html += '</table></div>';
+  html += '<div style="' + base + 'font-size:0.58rem;color:var(--text-dim);margin-bottom:16px;opacity:0.6">Click a team row to expand individual riders</div>';
+  return html;
+}
+
+
 function renderMatchupAnalysis() {
   const content = document.getElementById('matchup-panel-content');
   
@@ -5889,7 +6060,8 @@ function renderMatchupAnalysis() {
 
   // Define intervals to compare
   const intervals = [
-    { label:'10 sec', wattKey:'sprint', wkgMinutes:'5s' },
+    { label:'5 sec',  wattKey:'sprint', wkgMinutes:'5s'  },
+    { label:'15 sec', wattKey:'w15s',   wkgMinutes:'15s' },
     { label:'30 sec', wattKey:'w30s',   wkgMinutes:'30s' },
     { label:'1 min',  wattKey:'w1min',  wkgMinutes:'1min' },
     { label:'2 min',  wattKey:'w2min',  wkgMinutes:'2min' },
@@ -5965,27 +6137,89 @@ function renderMatchupAnalysis() {
 
   const flatAdv   = wattDeltas.find(d => d.label==='20 min')?.delta || 0;
   const climbAdv  = wkgDeltas.find(d => d.label==='5 min')?.delta  || 0;
-  const sprintAdv = wattDeltas.find(d => d.label==='10 sec')?.delta || 0;
+  const sprintAdv = wattDeltas.find(d => d.label==='15 sec')?.delta || 0;
   const punchAdv  = wkgDeltas.find(d => d.label==='1 min')?.delta  || 0;
 
   function buildVerdict() {
+    const pick = arr => arr[Math.floor(Math.random() * arr.length)];
     const lines = [];
+
     // Sprint
-    if (sprintAdv > 30)       lines.push(`🔥 Strong sprint advantage (+${Math.round(sprintAdv)}W at 10s). If the race comes down to a bunch sprint, you win — set it up.`);
-    else if (sprintAdv < -30) lines.push(`⚠️ Opponent has ${Math.abs(Math.round(sprintAdv))}W more sprint power. Avoid bunch finishes — attack before the line.`);
+    if (sprintAdv > 30) lines.push(pick([
+      `🔥 You've got +${Math.round(sprintAdv)}W over them at 15 seconds. If it comes down to a bunch kick, that's your race to lose — keep it together and deliver your sprinter.`,
+      `🔥 Sprint advantage: +${Math.round(sprintAdv)}W at 15 sec. Control the race, don't let them disrupt the finale, and trust the finish.`,
+      `🔥 Your team is +${Math.round(sprintAdv)}W faster in the sprint. Set it up, hit the line in good position, and let it rip.`,
+      `🔥 +${Math.round(sprintAdv)}W of pure sprint advantage — that's a real weapon. Don't let them break things up before you get there.`,
+    ]));
+    else if (sprintAdv < -30) lines.push(pick([
+      `⚠️ They've got +${Math.abs(Math.round(sprintAdv))}W over you at 15 seconds. A bunch sprint is their race — look to attack before it comes to that.`,
+      `⚠️ Sprint deficit: ${Math.abs(Math.round(sprintAdv))}W. If you let it come down to a drag race to the line, you're already behind.`,
+      `⚠️ Don't gift them a sprint finish — they have +${Math.abs(Math.round(sprintAdv))}W on you there. Make the race hard before the final straight.`,
+      `⚠️ Sitting in and waiting for the sprint plays right into their hands — they're +${Math.abs(Math.round(sprintAdv))}W. Thin the bunch or go early.`,
+    ]));
+
     // Punch
-    if (punchAdv > 0.15)      lines.push(`⛰ You dominate repeated 1-minute efforts (+${punchAdv.toFixed(2)} W/kg). Punchy, rolling courses play to your strengths.`);
-    else if (punchAdv < -0.15)lines.push(`⚠️ Opponent is stronger on 1-min punch efforts (${Math.abs(punchAdv.toFixed(2))} W/kg deficit). Avoid punchy races.`);
+    if (punchAdv > 0.15) lines.push(pick([
+      `⛰ Your team is +${punchAdv.toFixed(2)} W/kg better over 1-minute efforts. Rolling terrain with repeated punchy kicks will hurt them more than you.`,
+      `⛰ +${punchAdv.toFixed(2)} W/kg advantage at 1 minute. Courses that go up, come down, and go up again are exactly where you want to be.`,
+      `⛰ You're the stronger punching team by +${punchAdv.toFixed(2)} W/kg. Pick something that forces repeated efforts and they'll start cracking.`,
+      `⛰ On the punchy stuff you have a clear +${punchAdv.toFixed(2)} W/kg edge. Pile on the accelerations and let that advantage do the work.`,
+    ]));
+    else if (punchAdv < -0.15) lines.push(pick([
+      `⚠️ They're +${Math.abs(punchAdv.toFixed(2))} W/kg better over 1-minute efforts. Punchy, rolling races are where they'll attack and you'll bleed time.`,
+      `⚠️ On punchy terrain they've got +${Math.abs(punchAdv.toFixed(2))} W/kg on you at 1 minute. The more times the road goes up, the worse it gets.`,
+      `⚠️ Their 1-minute power advantage is +${Math.abs(punchAdv.toFixed(2))} W/kg — avoid courses that reward repeated punchy accelerations.`,
+      `⚠️ Those repeated short climbs? They love them. +${Math.abs(punchAdv.toFixed(2))} W/kg at 1 min means they'll be making moves you can barely follow.`,
+    ]));
+
     // Flat/FTP
-    if (flatAdv > 15)         lines.push(`💨 FTP advantage of +${Math.round(flatAdv)}W avg. Flat TT-style routes where watts dominate will favour you.`);
-    else if (flatAdv < -15)   lines.push(`💨 Opponent carries ${Math.abs(Math.round(flatAdv))}W more avg FTP. Flat races likely go their way — look for climbs.`);
-    // Climb
-    if (climbAdv > 0.2)       lines.push(`🏔 Climbing advantage of +${climbAdv.toFixed(2)} W/kg at 5min. Long sustained climbs are your weapon.`);
-    else if (climbAdv < -0.2) lines.push(`🏔 They climb ${Math.abs(climbAdv.toFixed(2))} W/kg stronger at 5min. Long climbs are dangerous for you.`);
-    // Profiles
-    if (myCounts.SPRINTER > oppCounts.SPRINTER) lines.push(`🎯 You have ${myCounts.SPRINTER} sprinter(s) vs their ${oppCounts.SPRINTER}. Don't let them dictate pace — force the sprint.`);
-    if (oppCounts.CLIMBER > myCounts.CLIMBER)   lines.push(`🎯 They have ${oppCounts.CLIMBER} climber(s). If the route has sustained climbs, they will gap you there.`);
-    if (!lines.length) lines.push('Teams appear closely matched. Route selection will be decisive — look for routes that play to your marginal advantages.');
+    if (flatAdv > 15) lines.push(pick([
+      `💨 +${Math.round(flatAdv)}W advantage at 20 minutes. TT-style routes where the pace never lets up will grind them down — they simply can't match that sustained output.`,
+      `💨 Your team pushes +${Math.round(flatAdv)}W more over 20 minutes. The longer and flatter the course, the bigger that gap becomes.`,
+      `💨 Raw FTP advantage of +${Math.round(flatAdv)}W. Use that on courses where sustained power is everything — go early and make them suffer.`,
+      `💨 +${Math.round(flatAdv)}W at 20 min is a serious edge on flat ground. A high pace from the gun will have them in the red before the finish.`,
+    ]));
+    else if (flatAdv < -15) lines.push(pick([
+      `💨 They push +${Math.abs(Math.round(flatAdv))}W more over 20 minutes. On flat, steady-state courses they set the pace and you react — not a great position.`,
+      `💨 Flat races where it's just watts vs watts? They win that fight by +${Math.abs(Math.round(flatAdv))}W. Find routes with elevation to change the equation.`,
+      `💨 Their FTP advantage is +${Math.abs(Math.round(flatAdv))}W. Avoid routes where the only thing that matters is who can hold more power the longest.`,
+      `💨 A +${Math.abs(Math.round(flatAdv))}W FTP deficit on flat terrain is hard to hide. Bring the fight to the climbs instead.`,
+    ]));
+
+    // Climbing
+    if (climbAdv > 0.2) lines.push(pick([
+      `🏔 +${climbAdv.toFixed(2)} W/kg over them at 5 minutes — when the road goes up and stays up, your team floats away from theirs.`,
+      `🏔 Long sustained climbs are your weapon. A +${climbAdv.toFixed(2)} W/kg advantage at 5 min is the kind of edge that opens real gaps on the way up.`,
+      `🏔 Clear climbing superiority: +${climbAdv.toFixed(2)} W/kg. Find a route with a proper ascent and let gravity do the sorting.`,
+      `🏔 They're going to struggle when the road goes up. +${climbAdv.toFixed(2)} W/kg at 5 minutes — put it in the mountains and let the climb decide it.`,
+    ]));
+    else if (climbAdv < -0.2) lines.push(pick([
+      `🏔 They're +${Math.abs(climbAdv.toFixed(2))} W/kg better at 5 minutes. Long, steady ascents are where your race falls apart — keep it away from the climbs.`,
+      `🏔 On a real climb they've got +${Math.abs(climbAdv.toFixed(2))} W/kg on you. The longer the gradient, the bigger the gap they can build.`,
+      `🏔 Their climbing advantage is +${Math.abs(climbAdv.toFixed(2))} W/kg. Pick routes that reward raw watts and sprint over pure W/kg.`,
+      `🏔 A +${Math.abs(climbAdv.toFixed(2))} W/kg climbing deficit will show on anything with a proper ascent. Flat or punchy terrain gives you a better shot.`,
+    ]));
+
+    // Rider profiles
+    if (myCounts.SPRINTER > oppCounts.SPRINTER) lines.push(pick([
+      `🎯 You've got ${myCounts.SPRINTER} sprinter(s) to their ${oppCounts.SPRINTER}. That's a numbers advantage at the line — don't let them disrupt your lead-out.`,
+      `🎯 More pure sprinters on your side (${myCounts.SPRINTER} vs ${oppCounts.SPRINTER}). Keep it together, manage the finale, and trust your finishers.`,
+      `🎯 ${myCounts.SPRINTER} vs ${oppCounts.SPRINTER} sprinters — you've got the firepower for a bunch finish. Stay controlled and you're in the driving seat.`,
+    ]));
+    if (oppCounts.CLIMBER > myCounts.CLIMBER) lines.push(pick([
+      `🎯 They've got ${oppCounts.CLIMBER} climber(s) to your ${myCounts.CLIMBER}. On anything steep they have the numbers — watch for attacks on the ascent.`,
+      `🎯 Their climbing depth is greater (${oppCounts.CLIMBER} vs ${myCounts.CLIMBER}). They can take risks on climbs that you simply can't match.`,
+      `🎯 ${oppCounts.CLIMBER} dedicated climber(s) in their squad. If the route goes up, they'll be the ones accelerating while you're fighting to hold the wheel.`,
+    ]));
+
+    // Fallback
+    if (!lines.length) lines.push(pick([
+      `These two teams are closely matched across all intervals. Route selection becomes everything — find any marginal edge and make sure you're on the right course.`,
+      `It's tight across the board. No obvious weapon on either side — win the course selection battle and execute cleaner than they do.`,
+      `Hard to find a clear edge here. On a day like this, tactics and team communication matter more than raw numbers.`,
+      `Nearly even across all metrics. The team that races smarter and picks the most favourable course will take it.`,
+    ]));
+
     return lines;
   }
 
@@ -6014,20 +6248,34 @@ function renderMatchupAnalysis() {
   const routeSuggestions = getRouteSuggestions().slice(0, 8);
 
   // Build split-bar HTML
-  function buildDeltaRow(label, delta, maxDelta, unit, decimals) {
-    const pct = Math.min(45, Math.abs(delta) / maxDelta * 45);
-    const isPos = delta >= 0;
-    const sign = isPos ? '+' : '';
+  function buildDeltaRow(label, delta, maxDelta, unit, decimals, myVal, oppVal) {
+    const sign = delta >= 0 ? '+' : '';
     const formatted = sign + delta.toFixed(decimals) + unit;
-    const color = isPos ? 'var(--accent3)' : 'var(--red)';
-    const barLeft  = isPos ? '' : `<div class="delta-bar-left" style="width:${pct}%"><span class="delta-val">${Math.abs(delta).toFixed(decimals)}${unit}</span></div>`;
-    const barRight = isPos ? `<div class="delta-bar-right" style="width:${pct}%"><span class="delta-val">${Math.abs(delta).toFixed(decimals)}${unit}</span></div>` : '';
+    const color = delta > 0 ? 'var(--accent3)' : delta < 0 ? 'var(--red)' : 'var(--text-dim)';
+
+    const maxVal = Math.max(myVal || 0, oppVal || 0, 1);
+    const myPct  = Math.min(48, (myVal  || 0) / maxVal * 48);
+    const oppPct = Math.min(48, (oppVal || 0) / maxVal * 48);
+    const myLabel  = (unit === ' W/kg' ? (myVal||0).toFixed(2) : Math.round(myVal||0)) + unit;
+    const oppLabel = (unit === ' W/kg' ? (oppVal||0).toFixed(2) : Math.round(oppVal||0)) + unit;
+
     return `
-      <div class="delta-row">
+      <div class="delta-row" style="height:auto;padding:4px 0">
         <div class="delta-label">${label}</div>
-        <div class="delta-bar-wrap" style="background:rgba(255,255,255,0.04);border-radius:2px">
-          <div class="delta-bar-center"></div>
-          ${barLeft}${barRight}
+        <div style="flex:1;position:relative;">
+          <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.15)"></div>
+          <div style="display:flex;justify-content:flex-end;padding-right:calc(50% + 2px);margin-bottom:2px">
+            <div style="display:flex;align-items:center;gap:4px;direction:rtl">
+              <div style="width:${oppPct * 2}px;max-width:calc(${oppPct}% * 2);height:12px;background:var(--accent2);opacity:0.8;border-radius:2px 0 0 2px;min-width:${oppPct > 0 ? 2 : 0}px"></div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--accent2);white-space:nowrap;direction:ltr">${oppLabel}</span>
+            </div>
+          </div>
+          <div style="display:flex;justify-content:flex-start;padding-left:calc(50% + 2px)">
+            <div style="display:flex;align-items:center;gap:4px">
+              <div style="width:${myPct * 2}px;max-width:calc(${myPct}% * 2);height:12px;background:var(--accent3);opacity:0.85;border-radius:0 2px 2px 0;min-width:${myPct > 0 ? 2 : 0}px"></div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--accent3);white-space:nowrap">${myLabel}</span>
+            </div>
+          </div>
         </div>
         <div class="delta-number" style="color:${color}">${formatted}</div>
       </div>`;
@@ -6038,6 +6286,7 @@ function renderMatchupAnalysis() {
   // ── Compute per-interval best rider data for the H2H chart ──
   const chartIntervals = [
     { label:'5s',   myKey:'sprint', oppKey:'sprint',  wkgMy:'5s',   wkgOpp:'5s'   },
+    { label:'15s',  myKey:'w15s',   oppKey:'w15s',    wkgMy:'15s',  wkgOpp:'15s'  },
     { label:'30s',  myKey:'w30s',   oppKey:'w30s',    wkgMy:'30s',  wkgOpp:'30s'  },
     { label:'1m',   myKey:'w1min',  oppKey:'w1min',   wkgMy:'1min', wkgOpp:'1min' },
     { label:'2m',   myKey:'w2min',  oppKey:'w2min',   wkgMy:'2min', wkgOpp:'2min' },
@@ -6073,12 +6322,15 @@ function renderMatchupAnalysis() {
     <div class="matchup-vs-header">
       <div class="matchup-team-name" style="color:var(--accent)">${myName}</div>
       <div class="matchup-vs-badge">VS</div>
-      <div class="matchup-team-name" style="color:var(--accent2);text-align:right">${opponentTeam.name}</div>
+      <div class="matchup-team-name" style="color:var(--accent2)">${opponentTeam.name}</div>
     </div>
+
+    ${buildComparisonTable(selectedRiders, oppRiders, fn, myName, opponentTeam.name)}
 
     <!-- POWER HEAD TO HEAD CHART -->
     <div class="matchup-section-title">⚡ Power Head to Head</div>
     <div style="background:var(--surface2);border:1px solid var(--border);padding:16px;">
+      ${(()=>{ const myNames = selectedRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); const oNames = oppRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:0.5px"><span style="color:var(--accent3)">▸ ${myName}:</span> ${myNames} &nbsp;·&nbsp; <span style="color:var(--accent2)">▸ ${opponentTeam.name}:</span> ${oNames}</div>`; })()}
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
         <div style="display:flex;gap:16px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;">
           <span><span style="color:var(--accent3)">●</span> ${myName} (avg)</span>
@@ -6097,13 +6349,14 @@ function renderMatchupAnalysis() {
 
     <!-- Legend -->
     <div style="display:flex;gap:20px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;margin-bottom:12px;flex-wrap:wrap">
-      <span style="color:var(--text-dim)">◀ LEFT (RED) = opponent stronger</span>
-      <span style="color:var(--text-dim)">RIGHT (GREEN) ▶ = you are stronger</span>
+      <span style="color:var(--accent2)">◀ ${opponentTeam.name}</span>
+      <span style="color:var(--accent3)">${myName} ▶</span>
     </div>
 
     <!-- WATT COMPARISON -->
     <div class="matchup-section-title">🔥 Pure Watt Delta (avg per interval)</div>
     <div style="background:var(--surface2);padding:14px 16px;border:1px solid var(--border)">
+      ${(()=>{ const myNames = selectedRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); const oNames = oppRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:0.5px"><span style="color:var(--accent3)">▸ ${myName}:</span> ${myNames} &nbsp;·&nbsp; <span style="color:var(--accent2)">▸ ${opponentTeam.name}:</span> ${oNames}</div>`; })()}
       <div style="display:flex;gap:40px;margin-bottom:12px">
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);letter-spacing:1px">
           MY TEAM AVG<br>
@@ -6114,19 +6367,20 @@ function renderMatchupAnalysis() {
         OPP AVG&nbsp;
         ${wattDeltas.map(d=>`<span style="color:var(--accent2)">${d.label}: ${Math.round(d.oppVal)}W</span>`).join(' · ')}
       </div>
-      ${wattDeltas.map(d => buildDeltaRow(d.label, d.delta, maxWattDelta, 'W', 0)).join('')}
+      ${wattDeltas.map(d => buildDeltaRow(d.label, d.delta, maxWattDelta, 'W', 0, d.myVal, d.oppVal)).join('')}
     </div>
 
     <!-- W/KG COMPARISON -->
     <div class="matchup-section-title">⛰ W/kg Delta (avg per interval)</div>
     <div style="background:var(--surface2);padding:14px 16px;border:1px solid var(--border)">
+      ${(()=>{ const myNames = selectedRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); const oNames = oppRiders.map(r=>(r.name||'').trim().split(' ')[0]).filter(Boolean).join(', '); return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:0.5px"><span style="color:var(--accent3)">▸ ${myName}:</span> ${myNames} &nbsp;·&nbsp; <span style="color:var(--accent2)">▸ ${opponentTeam.name}:</span> ${oNames}</div>`; })()}
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:10px">
         MY TEAM&nbsp;
         ${wkgDeltas.map(d=>`<span style="color:var(--accent)">${d.label}: ${d.myVal.toFixed(2)}</span>`).join(' · ')}
         &nbsp;|&nbsp; OPP&nbsp;
         ${wkgDeltas.map(d=>`<span style="color:var(--accent2)">${d.label}: ${d.oppVal.toFixed(2)}</span>`).join(' · ')}
       </div>
-      ${wkgDeltas.map(d => buildDeltaRow(d.label, d.delta, maxWkgDelta, ' W/kg', 2)).join('')}
+      ${wkgDeltas.map(d => buildDeltaRow(d.label, d.delta, maxWkgDelta, ' W/kg', 2, d.myVal, d.oppVal)).join('')}
     </div>
 
     <!-- RIDER PROFILES -->
@@ -6164,7 +6418,11 @@ function renderMatchupAnalysis() {
     <!-- TACTICAL VERDICT -->
     <div class="matchup-section-title">🎯 Tactical Verdict</div>
     <div class="verdict-box">
-      ${verdictLines.map(l=>`<div style="margin-bottom:6px">${l}</div>`).join('')}
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;">
+        <span style="background:rgba(0,229,255,0.12);border:1px solid rgba(0,229,255,0.25);color:var(--accent);padding:3px 9px;letter-spacing:1.5px;">CHIEF STRATEGIST</span>
+        <span style="color:var(--text);font-size:0.75rem;letter-spacing:1px">Bryan Tsui says:</span>
+      </div>
+      ${verdictLines.map(l=>`<div style="margin-bottom:8px;line-height:1.6">${l}</div>`).join('')}
     </div>
 
     <!-- ROUTE SUGGESTIONS -->
@@ -6184,12 +6442,23 @@ function renderMatchupAnalysis() {
       if (sprintAdv> 20  && rs.fp.sprint  > 40) reasons.push(`sprint (+${Math.round(sprintAdv)}W)`);
       if (flatAdv  < -10 && rs.fp.tt      > 40) reasons.push(`flat (opp +${Math.abs(Math.round(flatAdv))}W)`);
       if (climbAdv < -0.1 && rs.fp.climber > 40) reasons.push(`climbs (opp +${Math.abs(climbAdv).toFixed(2)} W/kg)`);
-      const reasonText = reasons.length ? reasons.join(', ') : 'mixed terrain';
+      const reasonText = reasons.length ? reasons.join(', ') : 'balanced matchup';
+
+      // Route type label based on fingerprint — describes the route itself
+      const fp = rs.fp;
+      const dominant = ['climber','punch','tt','sprint'].reduce((a,b) => fp[a] > fp[b] ? a : b);
+      const domVal = fp[dominant];
+      let routeType;
+      if      (dominant === 'climber' && domVal > 35) routeType = 'climbing';
+      else if (dominant === 'punch'   && domVal > 35) routeType = 'punchy';
+      else if (dominant === 'tt'      && domVal > 35) routeType = 'flat / TT';
+      else if (dominant === 'sprint'  && domVal > 35) routeType = 'sprint finish';
+      else routeType = 'mixed terrain';
       return `<div class="route-suggestion" style="border-left:3px solid ${scoreColor}">
         <div class="route-rank-num" style="color:${i===0?'var(--accent2)':'var(--border)'}">${i+1}</div>
         <div>
           <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px">${rs.course.name}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${rs.course.world} · ${rs.course.distance}km · ${rs.course.elevation}m ↑ · ${reasonText}</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${rs.course.world} · ${rs.course.distance}km · ${rs.course.elevation}m ↑ · ${routeType}</div>
         </div>
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;font-weight:700;color:${scoreColor};text-align:right;white-space:nowrap">${sign}${rs.score.toFixed(1)}</div>
       </div>`;
@@ -6425,8 +6694,14 @@ function loadOpponentFromLibrary() {
   function oppRiderWatts(r, key) {
     const wMap = {
       sprint: r.w5s   ?? Math.round(r.wkg * r.weight * 2.1),
+      w10s:   r.w10s  ?? Math.round(r.wkg * r.weight * 1.9),
+      w15s:   r.w15s  ?? Math.round(r.wkg * r.weight * 1.75),
+      w30s:   r.w30s  ?? Math.round(r.wkg * r.weight * 1.5),
       w1min:  r.w1min ?? Math.round(r.wkg * r.weight * 1.35),
+      w2min:  r.w2min ?? Math.round(r.wkg * r.weight * 1.2),
       w5min:  r.w5min ?? Math.round(r.wkg * r.weight * 1.08),
+      w10min: r.w10min?? Math.round(r.wkg * r.weight * 1.02),
+      w20min: r.w20min?? Math.round(r.wkg * r.weight),
       ftp:    r.watt  ?? Math.round(r.wkg * r.weight)
     };
     return wMap[key] ?? wMap.ftp;
