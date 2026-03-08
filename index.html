@@ -317,17 +317,18 @@
       <div class="logo">
         <div class="logo-title">Zwift Ladder Race Matcher</div>
         <div class="logo-sub" id="logo-sub">Course × Rider Intelligence System · LEQP Ladder Edition v1 · Live on 49.dk</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--text-dim); letter-spacing:1px; margin-top:3px;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: Mar 8, 2026 · 01:22<!-- LAST_UPDATED_END --></div>
       </div>
 
-      <div style="font-family:'JetBrains Mono',monospace; font-size:0.58rem; color:var(--text-dim); letter-spacing:1px; white-space:nowrap; margin-left:auto;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: Mar 8, 2026 · 01:22<!-- LAST_UPDATED_END --></div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;flex-shrink:0;">
+        <div style="display:flex;gap:6px;align-items:center;">
+          <button id="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
+          <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">? HELP</button>
+          <button class="privacy-btn" onclick="document.getElementById('privacy-modal').classList.add('open')">P&D</button>
+          <button class="privacy-btn" onclick="openRouteAudit()" style="letter-spacing:1px;">&#128202; Route Diagnosis</button>
+        </div>
 
-      <div style="display:flex;gap:6px;align-items:center;flex-shrink:0;">
-        <button id="theme-toggle" onclick="toggleTheme()">🌙 Dark</button>
-        <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">? HELP</button>
-        <button class="privacy-btn" onclick="document.getElementById('privacy-modal').classList.add('open')">P&D</button>
-      </div>
-
-      <div style="flex-shrink:0; display:flex; align-items:center; gap:6px;">
+        <div style="display:flex; align-items:center; gap:6px;">
         <select id="my-team-select" class="status-badge"
           onchange="switchMyTeam(this.value)"
           style="cursor:pointer;border:none;outline:none;appearance:none;-webkit-appearance:none;width:auto;max-width:fit-content;padding-right:20px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%228%22 viewBox=%220 0 8 8%22><path fill=%22%237fffbf%22 d=%22M0 2l4 4 4-4z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
@@ -341,7 +342,10 @@
         </select>
 
         <span id="my-team-rung" class="status-badge" style="display:none; padding:6px 10px; cursor:default;" title="Ladder Rung"></span>
-      </div>  </header>
+        </div>
+      </div>
+    </div>
+  </header>
 
 
  <!-- ═══════════ PRIVACY MODAL ═══════════ -->
@@ -459,6 +463,12 @@
         <tr><td>Climber</td><td>Long sustained climb — W/kg dominates</td></tr>
       </table>
       <p>The score blends raw watts (most important on flat routes) and W/kg (most important on climbs), reflecting Zwift's physics model. <strong>Strategic advantage (+/-)</strong> is the difference between your team's best lineup and the opponent's best lineup for that specific route.</p>
+
+      <h2>Laps</h2>
+      <p>Next to the Race Route dropdown on the Matchup tab, the <strong>Laps</strong> field lets you specify how many times the route is ridden. Short routes (under ~4 km) are typically ridden multiple times in ladder races. Setting laps to 3 scales the route's distance, elevation and punch count — which shifts the fingerprint and scoring accordingly. The maximum is automatically capped so total distance stays under 40 km.</p>
+
+      <h2>Route Diagnosis</h2>
+      <p>Click <strong>📊 Route Diagnosis</strong> under the logo to open a full table of all 169 routes with their calculated fingerprint scores across all five dimensions (TT · Sprint · Punch · Medium · Climb). The <strong>DOMINANT</strong> column shows which dimension the algorithm scores highest. Rows highlighted in red indicate a mismatch between the route's registered type and its calculated dominant — useful for spotting miscalibrated routes.</p>
 
       <h2>Dark / Light mode</h2>
       <p>Use the <strong>☀ Light / 🌙 Dark</strong> button in the top right to switch between the dark Racing theme and the light theme. Your preference is saved automatically.</p>
@@ -611,14 +621,22 @@
 
     <!-- Vis KUN på Matchup (Analyze) -->
     <div class="ctx-block" id="ctx-raceroute-block" style="display:none; flex:2; border-right:none; background:var(--surface2); align-items: stretch; justify-content: center;">
-      <span class="ctx-label">🗺 Race Route</span>
-      <div style="display:flex; align-items:center; gap:8px; margin-top:2px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
+        <span class="ctx-label" style="margin:0">🗺 Race Route</span>
+        <label style="font-size:0.52rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
+      </div>
+      <div style="display:flex; align-items:center; gap:6px;">
         <input type="text" id="matchup-route-search" placeholder="Search..." oninput="filterMatchupRoutes()"
-          style="width:100px; font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 8px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none;">
+          style="width:80px; font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 8px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
         <select id="matchup-route-select" onchange="onMatchupRouteChange()"
-          style="flex:1; font-family:'JetBrains Mono',monospace; font-size:0.75rem; padding:4px 8px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; max-width:350px;">
+          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.72rem; padding:4px 6px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none;">
           <option value="">— No specific route selected —</option>
         </select>
+        <input id="matchup-laps" type="number" min="1" max="10" value="1"
+              onblur="clampMatchupLaps(this)" oninput="clampMatchupLaps(this)"
+              style="width:44px;padding:3px 4px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+                     background:var(--bg);border:1px solid var(--border);color:var(--text);
+                     border-radius:3px;text-align:center;flex-shrink:0;">
         <span id="matchup-route-tag" style="font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:1px; padding:3px 8px; border-radius:2px; display:none;"></span>
       </div>
     </div>
@@ -807,7 +825,17 @@
       </div>
       <div id="rider-filter-wrap" style="display:none">
         <label style="margin:0;font-size:0.65rem;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim)">Select Course</label>
-        <select id="match-course-select" style="width:auto;max-width:260px;margin-top:4px;display:block"></select>
+        <div style="display:flex;align-items:flex-end;gap:8px;">
+          <select id="match-course-select" style="width:auto;max-width:240px;display:block"></select>
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            <label style="font-size:0.55rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
+            <input id="match-laps" type="number" min="1" max="10" value="1"
+              onchange="clampLaps(this)"
+              style="width:52px;padding:4px 6px;font-family:'JetBrains Mono',monospace;font-size:0.8rem;
+                     background:var(--surface);border:1px solid var(--border);color:var(--text);
+                     border-radius:3px;text-align:center;">
+          </div>
+        </div>
       </div>
       <button class="btn btn-primary" onclick="runMatch()" style="font-size:0.9rem;padding:10px 24px;letter-spacing:2px">⚡ RUN MATCH</button>
       <div class="run-info" id="run-info" style="flex:1;align-self:center"></div>
@@ -1086,7 +1114,7 @@ const ZWIFT_ROUTES = [
   { name: 'London 8', world: 'London', distance: 20.3, elevation: 219, punches: 4, flatKm: 7, type: 'punch' },
   { name: 'The 6 Train', world: 'London', distance: 10.4, elevation: 145, punches: 3, flatKm: 4, type: 'punch' },
 
-  { name: 'R.G.V.', world: 'France', distance: 24.0, elevation: 133, punches: 1, flatKm: 15, type: 'tt' },
+  { name: 'R.G.V.', world: 'France', distance: 24.0, elevation: 30, punches: 0, flatKm: 23, type: 'sprint' },
   { name: 'Tire-Bouchon', world: 'France', distance: 61.0, elevation: 483, punches: 3, flatKm: 15, type: 'climb' },
 
   // ── FRANCE ──
@@ -5416,9 +5444,6 @@ function getCourseFingerprint(c) {
   const elevPerKm   = c.elevation / c.distance;
   const flatRatio   = Math.min(1, c.flatKm / c.distance);
   const punchFactor = Math.min(1, c.punches / 8);
-  // shortness: 1.0 at 0km → 0.0 at 20km+ (short flat races = sprint finishes)
-  const shortness   = Math.max(0, 1 - c.distance / 20);
-
   // TT: long sustained flat effort — flatRatio drives this, elev/km and punches kill it
   const tt = Math.max(0, Math.min(100,
     85 * flatRatio
@@ -5427,13 +5452,14 @@ function getCourseFingerprint(c) {
     + 10
   ));
 
-  // SPRINT: bunch sprint finish — only meaningful on SHORT flat races.
-  // Long flat races are TT races, not sprints. punchFactor adds a small bonus
-  // for punchy races that often end in a reduced-group sprint.
+  // SPRINT: flat races keep the bunch together → sprint finish regardless of distance.
+  // Elevation and punches kill sprint value (group gets split before the line).
+  // punchFactor adds small bonus for punchy races that end in a reduced-group sprint.
   const sprint = Math.max(0, Math.min(100,
-    flatRatio * 60 * shortness
-    + punchFactor * 15
-    - elevPerKm * 3
+    flatRatio * 75
+    + punchFactor * 10
+    - elevPerKm * 6
+    - c.punches * 3
   ));
 
   // PUNCH: repeated short punchy climbs — punchFactor + moderate gradient
@@ -5639,8 +5665,8 @@ function scoreRiderForCourse(r, fp) {
   const climber = wkgClimber * 0.85 + wattClimber * 0.15;
 
   return Math.round(
-    fp.tt      * tt      * 0.30 +
-    fp.sprint  * sprint  * 0.15 +
+    fp.tt      * tt      * 0.20 +
+    fp.sprint  * sprint  * 0.25 +
     fp.punch   * punch   * 0.20 +
     fp.medium  * medium  * 0.20 +
     fp.climber * climber * 0.15
@@ -5702,8 +5728,8 @@ function scoreOppRiderForCourse(r, fp, oppRiderWattsFn) {
   const climber = wkgClimber            * 0.85 + wattClimber * 0.15;
 
   return Math.round(
-    fp.tt      * tt      * 0.30 +
-    fp.sprint  * sprint  * 0.15 +
+    fp.tt      * tt      * 0.20 +
+    fp.sprint  * sprint  * 0.25 +
     fp.punch   * punch   * 0.20 +
     fp.medium  * medium  * 0.20 +
     fp.climber * climber * 0.15
@@ -6622,8 +6648,15 @@ function runMatch() {
   } else {
     // Rider mode: Rank riders for a specific route
     const courseId = parseInt(document.getElementById('match-course-select').value);
-    const course = courses.find(c => c.id === courseId);
-    if (!course) return;
+    const baseCourse = courses.find(c => c.id === courseId);
+    if (!baseCourse) return;
+    const laps = Math.max(1, parseInt(document.getElementById('match-laps').value) || 1);
+    const course = laps === 1 ? baseCourse : Object.assign({}, baseCourse, {
+      distance: Math.round(baseCourse.distance * laps * 10) / 10,
+      elevation: Math.round(baseCourse.elevation * laps),
+      flatKm: Math.round(baseCourse.flatKm * laps * 10) / 10,
+      punches: baseCourse.punches * laps
+    });
 
     const fp = getCourseFingerprint(course);
     const riderScores = riders.map(r => {
@@ -6752,7 +6785,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.1.1'; // bump this on every update
+const APP_VERSION = 'v1.3.8'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -7064,7 +7097,7 @@ function onMatchupRouteChange() {
   const tag  = document.getElementById('matchup-route-tag');
   const name = sel?.value;
   if (!name || !tag) { if (tag) tag.style.display = 'none'; renderMatchupAnalysis(); return; }
-  const course = courses.find(c => c.name === name);
+  const course = getSelectedMatchupCourse();
   if (course && tag) {
     const fp = getCourseFingerprint(course);
     const dominant = ['climber','punch','tt','sprint'].reduce((a,b) => fp[a] > fp[b] ? a : b);
@@ -7081,14 +7114,23 @@ function onMatchupRouteChange() {
 function getSelectedMatchupCourse() {
   const name = document.getElementById('matchup-route-select')?.value;
   if (!name) return null;
-  return courses.find(c => c.name === name) || null;
+  const base = courses.find(c => c.name === name) || null;
+  if (!base) return null;
+  const laps = Math.max(1, parseInt(document.getElementById('matchup-laps')?.value) || 1);
+  if (laps === 1) return base;
+  return Object.assign({}, base, {
+    distance: Math.round(base.distance * laps * 10) / 10,
+    elevation: Math.round(base.elevation * laps),
+    flatKm: Math.round(base.flatKm * laps * 10) / 10,
+    punches: base.punches * laps
+  });
 }
 
 // ═══════════════════════════════════════════════════════
 // ANALYZE MATCHUP FEATURE
 // ═══════════════════════════════════════════════════════
 
-function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv) {
+function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps=1) {
   if (!course) {
     return '<div class="matchup-section"><div class="matchup-section-title">\ud83d\uddfa Route Analysis</div>' +
       '<div style="font-family:JetBrains Mono,monospace;font-size:0.7rem;color:var(--text-dim);padding:20px 0">' +
@@ -7100,11 +7142,21 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv) {
   var routeTypeMap = { climber:'\u26f0 Climbing', punch:'\ud83d\udca5 Punchy', tt:'\u27a1 Flat / TT', sprint:'\u26a1 Sprint finish', medium:'\ud83d\udcc8 Medium climbs' };
   var routeType = routeTypeMap[dominant] || '\ud83d\udd00 Mixed terrain';
 
+  // Duration modifier: total race distance shifts emphasis subtly.
+  // Short races (<20km) → sprint matters more, endurance matters less.
+  // Long races (>40km)  → TT/climb matter more, sprint matters less.
+  // Effect is capped at ±20% so it nudges rather than overrides route character.
+  var totalDist = course.distance; // already scaled by laps via getSelectedMatchupCourse()
+  // sprintMod: +0.2 at 10km, 0 at 25km, -0.2 at 50km+
+  var sprintMod  = Math.max(-0.20, Math.min(0.20, (25 - totalDist) / 75));
+  // endurMod: inverse — longer = more weight on TT and climb
+  var endurMod   = Math.max(-0.15, Math.min(0.20, (totalDist - 25) / 100));
+
   var score = 0;
-  score += (flatAdv   > 0 ? fp.tt      * flatAdv   / 300  : fp.tt      * flatAdv   / 200);
-  score += (climbAdv  > 0 ? fp.climber * climbAdv  * 8    : fp.climber * climbAdv  * 12);
+  score += (flatAdv   > 0 ? fp.tt      * flatAdv   / 300  : fp.tt      * flatAdv   / 200)  * (1 + endurMod);
+  score += (climbAdv  > 0 ? fp.climber * climbAdv  * 8    : fp.climber * climbAdv  * 12)   * (1 + endurMod);
   score += (punchAdv  > 0 ? fp.punch   * punchAdv  * 8    : fp.punch   * punchAdv  * 12);
-  score += (sprintAdv > 0 ? fp.sprint  * sprintAdv / 400  : fp.sprint  * sprintAdv / 300);
+  score += (sprintAdv > 0 ? fp.sprint  * sprintAdv / 400  : fp.sprint  * sprintAdv / 300)  * (1 + sprintMod);
 
   var scoreColor = score > 1.5 ? 'var(--accent3)' : score < -1.5 ? 'var(--red)' : 'var(--text-dim)';
   var sign = score > 0 ? '+' : '';
@@ -7125,6 +7177,9 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv) {
   if (fp.sprint > 40) narrativeParts.push('a likely bunch sprint finish');
   if (fp.medium > 40) narrativeParts.push('medium-length climbs of 3-10 minutes');
   var narrative = narrativeParts.length ? 'This route features ' + narrativeParts.join(', ') + '.' : '';
+  // Append duration note when laps meaningfully shift the character
+  if (laps > 1 && course.distance >= 40) narrative += (narrative ? ' ' : '') + 'At ' + course.distance + 'km total, endurance and sustained power become increasingly decisive.';
+  else if (laps === 1 && course.distance <= 15 && fp.sprint > 30) narrative += (narrative ? ' ' : '') + 'The short distance keeps the bunch together — a sprint finish is very likely.';
 
   // Build advantage/disadvantage lists with richer labels
   var advantages = [];
@@ -7154,7 +7209,12 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv) {
   html += '<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap">';
   html += '<div style="min-width:0;flex:1">';
   html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--text);word-break:break-word">' + course.name + '</div>';
-  html += '<div style="' + base + 'font-size:0.62rem;color:var(--text-dim);margin-top:3px">' + course.world + ' &nbsp;&#183;&nbsp; ' + course.distance + ' km &nbsp;&#183;&nbsp; ' + course.elevation + ' m &#8593; &nbsp;&#183;&nbsp; ' + routeType + '</div>';
+  var baseDist = Math.round(course.distance / laps * 10) / 10;
+  var baseElev = Math.round(course.elevation / laps);
+  var lapsBadge = ' &nbsp;&#183;&nbsp; <span style="font-family:JetBrains Mono,monospace;font-size:0.62rem;background:var(--surface);border:1px solid var(--border);padding:1px 6px;border-radius:2px;color:var(--accent2);font-weight:700">' + laps + (laps > 1 ? ' laps' : ' lap') + '</span>';
+  var distStr = laps > 1 ? '<span style="color:var(--accent2);font-weight:700">' + course.distance + ' km</span> (' + baseDist + ' &times; ' + laps + ')' : course.distance + ' km';
+  var elevStr = laps > 1 ? '<span style="color:var(--accent2);font-weight:700">' + course.elevation + ' m ↑</span> (' + baseElev + ' &times; ' + laps + ')' : course.elevation + ' m ↑';
+  html += '<div style="' + base + 'font-size:0.62rem;color:var(--text-dim);margin-top:3px">' + course.world + ' &nbsp;&#183;&nbsp; ' + distStr + ' &nbsp;&#183;&nbsp; ' + elevStr + ' &nbsp;&#183;&nbsp; ' + routeType + lapsBadge + '</div>';
   if (narrative) html += '<div style="' + base + 'font-size:0.62rem;color:var(--text-dim);margin-top:8px;line-height:1.6">' + narrative + '</div>';
   html += '<div style="' + base + 'font-size:0.7rem;margin-top:10px;color:' + scoreColor + ';font-weight:700">' + verdict + '</div>';
   html += '</div>';
@@ -7432,6 +7492,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
 
 function renderMatchupAnalysis() {
   const content = document.getElementById('matchup-panel-content');
+  const laps = Math.max(1, parseInt(document.getElementById('matchup-laps')?.value) || 1);
   
   const selectedRiders = riders.filter(r => r.selected);
   if (!opponentTeam) {
@@ -7913,7 +7974,7 @@ function renderMatchupAnalysis() {
 
     </div>
 
-    ${buildRouteAnalysis(getSelectedMatchupCourse(), flatAdv, climbAdv, punchAdv, sprintAdv)}
+    ${buildRouteAnalysis(getSelectedMatchupCourse(), flatAdv, climbAdv, punchAdv, sprintAdv, laps)}
     ${buildMatchPrediction(selectedRiders, oppRiders, myName, opponentTeam.name, course, fn)}`;
 
   // Store chart data on window so renderH2HChart can access it after innerHTML is set
@@ -8747,12 +8808,179 @@ function openDSSheet() {
     <div>${buildTable(myTeam ? myTeam.name : 'My Team', myRidersFinal, myMax, '#00e5ff')}</div>
     <div>${buildTable(opponentTeam.name, oppRiders, oppMax, '#ff6b6b')}</div>
   </div>
-  <div style="margin-top:16px;font-size:0.55rem;color:var(--ds-dim);letter-spacing:1px">★ = BEST ON THE TEAM &nbsp;·&nbsp; 90-DAY POWER FROM ZWIFTPOWER</div>
-</body>
+  <div style="margin-top:16px;font-size:0.55rem;color:var(--ds-dim);letter-spacing:1px">★ = BEST ON THE TEAM &nbsp;·&nbsp; 90-DAY POWER FROM ZWIFTPOWER</div></body>
 </html>`;
   const win = window.open('', '_blank');
   win.document.write(html);
   win.document.close();
 }
+
+// ── Laps clamping ────────────────────────────────────────────────────────────
+function clampMatchupLaps(input) {
+  // Don't interfere while user is mid-typing (empty or just a minus sign)
+  if (input.value === '' || input.value === '-') return;
+  const name = document.getElementById('matchup-route-select')?.value;
+  const base = name ? courses.find(c => c.name === name) : null;
+  let val = parseInt(input.value);
+  if (isNaN(val)) return;
+  val = Math.max(1, val);
+  if (base) {
+    const maxLaps = Math.max(1, Math.floor(39.9 / base.distance));
+    // Only restrict if the route can meaningfully be run multiple times
+    if (maxLaps > 1) {
+      val = Math.min(val, maxLaps);
+      input.max = maxLaps;
+    } else {
+      // Route is already close to 40km - still allow up to 3 laps max
+      val = Math.min(val, 3);
+      input.max = 3;
+    }
+  } else {
+    val = Math.min(val, 10);
+    input.max = 10;
+  }
+  input.value = val;
+  // Re-render route analysis with new lap count
+  if (typeof renderMatchupAnalysis === 'function') renderMatchupAnalysis();
+}
+
+
+function clampLaps(input) {
+  const courseId = parseInt(document.getElementById('match-course-select').value);
+  const course = courses.find(c => c.id === courseId);
+  let val = parseInt(input.value) || 1;
+  val = Math.max(1, val);
+  if (course) {
+    const maxLaps = Math.floor(40 / course.distance);
+    val = Math.min(val, Math.max(1, maxLaps));
+    input.max = Math.max(1, maxLaps);
+  } else {
+    val = Math.min(val, 10);
+    input.max = 10;
+  }
+  input.value = val;
+}
+
+
+// ── Route Audit ──────────────────────────────────────────────────────────────
+function openRouteAudit() {
+  const modal = document.getElementById('route-audit-modal');
+  const container = document.getElementById('route-audit-content');
+  modal.classList.add('open');
+
+  const dimCols = ['tt','sprint','punch','medium','climber'];
+  const dimLabels = { tt:'TT', sprint:'Sprint', punch:'Punch', medium:'Medium', climber:'Climb' };
+  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)' };
+
+  let rows = '';
+  for (const route of ZWIFT_ROUTES) {
+    const fp = getCourseFingerprint(route);
+    // Find dominant dimension
+    const dominant = dimCols.reduce((a,b) => fp[a] > fp[b] ? a : b);
+    const mismatch = dominant !== route.type;
+
+    const bar = (val, col) => {
+      const pct = Math.round(Math.min(100, Math.max(0, val)));
+      const w = Math.round(pct * 0.18);
+      return '<td style="padding:2px 3px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:2px;"><div style="height:5px;width:' + w + 'px;max-width:14px;background:' + col + ';opacity:0.85;flex-shrink:0"></div><span style="font-size:0.52rem;color:var(--text-dim);flex-shrink:0">' + pct + '</span></div></td>';
+    };
+
+    const shortName = route.name.length > 11 ? route.name.slice(0,11) + '…' : route.name;
+    rows += '<tr style="border-bottom:1px solid var(--border);' + (mismatch ? 'background:rgba(255,68,85,0.08)' : '') + '">'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.58rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + route.name + '">' + shortName + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + route.world + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:' + (typeColor[route.type]||'var(--text)') + '">' + route.type.toUpperCase() + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:' + (mismatch ? 'var(--red)' : (typeColor[dominant]||'var(--text)')) + ';font-weight:' + (mismatch?700:400) + '">' + dominant.toUpperCase() + (mismatch ? ' ⚠' : '') + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim)">' + route.distance + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim)">' + route.elevation + '</td>'
+      + bar(fp.tt, typeColor.tt)
+      + bar(fp.sprint, typeColor.sprint)
+      + bar(fp.punch, typeColor.punch)
+      + bar(fp.medium, typeColor.medium)
+      + bar(fp.climber, typeColor.climber)
+      + '</tr>';
+  }
+
+  const th = (t) => '<th style="text-align:left;padding:4px 5px;font-size:0.52rem;letter-spacing:1px;color:var(--text-dim);white-space:nowrap">' + t + '</th>';
+  container.innerHTML = '<table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;table-layout:fixed;">'
+    + '<thead><tr style="border-bottom:2px solid var(--border);">'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:22%">ROUTE</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">WORLD</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:7%">TYPE</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:8%">DOM.</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:5%">KM</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:5%">ELEV</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">TT</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">SPRT</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">PNCH</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">MED</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:8%">CLB</th>'
+    + '</tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+
+function openRouteAudit() {
+  const modal = document.getElementById('route-audit-modal');
+  const container = document.getElementById('route-audit-content');
+  modal.classList.add('open');
+
+  const dimCols = ['tt','sprint','punch','medium','climber'];
+  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)' };
+
+  let rows = '';
+  for (const route of ZWIFT_ROUTES) {
+    const fp = getCourseFingerprint(route);
+    const dominant = dimCols.reduce((a,b) => fp[a] > fp[b] ? a : b);
+    const mismatch = dominant !== route.type;
+
+    const bar = (val, col) => {
+      const pct = Math.round(Math.min(100, Math.max(0, val)));
+      return '<td style="padding:2px 4px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:5px;"><div style="height:7px;width:' + pct + 'px;max-width:32px;background:' + col + ';opacity:0.8;flex-shrink:0"></div><span style="font-size:0.55rem;color:var(--text-dim);min-width:18px;flex-shrink:0">' + pct + '</span></div></td>';
+    };
+
+    rows += '<tr style="border-bottom:1px solid var(--border);' + (mismatch ? 'background:rgba(255,68,85,0.08)' : '') + '">'
+      + '<td style="padding:4px 6px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text);white-space:nowrap;max-width:105px;overflow:hidden;text-overflow:ellipsis" title="' + route.name + '">' + (route.name.length > 12 ? route.name.slice(0,12) + '\u2026' : route.name) + '</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:var(--text-dim)">' + route.world + '</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:' + (typeColor[route.type]||'var(--text)') + '">' + route.type.toUpperCase() + '</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:' + (mismatch ? 'var(--red)' : (typeColor[dominant]||'var(--text)')) + ';font-weight:' + (mismatch?700:400) + '">' + dominant.toUpperCase() + (mismatch ? ' ⚠' : '') + '</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.distance + 'km</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.elevation + 'm</td>'
+      + bar(fp.tt, typeColor.tt)
+      + bar(fp.sprint, typeColor.sprint)
+      + bar(fp.punch, typeColor.punch)
+      + bar(fp.medium, typeColor.medium)
+      + bar(fp.climber, typeColor.climber)
+      + '</tr>';
+  }
+
+  container.innerHTML = '<table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;">'
+    + '<thead><tr style="border-bottom:2px solid var(--border);">'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">ROUTE</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">WORLD</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">TYPE</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">DOMINANT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">DIST</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">ELEV</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">TT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">SPRINT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">PUNCH</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">MEDIUM</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">CLIMB</th>'
+    + '</tr></thead><tbody>' + rows + '</tbody></table>';
+}
+
+</script>
+
+<!-- ROUTE AUDIT MODAL -->
+<div id="route-audit-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal-box" style="max-width:880px;width:98vw;">
+    <button class="modal-close" onclick="document.getElementById('route-audit-modal').classList.remove('open')">&#10005;</button>
+    <h1>Route Fingerprint Audit</h1>
+    <p style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:2px;color:var(--text-dim)">CALCULATED FINGERPRINTS FOR ALL ROUTES &middot; CHECK FOR MISMATCHES</p>
+    <div style="margin:12px 0;font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">&#9888; Rod baggrund = mismatch mellem route type og beregnet dominant dimension.</div>
+    <div id="route-audit-content" style="max-height:70vh;overflow-y:auto;overflow-x:hidden;"></div>
+  </div>
+</div>
+
 </script>
 </html>
