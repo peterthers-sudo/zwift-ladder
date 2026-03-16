@@ -1354,7 +1354,7 @@ const ZWIFT_ROUTES = [
   { name: 'London Uprising', world: 'London', distance: 20.5, elevation: 356, punches: 5, flatKm: 6, type: 'punch' },
   { name: 'Greater London 8', world: 'London', distance: 23.8, elevation: 276, punches: 5, flatKm: 7, type: 'punch' },
   { name: 'London 8', world: 'London', distance: 20.3, elevation: 219, punches: 4, flatKm: 7, type: 'punch' },
-  { name: 'The 6 Train', world: 'London', distance: 6.5, elevation: 40, punches: 0, flatKm: 6.0, type: 'flat' },
+  { name: 'The 6 Train', world: 'London', distance: 6.5, elevation: 40, punches: 0, flatKm: 6.0, type: 'sprint' },
 
   { name: 'R.G.V.', world: 'France', distance: 24.0, elevation: 30, punches: 0, flatKm: 23, type: 'sprint' },
   { name: 'Tire-Bouchon', world: 'France', distance: 61.0, elevation: 483, punches: 3, flatKm: 15, type: 'climb' },
@@ -1383,7 +1383,7 @@ const ZWIFT_ROUTES = [
   { name: '2018 Worlds Short Lap', world: 'Innsbruck', distance: 23.6, elevation: 494, punches: 2, flatKm: 8, type: 'climb' },
   { name: 'Achterbahn', world: 'Innsbruck', distance: 47.4, elevation: 989, punches: 3, flatKm: 10, type: 'climb' },
   { name: 'Innsbruck KOM After Party', world: 'Innsbruck', distance: 36.9, elevation: 656, punches: 2, flatKm: 9, type: 'climb' },
-  { name: 'Time Trial Lap', world: 'Bologna', distance: 8.0, elevation: 236, punches: 0, flatKm: 7, type: 'tt' },
+  { name: 'Time Trial Lap', world: 'Bologna', distance: 8.0, elevation: 236, punches: 0, flatKm: 6, type: 'tt' },
 
 
   // ── MAKURI ──
@@ -1396,7 +1396,7 @@ const ZWIFT_ROUTES = [
   { name: 'Shisa Shakedown', world: 'Makuri', distance: 49.3, elevation: 495, punches: 3, flatKm: 12, type: 'climb' },
   { name: 'Makuri Pretzel', world: 'Makuri', distance: 77.6, elevation: 616, punches: 3, flatKm: 18, type: 'climb' },
   { name: 'Kappa Quest', world: 'Makuri', distance: 9.1, elevation: 140, punches: 2, flatKm: 3, type: 'punch' },
-  { name: 'Kappa Quest Reverse', world: 'Makuri', distance: 14.0, elevation: 140, punches: 2, flatKm: 4, type: 'punch' },
+  { name: 'Kappa Quest Reverse', world: 'Makuri', distance: 9.1, elevation: 140, punches: 2, flatKm: 4, type: 'punch' },
   { name: 'Spirit Forest', world: 'Makuri', distance: 8.4, elevation: 135, punches: 2, flatKm: 3, type: 'punch' },
   { name: 'Chain Chomper', world: 'Makuri', distance: 13.6, elevation: 184, punches: 2, flatKm: 5, type: 'punch' },
   { name: 'Flatland Loop', world: 'Makuri', distance: 12.9, elevation: 96, punches: 1, flatKm: 10, type: 'tt' },
@@ -1447,7 +1447,7 @@ const ZWIFT_ROUTES = [
   { name: 'Cobbled Climbs', world: 'Richmond', distance: 9.2, elevation: 117, punches: 5, flatKm: 4, type: 'punch' },
   { name: 'Libby Hill After Party', world: 'Richmond', distance: 33.0, elevation: 102, punches: 2, flatKm: 20, type: 'sprint' },
   { name: 'The Fan Flats', world: 'Richmond', distance: 5.1, elevation: 12, punches: 0, flatKm: 5, type: 'tt' },
-  { name: 'Richmond Rollercoaster', world: 'Richmond', distance: 5.0, elevation: 20, punches: 3, flatKm: 1, type: 'punch' },
+  { name: 'Richmond Rollercoaster', world: 'Richmond', distance: 5.0, elevation: 19, punches: 3, flatKm: 1, type: 'punch' },
 
   // ── SCOTLAND ──
   { name: 'The Highroad', world: 'Scotland', distance: 35.0, elevation: 544, punches: 3, flatKm: 10, type: 'punch' },
@@ -7148,7 +7148,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.34'; // bump this on every update
+const APP_VERSION = 'v1.3.35'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
