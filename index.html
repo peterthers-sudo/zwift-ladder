@@ -6604,7 +6604,7 @@ function renderCourseList(list) {
 
 function toggleCourse(id) {
   const c = courses.find(x => x.id === id);
-  if (c) { c.selected = !c.selected; filterCourses(); }
+  if (c) { c.selected = !c.selected; filterCourses(); saveToStorage(); }
 }
 
 function selectAll(val) {
@@ -6616,6 +6616,7 @@ function selectAll(val) {
   });
   visible.forEach(c => c.selected = val);
   filterCourses();
+  saveToStorage();
 }
 
 function updateSelectedCount() {
@@ -7081,6 +7082,9 @@ const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 function saveToStorage() {
   localStorage.setItem('zwift_riders', JSON.stringify(riders));
   localStorage.setItem('zwift_active_team', activeMyTeamKey);
+  localStorage.setItem('zwift_courses_version', APP_VERSION);
+  const deselected = courses.filter(c => !c.selected && !c.custom).map(c => c.name);
+  localStorage.setItem('zwift_courses_deselected', JSON.stringify(deselected));
 }
 
 function loadFromStorage() {
@@ -7108,6 +7112,18 @@ function loadFromStorage() {
   } else {
     localStorage.removeItem('zwift_riders');
     localStorage.setItem('zwift_riders_version', RIDERS_VERSION);
+  }
+  // Restore course selection state (version-gated — new routes always appear selected)
+  const savedCoursesVersion = localStorage.getItem('zwift_courses_version');
+  if (savedCoursesVersion === APP_VERSION) {
+    const savedDeselected = localStorage.getItem('zwift_courses_deselected');
+    if (savedDeselected) {
+      const deselectedNames = new Set(JSON.parse(savedDeselected));
+      courses.forEach(c => { if (!c.custom) c.selected = !deselectedNames.has(c.name); });
+    }
+  } else {
+    localStorage.removeItem('zwift_courses_deselected');
+    localStorage.setItem('zwift_courses_version', APP_VERSION);
   }
   // Sync selected state back into MY_TEAMS so all code paths see the same data
   if (MY_TEAMS[activeMyTeamKey]) {
