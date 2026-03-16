@@ -6825,11 +6825,11 @@ function showCourseDetail(id) {
   panel.innerHTML = `
     <div style="margin-bottom:12px">
       <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px">${c.name}</div>
-      <div style="font-family:monospace;font-size:0.7rem;color:var(--text-dim)">${c.world} · ${c.distance}km · ${c.elevation}m elevation · ${c.punches} short climbs</div>
+      <div style="font-family:monospace;font-size:0.7rem;color:var(--text-dim)">${c.world} · ${c.distance}km · ${c.elevation}m elevation${c.profile ? ' · ' + c.profile : ''}</div>
     </div>
     <div style="font-family:monospace;font-size:0.65rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px">COURSE FINGERPRINT</div>
     <div style="display:flex;flex-direction:column;gap:10px">
-      ${[['TT / Diesel Effort','tt','var(--accent)'],['Sprint Power','sprint','var(--accent2)'],['Punchy / 1-min Power','punch','var(--purple)'],['Medium Climbs / 5-min Power','medium','#ff9f43'],['Climbing Ability / 20-min Power','climber','var(--accent3)']].map(([label,key,color])=>`
+      ${[['Pursuit / Sustained Power','tt','var(--accent)'],['Sprint Power','sprint','var(--accent2)'],['Punchy / 1-min Power','punch','var(--purple)'],['Medium Climbs / 5-min Power','medium','#ff9f43'],['Climbing Ability / 20-min W/kg','climber','var(--accent3)'],['Endurance / Long Effort','endurance','#26c6da']].map(([label,key,color])=>`
         <div>
           <div style="display:flex;justify-content:space-between;margin-bottom:4px">
             <span style="font-family:monospace;font-size:0.65rem;color:var(--text-dim)">${label}</span>
@@ -7263,7 +7263,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.40'; // bump this on every update
+const APP_VERSION = 'v1.3.41'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -9274,9 +9274,9 @@ function openDSSheet() {
   let courseHTML = '';
   if (course) {
     const fp = getCourseFingerprint(course);
-    const dominant = ['climber','punch','tt','sprint','medium'].reduce((a,b) => fp[a]>fp[b]?a:b);
-    const typeLabels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Flat/TT', sprint:'⚡ Sprint', medium:'📈 Medium climbs' };
-    const typeColors = { climber:'#a5d6a7', punch:'#ffcc80', tt:'#80deea', sprint:'#ce93d8', medium:'#fff176' };
+    const dominant = ['climber','punch','tt','sprint','medium','endurance'].reduce((a,b) => fp[a]>fp[b]?a:b);
+    const typeLabels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Pursuit/TT', sprint:'⚡ Sprint', medium:'📈 Medium climbs', endurance:'⏱ Endurance' };
+    const typeColors = { climber:'#a5d6a7', punch:'#ffcc80', tt:'#80deea', sprint:'#ce93d8', medium:'#fff176', endurance:'#26c6da' };
     const col = typeColors[dominant] || '#ccc';
     courseHTML = `
       <div style="background:var(--ds-surface);border:1px solid var(--ds-border);border-radius:4px;padding:14px 18px;margin-bottom:20px;display:flex;gap:32px;align-items:center;flex-wrap:wrap">
@@ -9416,9 +9416,9 @@ function openRouteAudit() {
   const container = document.getElementById('route-audit-content');
   modal.classList.add('open');
 
-  const dimCols = ['tt','sprint','punch','medium','climber'];
-  const dimLabels = { tt:'TT', sprint:'Sprint', punch:'Punch', medium:'Medium', climber:'Climb' };
-  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)' };
+  const dimCols = ['tt','sprint','punch','medium','climber','endurance'];
+  const dimLabels = { tt:'Pursuit', sprint:'Sprint', punch:'Punch', medium:'Medium', climber:'Climb', endurance:'Endurance' };
+  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)', endurance:'#26c6da' };
 
   let rows = '';
   for (const route of ZWIFT_ROUTES) {
@@ -9470,8 +9470,8 @@ function openRouteAudit() {
   const container = document.getElementById('route-audit-content');
   modal.classList.add('open');
 
-  const dimCols = ['tt','sprint','punch','medium','climber'];
-  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)' };
+  const dimCols = ['tt','sprint','punch','medium','climber','endurance'];
+  const typeColor = { tt:'var(--accent)', sprint:'var(--accent2)', punch:'#f5a623', medium:'#9b59b6', climber:'var(--red)', endurance:'#26c6da' };
 
   let rows = '';
   for (const route of ZWIFT_ROUTES) {
