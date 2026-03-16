@@ -415,6 +415,7 @@
         </select>
 
         <span id="my-team-rung" class="status-badge" style="display:none; padding:6px 10px; cursor:default;" title="Ladder Rung"></span>
+        <span id="my-team-pos" class="status-badge" style="display:none; padding:6px 10px; cursor:default;" title="Ladder Position"></span>
         </div>
       </div>
     </div>
@@ -6347,21 +6348,34 @@ function toggleSelectAll(checked) {
 
 function updateMyTeamRung(key) {
   const rungEl = document.getElementById('my-team-rung');
+  const posEl  = document.getElementById('my-team-pos');
   if (!rungEl) return;
   let rung = null;
-  
+  let pos  = null;
+
   // Tjekker om rung er gemt under det aktive hold eller i modstander-biblioteket
   if (MY_TEAMS[key] && MY_TEAMS[key].rung) {
     rung = MY_TEAMS[key].rung;
+    pos  = MY_TEAMS[key].ladderPosition || null;
   } else if (OPPONENT_LIBRARY[key] && OPPONENT_LIBRARY[key].rung) {
     rung = OPPONENT_LIBRARY[key].rung;
+    pos  = OPPONENT_LIBRARY[key].ladderPosition || null;
   }
-  
+
   if (rung) {
     rungEl.textContent = 'R' + rung;
     rungEl.style.display = 'inline-block';
   } else {
     rungEl.style.display = 'none';
+  }
+
+  if (posEl) {
+    if (pos) {
+      posEl.textContent = '#' + pos;
+      posEl.style.display = 'inline-block';
+    } else {
+      posEl.style.display = 'none';
+    }
   }
 }
 
