@@ -184,6 +184,10 @@
   .tag-punch { color: var(--purple); border-color: rgba(204,136,255,0.3); background: rgba(204,136,255,0.06); }
   .tag-medium { color: #ff9f43; border-color: rgba(255,159,67,0.3); background: rgba(255,159,67,0.06); }
   .tag-endurance { color: #26c6da; border-color: rgba(38,198,218,0.3); background: rgba(38,198,218,0.06); }
+  .course-detail-inline { display: none; border-left: 2px solid var(--accent); margin: 0 0 2px 0; background: var(--surface2); padding: 16px 18px; animation: slideDown 0.18s ease; }
+  @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .course-detail-inline.open { display: block; }
+  .eye-btn.active { color: var(--accent); border-color: rgba(0,229,255,0.5); background: rgba(0,229,255,0.08); }
 
   /* Results */
   .run-section { display: flex; align-items: flex-end; gap: 12px; margin: 24px 0; flex-wrap: wrap; }
@@ -882,7 +886,7 @@
       🗺 <span><span id="route-count">118</span> real Zwift routes pre-loaded · Click worlds to filter · <strong>multi-select supported</strong> · selected routes are used by Race Planner</span>
     </div>
 
-    <div class="two-col">
+    <div>
       <div class="card">
         <div class="card-title">Route Database</div>
 
@@ -911,15 +915,6 @@
         </div>
 
         <div class="course-list" id="course-list"></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title">Course Fingerprint</div>
-        <div id="course-detail-panel">
-          <div class="empty" style="padding:32px">Click a route to see its fingerprint analysis</div>
-        </div>
-
-
       </div>
     </div>
   </div>
@@ -6777,8 +6772,9 @@ function renderCourseList(list) {
           <div class="course-meta">${c.world} · ${c.distance}km · ${c.elevation}m ↑</div>
         </div>
         <div class="course-tags">${tags.join('')}</div>
-        <button class="remove-btn" onclick="event.stopPropagation();showCourseDetail(${c.id})">👁</button>
+        <button class="remove-btn eye-btn" id="eye-${c.id}" onclick="event.stopPropagation();showCourseDetail(${c.id})">👁</button>
       </div>
+      <div class="course-detail-inline" id="cd-${c.id}"></div>
     `;
   }).join('');
 }
@@ -6820,40 +6816,95 @@ function updateSelectedCount() {
 function showCourseDetail(id) {
   const c = courses.find(x => x.id === id);
   if (!c) return;
+  const panel = document.getElementById('cd-' + id);
+  if (!panel) return;
+
+  // Toggle: close if already open
+  if (panel.classList.contains('open')) {
+    panel.classList.remove('open');
+    const eyeBtn = document.getElementById('eye-' + id);
+    if (eyeBtn) eyeBtn.classList.remove('active');
+    return;
+  }
+
+  // Close any other open panels
+  document.querySelectorAll('.course-detail-inline.open').forEach(el => el.classList.remove('open'));
+  document.querySelectorAll('.eye-btn.active').forEach(el => el.classList.remove('active'));
+
   const fp = getCourseFingerprint(c);
-  const panel = document.getElementById('course-detail-panel');
+  const elevPerKm = (c.elevation / c.distance).toFixed(1);
+  const lapDist = c.leadIn != null ? (c.distance - c.leadIn).toFixed(1) : null;
+
+  const dims = [
+    ['Pursuit',   'tt',        'var(--accent)'],
+    ['Sprint',    'sprint',    'var(--accent2)'],
+    ['Punch',     'punch',     'var(--purple)'],
+    ['Climb',     'climber',   'var(--accent3)'],
+    ['Endurance', 'endurance', '#26c6da'],
+  ];
+  const dominant = dims.reduce((a, b) => fp[a[1]] > fp[b[1]] ? a : b);
+
   panel.innerHTML = `
-    <div style="margin-bottom:12px">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px">${c.name}</div>
-      <div style="font-family:monospace;font-size:0.7rem;color:var(--text-dim)">${c.world} · ${c.distance}km · ${c.elevation}m elevation${c.profile ? ' · ' + c.profile : ''}</div>
-    </div>
-    <div style="font-family:monospace;font-size:0.65rem;color:var(--text-dim);margin-bottom:10px;letter-spacing:1px">COURSE FINGERPRINT</div>
-    <div style="display:flex;flex-direction:column;gap:10px">
-      ${[['Pursuit / Sustained Power','tt','var(--accent)'],['Sprint Power','sprint','var(--accent2)'],['Punchy / 1-min Power','punch','var(--purple)'],['Medium Climbs / 5-min Power','medium','#ff9f43'],['Climbing Ability / 20-min W/kg','climber','var(--accent3)'],['Endurance / Long Effort','endurance','#26c6da']].map(([label,key,color])=>`
-        <div>
-          <div style="display:flex;justify-content:space-between;margin-bottom:4px">
-            <span style="font-family:monospace;font-size:0.65rem;color:var(--text-dim)">${label}</span>
-            <span style="font-family:monospace;font-size:0.65rem;color:${color}">${fp[key]}/100</span>
-          </div>
-          <div style="height:6px;background:var(--border)">
-            <div style="height:100%;width:${fp[key]}%;background:${color};transition:width 0.8s"></div>
-          </div>
+    <div style="display:grid;grid-template-columns:1fr auto;gap:20px;align-items:start">
+
+      <!-- LEFT: fingerprint bars -->
+      <div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">COURSE FINGERPRINT</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          ${dims.map(([label, key, color]) => `
+            <div style="display:grid;grid-template-columns:80px 1fr 32px;gap:8px;align-items:center">
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:${fp[key] === fp[dominant[1]] ? color : 'var(--text-dim)'};text-align:right">${label}</span>
+              <div style="height:7px;background:var(--border);border-radius:1px">
+                <div style="height:100%;width:${fp[key]}%;background:${color};border-radius:1px;transition:width 0.6s ease"></div>
+              </div>
+              <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:${color}">${fp[key]}</span>
+            </div>
+          `).join('')}
         </div>
-      `).join('')}
-    </div>
-    <div style="margin-top:16px;font-size:0.8rem;color:var(--text-dim);line-height:1.6">
-      ${generateCourseDescription(c, fp)}
-    </div>
-    <div style="margin-top:14px">
-      <a href="https://zwiftinsider.com/route/${c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}"
-         target="_blank"
-         style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;color:var(--accent);text-decoration:none;border:1px solid rgba(0,229,255,0.3);padding:5px 12px;display:inline-block;transition:all 0.2s"
-         onmouseover="this.style.background='rgba(0,229,255,0.1)'"
-         onmouseout="this.style.background='transparent'">
-        🔗 VIEW ROUTE ON ZWIFT INSIDER ↗
-      </a>
+        <div style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);line-height:1.7">
+          ${generateCourseDescription(c, fp)}
+        </div>
+      </div>
+
+      <!-- RIGHT: stats + link -->
+      <div style="min-width:160px">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">ROUTE STATS</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          ${[
+            ['Distance',    c.distance + ' km'],
+            ['Elevation',   c.elevation + ' m ↑'],
+            ['Elev/km',     elevPerKm + ' m/km'],
+            ['Lead-in',     c.leadIn != null ? c.leadIn + ' km' : '—'],
+            ['Lap dist',    lapDist ? lapDist + ' km' : '—'],
+            ['Profile',     c.profile || '—'],
+            ['World',       c.world],
+          ].map(([k, v]) => `
+            <div style="display:flex;justify-content:space-between;gap:12px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;border-bottom:1px solid var(--border);padding-bottom:4px">
+              <span style="color:var(--text-dim)">${k}</span>
+              <span style="color:var(--text)">${v}</span>
+            </div>
+          `).join('')}
+        </div>
+        <div style="margin-top:14px">
+          <a href="https://zwiftinsider.com/route/${c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}"
+             target="_blank"
+             style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;color:var(--accent);text-decoration:none;border:1px solid rgba(0,229,255,0.3);padding:5px 10px;display:block;text-align:center;transition:background 0.2s"
+             onmouseover="this.style.background='rgba(0,229,255,0.1)'"
+             onmouseout="this.style.background='transparent'">
+            🔗 ZWIFT INSIDER ↗
+          </a>
+        </div>
+      </div>
+
     </div>
   `;
+
+  panel.classList.add('open');
+  const eyeBtn = document.getElementById('eye-' + id);
+  if (eyeBtn) eyeBtn.classList.add('active');
+
+  // Scroll the panel into view smoothly
+  panel.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function generateCourseDescription(c, fp) {
@@ -7263,7 +7314,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.41'; // bump this on every update
+const APP_VERSION = 'v1.3.42'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
