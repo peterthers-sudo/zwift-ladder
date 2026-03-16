@@ -1,4 +1,4 @@
-
+﻿
 
 <!DOCTYPE html>
 <html lang="en">
@@ -183,6 +183,7 @@
   .tag-tt { color: var(--accent); border-color: rgba(0,229,255,0.3); background: rgba(0,229,255,0.06); }
   .tag-punch { color: var(--purple); border-color: rgba(204,136,255,0.3); background: rgba(204,136,255,0.06); }
   .tag-medium { color: #ff9f43; border-color: rgba(255,159,67,0.3); background: rgba(255,159,67,0.06); }
+  .tag-endurance { color: #26c6da; border-color: rgba(38,198,218,0.3); background: rgba(38,198,218,0.06); }
 
   /* Results */
   .run-section { display: flex; align-items: flex-end; gap: 12px; margin: 24px 0; flex-wrap: wrap; }
@@ -1274,204 +1275,290 @@ function closePrivacy() {
 }
 
 const ZWIFT_ROUTES = [
-  // ── WATOPIA ──
-  { name: 'Tempus Fugit', world: 'Watopia', distance: 17.3, elevation: 16, punches: 0, flatKm: 16, type: 'tt' },
-  { name: 'Flat Route', world: 'Watopia', distance: 10.2, elevation: 61, punches: 1, flatKm: 9, type: 'tt' },
-  { name: 'Hilly Route', world: 'Watopia', distance: 9.3, elevation: 109, punches: 4, flatKm: 3, type: 'punch' },
-  { name: 'Hilly Route Reverse', world: 'Watopia', distance: 9.3, elevation: 109, punches: 4, flatKm: 3, type: 'punch' },
-  { name: 'Figure 8', world: 'Watopia', distance: 29.7, elevation: 254, punches: 2, flatKm: 14, type: 'sprint' },
-  { name: 'Figure 8 Reverse', world: 'Watopia', distance: 29.7, elevation: 254, punches: 2, flatKm: 14, type: 'sprint' },
-  { name: 'Volcano Circuit', world: 'Watopia', distance: 4.1, elevation: 20, punches: 2, flatKm: 2, type: 'punch' },
-  { name: 'Volcano Circuit CCW', world: 'Watopia', distance: 4.1, elevation: 20, punches: 2, flatKm: 2, type: 'punch' },
-  { name: 'Volcano Flat', world: 'Watopia', distance: 12.3, elevation: 50, punches: 1, flatKm: 10, type: 'tt' },
-  { name: 'Road to Sky', world: 'Watopia', distance: 17.3, elevation: 1045, punches: 0, flatKm: 1, type: 'climb' },
-  { name: 'Mountain Route', world: 'Watopia', distance: 29.6, elevation: 682, punches: 1, flatKm: 5, type: 'climb' },
-  { name: 'Watopia Figure 8 KOM', world: 'Watopia', distance: 24.7, elevation: 410, punches: 3, flatKm: 8, type: 'punch' },
-  { name: 'Big Foot Hills', world: 'Watopia', distance: 67.5, elevation: 708, punches: 2, flatKm: 15, type: 'climb' },
-  { name: 'Two Bridges Loop', world: 'Watopia', distance: 7.1, elevation: 81, punches: 3, flatKm: 3, type: 'punch' },
-  { name: 'Three Sisters', world: 'Watopia', distance: 48.0, elevation: 897, punches: 3, flatKm: 10, type: 'climb' },
-  { name: 'Sand and Sequoias', world: 'Watopia', distance: 20.1, elevation: 175, punches: 3, flatKm: 10, type: 'punch' },
-  { name: 'Watopia Waistband', world: 'Watopia', distance: 25.4, elevation: 96, punches: 3, flatKm: 14, type: 'sprint' },
-  { name: 'Tour of Fire and Ice', world: 'Watopia', distance: 25.3, elevation: 1167, punches: 3, flatKm: 4, type: 'climb' },
-  { name: 'The Uber Pretzel', world: 'Watopia', distance: 128.3, elevation: 2335, punches: 4, flatKm: 25, type: 'climb' },
-  { name: 'Pretzel', world: 'Watopia', distance: 72.9, elevation: 1362, punches: 4, flatKm: 15, type: 'climb' },
-  { name: 'Fuego Flats', world: 'Watopia', distance: 10.7, elevation: 22, punches: 0, flatKm: 10, type: 'tt' },
-  { name: 'Downtown Titans', world: 'Watopia', distance: 24.6, elevation: 292, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Muir and the Mountain', world: 'Watopia', distance: 33.9, elevation: 793, punches: 2, flatKm: 8, type: 'climb' },
-  { name: 'Coast Crusher', world: 'Watopia', distance: 34.7, elevation: 174, punches: 2, flatKm: 25, type: 'tt' },
-  { name: 'The Grade', world: 'Watopia', distance: 3.5, elevation: 312, punches: 0, flatKm: 0, type: 'climb' },
-  { name: 'Sugar Cookie', world: 'Watopia', distance: 33.6, elevation: 251, punches: 3, flatKm: 20, type: 'sprint' },
-  { name: 'Tick Tock', world: 'Watopia', distance: 16.8, elevation: 53, punches: 0, flatKm: 15, type: 'tt' },
-  { name: 'Going Coastal', world: 'Watopia', distance: 16.5, elevation: 63, punches: 1, flatKm: 14, type: 'tt' },
-  { name: 'Legends and Lava', world: 'Watopia', distance: 24.6, elevation: 352, punches: 3, flatKm: 8, type: 'punch' },
-  { name: 'Elevation Evaluation', world: 'Watopia', distance: 24.6, elevation: 396, punches: 3, flatKm: 6, type: 'punch' },
-  { name: 'Glyph Heights', world: 'Watopia', distance: 25.3, elevation: 537, punches: 2, flatKm: 5, type: 'climb' },
-  { name: 'Radio Rendezvous', world: 'Watopia', distance: 20.4, elevation: 728, punches: 2, flatKm: 3, type: 'climb' },
-  { name: 'Climber\'s Gambit', world: 'Watopia', distance: 27.7, elevation: 670, punches: 2, flatKm: 5, type: 'climb' },
-  { name: 'Mayan San Remo', world: 'Watopia', distance: 21.0, elevation: 219, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Mayan 8', world: 'Watopia', distance: 23.1, elevation: 241, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Volcano Climb', world: 'Watopia', distance: 23.1, elevation: 203, punches: 2, flatKm: 8, type: 'punch' },
-  { name: 'Serpentine 8', world: 'Watopia', distance: 19.4, elevation: 206, punches: 3, flatKm: 7, type: 'punch' },
-  { name: 'Itza Climb Finish', world: 'Watopia', distance: 29.1, elevation: 291, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Triple Twist', world: 'Watopia', distance: 19.8, elevation: 180, punches: 3, flatKm: 8, type: 'punch' },
-  { name: 'Canopies and Coastlines', world: 'Watopia', distance: 22.6, elevation: 124, punches: 2, flatKm: 14, type: 'sprint' },
-  { name: 'Road to Ruins', world: 'Watopia', distance: 29.6, elevation: 276, punches: 2, flatKm: 12, type: 'punch' },
-  { name: 'Coast to Coast', world: 'Watopia', distance: 24.1, elevation: 154, punches: 2, flatKm: 14, type: 'sprint' },
-  { name: 'Ocean Lava Cliffside Loop', world: 'Watopia', distance: 19.1, elevation: 157, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Loopin Lava', world: 'Watopia', distance: 14.3, elevation: 196, punches: 2, flatKm: 6, type: 'punch' },
-  { name: 'Jurassic Coast', world: 'Watopia', distance: 19.5, elevation: 212, punches: 2, flatKm: 9, type: 'punch' },
-  { name: 'Triple Flat Loops', world: 'Watopia', distance: 33.9, elevation: 134, punches: 1, flatKm: 28, type: 'tt' },
-  { name: 'Waisted 8', world: 'Watopia', distance: 30.7, elevation: 144, punches: 2, flatKm: 22, type: 'sprint' },
-  { name: 'Loop de Loop', world: 'Watopia', distance: 12.4, elevation: 144, punches: 2, flatKm: 6, type: 'punch' },
-  { name: 'Whole Lotta Lava', world: 'Watopia', distance: 12.3, elevation: 160, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'Oh Hill No', world: 'Watopia', distance: 7.9, elevation: 306, punches: 1, flatKm: 1, type: 'climb' },
-  { name: 'Mountain Mash', world: 'Watopia', distance: 5.7, elevation: 335, punches: 0, flatKm: 0, type: 'climb' },
-  { name: 'Tair Dringfa Fechan', world: 'Watopia', distance: 31.5, elevation: 349, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Mayan Mash', world: 'Watopia', distance: 34.6, elevation: 756, punches: 2, flatKm: 6, type: 'climb' },
-  { name: 'Snowman', world: 'Watopia', distance: 43.9, elevation: 577, punches: 3, flatKm: 12, type: 'climb' },
-  { name: 'Big Loop', world: 'Watopia', distance: 42.1, elevation: 661, punches: 3, flatKm: 12, type: 'climb' },
-  { name: 'Peak Performance', world: 'Watopia', distance: 45.7, elevation: 726, punches: 3, flatKm: 10, type: 'climb' },
-  { name: 'Accelerate to Elevate', world: 'Watopia', distance: 41.0, elevation: 1153, punches: 2, flatKm: 5, type: 'climb' },
-  { name: 'Power to the Tower', world: 'Watopia', distance: 43.8, elevation: 1494, punches: 1, flatKm: 3, type: 'climb' },
-  { name: 'Quatch Quest', world: 'Watopia', distance: 46.7, elevation: 1710, punches: 1, flatKm: 2, type: 'climb' },
-  { name: 'Big Flat 8', world: 'Watopia', distance: 29.2, elevation: 103, punches: 2, flatKm: 22, type: 'sprint' },
-  { name: 'Country to Coastal', world: 'Makuri', distance: 33.4, elevation: 275, punches: 3, flatKm: 18, type: 'sprint' },
- 
-  { name: 'Surrey Hills', world: 'London', distance: 39.2, elevation: 837, punches: 4, flatKm: 8, type: 'climb' },
-  { name: 'Triple Loops', world: 'London', distance: 40.9, elevation: 565, punches: 5, flatKm: 10, type: 'climb' },
-  { name: 'The London Pretzel', world: 'London', distance: 55.7, elevation: 475, punches: 5, flatKm: 12, type: 'climb' },
-  { name: 'The PRL Half', world: 'London', distance: 69.1, elevation: 1009, punches: 5, flatKm: 10, type: 'climb' },
-  { name: 'Full PRL', world: 'London', distance: 173.4, elevation: 2398, punches: 6, flatKm: 15, type: 'climb' },
-  { name: 'Richmond Loop Around', world: 'London', distance: 42.2, elevation: 555, punches: 4, flatKm: 10, type: 'climb' },
-
-  // ── LONDON ──
-  { name: 'London Loop', world: 'London', distance: 14.9, elevation: 231, punches: 5, flatKm: 5, type: 'punch' },
-  { name: 'London Flat', world: 'London', distance: 12.0, elevation: 115, punches: 2, flatKm: 7, type: 'sprint' },
-  { name: 'Greater London Flat', world: 'London', distance: 11.7, elevation: 36, punches: 0, flatKm: 11, type: 'tt' },
-  { name: 'Greater London Loop', world: 'London', distance: 21.0, elevation: 222, punches: 4, flatKm: 8, type: 'punch' },
-  { name: 'London Classique', world: 'London', distance: 5.5, elevation: 16, punches: 0, flatKm: 5, type: 'sprint' },
-  { name: 'London Calling', world: 'London', distance: 31.2, elevation: 207, punches: 4, flatKm: 12, type: 'punch' },
-  { name: 'Greatest London Loop', world: 'London', distance: 25.6, elevation: 356, punches: 6, flatKm: 8, type: 'punch' },
-  { name: 'London Uprising', world: 'London', distance: 20.5, elevation: 356, punches: 5, flatKm: 6, type: 'punch' },
-  { name: 'Greater London 8', world: 'London', distance: 23.8, elevation: 276, punches: 5, flatKm: 7, type: 'punch' },
-  { name: 'London 8', world: 'London', distance: 20.3, elevation: 219, punches: 4, flatKm: 7, type: 'punch' },
-  { name: 'The 6 Train', world: 'London', distance: 6.5, elevation: 40, punches: 0, flatKm: 6.0, type: 'sprint' },
-
-  { name: 'R.G.V.', world: 'France', distance: 24.0, elevation: 30, punches: 0, flatKm: 23, type: 'sprint' },
-  { name: 'Tire-Bouchon', world: 'France', distance: 61.0, elevation: 483, punches: 3, flatKm: 15, type: 'climb' },
-
-  // ── FRANCE ──
-  { name: 'Bon Voyage', world: 'France', distance: 28.2, elevation: 132, punches: 1, flatKm: 18, type: 'tt' },
-  { name: 'Casse-Pattes', world: 'France', distance: 23.0, elevation: 155, punches: 2, flatKm: 12, type: 'sprint' },
-  { name: 'Douce France', world: 'France', distance: 24.0, elevation: 133, punches: 1, flatKm: 15, type: 'tt' },
-  { name: 'Hell of the North', world: 'France', distance: 19.8, elevation: 241, punches: 4, flatKm: 7, type: 'punch' },
-  { name: 'La Reine', world: 'France', distance: 22.4, elevation: 1201, punches: 0, flatKm: 2, type: 'climb' },
-  { name: 'Ven-Top', world: 'France', distance: 20.9, elevation: 1534, punches: 0, flatKm: 1, type: 'climb' },
-  { name: 'Ven-10', world: 'France', distance: 10.0, elevation: 781, punches: 0, flatKm: 1, type: 'climb' },
-  { name: 'Petite Douleur', world: 'France', distance: 13.9, elevation: 194, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'Three Musketeers', world: 'France', distance: 35.2, elevation: 193, punches: 2, flatKm: 18, type: 'tt' },
-  { name: 'Gentil 8', world: 'France', distance: 23.1, elevation: 243, punches: 3, flatKm: 9, type: 'punch' },
-  { name: 'Roule Ma Poule', world: 'France', distance: 23.0, elevation: 155, punches: 2, flatKm: 12, type: 'sprint' },
-  { name: 'La Campina', world: 'France', distance: 22.0, elevation: 131, punches: 2, flatKm: 14, type: 'sprint' },
-  { name: 'Petit Boucle', world: 'France', distance: 60.8, elevation: 483, punches: 3, flatKm: 15, type: 'climb' },
-  { name: 'Lutece Express', world: 'Paris', distance: 6.6, elevation: 39, punches: 1, flatKm: 5, type: 'sprint' },
-  { name: 'Champs-Élysées', world: 'Paris', distance: 6.6, elevation: 39, punches: 1, flatKm: 5, type: 'sprint' },
-
-  // ── INNSBRUCK ──
-  { name: 'Innsbruckring', world: 'Innsbruck', distance: 8.8, elevation: 77, punches: 1, flatKm: 5, type: 'sprint' },
-  { name: 'Lutscher', world: 'Innsbruck', distance: 13.7, elevation: 402, punches: 1, flatKm: 3, type: 'climb' },
-  { name: 'Lutscher CCW', world: 'Innsbruck', distance: 13.8, elevation: 402, punches: 1, flatKm: 3, type: 'climb' },
-  { name: '2018 Worlds Short Lap', world: 'Innsbruck', distance: 23.6, elevation: 494, punches: 2, flatKm: 8, type: 'climb' },
-  { name: 'Achterbahn', world: 'Innsbruck', distance: 47.4, elevation: 989, punches: 3, flatKm: 10, type: 'climb' },
-  { name: 'Innsbruck KOM After Party', world: 'Innsbruck', distance: 36.9, elevation: 656, punches: 2, flatKm: 9, type: 'climb' },
-  { name: 'Time Trial Lap', world: 'Bologna', distance: 8.0, elevation: 236, punches: 0, flatKm: 6, type: 'tt' },
-
-
-  // ── MAKURI ──
-  { name: 'Makuri May', world: 'Makuri', distance: 31.2, elevation: 315, punches: 4, flatKm: 10, type: 'punch' },
-  { name: 'Wandering Flats', world: 'Makuri', distance: 25.1, elevation: 146, punches: 2, flatKm: 18, type: 'sprint' },
-  { name: 'Suki\'s Playground', world: 'Makuri', distance: 18.3, elevation: 150, punches: 3, flatKm: 10, type: 'punch' },
-  { name: 'Turf N Surf', world: 'Makuri', distance: 24.6, elevation: 196, punches: 3, flatKm: 15, type: 'sprint' },
-  { name: 'Chasing the Sun', world: 'Makuri', distance: 35.1, elevation: 316, punches: 3, flatKm: 12, type: 'punch' },
-  { name: 'Makuri 40', world: 'Makuri', distance: 40.2, elevation: 308, punches: 3, flatKm: 14, type: 'punch' },
-  { name: 'Shisa Shakedown', world: 'Makuri', distance: 49.3, elevation: 495, punches: 3, flatKm: 12, type: 'climb' },
-  { name: 'Makuri Pretzel', world: 'Makuri', distance: 77.6, elevation: 616, punches: 3, flatKm: 18, type: 'climb' },
-  { name: 'Kappa Quest', world: 'Makuri', distance: 9.1, elevation: 140, punches: 2, flatKm: 3, type: 'punch' },
-  { name: 'Kappa Quest Reverse', world: 'Makuri', distance: 9.1, elevation: 140, punches: 2, flatKm: 4, type: 'punch' },
-  { name: 'Spirit Forest', world: 'Makuri', distance: 8.4, elevation: 135, punches: 2, flatKm: 3, type: 'punch' },
-  { name: 'Chain Chomper', world: 'Makuri', distance: 13.6, elevation: 184, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'Flatland Loop', world: 'Makuri', distance: 12.9, elevation: 96, punches: 1, flatKm: 10, type: 'tt' },
-  { name: 'Electric Loop', world: 'Makuri', distance: 8.9, elevation: 43, punches: 0, flatKm: 8, type: 'tt' },
-  { name: 'Farmland Loop', world: 'Makuri', distance: 7.9, elevation: 58, punches: 1, flatKm: 6, type: 'tt' },
-  { name: 'Island Outskirts', world: 'Makuri', distance: 11.4, elevation: 90, punches: 2, flatKm: 7, type: 'punch' },
-  { name: 'Three Village Loop', world: 'Makuri', distance: 10.6, elevation: 93, punches: 2, flatKm: 6, type: 'punch' },
-  { name: 'Two Village Loop', world: 'Makuri', distance: 12.8, elevation: 88, punches: 1, flatKm: 9, type: 'tt' },
-  { name: 'Sprinter\'s Playground', world: 'Makuri', distance: 12.4, elevation: 68, punches: 1, flatKm: 10, type: 'sprint' },
-  { name: 'Bridges and Boardwalks', world: 'Makuri', distance: 6.2, elevation: 60, punches: 1, flatKm: 4, type: 'sprint' },
-  { name: 'Railways and Rooftops', world: 'Makuri', distance: 6.2, elevation: 71, punches: 1, flatKm: 4, type: 'sprint' },
-  { name: 'Rooftop Rendezvous', world: 'Makuri', distance: 3.7, elevation: 56, punches: 1, flatKm: 2, type: 'punch' },
-  { name: 'Sea to Tree', world: 'Makuri', distance: 3.2, elevation: 106, punches: 1, flatKm: 1, type: 'climb' },
-  { name: 'Valley to Mountaintop', world: 'Makuri', distance: 5.0, elevation: 129, punches: 1, flatKm: 1, type: 'climb' },
-  { name: 'Sleepless City', world: 'Makuri', distance: 9.6, elevation: 43, punches: 1, flatKm: 7, type: 'tt' },
-  { name: 'Twilight Harbor', world: 'Makuri', distance: 6.9, elevation: 33, punches: 0, flatKm: 6, type: 'tt' },
-  { name: 'Fine and Sandy', world: 'Makuri', distance: 10.6, elevation: 77, punches: 1, flatKm: 8, type: 'tt' },
-  { name: 'Neon Flats', world: 'Makuri', distance: 14.7, elevation: 73, punches: 0, flatKm: 13, type: 'tt' },
-  { name: 'Temples and Towers', world: 'Makuri', distance: 32.6, elevation: 319, punches: 3, flatKm: 7, type: 'punch' },
-  { name: 'Neokyo All-Nighter', world: 'Makuri', distance: 24.3, elevation: 168, punches: 2, flatKm: 16, type: 'sprint' },
-  { name: 'Castle to Castle', world: 'Makuri', distance: 22.4, elevation: 140, punches: 3, flatKm: 10, type: 'sprint' },
-  { name: 'Island Hopper', world: 'Makuri', distance: 18.0, elevation: 128, punches: 5, flatKm: 6, type: 'punch' },
-  { name: 'Urukazi Loop', world: 'Makuri', distance: 17.5, elevation: 153, punches: 2, flatKm: 10, type: 'punch' },
-  { name: 'Mech Isle Loop', world: 'Makuri', distance: 4.0, elevation: 39, punches: 1, flatKm: 2, type: 'sprint' },
-  { name: 'Neokyo Crit Course', world: 'Makuri', distance: 3.9, elevation: 19, punches: 0, flatKm: 3, type: 'tt' },
- 
-  // ── NEW YORK ──
-  { name: 'NYC KOM After Party', world: 'New York', distance: 11.0, elevation: 180, punches: 1, flatKm: 5, type: 'punch' },
-  { name: 'Four Horsemen', world: 'New York', distance: 88.7, elevation: 2113, punches: 2, flatKm: 12, type: 'climb' },
-  { name: 'Central Park Loop', world: 'New York', distance: 7.1, elevation: 42, punches: 2, flatKm: 3, type: 'punch' },
-  { name: 'Astoria Line 8', world: 'New York', distance: 11.5, elevation: 140, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'Lady Liberty', world: 'New York', distance: 12.4, elevation: 206, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'Mighty Metropolitan', world: 'New York', distance: 20.1, elevation: 316, punches: 2, flatKm: 7, type: 'punch' },
-  { name: 'Rising Empire', world: 'New York', distance: 20.7, elevation: 375, punches: 2, flatKm: 6, type: 'punch' },
-  { name: 'Knickerbocker', world: 'New York', distance: 22.5, elevation: 364, punches: 2, flatKm: 7, type: 'punch' },
-  { name: 'Knickerbocker Reverse', world: 'New York', distance: 22.5, elevation: 364, punches: 2, flatKm: 7, type: 'punch' },
-  { name: 'Everything Bagel', world: 'New York', distance: 34.8, elevation: 525, punches: 3, flatKm: 10, type: 'climb' },
-  { name: 'Grand Central Circuit', world: 'New York', distance: 6.8, elevation: 144, punches: 2, flatKm: 2, type: 'punch' },
-  { name: 'Park Perimeter Loop', world: 'New York', distance: 9.8, elevation: 126, punches: 2, flatKm: 4, type: 'punch' },
-  { name: 'Park Perimeter Reverse', world: 'New York', distance: 9.8, elevation: 126, punches: 2, flatKm: 4, type: 'punch' },
-  { name: 'Gotham Grind', world: 'New York', distance: 9.3, elevation: 96, punches: 2, flatKm: 4, type: 'punch' },
-  { name: 'The Highline', world: 'New York', distance: 10.5, elevation: 179, punches: 2, flatKm: 3, type: 'punch' },
-
-  // ── RICHMOND ──
-  { name: 'Richmond UCI Worlds', world: 'Richmond', distance: 16.3, elevation: 127, punches: 3, flatKm: 8, type: 'punch' },
-  { name: 'Richmond UCI Reverse', world: 'Richmond', distance: 16.3, elevation: 127, punches: 3, flatKm: 8, type: 'punch' },
-  { name: 'Cobbled Climbs', world: 'Richmond', distance: 9.2, elevation: 117, punches: 5, flatKm: 4, type: 'punch' },
-  { name: 'Libby Hill After Party', world: 'Richmond', distance: 33.0, elevation: 102, punches: 2, flatKm: 20, type: 'sprint' },
-  { name: 'The Fan Flats', world: 'Richmond', distance: 5.1, elevation: 12, punches: 0, flatKm: 5, type: 'tt' },
-  { name: 'Richmond Rollercoaster', world: 'Richmond', distance: 5.0, elevation: 19, punches: 3, flatKm: 1, type: 'punch' },
-
-  // ── SCOTLAND ──
-  { name: 'The Highroad', world: 'Scotland', distance: 35.0, elevation: 544, punches: 3, flatKm: 10, type: 'punch' },
-  { name: 'Loch Loop', world: 'Scotland', distance: 8.0, elevation: 71, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'The Muckle Yin', world: 'Scotland', distance: 23.4, elevation: 282, punches: 6, flatKm: 8, type: 'punch' },
-  { name: 'Rolling Highlands', world: 'Scotland', distance: 9.0, elevation: 77, punches: 3, flatKm: 5, type: 'punch' },
-  { name: 'Glasgow Crit Circuit', world: 'Scotland', distance: 3.0, elevation: 33, punches: 1, flatKm: 1, type: 'sprint' },
-  { name: 'Downtown Dolphin', world: 'Crit City', distance: 2.0, elevation: 17, punches: 0, flatKm: 2, type: 'sprint' },
-  { name: 'The Bell Lap', world: 'Crit City', distance: 2.0, elevation: 17, punches: 0, flatKm: 2, type: 'sprint' },
-  { name: 'BRAEk-fast Crits and Grits', world: 'Scotland', distance: 20.8, elevation: 211, punches: 4, flatKm: 7, type: 'punch' },
-  { name: 'Outer Scotland', world: 'Scotland', distance: 11.1, elevation: 104, punches: 2, flatKm: 5, type: 'punch' },
-  { name: 'City and the Sgurr', world: 'Scotland', distance: 5.9, elevation: 103, punches: 2, flatKm: 2, type: 'punch' },
-
-  { name: 'Yorkshire Double Loops', world: 'Yorkshire', distance: 29.6, elevation: 547, punches: 4, flatKm: 8, type: 'climb' },
-  { name: 'Royal Pump Room 8', world: 'Yorkshire', distance: 27.5, elevation: 490, punches: 4, flatKm: 7, type: 'climb' },
-  { name: '2019 UCI Worlds Harrogate Circuit', world: 'Yorkshire', distance: 13.8, elevation: 245, punches: 2, flatKm: 6, type: 'punch' },
-  { name: 'Queen\'s Highway After Party', world: 'Yorkshire', distance: 17.2, elevation: 259, punches: 3, flatKm: 7, type: 'punch' },
-  { name: 'Tour of Tewit Well', world: 'Yorkshire', distance: 10.8, elevation: 204, punches: 3, flatKm: 4, type: 'punch' },
-
-  // ── YORKSHIRE ──
-  { name: 'Tour de Yorkshire', world: 'Yorkshire', distance: 30.4, elevation: 631, punches: 4, flatKm: 8, type: 'climb' },
-  { name: 'Duchy Estate', world: 'Yorkshire', distance: 3.0, elevation: 41, punches: 1, flatKm: 2, type: 'sprint' },
-  { name: 'Harrogate Circuit', world: 'Yorkshire', distance: 13.8, elevation: 245, punches: 2, flatKm: 6, type: 'punch' },
-
+  { name: 'Bologna Time Trial', world: 'Bologna', distance: 8.0, elevation: 236, leadIn: 0.0, profile: 'Hilly', sprint: 0, punch: 0, climb: 56, pursuit: 44, endurance: 0 },
+  { name: 'Downtown Dolphin', world: 'Crit City', distance: 2.0, elevation: 17, leadIn: 0.1, profile: 'Flat', sprint: 38, punch: 22, climb: 0, pursuit: 40, endurance: 0 },
+  { name: 'The Bell Lap', world: 'Crit City', distance: 2.0, elevation: 17, leadIn: 0.1, profile: 'Flat', sprint: 6, punch: 54, climb: 0, pursuit: 40, endurance: 0 },
+  { name: 'Bon Voyage', world: 'France', distance: 28.2, elevation: 132, leadIn: 3.2, profile: 'Flat', sprint: 26, punch: 18, climb: 0, pursuit: 8, endurance: 48 },
+  { name: 'Casse-Pattes', world: 'France', distance: 22.9, elevation: 155, leadIn: 0.9, profile: 'Hilly', sprint: 16, punch: 3, climb: 28, pursuit: 25, endurance: 27 },
+  { name: 'Climb Portal - Mont Saint-Michel', world: 'France', distance: 2.5, elevation: 11, leadIn: 6.1, profile: '', sprint: 30, punch: 27, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Croissant', world: 'France', distance: 9.3, elevation: 49, leadIn: 3.2, profile: 'Flat', sprint: 0, punch: 55, climb: 0, pursuit: 44, endurance: 2 },
+  { name: 'Douce France', world: 'France', distance: 24.0, elevation: 133, leadIn: 0.8, profile: 'Flat', sprint: 24, punch: 24, climb: 0, pursuit: 24, endurance: 29 },
+  { name: 'France Classic Fondo', world: 'France', distance: 145.4, elevation: 1099, leadIn: 1.0, profile: 'Hilly', sprint: 8, punch: 2, climb: 15, pursuit: 0, endurance: 75 },
+  { name: 'Gentil 8', world: 'France', distance: 23.2, elevation: 243, leadIn: 2.6, profile: 'Hilly', sprint: 22, punch: 1, climb: 21, pursuit: 11, endurance: 45 },
+  { name: 'Hell of the North', world: 'France', distance: 19.8, elevation: 241, leadIn: 0.3, profile: 'Hilly', sprint: 0, punch: 1, climb: 47, pursuit: 30, endurance: 21 },
+  { name: 'Knights of the Roundabout', world: 'France', distance: 51.2, elevation: 336, leadIn: 3.2, profile: 'Hilly', sprint: 0, punch: 18, climb: 11, pursuit: 0, endurance: 71 },
+  { name: 'La Reine', world: 'France', distance: 22.5, elevation: 1201, leadIn: 0.4, profile: 'Mountainous', sprint: 0, punch: 0, climb: 40, pursuit: 0, endurance: 60 },
+  { name: 'Macaron', world: 'France', distance: 2.4, elevation: 13, leadIn: 0.2, profile: 'Flat', sprint: 35, punch: 25, climb: 0, pursuit: 40, endurance: 0 },
+  { name: 'Peaky Pavé', world: 'France', distance: 30.6, elevation: 369, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 1, climb: 39, pursuit: 0, endurance: 59 },
+  { name: 'Petit Boucle', world: 'France', distance: 60.8, elevation: 483, leadIn: 0.9, profile: 'Hilly', sprint: 9, punch: 1, climb: 15, pursuit: 0, endurance: 75 },
+  { name: 'Petite Douleur', world: 'France', distance: 13.9, elevation: 194, leadIn: 10.9, profile: 'Hilly', sprint: 0, punch: 0, climb: 43, pursuit: 0, endurance: 57 },
+  { name: 'R.G.V.', world: 'France', distance: 24.0, elevation: 133, leadIn: 0.9, profile: 'Flat', sprint: 24, punch: 24, climb: 0, pursuit: 24, endurance: 29 },
+  { name: 'Roule Ma Poule', world: 'France', distance: 22.9, elevation: 155, leadIn: 3.1, profile: 'Hilly', sprint: 0, punch: 2, climb: 43, pursuit: 14, endurance: 41 },
+  { name: 'Sacre Bleu', world: 'France', distance: 71.2, elevation: 396, leadIn: 2.6, profile: 'Flat', sprint: 12, punch: 12, climb: 0, pursuit: 0, endurance: 75 },
+  { name: 'Three Musketeers', world: 'France', distance: 35.2, elevation: 195, leadIn: 2.6, profile: 'Flat', sprint: 20, punch: 20, climb: 0, pursuit: 0, endurance: 60 },
+  { name: 'Tire-Bouchon', world: 'France', distance: 60.8, elevation: 479, leadIn: 3.1, profile: 'Hilly', sprint: 0, punch: 1, climb: 24, pursuit: 0, endurance: 75 },
+  { name: 'Ven-10', world: 'France', distance: 10.0, elevation: 780, leadIn: 1.4, profile: 'Mountainous', sprint: 0, punch: 0, climb: 49, pursuit: 33, endurance: 18 },
+  { name: 'Ven-Top', world: 'France', distance: 20.7, elevation: 1535, leadIn: 0.2, profile: 'Mountainous', sprint: 0, punch: 0, climb: 38, pursuit: 0, endurance: 62 },
+  { name: 'Gravel Mountain Reverse', world: 'Gravel Mountain', distance: 5.2, elevation: 53, leadIn: 0.1, profile: 'Hilly', sprint: 25, punch: 33, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Red Rock Loop', world: 'Gravel Mountain', distance: 5.2, elevation: 53, leadIn: 0.3, profile: 'Hilly', sprint: 6, punch: 52, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'The Rattle Battle', world: 'Gravel Mountain', distance: 5.2, elevation: 52, leadIn: 0.3, profile: '', sprint: 6, punch: 52, climb: 0, pursuit: 42, endurance: 0 },
+  { name: '2018 Worlds Short Lap', world: 'Innsbruck', distance: 23.7, elevation: 495, leadIn: 0.2, profile: 'Mountainous', sprint: 12, punch: 10, climb: 21, pursuit: 0, endurance: 57 },
+  { name: 'Achterbahn', world: 'Innsbruck', distance: 47.4, elevation: 989, leadIn: 0.2, profile: 'Mountainous', sprint: 7, punch: 6, climb: 12, pursuit: 0, endurance: 75 },
+  { name: 'Innsbruck KOM After Party', world: 'Innsbruck', distance: 37.0, elevation: 657, leadIn: 0.2, profile: 'Mountainous', sprint: 0, punch: 2, climb: 35, pursuit: 0, endurance: 63 },
+  { name: 'InnsbruckConti', world: 'Innsbruck', distance: 12.5, elevation: 480, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 2, climb: 50, pursuit: 38, endurance: 10 },
+  { name: 'Innsbruckring', world: 'Innsbruck', distance: 8.8, elevation: 77, leadIn: 0.2, profile: 'Flat', sprint: 14, punch: 43, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Lutscher', world: 'Innsbruck', distance: 13.7, elevation: 402, leadIn: 10.8, profile: 'Mountainous', sprint: 0, punch: 0, climb: 40, pursuit: 0, endurance: 60 },
+  { name: 'Lutscher CCW', world: 'Innsbruck', distance: 13.7, elevation: 402, leadIn: 8.9, profile: 'Mountainous', sprint: 0, punch: 0, climb: 41, pursuit: 0, endurance: 59 },
+  { name: 'Greater London 8', world: 'London', distance: 23.8, elevation: 276, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 43, pursuit: 16, endurance: 39 },
+  { name: 'Greater London Flat', world: 'London', distance: 11.7, elevation: 53, leadIn: 5.6, profile: 'Flat', sprint: 26, punch: 26, climb: 0, pursuit: 39, endurance: 9 },
+  { name: 'Greater London Loop', world: 'London', distance: 21.0, elevation: 255, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 6, climb: 41, pursuit: 24, endurance: 28 },
+  { name: 'Greater London Loop Reverse', world: 'London', distance: 21.0, elevation: 255, leadIn: 0.2, profile: 'Hilly', sprint: 16, punch: 9, climb: 22, pursuit: 24, endurance: 29 },
+  { name: 'Greatest London Flat', world: 'London', distance: 23.6, elevation: 164, leadIn: 7.4, profile: 'Flat', sprint: 22, punch: 22, climb: 0, pursuit: 0, endurance: 57 },
+  { name: 'Greatest London Loop', world: 'London', distance: 25.7, elevation: 355, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 4, climb: 40, pursuit: 3, endurance: 54 },
+  { name: 'Greatest London Loop Reverse', world: 'London', distance: 25.7, elevation: 355, leadIn: 0.2, profile: 'Hilly', sprint: 16, punch: 7, climb: 21, pursuit: 0, endurance: 56 },
+  { name: 'Keith Hill After Party', world: 'London', distance: 36.2, elevation: 431, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 35, pursuit: 0, endurance: 61 },
+  { name: 'Leith Hill After Party', world: 'London', distance: 41.5, elevation: 434, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 5, climb: 32, pursuit: 0, endurance: 63 },
+  { name: 'London 8', world: 'London', distance: 20.3, elevation: 256, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 45, pursuit: 26, endurance: 26 },
+  { name: 'London 8 Reverse', world: 'London', distance: 20.3, elevation: 256, leadIn: 0.2, profile: 'Hilly', sprint: 1, punch: 30, climb: 17, pursuit: 26, endurance: 26 },
+  { name: 'London Calling', world: 'London', distance: 31.2, elevation: 207, leadIn: 0.5, profile: 'Rolling', sprint: 0, punch: 27, climb: 17, pursuit: 0, endurance: 57 },
+  { name: 'London Classique', world: 'London', distance: 5.5, elevation: 25, leadIn: 5.6, profile: 'Flat', sprint: 8, punch: 47, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'London Classique Reverse', world: 'London', distance: 5.5, elevation: 25, leadIn: 7.5, profile: 'Flat', sprint: 27, punch: 27, climb: 0, pursuit: 43, endurance: 3 },
+  { name: 'London Flat', world: 'London', distance: 12.0, elevation: 115, leadIn: 0.4, profile: 'Flat', sprint: 26, punch: 28, climb: 0, pursuit: 43, endurance: 4 },
+  { name: 'London Loop', world: 'London', distance: 14.9, elevation: 231, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 47, pursuit: 36, endurance: 13 },
+  { name: 'London Loop Reverse', world: 'London', distance: 14.8, elevation: 231, leadIn: 0.2, profile: 'Hilly', sprint: 1, punch: 30, climb: 19, pursuit: 36, endurance: 14 },
+  { name: 'London PRL FULL', world: 'London', distance: 173.3, elevation: 2624, leadIn: 0.5, profile: 'Hilly', sprint: 1, punch: 13, climb: 11, pursuit: 0, endurance: 75 },
+  { name: 'London PRL Half', world: 'London', distance: 69.2, elevation: 1009, leadIn: 0.5, profile: 'Hilly', sprint: 1, punch: 13, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'London Uprising', world: 'London', distance: 20.6, elevation: 356, leadIn: 0.3, profile: 'Hilly', sprint: 1, punch: 2, climb: 44, pursuit: 23, endurance: 30 },
+  { name: 'Surrey Hills', world: 'London', distance: 39.1, elevation: 877, leadIn: 5.0, profile: 'Hilly', sprint: 1, punch: 2, climb: 22, pursuit: 0, endurance: 75 },
+  { name: 'The London Pretzel', world: 'London', distance: 55.7, elevation: 572, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 23, pursuit: 0, endurance: 75 },
+  { name: 'Triple Loops', world: 'London', distance: 40.9, elevation: 565, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 30, pursuit: 0, endurance: 67 },
+  { name: 'ZG25 Climb Champs', world: 'London', distance: 4.6, elevation: 156, leadIn: 0.3, profile: 'Mountainous', sprint: 2, punch: 0, climb: 55, pursuit: 42, endurance: 0 },
+  { name: 'Bridges and Boardwalks', world: 'Makuri Islands', distance: 6.3, elevation: 60, leadIn: 1.9, profile: 'Rolling', sprint: 10, punch: 33, climb: 14, pursuit: 44, endurance: 0 },
+  { name: 'Castle Crit', world: 'Makuri Islands', distance: 3.5, elevation: 43, leadIn: 1.5, profile: 'Rolling', sprint: 0, punch: 48, climb: 9, pursuit: 42, endurance: 0 },
+  { name: 'Castle Crit Run', world: 'Makuri Islands', distance: 3.5, elevation: 43, leadIn: 1.5, profile: 'Flat', sprint: 0, punch: 48, climb: 9, pursuit: 42, endurance: 0 },
+  { name: 'Castle to Castle', world: 'Makuri Islands', distance: 22.4, elevation: 140, leadIn: 0.8, profile: 'Rolling', sprint: 24, punch: 10, climb: 14, pursuit: 29, endurance: 23 },
+  { name: 'Chain Chomper', world: 'Makuri Islands', distance: 13.6, elevation: 183, leadIn: 2.4, profile: 'Hilly', sprint: 17, punch: 8, climb: 25, pursuit: 35, endurance: 15 },
+  { name: 'Chasing the Sun', world: 'Makuri Islands', distance: 35.1, elevation: 315, leadIn: 0.0, profile: 'Hilly', sprint: 20, punch: 4, climb: 15, pursuit: 0, endurance: 61 },
+  { name: 'Country to Coastal', world: 'Makuri Islands', distance: 33.4, elevation: 274, leadIn: 0.1, profile: 'Hilly', sprint: 0, punch: 32, climb: 9, pursuit: 0, endurance: 60 },
+  { name: 'Countryside Tour', world: 'Makuri Islands', distance: 15.8, elevation: 185, leadIn: 0.2, profile: 'Hilly', sprint: 15, punch: 6, climb: 29, pursuit: 36, endurance: 13 },
+  { name: 'Electric Break', world: 'Makuri Islands', distance: 17.8, elevation: 190, leadIn: 1.8, profile: 'Rolling', sprint: 0, punch: 24, climb: 25, pursuit: 33, endurance: 18 },
+  { name: 'Electric Loop', world: 'Makuri Islands', distance: 8.9, elevation: 42, leadIn: 0.0, profile: 'Flat', sprint: 33, punch: 24, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Farmland Loop', world: 'Makuri Islands', distance: 7.8, elevation: 57, leadIn: 0.2, profile: 'Flat', sprint: 35, punch: 22, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Fine and Sandy', world: 'Makuri Islands', distance: 10.7, elevation: 77, leadIn: 0.1, profile: 'Rolling', sprint: 34, punch: 21, climb: 0, pursuit: 44, endurance: 1 },
+  { name: 'Flatland Loop', world: 'Makuri Islands', distance: 12.9, elevation: 99, leadIn: 0.2, profile: 'Rolling', sprint: 17, punch: 23, climb: 13, pursuit: 42, endurance: 5 },
+  { name: 'Island Hopper', world: 'Makuri Islands', distance: 18.0, elevation: 129, leadIn: 0.2, profile: 'Hilly', sprint: 25, punch: 12, climb: 13, pursuit: 37, endurance: 13 },
+  { name: 'Island Outskirts', world: 'Makuri Islands', distance: 11.4, elevation: 90, leadIn: 0.2, profile: 'Hilly', sprint: 20, punch: 26, climb: 8, pursuit: 44, endurance: 2 },
+  { name: 'Kappa Quest', world: 'Makuri Islands', distance: 9.1, elevation: 140, leadIn: 3.8, profile: 'Hilly', sprint: 1, punch: 1, climb: 50, pursuit: 39, endurance: 10 },
+  { name: 'Kappa Quest Reverse', world: 'Makuri Islands', distance: 9.1, elevation: 140, leadIn: 5.1, profile: 'Hilly', sprint: 1, punch: 0, climb: 50, pursuit: 37, endurance: 12 },
+  { name: 'Kaze Kicker', world: 'Makuri Islands', distance: 16.9, elevation: 134, leadIn: 0.4, profile: 'Rolling', sprint: 25, punch: 10, climb: 15, pursuit: 37, endurance: 12 },
+  { name: 'Makuri 40', world: 'Makuri Islands', distance: 40.1, elevation: 307, leadIn: 0.1, profile: 'Rolling', sprint: 0, punch: 30, climb: 6, pursuit: 0, endurance: 63 },
+  { name: 'Makuri Madness', world: 'Makuri Islands', distance: 15.9, elevation: 85, leadIn: 0.1, profile: 'Flat', sprint: 31, punch: 21, climb: 0, pursuit: 39, endurance: 9 },
+  { name: 'Makuri Pretzel', world: 'Makuri Islands', distance: 77.6, elevation: 618, leadIn: 1.1, profile: 'Rolling', sprint: 12, punch: 6, climb: 7, pursuit: 0, endurance: 75 },
+  { name: 'Mech Isle Loop', world: 'Makuri Islands', distance: 4.0, elevation: 39, leadIn: 0.1, profile: 'Flat', sprint: 39, punch: 20, climb: 0, pursuit: 41, endurance: 0 },
+  { name: 'Neokyo All-Nighter', world: 'Makuri Islands', distance: 24.3, elevation: 168, leadIn: 0.2, profile: 'Rolling', sprint: 24, punch: 19, climb: 5, pursuit: 24, endurance: 29 },
+  { name: 'Neokyo Crit Course', world: 'Makuri Islands', distance: 3.9, elevation: 20, leadIn: 0.8, profile: 'Flat', sprint: 35, punch: 24, climb: 0, pursuit: 41, endurance: 0 },
+  { name: 'Neon After Party', world: 'Makuri Islands', distance: 16.2, elevation: 137, leadIn: 1.1, profile: 'Rolling', sprint: 0, punch: 25, climb: 27, pursuit: 39, endurance: 9 },
+  { name: 'Neon Flats', world: 'Makuri Islands', distance: 14.7, elevation: 72, leadIn: 0.3, profile: 'Flat', sprint: 31, punch: 22, climb: 0, pursuit: 42, endurance: 5 },
+  { name: 'Neon Shore Loop', world: 'Makuri Islands', distance: 33.0, elevation: 253, leadIn: 1.1, profile: 'Rolling', sprint: 3, punch: 26, climb: 11, pursuit: 0, endurance: 59 },
+  { name: 'Railways and Rooftops', world: 'Makuri Islands', distance: 6.2, elevation: 70, leadIn: 2.2, profile: 'Rolling', sprint: 10, punch: 31, climb: 15, pursuit: 44, endurance: 0 },
+  { name: 'Red Zone Repeats', world: 'Makuri Islands', distance: 19.4, elevation: 87, leadIn: 0.2, profile: 'Flat', sprint: 29, punch: 22, climb: 0, pursuit: 36, endurance: 13 },
+  { name: 'Rooftop Rendezvous', world: 'Makuri Islands', distance: 3.7, elevation: 56, leadIn: 2.9, profile: 'Rolling', sprint: 5, punch: 23, climb: 30, pursuit: 43, endurance: 0 },
+  { name: 'Sea to Tree', world: 'Makuri Islands', distance: 3.3, elevation: 108, leadIn: 0.6, profile: 'Hilly', sprint: 2, punch: 0, climb: 57, pursuit: 41, endurance: 0 },
+  { name: 'Shisa Shakedown', world: 'Makuri Islands', distance: 49.4, elevation: 495, leadIn: 4.0, profile: 'Hilly', sprint: 1, punch: 17, climb: 8, pursuit: 0, endurance: 74 },
+  { name: 'Sleepless City', world: 'Makuri Islands', distance: 9.6, elevation: 43, leadIn: 0.1, profile: 'Flat', sprint: 32, punch: 24, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Spirit Forest', world: 'Makuri Islands', distance: 8.4, elevation: 135, leadIn: 4.6, profile: 'Hilly', sprint: 1, punch: 3, climb: 48, pursuit: 39, endurance: 9 },
+  { name: "Sprinter's Playground", world: 'Makuri Islands', distance: 12.4, elevation: 67, leadIn: 0.2, profile: 'Flat', sprint: 24, punch: 31, climb: 0, pursuit: 44, endurance: 2 },
+  { name: "Suki's Playground", world: 'Makuri Islands', distance: 18.3, elevation: 150, leadIn: 0.2, profile: 'Rolling', sprint: 25, punch: 2, climb: 22, pursuit: 34, endurance: 16 },
+  { name: 'Temples and Towers', world: 'Makuri Islands', distance: 32.6, elevation: 318, leadIn: 0.8, profile: 'Hilly', sprint: 20, punch: 4, climb: 16, pursuit: 0, endurance: 60 },
+  { name: 'Three Village Loop', world: 'Makuri Islands', distance: 10.6, elevation: 93, leadIn: 2.4, profile: 'Hilly', sprint: 26, punch: 3, climb: 24, pursuit: 41, endurance: 5 },
+  { name: 'Tropic Rush', world: 'Makuri Islands', distance: 41.3, elevation: 327, leadIn: 1.6, profile: 'Rolling', sprint: 18, punch: 9, climb: 9, pursuit: 0, endurance: 65 },
+  { name: 'Turf N Surf', world: 'Makuri Islands', distance: 24.6, elevation: 196, leadIn: 0.1, profile: 'Rolling', sprint: 0, punch: 36, climb: 10, pursuit: 21, endurance: 33 },
+  { name: 'Twilight Harbor', world: 'Makuri Islands', distance: 6.9, elevation: 33, leadIn: 0.2, profile: 'Flat', sprint: 34, punch: 24, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Two Village Loop', world: 'Makuri Islands', distance: 12.8, elevation: 88, leadIn: 0.2, profile: 'Rolling', sprint: 18, punch: 31, climb: 4, pursuit: 42, endurance: 4 },
+  { name: 'Valley to Mountaintop', world: 'Makuri Islands', distance: 5.0, elevation: 131, leadIn: 0.1, profile: 'Hilly', sprint: 1, punch: 0, climb: 57, pursuit: 42, endurance: 0 },
+  { name: 'Wandering Flats', world: 'Makuri Islands', distance: 25.1, elevation: 146, leadIn: 0.1, profile: 'Rolling', sprint: 10, punch: 18, climb: 19, pursuit: 23, endurance: 30 },
+  { name: '2022 Cycling Esports World Championships Route', world: 'New York', distance: 54.7, elevation: 941, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 5, climb: 20, pursuit: 0, endurance: 75 },
+  { name: 'Astoria Line 8', world: 'New York', distance: 11.6, elevation: 141, leadIn: 0.4, profile: 'Rolling', sprint: 27, punch: 24, climb: 3, pursuit: 42, endurance: 4 },
+  { name: 'Avon Flyer', world: 'New York', distance: 3.3, elevation: 25, leadIn: 1.8, profile: 'Flat', sprint: 2, punch: 57, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Double Parked', world: 'New York', distance: 42.2, elevation: 330, leadIn: 0.1, profile: 'Rolling', sprint: 18, punch: 16, climb: 2, pursuit: 0, endurance: 63 },
+  { name: 'Double Span Spin', world: 'New York', distance: 7.0, elevation: 80, leadIn: 5.6, profile: 'Rolling', sprint: 1, punch: 49, climb: 4, pursuit: 42, endurance: 4 },
+  { name: 'Empire Elevation', world: 'New York', distance: 24.2, elevation: 261, leadIn: 1.8, profile: 'Hilly', sprint: 0, punch: 9, climb: 37, pursuit: 21, endurance: 32 },
+  { name: 'Everything Bagel', world: 'New York', distance: 34.3, elevation: 545, leadIn: 0.1, profile: 'Hilly', sprint: 4, punch: 22, climb: 11, pursuit: 0, endurance: 63 },
+  { name: 'Fuhgeddaboudit', world: 'New York', distance: 78.9, elevation: 838, leadIn: 0.1, profile: 'Hilly', sprint: 12, punch: 9, climb: 4, pursuit: 0, endurance: 75 },
+  { name: 'Gotham Grind', world: 'New York', distance: 9.3, elevation: 96, leadIn: 0.0, profile: 'Rolling', sprint: 5, punch: 50, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Gotham Grind Reverse', world: 'New York', distance: 9.3, elevation: 96, leadIn: 0.4, profile: 'Rolling', sprint: 37, punch: 19, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Grand Central Circuit', world: 'New York', distance: 6.9, elevation: 144, leadIn: 1.4, profile: 'Hilly', sprint: 1, punch: 29, climb: 25, pursuit: 45, endurance: 0 },
+  { name: 'Grand Central Circuit Reverse', world: 'New York', distance: 6.9, elevation: 144, leadIn: 2.4, profile: 'Hilly', sprint: 13, punch: 2, climb: 40, pursuit: 44, endurance: 1 },
+  { name: 'Green to Screen', world: 'New York', distance: 28.4, elevation: 207, leadIn: 0.1, profile: 'Rolling', sprint: 23, punch: 19, climb: 4, pursuit: 14, endurance: 41 },
+  { name: 'Hudson Hustle', world: 'New York', distance: 20.3, elevation: 216, leadIn: 0.1, profile: 'Flat', sprint: 0, punch: 48, climb: 0, pursuit: 31, endurance: 20 },
+  { name: 'Issendorf Express', world: 'New York', distance: 7.2, elevation: 53, leadIn: 0.1, profile: 'Rolling', sprint: 3, punch: 54, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Knickerbocker', world: 'New York', distance: 22.5, elevation: 365, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 33, climb: 12, pursuit: 13, endurance: 42 },
+  { name: 'Knickerbocker Reverse', world: 'New York', distance: 22.5, elevation: 365, leadIn: 0.1, profile: 'Hilly', sprint: 5, punch: 29, climb: 11, pursuit: 12, endurance: 43 },
+  { name: 'LaGuardia After Party', world: 'New York', distance: 20.7, elevation: 295, leadIn: 0.1, profile: 'Hilly', sprint: 0, punch: 0, climb: 47, pursuit: 28, endurance: 24 },
+  { name: 'LaGuardia Loop', world: 'New York', distance: 2.8, elevation: 26, leadIn: 1.4, profile: 'Rolling', sprint: 1, punch: 58, climb: 0, pursuit: 41, endurance: 0 },
+  { name: 'LaGuardia Loop Reverse', world: 'New York', distance: 2.8, elevation: 26, leadIn: 2.4, profile: 'Rolling', sprint: 26, punch: 33, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Lady Liberty', world: 'New York', distance: 12.4, elevation: 206, leadIn: 0.3, profile: 'Hilly', sprint: 6, punch: 30, climb: 17, pursuit: 40, endurance: 7 },
+  { name: 'Mighty Metropolitan', world: 'New York', distance: 20.1, elevation: 318, leadIn: 0.4, profile: 'Hilly', sprint: 0, punch: 33, climb: 14, pursuit: 23, endurance: 30 },
+  { name: 'NYC KOM After Party', world: 'New York', distance: 36.6, elevation: 475, leadIn: 0.4, profile: 'Hilly', sprint: 0, punch: 15, climb: 22, pursuit: 0, endurance: 63 },
+  { name: 'No Sleep Till Brooklyn', world: 'New York', distance: 31.8, elevation: 251, leadIn: 0.6, profile: 'Hilly', sprint: 1, punch: 40, climb: 3, pursuit: 0, endurance: 57 },
+  { name: 'Park Perimeter Loop', world: 'New York', distance: 9.8, elevation: 126, leadIn: 0.4, profile: 'Rolling', sprint: 0, punch: 55, climb: 0, pursuit: 44, endurance: 1 },
+  { name: 'Park Perimeter Reverse', world: 'New York', distance: 9.8, elevation: 126, leadIn: 0.2, profile: 'Rolling', sprint: 6, punch: 49, climb: 0, pursuit: 44, endurance: 1 },
+  { name: 'Prospect Park Loop', world: 'New York', distance: 5.4, elevation: 37, leadIn: 0.1, profile: 'Rolling', sprint: 3, punch: 56, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Rising Empire', world: 'New York', distance: 20.8, elevation: 377, leadIn: 0.4, profile: 'Hilly', sprint: 0, punch: 24, climb: 22, pursuit: 19, endurance: 35 },
+  { name: 'Spinfinity', world: 'New York', distance: 19.3, elevation: 155, leadIn: 0.6, profile: 'Rolling', sprint: 4, punch: 20, climb: 26, pursuit: 35, endurance: 15 },
+  { name: 'Spinfinity Ultra', world: 'New York', distance: 35.0, elevation: 291, leadIn: 0.6, profile: 'Rolling', sprint: 3, punch: 18, climb: 19, pursuit: 0, endurance: 60 },
+  { name: 'Stay Puft Pursuit', world: 'New York', distance: 31.2, elevation: 416, leadIn: 0.6, profile: 'Hilly', sprint: 20, punch: 5, climb: 16, pursuit: 0, endurance: 60 },
+  { name: 'The 6 Train', world: 'New York', distance: 6.5, elevation: 69, leadIn: 0.1, profile: 'Rolling', sprint: 6, punch: 52, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'The 6 Train Reverse', world: 'New York', distance: 6.5, elevation: 69, leadIn: 0.4, profile: 'Rolling', sprint: 0, punch: 57, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'The Double Borough', world: 'New York', distance: 17.8, elevation: 147, leadIn: 0.1, profile: 'Rolling', sprint: 25, punch: 20, climb: 5, pursuit: 37, endurance: 12 },
+  { name: 'The Greenway', world: 'New York', distance: 36.2, elevation: 290, leadIn: 0.6, profile: 'Rolling', sprint: 19, punch: 18, climb: 2, pursuit: 0, endurance: 61 },
+  { name: 'The Highline', world: 'New York', distance: 10.5, elevation: 179, leadIn: 10.0, profile: 'Hilly', sprint: 0, punch: 6, climb: 41, pursuit: 23, endurance: 30 },
+  { name: 'The Highline Reverse', world: 'New York', distance: 10.5, elevation: 179, leadIn: 10.5, profile: 'Hilly', sprint: 0, punch: 12, climb: 34, pursuit: 20, endurance: 33 },
+  { name: 'Times Square Circuit', world: 'New York', distance: 3.5, elevation: 20, leadIn: 0.6, profile: 'Flat', sprint: 9, punch: 36, climb: 14, pursuit: 41, endurance: 0 },
+  { name: 'Toefield Tornado', world: 'New York', distance: 10.2, elevation: 53, leadIn: 0.1, profile: 'Rolling', sprint: 17, punch: 38, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Watts the Limit', world: 'New York', distance: 29.5, elevation: 200, leadIn: 1.4, profile: 'Rolling', sprint: 1, punch: 43, climb: 0, pursuit: 9, endurance: 47 },
+  { name: 'Champs-Élysées', world: 'Paris', distance: 6.6, elevation: 39, leadIn: 3.2, profile: 'Flat', sprint: 28, punch: 28, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Lutece Express', world: 'Paris', distance: 6.6, elevation: 39, leadIn: 3.6, profile: 'Flat', sprint: 10, punch: 46, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Cobbled Climbs', world: 'Richmond', distance: 9.2, elevation: 134, leadIn: 0.3, profile: 'Rolling', sprint: 1, punch: 40, climb: 14, pursuit: 44, endurance: 1 },
+  { name: 'Cobbled Climbs Reverse', world: 'Richmond', distance: 9.2, elevation: 134, leadIn: 0.1, profile: 'Rolling', sprint: 2, punch: 38, climb: 15, pursuit: 44, endurance: 0 },
+  { name: 'Cobbled Crown', world: 'Richmond', distance: 24.0, elevation: 288, leadIn: 0.3, profile: 'Rolling', sprint: 1, punch: 36, climb: 9, pursuit: 17, endurance: 37 },
+  { name: 'Libby Hill After Party', world: 'Richmond', distance: 32.9, elevation: 160, leadIn: 0.3, profile: 'Rolling', sprint: 0, punch: 22, climb: 22, pursuit: 3, endurance: 53 },
+  { name: 'Richmond 2015 Worlds Reverse', world: 'Richmond', distance: 16.2, elevation: 158, leadIn: 0.1, profile: 'Rolling', sprint: 26, punch: 24, climb: 2, pursuit: 39, endurance: 9 },
+  { name: 'Richmond Loop Around', world: 'Richmond', distance: 42.6, elevation: 556, leadIn: 0.1, profile: 'Rolling', sprint: 1, punch: 26, climb: 6, pursuit: 0, endurance: 67 },
+  { name: 'Richmond Rollercoaster', world: 'Richmond', distance: 5.1, elevation: 20, leadIn: 12.1, profile: 'Flat', sprint: 8, punch: 42, climb: 1, pursuit: 38, endurance: 11 },
+  { name: 'Richmond UCI Worlds', world: 'Richmond', distance: 16.2, elevation: 158, leadIn: 0.3, profile: 'Rolling', sprint: 1, punch: 41, climb: 9, pursuit: 38, endurance: 10 },
+  { name: 'The Fan Flats', world: 'Richmond', distance: 5.1, elevation: 20, leadIn: 4.2, profile: 'Flat', sprint: 16, punch: 41, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'BRAEk-fast Crits and Grits', world: 'Scotland', distance: 20.8, elevation: 226, leadIn: 1.4, profile: 'Hilly', sprint: 0, punch: 30, climb: 17, pursuit: 24, endurance: 29 },
+  { name: 'City and the Sgurr', world: 'Scotland', distance: 5.9, elevation: 103, leadIn: 2.7, profile: 'Hilly', sprint: 0, punch: 33, climb: 21, pursuit: 44, endurance: 1 },
+  { name: 'Dùn Dash', world: 'Scotland', distance: 12.4, elevation: 138, leadIn: 0.0, profile: 'Hilly', sprint: 0, punch: 32, climb: 22, pursuit: 43, endurance: 4 },
+  { name: 'Glasgow Crit Circuit', world: 'Scotland', distance: 3.0, elevation: 33, leadIn: 0.2, profile: 'Rolling', sprint: 40, punch: 20, climb: 0, pursuit: 40, endurance: 0 },
+  { name: 'Glasgow Crit Six', world: 'Scotland', distance: 18.1, elevation: 199, leadIn: 0.2, profile: 'Hilly', sprint: 35, punch: 16, climb: 0, pursuit: 37, endurance: 12 },
+  { name: 'Glasgow Reverse', world: 'Scotland', distance: 3.0, elevation: 33, leadIn: 1.2, profile: 'Rolling', sprint: 7, punch: 52, climb: 0, pursuit: 41, endurance: 0 },
+  { name: 'Loch Loop', world: 'Scotland', distance: 8.1, elevation: 71, leadIn: 0.0, profile: 'Rolling', sprint: 1, punch: 56, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Outer Scotland', world: 'Scotland', distance: 11.1, elevation: 104, leadIn: 0.2, profile: 'Rolling', sprint: 27, punch: 27, climb: 0, pursuit: 44, endurance: 2 },
+  { name: 'Rolling Highlands', world: 'Scotland', distance: 9.0, elevation: 77, leadIn: 5.1, profile: 'Rolling', sprint: 0, punch: 53, climb: 0, pursuit: 41, endurance: 6 },
+  { name: 'Scotland After Party', world: 'Scotland', distance: 13.6, elevation: 189, leadIn: 1.1, profile: 'Hilly', sprint: 0, punch: 46, climb: 6, pursuit: 40, endurance: 7 },
+  { name: 'Scotland Smash', world: 'Scotland', distance: 17.8, elevation: 167, leadIn: 0.2, profile: 'Rolling', sprint: 1, punch: 49, climb: 0, pursuit: 37, endurance: 12 },
+  { name: 'The Epiloch', world: 'Scotland', distance: 8.1, elevation: 71, leadIn: 3.0, profile: 'Rolling', sprint: 1, punch: 54, climb: 0, pursuit: 44, endurance: 1 },
+  { name: 'The Muckle Yin', world: 'Scotland', distance: 23.4, elevation: 282, leadIn: 0.2, profile: 'Hilly', sprint: 14, punch: 19, climb: 12, pursuit: 16, endurance: 38 },
+  { name: 'Accelerate to Elevate', world: 'Watopia', distance: 41.3, elevation: 1152, leadIn: 2.3, profile: 'Mountainous', sprint: 0, punch: 0, climb: 29, pursuit: 0, endurance: 70 },
+  { name: 'Beach Island Loop', world: 'Watopia', distance: 12.8, elevation: 49, leadIn: 0.2, profile: 'Flat', sprint: 27, punch: 27, climb: 0, pursuit: 44, endurance: 2 },
+  { name: 'Big Flat 8', world: 'Watopia', distance: 29.2, elevation: 103, leadIn: 2.3, profile: 'Flat', sprint: 23, punch: 23, climb: 0, pursuit: 14, endurance: 41 },
+  { name: 'Big Foot Hills', world: 'Watopia', distance: 67.6, elevation: 708, leadIn: 2.3, profile: 'Hilly', sprint: 12, punch: 3, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'Big Loop', world: 'Watopia', distance: 42.6, elevation: 662, leadIn: 0.5, profile: 'Mountainous', sprint: 7, punch: 10, climb: 12, pursuit: 0, endurance: 71 },
+  { name: 'Big Loop Reverse', world: 'Watopia', distance: 42.6, elevation: 658, leadIn: 0.2, profile: 'Mountainous', sprint: 14, punch: 3, climb: 11, pursuit: 0, endurance: 71 },
+  { name: 'Bigger Loop', world: 'Watopia', distance: 53.2, elevation: 691, leadIn: 0.5, profile: 'Mountainous', sprint: 6, punch: 9, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'Canopies and Coastlines', world: 'Watopia', distance: 22.6, elevation: 124, leadIn: 5.2, profile: 'Rolling', sprint: 22, punch: 5, climb: 17, pursuit: 4, endurance: 52 },
+  { name: 'Climb Control', world: 'Watopia', distance: 23.7, elevation: 191, leadIn: 0.3, profile: 'Hilly', sprint: 14, punch: 16, climb: 17, pursuit: 20, endurance: 33 },
+  { name: 'Climb Portal - Volcano', world: 'Watopia', distance: 7.4, elevation: 20, leadIn: 2.0, profile: 'Mountainous', sprint: 0, punch: 56, climb: 0, pursuit: 44, endurance: 0 },
+  { name: "Climber's Gambit", world: 'Watopia', distance: 27.8, elevation: 671, leadIn: 0.2, profile: 'Mountainous', sprint: 1, punch: 1, climb: 37, pursuit: 0, endurance: 61 },
+  { name: 'Coast Crusher', world: 'Watopia', distance: 34.6, elevation: 175, leadIn: 8.1, profile: 'Flat', sprint: 18, punch: 18, climb: 0, pursuit: 0, endurance: 63 },
+  { name: 'Coast to Coast', world: 'Watopia', distance: 24.1, elevation: 154, leadIn: 2.7, profile: 'Flat', sprint: 9, punch: 36, climb: 0, pursuit: 20, endurance: 34 },
+  { name: 'Coastal Crown Loop', world: 'Watopia', distance: 15.1, elevation: 185, leadIn: 8.6, profile: 'Mountainous', sprint: 1, punch: 25, climb: 21, pursuit: 23, endurance: 30 },
+  { name: 'Danger Noodle', world: 'Watopia', distance: 32.1, elevation: 414, leadIn: 0.2, profile: 'Hilly', sprint: 14, punch: 5, climb: 19, pursuit: 0, endurance: 62 },
+  { name: 'Deca Dash', world: 'Watopia', distance: 48.3, elevation: 484, leadIn: 4.2, profile: 'Hilly', sprint: 5, punch: 21, climb: 0, pursuit: 0, endurance: 73 },
+  { name: 'Downtown Eruption', world: 'Watopia', distance: 19.4, elevation: 275, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 19, climb: 28, pursuit: 25, endurance: 28 },
+  { name: 'Downtown Titans', world: 'Watopia', distance: 24.6, elevation: 292, leadIn: 0.9, profile: 'Hilly', sprint: 16, punch: 13, climb: 16, pursuit: 4, endurance: 52 },
+  { name: 'Dust In The Wind', world: 'Watopia', distance: 52.1, elevation: 583, leadIn: 0.3, profile: 'Hilly', sprint: 12, punch: 2, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'Eastern Eight', world: 'Watopia', distance: 51.7, elevation: 407, leadIn: 2.3, profile: 'Rolling', sprint: 14, punch: 2, climb: 12, pursuit: 0, endurance: 72 },
+  { name: 'Elevation Evaluation', world: 'Watopia', distance: 24.6, elevation: 396, leadIn: 3.1, profile: 'Mountainous', sprint: 16, punch: 7, climb: 19, pursuit: 0, endurance: 58 },
+  { name: 'Flat Out Fast', world: 'Watopia', distance: 21.4, elevation: 46, leadIn: 0.9, profile: 'Flat', sprint: 27, punch: 23, climb: 0, pursuit: 36, endurance: 14 },
+  { name: 'Flat Route Reverse', world: 'Watopia', distance: 10.3, elevation: 61, leadIn: 0.2, profile: 'Flat', sprint: 28, punch: 28, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Four Horsemen', world: 'Watopia', distance: 89.8, elevation: 2109, leadIn: 0.6, profile: 'Mountainous', sprint: 12, punch: 1, climb: 12, pursuit: 0, endurance: 75 },
+  { name: 'Glyph Heights', world: 'Watopia', distance: 25.4, elevation: 537, leadIn: 8.6, profile: 'Mountainous', sprint: 0, punch: 12, climb: 23, pursuit: 0, endurance: 65 },
+  { name: 'Going Coastal', world: 'Watopia', distance: 16.4, elevation: 63, leadIn: 2.3, profile: 'Flat', sprint: 14, punch: 37, climb: 0, pursuit: 38, endurance: 10 },
+  { name: 'Handful Of Gravel', world: 'Watopia', distance: 6.1, elevation: 75, leadIn: 4.3, profile: 'Rolling', sprint: 5, punch: 33, climb: 16, pursuit: 42, endurance: 4 },
+  { name: 'Hilltop Hustle', world: 'Watopia', distance: 13.6, elevation: 336, leadIn: 2.7, profile: 'Hilly', sprint: 21, punch: 4, climb: 25, pursuit: 33, endurance: 18 },
+  { name: 'Hilly Route Reverse', world: 'Watopia', distance: 9.2, elevation: 109, leadIn: 0.2, profile: 'Rolling', sprint: 13, punch: 39, climb: 3, pursuit: 44, endurance: 0 },
+  { name: 'Hot Laps', world: 'Watopia', distance: 23.3, elevation: 149, leadIn: 0.2, profile: 'Rolling', sprint: 0, punch: 47, climb: 0, pursuit: 28, endurance: 24 },
+  { name: 'Itza Climb Finish', world: 'Watopia', distance: 30.1, elevation: 290, leadIn: 0.9, profile: 'Hilly', sprint: 1, punch: 4, climb: 38, pursuit: 0, endurance: 57 },
+  { name: 'Itza Party', world: 'Watopia', distance: 45.8, elevation: 506, leadIn: 0.5, profile: 'Hilly', sprint: 1, punch: 3, climb: 28, pursuit: 0, endurance: 69 },
+  { name: 'Jarvis Seaside Sprint', world: 'Watopia', distance: 12.5, elevation: 95, leadIn: 2.8, profile: 'Rolling', sprint: 15, punch: 37, climb: 0, pursuit: 39, endurance: 9 },
+  { name: 'Jungle Circuit', world: 'Watopia', distance: 7.9, elevation: 83, leadIn: 5.7, profile: 'Rolling', sprint: 21, punch: 11, climb: 21, pursuit: 40, endurance: 8 },
+  { name: 'Jungle Circuit Reverse', world: 'Watopia', distance: 7.9, elevation: 83, leadIn: 6.3, profile: 'Rolling', sprint: 14, punch: 21, climb: 16, pursuit: 38, endurance: 11 },
+  { name: 'Jurassic Coast', world: 'Watopia', distance: 19.3, elevation: 212, leadIn: 0.2, profile: 'Rolling', sprint: 14, punch: 12, climb: 22, pursuit: 28, endurance: 24 },
+  { name: 'Legends and Lava', world: 'Watopia', distance: 24.5, elevation: 352, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 0, climb: 44, pursuit: 9, endurance: 46 },
+  { name: 'Loop de Loop', world: 'Watopia', distance: 12.4, elevation: 144, leadIn: 0.2, profile: 'Rolling', sprint: 12, punch: 28, climb: 13, pursuit: 41, endurance: 6 },
+  { name: 'Loopin Lava', world: 'Watopia', distance: 14.2, elevation: 196, leadIn: 4.2, profile: 'Rolling', sprint: 24, punch: 6, climb: 18, pursuit: 31, endurance: 20 },
+  { name: 'Mayan 8', world: 'Watopia', distance: 23.1, elevation: 241, leadIn: 3.1, profile: 'Hilly', sprint: 23, punch: 4, climb: 18, pursuit: 16, endurance: 38 },
+  { name: 'Mayan Mash', world: 'Watopia', distance: 34.6, elevation: 755, leadIn: 3.1, profile: 'Mountainous', sprint: 16, punch: 1, climb: 15, pursuit: 0, endurance: 68 },
+  { name: 'Mayan San Remo', world: 'Watopia', distance: 21.1, elevation: 217, leadIn: 0.3, profile: 'Hilly', sprint: 22, punch: 3, climb: 22, pursuit: 24, endurance: 29 },
+  { name: 'Mountain Mash', world: 'Watopia', distance: 5.8, elevation: 335, leadIn: 0.2, profile: 'Mountainous', sprint: 2, punch: 0, climb: 53, pursuit: 45, endurance: 0 },
+  { name: 'Muir And The Mountain', world: 'Watopia', distance: 34.1, elevation: 792, leadIn: 5.1, profile: 'Mountainous', sprint: 0, punch: 0, climb: 27, pursuit: 0, endurance: 72 },
+  { name: 'Navig8', world: 'Watopia', distance: 63.9, elevation: 417, leadIn: 2.3, profile: 'Hilly', sprint: 12, punch: 4, climb: 9, pursuit: 0, endurance: 75 },
+  { name: 'Ocean Lava Cliffside Loop', world: 'Watopia', distance: 19.1, elevation: 156, leadIn: 0.2, profile: 'Hilly', sprint: 25, punch: 14, climb: 11, pursuit: 34, endurance: 16 },
+  { name: 'Oh Hill No', world: 'Watopia', distance: 7.9, elevation: 306, leadIn: 0.2, profile: 'Mountainous', sprint: 24, punch: 0, climb: 30, pursuit: 43, endurance: 3 },
+  { name: 'Out And Back Again', world: 'Watopia', distance: 39.9, elevation: 328, leadIn: 2.3, profile: 'Hilly', sprint: 18, punch: 4, climb: 14, pursuit: 0, endurance: 64 },
+  { name: 'Peak Performance', world: 'Watopia', distance: 45.8, elevation: 726, leadIn: 0.9, profile: 'Mountainous', sprint: 10, punch: 5, climb: 13, pursuit: 0, endurance: 73 },
+  { name: 'Power Punches', world: 'Watopia', distance: 23.5, elevation: 205, leadIn: 0.2, profile: 'Rolling', sprint: 10, punch: 37, climb: 0, pursuit: 21, endurance: 33 },
+  { name: 'Power to the Portal', world: 'Watopia', distance: 17.6, elevation: 99, leadIn: 0.9, profile: 'Rolling', sprint: 18, punch: 33, climb: 0, pursuit: 37, endurance: 12 },
+  { name: 'Power to the Tower', world: 'Watopia', distance: 44.7, elevation: 1493, leadIn: 0.9, profile: 'Mountainous', sprint: 0, punch: 1, climb: 24, pursuit: 0, endurance: 75 },
+  { name: 'Quatch Quest', world: 'Watopia', distance: 46.5, elevation: 1706, leadIn: 0.3, profile: 'Mountainous', sprint: 0, punch: 0, climb: 24, pursuit: 0, endurance: 75 },
+  { name: 'Radio Rendezvous', world: 'Watopia', distance: 20.5, elevation: 736, leadIn: 3.1, profile: 'Mountainous', sprint: 0, punch: 0, climb: 43, pursuit: 0, endurance: 57 },
+  { name: 'Repack Rush', world: 'Watopia', distance: 2.8, elevation: 28, leadIn: 0.0, profile: 'Flat', sprint: 39, punch: 20, climb: 0, pursuit: 40, endurance: 0 },
+  { name: 'Road To Ruins Reverse', world: 'Watopia', distance: 29.6, elevation: 275, leadIn: 0.2, profile: 'Rolling', sprint: 21, punch: 9, climb: 12, pursuit: 0, endurance: 58 },
+  { name: 'Road to Ruins', world: 'Watopia', distance: 29.6, elevation: 275, leadIn: 0.5, profile: 'Rolling', sprint: 10, punch: 16, climb: 15, pursuit: 0, endurance: 58 },
+  { name: 'Road to Sky', world: 'Watopia', distance: 17.5, elevation: 1044, leadIn: 0.1, profile: 'Mountainous', sprint: 0, punch: 0, climb: 43, pursuit: 0, endurance: 57 },
+  { name: 'Sand And Sequoias', world: 'Watopia', distance: 20.1, elevation: 175, leadIn: 2.3, profile: 'Hilly', sprint: 15, punch: 9, climb: 24, pursuit: 27, endurance: 25 },
+  { name: 'Seaside Sprint', world: 'Watopia', distance: 6.3, elevation: 47, leadIn: 3.0, profile: 'Flat', sprint: 1, punch: 54, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Serpentine 8', world: 'Watopia', distance: 19.3, elevation: 206, leadIn: 7.4, profile: 'Rolling', sprint: 6, punch: 26, climb: 11, pursuit: 0, endurance: 58 },
+  { name: 'Shorelines and Summits', world: 'Watopia', distance: 46.2, elevation: 773, leadIn: 4.2, profile: 'Mountainous', sprint: 3, punch: 12, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'Snowman', world: 'Watopia', distance: 44.0, elevation: 578, leadIn: 0.2, profile: 'Mountainous', sprint: 15, punch: 2, climb: 13, pursuit: 0, endurance: 70 },
+  { name: 'Southern Coast Cruise', world: 'Watopia', distance: 23.6, elevation: 136, leadIn: 2.7, profile: 'Rolling', sprint: 7, punch: 40, climb: 0, pursuit: 23, endurance: 30 },
+  { name: 'Spiral into the Volcano', world: 'Watopia', distance: 55.6, elevation: 355, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 7, climb: 23, pursuit: 0, endurance: 70 },
+  { name: 'Sugar Cookie', world: 'Watopia', distance: 33.6, elevation: 250, leadIn: 5.7, profile: 'Rolling', sprint: 18, punch: 8, climb: 10, pursuit: 0, endurance: 63 },
+  { name: 'Tair Dringfa Fechan', world: 'Watopia', distance: 31.1, elevation: 372, leadIn: 0.9, profile: 'Hilly', sprint: 0, punch: 4, climb: 36, pursuit: 0, endurance: 60 },
+  { name: 'Temple Trek', world: 'Watopia', distance: 6.5, elevation: 25, leadIn: 4.2, profile: 'Flat', sprint: 8, punch: 47, climb: 0, pursuit: 43, endurance: 2 },
+  { name: 'Tempus Fugit', world: 'Watopia', distance: 17.2, elevation: 26, leadIn: 2.4, profile: 'Flat', sprint: 27, punch: 25, climb: 0, pursuit: 39, endurance: 9 },
+  { name: 'The Big Ring', world: 'Watopia', distance: 48.9, elevation: 268, leadIn: 2.3, profile: 'Rolling', sprint: 16, punch: 11, climb: 5, pursuit: 0, endurance: 67 },
+  { name: 'The Classic', world: 'Watopia', distance: 4.8, elevation: 48, leadIn: 4.2, profile: 'Rolling', sprint: 11, punch: 44, climb: 1, pursuit: 44, endurance: 0 },
+  { name: 'The Magnificent 8', world: 'Watopia', distance: 28.9, elevation: 155, leadIn: 0.2, profile: 'Rolling', sprint: 23, punch: 14, climb: 9, pursuit: 15, endurance: 40 },
+  { name: 'The Mega Pretzel', world: 'Watopia', distance: 107.3, elevation: 1638, leadIn: 3.7, profile: 'Mountainous', sprint: 7, punch: 8, climb: 10, pursuit: 0, endurance: 75 },
+  { name: 'The Uber Pretzel', world: 'Watopia', distance: 128.3, elevation: 2380, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 1, climb: 23, pursuit: 0, endurance: 75 },
+  { name: 'Three Little Sisters', world: 'Watopia', distance: 37.7, elevation: 435, leadIn: 0.7, profile: 'Hilly', sprint: 8, punch: 12, climb: 14, pursuit: 0, endurance: 65 },
+  { name: 'Three Sisters', world: 'Watopia', distance: 48.0, elevation: 896, leadIn: 0.5, profile: 'Mountainous', sprint: 12, punch: 1, climb: 11, pursuit: 0, endurance: 75 },
+  { name: 'Three Sisters Reverse', world: 'Watopia', distance: 45.7, elevation: 878, leadIn: 0.2, profile: 'Mountainous', sprint: 4, punch: 5, climb: 15, pursuit: 0, endurance: 75 },
+  { name: 'Three Step Sisters', world: 'Watopia', distance: 37.9, elevation: 586, leadIn: 0.2, profile: 'Mountainous', sprint: 0, punch: 5, climb: 31, pursuit: 0, endurance: 63 },
+  { name: 'Tick Tock', world: 'Watopia', distance: 16.9, elevation: 53, leadIn: 2.3, profile: 'Flat', sprint: 26, punch: 26, climb: 0, pursuit: 39, endurance: 9 },
+  { name: 'Tides and Temples', world: 'Watopia', distance: 36.5, elevation: 460, leadIn: 2.7, profile: 'Mountainous', sprint: 17, punch: 2, climb: 15, pursuit: 0, endurance: 66 },
+  { name: 'Tour of Fire and Ice', world: 'Watopia', distance: 25.4, elevation: 1164, leadIn: 2.8, profile: 'Mountainous', sprint: 0, punch: 0, climb: 35, pursuit: 0, endurance: 64 },
+  { name: 'Triple Flat Loops', world: 'Watopia', distance: 34.0, elevation: 157, leadIn: 2.3, profile: 'Flat', sprint: 21, punch: 21, climb: 0, pursuit: 0, endurance: 58 },
+  { name: 'Triple Twist', world: 'Watopia', distance: 19.9, elevation: 180, leadIn: 4.6, profile: 'Rolling', sprint: 16, punch: 29, climb: 2, pursuit: 20, endurance: 33 },
+  { name: 'Two Bridges Loop', world: 'Watopia', distance: 7.1, elevation: 81, leadIn: 0.2, profile: 'Rolling', sprint: 7, punch: 50, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Volcano Circuit', world: 'Watopia', distance: 4.1, elevation: 20, leadIn: 2.8, profile: 'Flat', sprint: 9, punch: 48, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Volcano Circuit CCW', world: 'Watopia', distance: 4.1, elevation: 20, leadIn: 4.8, profile: 'Flat', sprint: 0, punch: 57, climb: 0, pursuit: 43, endurance: 0 },
+  { name: 'Volcano Climb', world: 'Watopia', distance: 22.9, elevation: 203, leadIn: 0.5, profile: 'Hilly', sprint: 23, punch: 2, climb: 22, pursuit: 22, endurance: 32 },
+  { name: 'Volcano Climb After Party', world: 'Watopia', distance: 39.9, elevation: 285, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 36, pursuit: 0, endurance: 61 },
+  { name: 'Volcano Flat', world: 'Watopia', distance: 12.3, elevation: 50, leadIn: 0.5, profile: 'Flat', sprint: 14, punch: 41, climb: 0, pursuit: 44, endurance: 2 },
+  { name: 'Volcano Flat Reverse', world: 'Watopia', distance: 12.3, elevation: 50, leadIn: 0.2, profile: 'Flat', sprint: 27, punch: 27, climb: 0, pursuit: 44, endurance: 1 },
+  { name: 'WBR Climbing Series', world: 'Watopia', distance: 43.2, elevation: 1116, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 0, climb: 25, pursuit: 0, endurance: 75 },
+  { name: 'Waisted 8', world: 'Watopia', distance: 30.7, elevation: 144, leadIn: 0.2, profile: 'Flat', sprint: 22, punch: 22, climb: 0, pursuit: 11, endurance: 44 },
+  { name: 'Watopia Figure 8', world: 'Watopia', distance: 29.7, elevation: 254, leadIn: 0.5, profile: 'Rolling', sprint: 17, punch: 23, climb: 3, pursuit: 0, endurance: 57 },
+  { name: 'Watopia Figure 8 Reverse', world: 'Watopia', distance: 29.7, elevation: 254, leadIn: 0.2, profile: 'Rolling', sprint: 22, punch: 18, climb: 4, pursuit: 0, endurance: 57 },
+  { name: 'Watopia Flat Route', world: 'Watopia', distance: 10.3, elevation: 61, leadIn: 0.5, profile: 'Flat', sprint: 33, punch: 23, climb: 0, pursuit: 44, endurance: 0 },
+  { name: 'Watopia Hilly Route', world: 'Watopia', distance: 9.2, elevation: 109, leadIn: 0.5, profile: 'Rolling', sprint: 21, punch: 29, climb: 5, pursuit: 44, endurance: 1 },
+  { name: 'Watopia Mountain 8', world: 'Watopia', distance: 32.3, elevation: 691, leadIn: 0.5, profile: 'Mountainous', sprint: 15, punch: 3, climb: 17, pursuit: 0, endurance: 66 },
+  { name: 'Watopia Mountain Route', world: 'Watopia', distance: 29.7, elevation: 683, leadIn: 0.5, profile: 'Mountainous', sprint: 18, punch: 1, climb: 17, pursuit: 0, endurance: 64 },
+  { name: 'Watopia Pretzel', world: 'Watopia', distance: 72.5, elevation: 1361, leadIn: 0.5, profile: 'Mountainous', sprint: 12, punch: 2, climb: 11, pursuit: 0, endurance: 75 },
+  { name: "Watopia's Waistband", world: 'Watopia', distance: 25.5, elevation: 95, leadIn: 2.3, profile: 'Flat', sprint: 23, punch: 23, climb: 0, pursuit: 23, endurance: 30 },
+  { name: 'Watts of the Wild', world: 'Watopia', distance: 42.0, elevation: 309, leadIn: 0.2, profile: 'Hilly', sprint: 18, punch: 6, climb: 12, pursuit: 0, endurance: 64 },
+  { name: 'Whole Lotta Lava', world: 'Watopia', distance: 12.3, elevation: 161, leadIn: 4.8, profile: 'Hilly', sprint: 0, punch: 30, climb: 20, pursuit: 34, endurance: 16 },
+  { name: 'ZG25 Queen', world: 'Watopia', distance: 44.6, elevation: 894, leadIn: 0.2, profile: 'Mountainous', sprint: 1, punch: 1, climb: 25, pursuit: 0, endurance: 73 },
+  { name: 'Zwift Bambino Fondo', world: 'Watopia', distance: 51.9, elevation: 580, leadIn: 0.5, profile: 'Hilly', sprint: 0, punch: 3, climb: 23, pursuit: 0, endurance: 73 },
+  { name: 'Zwift Bambino Fondo 2022', world: 'Watopia', distance: 53.1, elevation: 397, leadIn: 0.2, profile: 'Hilly', sprint: 0, punch: 5, climb: 25, pursuit: 0, endurance: 69 },
+  { name: 'Zwift Games 2024 Epic', world: 'Watopia', distance: 79.7, elevation: 822, leadIn: 1.9, profile: 'Hilly', sprint: 0, punch: 12, climb: 13, pursuit: 0, endurance: 75 },
+  { name: 'Zwift Gran Fondo', world: 'Watopia', distance: 97.5, elevation: 1193, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 3, climb: 22, pursuit: 0, endurance: 75 },
+  { name: 'Zwift Gran Fondo 2022', world: 'Watopia', distance: 92.6, elevation: 1114, leadIn: 0.2, profile: 'Mountainous', sprint: 1, punch: 2, climb: 22, pursuit: 0, endurance: 75 },
+  { name: 'Zwift Medio Fondo', world: 'Watopia', distance: 72.5, elevation: 1006, leadIn: 0.5, profile: 'Mountainous', sprint: 0, punch: 2, climb: 23, pursuit: 0, endurance: 75 },
+  { name: 'Zwift Medio Fondo 2022', world: 'Watopia', distance: 79.1, elevation: 918, leadIn: 0.2, profile: 'Mountainous', sprint: 0, punch: 2, climb: 23, pursuit: 0, endurance: 75 },
+  { name: '2019 Worlds Harrogate Circuit', world: 'Yorkshire', distance: 13.8, elevation: 245, leadIn: 0.1, profile: 'Hilly', sprint: 0, punch: 44, climb: 6, pursuit: 37, endurance: 13 },
+  { name: 'Duchy Estate', world: 'Yorkshire', distance: 3.0, elevation: 41, leadIn: 1.7, profile: 'Rolling', sprint: 0, punch: 58, climb: 0, pursuit: 42, endurance: 0 },
+  { name: 'Harrogate Circuit Reverse', world: 'Yorkshire', distance: 13.8, elevation: 245, leadIn: 0.0, profile: 'Hilly', sprint: 9, punch: 22, climb: 19, pursuit: 36, endurance: 14 },
+  { name: "Queen's Highway", world: 'Yorkshire', distance: 3.0, elevation: 41, leadIn: 2.7, profile: 'Rolling', sprint: 0, punch: 57, climb: 0, pursuit: 43, endurance: 0 },
+  { name: "Queen's Highway After Party", world: 'Yorkshire', distance: 17.1, elevation: 259, leadIn: 2.8, profile: 'Hilly', sprint: 0, punch: 31, climb: 15, pursuit: 22, endurance: 31 },
+  { name: 'Royal Pump Room 8', world: 'Yorkshire', distance: 27.7, elevation: 491, leadIn: 0.0, profile: 'Hilly', sprint: 7, punch: 13, climb: 19, pursuit: 0, endurance: 61 },
+  { name: 'Tour Of Tewit Well', world: 'Yorkshire', distance: 10.9, elevation: 205, leadIn: 0.0, profile: 'Hilly', sprint: 10, punch: 22, climb: 21, pursuit: 41, endurance: 7 },
+  { name: 'Yorkshire Double Loop', world: 'Yorkshire', distance: 29.6, elevation: 547, leadIn: 0.0, profile: 'Hilly', sprint: 0, punch: 22, climb: 15, pursuit: 0, endurance: 62 }
 ];
 
 // Give each route an id and initialize as selected
@@ -5788,55 +5875,50 @@ let maxDist = 25; // km — default filter
 // FINGERPRINT ENGINE
 // ═══════════════════════════════════════════════════════
 function getCourseFingerprint(c) {
+  // Routes with explicit pre-set weights (new format from velo_weights file)
+  if (c.pursuit != null) {
+    return {
+      tt:        Math.round(c.pursuit),
+      sprint:    Math.round(c.sprint),
+      punch:     Math.round(c.punch),
+      medium:    0,
+      climber:   Math.round(c.climb),
+      endurance: Math.round(c.endurance)
+    };
+  }
+  // Legacy computed fingerprint (fallback for custom routes without explicit weights)
   const elevPerKm   = c.elevation / c.distance;
-  const flatRatio   = Math.min(1, c.flatKm / c.distance);
-  const punchFactor = Math.min(1, c.punches / 8);
-  // TT: long sustained flat effort — flatRatio drives this, elev/km and punches kill it
-  // Short routes (<20km) get a penalty: sprint/punch matters more when the race is brief.
-  // Laps are already baked into c.distance before this function is called, so laps work correctly.
+  const flatRatio   = Math.min(1, (c.flatKm||0) / c.distance);
+  const punchFactor = Math.min(1, (c.punches||0) / 8);
   const ttDistPenalty = Math.max(0, (20 - c.distance) * 3.0);
   const tt = Math.max(0, Math.min(100,
     85 * flatRatio
     - elevPerKm * 5
-    - c.punches * 4
+    - (c.punches||0) * 4
     + 10
     - ttDistPenalty
   ));
-
-  // SPRINT: flat races keep the bunch together → sprint finish regardless of distance.
-  // Elevation and punches kill sprint value (group gets split before the line).
-  // punchFactor adds small bonus for punchy races that end in a reduced-group sprint.
   const sprint = Math.max(0, Math.min(100,
     flatRatio * 75
     + punchFactor * 10
     - elevPerKm * 6
-    - c.punches * 3
+    - (c.punches||0) * 3
   ));
-
-  // PUNCH: repeated short punchy climbs — punchFactor + moderate gradient
-  // Only fires when elevPerKm is relatively low (true short punches)
   const punch = Math.max(0, Math.min(100,
     punchFactor * 65
     + Math.min(25, elevPerKm * 4)
     - flatRatio * 10
-    - Math.max(0, elevPerKm - 10) * 2  // penalise when climbs get too long
+    - Math.max(0, elevPerKm - 10) * 2
   ));
-
-  // MEDIUM CLIMB: repeated climbs of 3-10 min — high elevPerKm + high punchFactor
-  // Catches routes like London Uprising, Greatest London Loop, Hilly Route, Muckle Yin
   const medium = Math.max(0, Math.min(100,
-    Math.min(50, elevPerKm * 3)   // gradient drives it
-    + punchFactor * 40             // multiple climbs needed
-    - flatRatio * 20               // penalise flat
-    - Math.max(0, 12 - elevPerKm) * 3  // penalise if gradient too low (= true punch)
-    - Math.max(0, elevPerKm - 35) * 2  // penalise if gradient very high (= pure climb)
+    Math.min(50, elevPerKm * 3)
+    + punchFactor * 40
+    - flatRatio * 20
+    - Math.max(0, 12 - elevPerKm) * 3
+    - Math.max(0, elevPerKm - 35) * 2
   ));
-
-  // CLIMBER: sustained climbing — elevation/km and total elevation
-  // punchFactor penalises ONLY when total elevation is low (true short punches)
-  // Big mountains (high elevation) override the punch penalty
-  const elevBonus = Math.min(30, c.elevation / 40); // up to +30 for 1200m+ routes
-  const punchPenalty = punchFactor * 60 * Math.max(0, 1 - c.elevation / 800); // fades above 800m total
+  const elevBonus = Math.min(30, c.elevation / 40);
+  const punchPenalty = punchFactor * 60 * Math.max(0, 1 - c.elevation / 800);
   const climber = Math.max(0, Math.min(100,
     elevPerKm * 5
     + c.elevation / 200
@@ -5844,13 +5926,13 @@ function getCourseFingerprint(c) {
     - punchPenalty
     + elevBonus
   ));
-
   return {
-    tt:      Math.round(tt),
-    sprint:  Math.round(sprint),
-    punch:   Math.round(punch),
-    medium:  Math.round(medium),
-    climber: Math.round(climber)
+    tt:        Math.round(tt),
+    sprint:    Math.round(sprint),
+    punch:     Math.round(punch),
+    medium:    Math.round(medium),
+    climber:   Math.round(climber),
+    endurance: 0
   };
 }
 
@@ -5990,37 +6072,44 @@ function scoreRiderForCourse(r, fp) {
   // Flat courses: raw watts dominate. Climbs: w/kg dominates.
   // This mirrors real Zwift physics more accurately than pure w/kg.
 
-  const wkgTT      = Math.min(100, ((r.twentyMin || 0) / 6.0) * 100);
-  const wkgSprint  = Math.min(100, ((r.sprint    || 0) / 20.0)* 100);
-  const wkgPunch   = Math.min(100, ((r.oneMin    || 0) / 12.0)* 100);
-  const wkgMedium  = Math.min(100, ((r.fiveMin   || 0) / 8.5) * 100);
+  const wkgTT       = Math.min(100, ((r.twentyMin || 0) / 6.0) * 100);
+  const wkgSprint   = Math.min(100, ((r.sprint    || 0) / 20.0)* 100);
+  const wkgPunch    = Math.min(100, ((r.oneMin    || 0) / 12.0)* 100);
+  const wkgMedium   = Math.min(100, ((r.fiveMin   || 0) / 8.5) * 100);
   // Climber: blend 20min (FTP) and 5min w/kg — FTP matters more on long climbs
-  const wkgClimber = Math.min(100, (
+  const wkgClimber  = Math.min(100, (
     ((r.twentyMin || 0) / 6.5) * 0.60 +
     ((r.fiveMin   || 0) / 8.5) * 0.40
   ) * 100);
+  // Endurance: sustained long effort — 20min W/kg dominates, w/kg matters most
+  const wkgEndurance = Math.min(100, ((r.twentyMin || 0) / 5.8) * 100);
 
-  const wattTT      = normWatts(getRiderWatts(r, 'ftp'),    'ftp');
-  const wattSprint  = normWatts(getRiderWatts(r, 'sprint'), 'sprint');
-  const wattPunch   = normWatts(getRiderWatts(r, 'w1min'),  'w1min');
-  const wattMedium  = normWatts(getRiderWatts(r, 'w5min'),  'w5min');
+  const wattTT       = normWatts(getRiderWatts(r, 'ftp'),    'ftp');
+  const wattSprint   = normWatts(getRiderWatts(r, 'sprint'), 'sprint');
+  const wattPunch    = normWatts(getRiderWatts(r, 'w1min'),  'w1min');
+  const wattMedium   = normWatts(getRiderWatts(r, 'w5min'),  'w5min');
   // Climber watts: blend ftp and w5min (long climbs = FTP, medium = 5min)
-  const wattClimber = normWatts(getRiderWatts(r, 'ftp'), 'ftp') * 0.60
-                    + normWatts(getRiderWatts(r, 'w5min'), 'w5min') * 0.40;
+  const wattClimber  = normWatts(getRiderWatts(r, 'ftp'), 'ftp') * 0.60
+                     + normWatts(getRiderWatts(r, 'w5min'), 'w5min') * 0.40;
+  // Endurance watts: FTP (20min) effort, some contribution from 30min power
+  const wattEndurance = normWatts(getRiderWatts(r, 'w30min'), 'w30min');
 
   // Blend ratios reflect Zwift physics: flat = raw watts dominate, climbs = w/kg dominates
-  const tt      = wkgTT      * 0.15 + wattTT      * 0.85;
-  const sprint  = wkgSprint  * 0.10 + wattSprint  * 0.90;
-  const punch   = wkgPunch   * 0.45 + wattPunch   * 0.55;
-  const medium  = wkgMedium  * 0.65 + wattMedium  * 0.35;
-  const climber = wkgClimber * 0.85 + wattClimber * 0.15;
+  const tt        = wkgTT        * 0.15 + wattTT        * 0.85;
+  const sprint    = wkgSprint    * 0.10 + wattSprint    * 0.90;
+  const punch     = wkgPunch     * 0.45 + wattPunch     * 0.55;
+  const medium    = wkgMedium    * 0.65 + wattMedium    * 0.35;
+  const climber   = wkgClimber   * 0.85 + wattClimber   * 0.15;
+  // Endurance: 70% w/kg (long efforts favour lighter riders), 30% raw watts
+  const endurance = wkgEndurance * 0.70 + wattEndurance * 0.30;
 
   return Math.round(
-    fp.tt      * tt      * 0.20 +
-    fp.sprint  * sprint  * 0.25 +
-    fp.punch   * punch   * 0.20 +
-    fp.medium  * medium  * 0.20 +
-    fp.climber * climber * 0.15
+    fp.tt        * tt        * 0.20 +
+    fp.sprint    * sprint    * 0.25 +
+    fp.punch     * punch     * 0.20 +
+    fp.medium    * medium    * 0.20 +
+    fp.climber   * climber   * 0.15 +
+    fp.endurance * endurance * 0.20
   );
 }
 
@@ -6038,11 +6127,12 @@ function getBestLineupForCourse(course, teamSize) {
     .slice(0, teamSize);
 
   const avgProfile = {
-    tt:      Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.twentyMin||0) / 6.0)*100 * 0.15 + normWatts(getRiderWatts(x.rider,'ftp'),    'ftp')    * 0.85, 0) / teamSize)),
-    sprint:  Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.sprint   ||0) / 20.0)*100* 0.10 + normWatts(getRiderWatts(x.rider,'sprint'), 'sprint') * 0.90, 0) / teamSize)),
-    punch:   Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.oneMin   ||0) / 12.0)*100* 0.45 + normWatts(getRiderWatts(x.rider,'w1min'),  'w1min')  * 0.55, 0) / teamSize)),
-    medium:  Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.fiveMin  ||0) / 8.5) *100* 0.65 + normWatts(getRiderWatts(x.rider,'w5min'),  'w5min')  * 0.35, 0) / teamSize)),
-    climber: Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.fiveMin  ||0) / 8.5) *100* 0.80 + normWatts(getRiderWatts(x.rider,'w5min'),  'w5min')  * 0.20, 0) / teamSize))
+    tt:        Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.twentyMin||0) / 6.0)*100 * 0.15 + normWatts(getRiderWatts(x.rider,'ftp'),    'ftp')    * 0.85, 0) / teamSize)),
+    sprint:    Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.sprint   ||0) / 20.0)*100* 0.10 + normWatts(getRiderWatts(x.rider,'sprint'), 'sprint') * 0.90, 0) / teamSize)),
+    punch:     Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.oneMin   ||0) / 12.0)*100* 0.45 + normWatts(getRiderWatts(x.rider,'w1min'),  'w1min')  * 0.55, 0) / teamSize)),
+    medium:    Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.fiveMin  ||0) / 8.5) *100* 0.65 + normWatts(getRiderWatts(x.rider,'w5min'),  'w5min')  * 0.35, 0) / teamSize)),
+    climber:   Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.fiveMin  ||0) / 8.5) *100* 0.80 + normWatts(getRiderWatts(x.rider,'w5min'),  'w5min')  * 0.20, 0) / teamSize)),
+    endurance: Math.min(100, Math.round(best.reduce((s,x) => s + ((x.rider.twentyMin||0) / 5.8) *100* 0.70 + normWatts(getRiderWatts(x.rider,'w30min'), 'w30min') * 0.30, 0) / teamSize))
   };
 
   return { lineup: best, profile: avgProfile };
@@ -6078,12 +6168,17 @@ function scoreOppRiderForCourse(r, fp, oppRiderWattsFn) {
   const medium  = (wkgFtp/5.5)*100      * 0.50 + wkgMedium   * 0.30 + normWatts(oppRiderWattsFn(r,'ftp'),'ftp') * 0.20;
   const climber = wkgClimber            * 0.85 + wattClimber * 0.15;
 
+  const wkgEndurance  = Math.min(100, (wkgFtp / 5.8) * 100);
+  const wattEndurance = normWatts(oppRiderWattsFn(r, 'w30min'), 'w30min');
+  const endurance = wkgEndurance * 0.70 + wattEndurance * 0.30;
+
   return Math.round(
-    fp.tt      * tt      * 0.20 +
-    fp.sprint  * sprint  * 0.25 +
-    fp.punch   * punch   * 0.20 +
-    fp.medium  * medium  * 0.20 +
-    fp.climber * climber * 0.15
+    fp.tt        * tt        * 0.20 +
+    fp.sprint    * sprint    * 0.25 +
+    fp.punch     * punch     * 0.20 +
+    fp.medium    * medium    * 0.20 +
+    fp.climber   * climber   * 0.15 +
+    fp.endurance * endurance * 0.20
   );
 }
 
@@ -6660,11 +6755,12 @@ function renderCourseList(list) {
     const tags = [];
     // Always show dominant type badge
     const fpEntries = [
-      { key:'tt',      label:'TT',     css:'tag-tt'      },
-      { key:'sprint',  label:'SPRINT', css:'tag-sprint'  },
-      { key:'punch',   label:'PUNCH',  css:'tag-punch'   },
-      { key:'medium',  label:'MEDIUM', css:'tag-medium'  },
-      { key:'climber', label:'CLIMB',  css:'tag-climber' },
+      { key:'tt',        label:'PURSUIT',   css:'tag-tt'        },
+      { key:'sprint',    label:'SPRINT',    css:'tag-sprint'    },
+      { key:'punch',     label:'PUNCH',     css:'tag-punch'     },
+      { key:'medium',    label:'MEDIUM',    css:'tag-medium'    },
+      { key:'climber',   label:'CLIMB',     css:'tag-climber'   },
+      { key:'endurance', label:'ENDURANCE', css:'tag-endurance' },
     ];
     const dominant = fpEntries.reduce((a,b) => fp[a.key] > fp[b.key] ? a : b);
     tags.push('<span class="tag ' + dominant.css + '">' + dominant.label + '</span>');
@@ -6763,11 +6859,12 @@ function showCourseDetail(id) {
 function generateCourseDescription(c, fp) {
   const elevPerKm = (c.elevation / c.distance).toFixed(1);
   let desc = `${c.distance}km route with ${c.elevation}m total elevation (${elevPerKm}m/km average gradient). `;
-  if (fp.climber > 70)     desc += 'Heavily climbing-oriented — sustained high power output required. Best for pure climbers with strong 5-20min W/kg. ';
-  else if (fp.medium > 55) desc += `Repeated climbs of 3-10 min demand strong 5-min power. All-rounders with good W/kg and sustained efforts thrive here. `;
-  else if (fp.tt > 65)     desc += 'Very flat and fast — favours riders with high sustained power (FTP) and good aerodynamics. ';
-  else if (fp.punch > 60)  desc += `${c.punches} short sharp climbs demand repeated 1-min power bursts. Punchy riders and all-rounders thrive here. `;
-  else if (fp.sprint > 65) desc += 'Multiple sprint opportunities and flat run-ins make this a sprinter-friendly course. ';
+  if (fp.climber > 70)      desc += 'Heavily climbing-oriented — sustained high power output required. Best for pure climbers with strong 5-20min W/kg. ';
+  else if (fp.endurance > 55) desc += 'Long endurance effort — sustained power over 20+ minutes is decisive. Riders with strong FTP and high W/kg thrive here. ';
+  else if (fp.medium > 55)  desc += 'Repeated climbs of 3-10 min demand strong 5-min power. All-rounders with good W/kg and sustained efforts thrive here. ';
+  else if (fp.tt > 65)      desc += 'Pursuit / TT effort — favours riders with high sustained power (FTP) and raw watts. ';
+  else if (fp.punch > 60)   desc += 'Short sharp climbs demand repeated 1-min power bursts. Punchy riders and all-rounders thrive here. ';
+  else if (fp.sprint > 65)  desc += 'Multiple sprint opportunities and flat run-ins make this a sprinter-friendly course. ';
   return desc;
 }
 
@@ -7027,11 +7124,14 @@ function runMatch() {
     const baseCourse = courses.find(c => c.id === courseId);
     if (!baseCourse) return;
     const laps = Math.max(1, parseInt(document.getElementById('match-laps').value) || 1);
+    const _lapDist = Math.round((baseCourse.distance - (baseCourse.leadIn || 0)) * 10) / 10;
     const course = laps === 1 ? baseCourse : Object.assign({}, baseCourse, {
-      distance: Math.round(baseCourse.distance * laps * 10) / 10,
-      elevation: Math.round(baseCourse.elevation * laps),
+      distance: Math.round(((baseCourse.leadIn || 0) + _lapDist * laps) * 10) / 10,
+      elevation: Math.round(baseCourse.elevation * ((baseCourse.leadIn || 0) / baseCourse.distance + (_lapDist / baseCourse.distance) * laps)),
       flatKm: Math.round(baseCourse.flatKm * laps * 10) / 10,
-      punches: baseCourse.punches * laps
+      punches: baseCourse.punches * laps,
+      endurance: baseCourse.endurance != null ? Math.min(75, baseCourse.endurance + (laps - 1) * 7) : undefined,
+      sprint: baseCourse.sprint != null ? Math.max(0, baseCourse.sprint - (laps - 1) * 3) : undefined
     });
 
     const fp = getCourseFingerprint(course);
@@ -7076,14 +7176,16 @@ function runMatch() {
 
 function generateMatchWhy(team, course, fp, isBest) {
   const reasons = [];
-  if (fp.tt > 60 && team.tt > 50)           reasons.push('Long flat sections play to your team\'s sustained power');
-  if (fp.sprint > 60 && team.sprint > 55)   reasons.push('Sprint finish suits your team\'s peak power numbers');
-  if (fp.punch > 60 && team.punch > 55)     reasons.push('Punchy climbs match your team\'s 1-min W/kg strength');
-  if (fp.medium > 55 && team.medium > 50)   reasons.push('Medium climbs of 3-10 min suit your team\'s 5-min power');
-  if (fp.climber > 65 && team.climber > 55) reasons.push('Sustained climbing suits your team\'s FTP W/kg (20-min power)');
-  if (fp.climber > 65 && team.climber < 35) reasons.push('⚠ Significant climbing may expose team weaknesses');
-  if (fp.medium > 55 && team.medium < 35)   reasons.push('⚠ Sustained medium climbs may not suit your team profile');
-  if (fp.sprint > 65 && team.sprint < 40)   reasons.push('⚠ Sprint-heavy parcours may not suit your team profile');
+  if (fp.tt > 60 && team.tt > 50)               reasons.push('Pursuit/TT effort plays to your team\'s sustained power');
+  if (fp.sprint > 60 && team.sprint > 55)        reasons.push('Sprint finish suits your team\'s peak power numbers');
+  if (fp.punch > 60 && team.punch > 55)          reasons.push('Punchy climbs match your team\'s 1-min W/kg strength');
+  if (fp.medium > 55 && team.medium > 50)        reasons.push('Medium climbs of 3-10 min suit your team\'s 5-min power');
+  if (fp.climber > 65 && team.climber > 55)      reasons.push('Sustained climbing suits your team\'s FTP W/kg (20-min power)');
+  if (fp.endurance > 50 && team.endurance > 45)  reasons.push('Long endurance demand suits your team\'s sustained FTP output');
+  if (fp.climber > 65 && team.climber < 35)      reasons.push('⚠ Significant climbing may expose team weaknesses');
+  if (fp.medium > 55 && team.medium < 35)        reasons.push('⚠ Sustained medium climbs may not suit your team profile');
+  if (fp.sprint > 65 && team.sprint < 40)        reasons.push('⚠ Sprint-heavy parcours may not suit your team profile');
+  if (fp.endurance > 55 && team.endurance < 35)  reasons.push('⚠ Long endurance demands may expose team weaknesses');
   if (!reasons.length) reasons.push(`Moderate match — ${course.distance}km / ${course.elevation}m`);
   return reasons[0] + (isBest ? ' ★ Best pick' : '');
 }
@@ -7161,7 +7263,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.39'; // bump this on every update
+const APP_VERSION = 'v1.3.40'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -7523,11 +7625,14 @@ function getSelectedMatchupCourse() {
   if (!base) return null;
   const laps = Math.max(1, parseInt(document.getElementById('matchup-laps')?.value) || 1);
   if (laps === 1) return base;
+  const _lapDist = Math.round((base.distance - (base.leadIn || 0)) * 10) / 10;
   return Object.assign({}, base, {
-    distance: Math.round(base.distance * laps * 10) / 10,
-    elevation: Math.round(base.elevation * laps),
+    distance: Math.round(((base.leadIn || 0) + _lapDist * laps) * 10) / 10,
+    elevation: Math.round(base.elevation * ((base.leadIn || 0) / base.distance + (_lapDist / base.distance) * laps)),
     flatKm: Math.round(base.flatKm * laps * 10) / 10,
-    punches: base.punches * laps
+    punches: base.punches * laps,
+    endurance: base.endurance != null ? Math.min(75, base.endurance + (laps - 1) * 7) : undefined,
+    sprint: base.sprint != null ? Math.max(0, base.sprint - (laps - 1) * 3) : undefined
   });
 }
 
@@ -7543,8 +7648,8 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
   }
 
   var fp = getCourseFingerprint(course);
-  var dominant = ['climber','punch','tt','sprint','medium'].reduce(function(a,b){ return fp[a]>fp[b]?a:b; });
-  var routeTypeMap = { climber:'\u26f0 Climbing', punch:'\ud83d\udca5 Punchy', tt:'\u27a1 Flat / TT', sprint:'\u26a1 Sprint finish', medium:'\ud83d\udcc8 Medium climbs' };
+  var dominant = ['climber','punch','tt','sprint','medium','endurance'].reduce(function(a,b){ return fp[a]>fp[b]?a:b; });
+  var routeTypeMap = { climber:'\u26f0 Climbing', punch:'\ud83d\udca5 Punchy', tt:'\u27a1 Pursuit / TT', sprint:'\u26a1 Sprint finish', medium:'\ud83d\udcc8 Medium climbs', endurance:'\u23f1 Endurance' };
   var routeType = routeTypeMap[dominant] || '\ud83d\udd00 Mixed terrain';
 
   // Duration modifier: total race distance shifts emphasis subtly.
@@ -7577,10 +7682,11 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
   else if (fp.climber > 30) narrativeParts.push('some climbing that rewards good W/kg');
   if (fp.punch > 50) narrativeParts.push('repeated punchy accelerations requiring explosive 1-min power');
   else if (fp.punch > 30) narrativeParts.push('occasional punchy efforts');
-  if (fp.tt > 50) narrativeParts.push('long flat sections where raw watts dominate');
-  else if (fp.tt > 30) narrativeParts.push('flat stretches rewarding higher FTP');
+  if (fp.tt > 50) narrativeParts.push('long sustained efforts where raw watts and FTP dominate');
+  else if (fp.tt > 30) narrativeParts.push('sustained stretches rewarding higher FTP');
   if (fp.sprint > 40) narrativeParts.push('a likely bunch sprint finish');
   if (fp.medium > 40) narrativeParts.push('medium-length climbs of 3-10 minutes');
+  if (fp.endurance > 40) narrativeParts.push('long endurance demands where sustained power over 20+ minutes is crucial');
   var narrative = narrativeParts.length ? 'This route features ' + narrativeParts.join(', ') + '.' : '';
   // Append duration note when laps meaningfully shift the character
   if (laps > 1 && course.distance >= 40) narrative += (narrative ? ' ' : '') + 'At ' + course.distance + 'km total, endurance and sustained power become increasingly decisive.';
@@ -9182,8 +9288,9 @@ function openDSSheet() {
         <div style="display:flex;gap:16px;font-family:monospace;font-size:0.65rem;color:var(--ds-dim)">
           <span>Climb <b style="color:#a5d6a7">${Math.round(fp.climber)}</b></span>
           <span>Punch <b style="color:#ffcc80">${Math.round(fp.punch)}</b></span>
-          <span>TT <b style="color:#80deea">${Math.round(fp.tt)}</b></span>
+          <span>Pursuit <b style="color:#80deea">${Math.round(fp.tt)}</b></span>
           <span>Sprint <b style="color:#ce93d8">${Math.round(fp.sprint)}</b></span>
+          <span>Endurance <b style="color:#26c6da">${Math.round(fp.endurance || 0)}</b></span>
         </div>
       </div>`;
   }
@@ -9337,6 +9444,7 @@ function openRouteAudit() {
       + bar(fp.punch, typeColor.punch)
       + bar(fp.medium, typeColor.medium)
       + bar(fp.climber, typeColor.climber)
+      + bar(fp.endurance || 0, typeColor.endurance || '#26c6da')
       + '</tr>';
   }
 
@@ -9386,6 +9494,7 @@ function openRouteAudit() {
       + bar(fp.punch, typeColor.punch)
       + bar(fp.medium, typeColor.medium)
       + bar(fp.climber, typeColor.climber)
+      + bar(fp.endurance || 0, typeColor.endurance || '#26c6da')
       + '</tr>';
   }
 
