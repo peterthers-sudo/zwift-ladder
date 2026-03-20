@@ -1912,7 +1912,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.45'; // bump this on every update
+const APP_VERSION = 'v1.3.46'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3024,6 +3024,7 @@ function renderMatchupAnalysis() {
         <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
         <div style="display:flex;gap:8px;align-items:center;">
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
+          <button onclick="generateMatchupStrategy()" class="btn btn-sm no-print-hide" style="margin:0;border-radius:2px;border:1px solid rgba(0,229,255,0.6);background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(179,136,255,0.15));color:var(--accent);cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,0.25),0 0 20px rgba(179,136,255,0.1);font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;padding:5px 12px;">🤖 AI-Strategi</button>
           <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
         </div>
       </div>
@@ -3167,7 +3168,8 @@ function renderMatchupAnalysis() {
     </div>
 
     ${buildRouteAnalysis(getSelectedMatchupCourse(), flatAdv, climbAdv, punchAdv, sprintAdv, laps)}
-    ${buildMatchPrediction(selectedRiders, oppRiders, myName, opponentTeam.name, course, fn)}`;
+    ${buildMatchPrediction(selectedRiders, oppRiders, myName, opponentTeam.name, course, fn)}
+    <div id="ai-strategy-output" style="display:none;margin-top:16px;padding:20px 24px;background:var(--surface2);border:1px solid rgba(0,229,255,0.3);font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.9;color:var(--text);white-space:pre-wrap;border-radius:2px;"></div>`;
 
   // Store chart data on window so renderH2HChart can access it after innerHTML is set
   window._h2hData = {
@@ -3177,10 +3179,142 @@ function renderMatchupAnalysis() {
     wattDeltas, wkgDeltas,
     myName, oppName: opponentTeam.name
   };
+
+  // Store matchup data for AI strategy generation
+  window._matchupData = {
+    myName,
+    oppName: opponentTeam.name,
+    course,
+    laps,
+    fp: _fp0,
+    dominant: _dom0,
+    myRiders: selectedRiders.map(r => ({
+      name: r.name,
+      profile: classifyRider(r).join('/'),
+      weight: r.weight || 70,
+      wkg20: +(r.twentyMin || 0).toFixed(2),
+      wkg5:  +(r.fiveMin   || 0).toFixed(2),
+      wkg1:  +(r.oneMin    || 0).toFixed(2),
+      ftp:   Math.round(getRiderWatts(r, 'ftp')),
+      score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null
+    })),
+    oppRiders: oppRiders.map(r => ({
+      name: r.name,
+      profile: classifyOppRider(r).join('/'),
+      weight: r.weight || 70,
+      wkg20: +(r.wkg || r.wkg20min || fn(r,'ftp')/(r.weight||70) || 0).toFixed(2),
+      ftp:   Math.round(fn(r, 'ftp')),
+      score: _fp0 ? Math.round(scoreOppRiderForCourse(r, _fp0, fn)) : null
+    })),
+    wattDeltas,
+    wkgDeltas
+  };
+
   // Render chart after DOM is updated
   requestAnimationFrame(() => {
     renderH2HChart('wkg');
   });
+}
+
+// ── AI Strategy Generator ──
+async function generateMatchupStrategy() {
+  const GEMINI_API_KEY = 'AIzaSyBsqq3k18-8MmNOug7oSqAYvPDS2DRFO-c';
+  const out = document.getElementById('ai-strategy-output');
+  if (!out) return;
+  out.style.display = 'block';
+  out.innerHTML = '⏳ Analyserer matchup...';
+
+  const d = window._matchupData;
+  if (!d) { out.innerHTML = '⚠️ Ingen matchup-data — åbn matchup-siden og vælg ryttere først.'; return; }
+
+  // Build data block for prompt
+  const routeInfo = d.course
+    ? `Rute: ${d.course.name} (${d.course.world}) · ${d.course.distance}km · ${d.course.elevation}m stigning · Profil: ${d.course.profile || 'Ukendt'} · ${d.laps} omgang(e)`
+    : 'Ingen rute valgt';
+
+  const fpInfo = d.fp
+    ? `Rute-fingerprint: Flat/TT=${d.fp.tt}% · Sprint=${d.fp.sprint}% · Punch=${d.fp.punch}% · Klatring=${d.fp.climber}% · Dominerende type: ${d.dominant || '?'}`
+    : '';
+
+  const myRiderLines = (d.myRiders || []).map(r =>
+    `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg · FTP=${r.ftp}W${r.score != null ? ' · Rute-score='+r.score : ''}`
+  ).join('\n');
+
+  const oppRiderLines = (d.oppRiders || []).map(r =>
+    `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · FTP=${r.ftp}W${r.score != null ? ' · Rute-score='+r.score : ''}`
+  ).join('\n');
+
+  const deltaLines = (d.wkgDeltas || []).map(iv => {
+    const sign = iv.delta >= 0 ? '+' : '';
+    return `  ${iv.label}: ${sign}${iv.delta.toFixed(2)} W/kg (LEQP avg ${iv.myVal.toFixed(2)} vs ${iv.oppVal.toFixed(2)})`;
+  }).join('\n');
+
+  const wattLines = (d.wattDeltas || []).map(iv => {
+    const sign = iv.delta >= 0 ? '+' : '';
+    return `  ${iv.label}: ${sign}${Math.round(iv.delta)}W (LEQP avg ${Math.round(iv.myVal)}W vs ${Math.round(iv.oppVal)}W)`;
+  }).join('\n');
+
+  const prompt = `Du er Chief Strategist for cykelholdet ${d.myName} i Zwift ladder racing.
+Baseret på følgende matchup-data skal du skrive en detaljeret vinderstrategi på dansk.
+
+Strategien skal have PRÆCIS denne struktur:
+
+1. Hovedstrategi: [kort fængende titel]
+   - Beskriv den overordnede taktik baseret på ${d.myName}s styrker og svagheder vs. ${d.oppName}
+   - Fremhæv konkret hvilke dimensioner (sprint/punch/klatring/TT) der skal udnyttes eller undgås
+
+2. Rytter-specifikke roller
+   - Beskriv ALLE ${d.myName}-rytteres individuelle rolle i strategien
+   - Brug rytterens faktiske profil (diesel, puncher, klatrer, sprinter osv.)
+   - Vær konkret: hvad skal hver rytter gøre og hvornår
+
+3. Taktisk køreplan (${d.course ? d.course.name : 'valgt rute'})
+   - Beskriv løbet omgang for omgang baseret på antal laps og rutetypen
+   - Angiv konkret hvornår angreb skal placeres baseret på rutens karakteristika
+   - Nævn ${d.oppName}s farligste og svageste ryttere og hvordan de håndteres
+
+4. Opsummering: "The Winning Move"
+   - 3-4 bullets med de vigtigste handlinger
+
+Svar KUN på dansk. Vær taktisk, specifik og brug watt-tal og W/kg fra dataene.
+
+--- DATA ---
+Hold: ${d.myName} vs ${d.oppName}
+${routeInfo}
+${fpInfo}
+
+${d.myName} ryttere (${(d.myRiders||[]).length} valgte):
+${myRiderLines}
+
+${d.oppName} ryttere (${(d.oppRiders||[]).length}):
+${oppRiderLines}
+
+Power delta W/kg (${d.myName} minus ${d.oppName}):
+${deltaLines}
+
+Power delta Watt (${d.myName} minus ${d.oppName}):
+${wattLines}`;
+
+  try {
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+      }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const json = await res.json();
+    const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '(tomt svar)';
+    // Render: bold markdown + preserved line breaks
+    out.innerHTML = text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\n/g, '<br>');
+  } catch (e) {
+    out.innerHTML = '⚠️ Kunne ikke hente strategi – tjek API-nøgle og forbindelse.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
+  }
 }
 
 // ── Match Prediction ──
