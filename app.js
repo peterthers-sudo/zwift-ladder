@@ -1912,7 +1912,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.47'; // bump this on every update
+const APP_VERSION = 'v1.3.48'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3217,6 +3217,8 @@ function renderMatchupAnalysis() {
 }
 
 // ── AI Strategy Generator ──
+const GEMINI_PROXY = 'https://raspy-darkness-fb9e.peterthers.workers.dev';
+
 async function generateMatchupStrategy() {
   let out = document.getElementById('ai-strategy-output');
   if (!out) {
@@ -3229,25 +3231,6 @@ async function generateMatchupStrategy() {
   }
   out.style.display = 'block';
   out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-  // Check for stored API key
-  let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
-  if (!GEMINI_API_KEY) {
-    out.innerHTML = `
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--text-dim);margin-bottom:12px;letter-spacing:1px">
-        🔑 GEMINI API-NØGLE PÅKRÆVET<br>
-        <span style="font-size:0.6rem">Hent en gratis nøgle på <span style="color:var(--accent)">aistudio.google.com/app/apikey</span></span>
-      </div>
-      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-        <input id="gemini-key-input" type="password" placeholder="Indsæt API-nøgle..."
-          style="flex:1;min-width:200px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:6px 10px;background:var(--bg);border:1px solid rgba(0,229,255,0.4);color:var(--text);outline:none;">
-        <button onclick="saveGeminiKey()" style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;padding:6px 14px;border:1px solid rgba(0,229,255,0.6);background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(179,136,255,0.15));color:var(--accent);cursor:pointer;">
-          Gem &amp; Generér
-        </button>
-      </div>`;
-    return;
-  }
-
   out.innerHTML = '⏳ Analyserer matchup...';
 
   const d = window._matchupData;
@@ -3322,39 +3305,21 @@ Power delta Watt (${d.myName} minus ${d.oppName}):
 ${wattLines}`;
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
-      }
-    );
+    const res = await fetch(GEMINI_PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
     const json = await res.json();
-    if (!res.ok) {
-      const msg = json.error?.message || `HTTP ${res.status}`;
-      // If key is invalid/leaked, clear it so user is prompted again
-      if (res.status === 400 || res.status === 401 || res.status === 403) localStorage.removeItem('gemini_api_key');
-      throw new Error(msg);
-    }
+    if (!res.ok) throw new Error(json.error?.message || `HTTP ${res.status}`);
     const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '(tomt svar)';
-    // Render: bold markdown + preserved line breaks + "Skift nøgle" link
     out.innerHTML = text
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\n/g, '<br>')
-      + '<br><br><span style="font-size:0.58rem;color:var(--text-dim);cursor:pointer;text-decoration:underline" onclick="localStorage.removeItem(\'gemini_api_key\');document.getElementById(\'ai-strategy-output\').style.display=\'none\'">🔑 Skift API-nøgle</span>';
+      .replace(/\n/g, '<br>');
   } catch (e) {
-    out.innerHTML = '⚠️ Kunne ikke hente strategi.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span><br><br>'
-      + '<span style="font-size:0.58rem;color:var(--text-dim);cursor:pointer;text-decoration:underline" onclick="localStorage.removeItem(\'gemini_api_key\');document.getElementById(\'ai-strategy-output\').style.display=\'none\'">🔑 Indtast ny API-nøgle</span>';
+    out.innerHTML = '⚠️ Kunne ikke hente strategi.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
   }
-}
-
-function saveGeminiKey() {
-  const key = (document.getElementById('gemini-key-input')?.value || '').trim();
-  if (!key) return;
-  localStorage.setItem('gemini_api_key', key);
-  generateMatchupStrategy();
 }
 
 // ── Match Prediction ──
