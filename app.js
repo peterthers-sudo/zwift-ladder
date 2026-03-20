@@ -1912,7 +1912,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.48'; // bump this on every update
+const APP_VERSION = 'v1.3.49'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3226,12 +3226,12 @@ async function generateMatchupStrategy() {
     if (!content) { alert('Åbn matchup-siden og vælg ryttere først.'); return; }
     out = document.createElement('div');
     out.id = 'ai-strategy-output';
-    out.style.cssText = 'margin-top:16px;padding:20px 24px;background:var(--surface2);border:1px solid rgba(0,229,255,0.3);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;line-height:1.9;color:var(--text);white-space:pre-wrap;border-radius:2px;';
+    out.style.cssText = 'margin-top:16px;margin-bottom:24px;padding:20px 24px;background:var(--surface2);border:1px solid rgba(0,229,255,0.3);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;line-height:1.9;color:var(--text);border-radius:2px;';
     content.appendChild(out);
   }
   out.style.display = 'block';
   out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  out.innerHTML = '⏳ Analyserer matchup...';
+  out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:var(--accent);animation:pulse 1.2s ease-in-out infinite">⏳ ANALYSING MATCHUP...</div>';
 
   const d = window._matchupData;
   if (!d) { out.innerHTML = '⚠️ Ingen matchup-data — åbn matchup-siden og vælg ryttere først.'; return; }
@@ -3313,12 +3313,21 @@ ${wattLines}`;
     const json = await res.json();
     if (!res.ok) throw new Error(json.error?.message || `HTTP ${res.status}`);
     const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '(tomt svar)';
-    out.innerHTML = text
+    const formatted = text
       .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      // numbered section headers: "1. Title" or "1. **Title**"
+      .replace(/^(\d+)\.\s+\*\*(.*?)\*\*/gm, '<div style="margin-top:18px;margin-bottom:4px;font-size:0.78rem;letter-spacing:2px;color:var(--accent);font-weight:700">$1. $2</div>')
+      .replace(/^(\d+)\.\s+(.+)/gm, '<div style="margin-top:18px;margin-bottom:4px;font-size:0.78rem;letter-spacing:2px;color:var(--accent);font-weight:700">$1. $2</div>')
+      // bold inline
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
+      // bullet points
+      .replace(/^\s*[-*]\s+(.+)/gm, '<div style="padding-left:16px;margin:2px 0">▸ $1</div>')
       .replace(/\n/g, '<br>');
+    out.innerHTML =
+      '<div style="margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(0,229,255,0.2);font-size:0.85rem;letter-spacing:3px;color:var(--accent);font-weight:700">🤖 YOUR WINNING STRATEGY</div>' +
+      formatted;
   } catch (e) {
-    out.innerHTML = '⚠️ Kunne ikke hente strategi.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
+    out.innerHTML = '⚠️ Could not fetch strategy.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
   }
 }
 
