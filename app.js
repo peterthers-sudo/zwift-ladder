@@ -337,6 +337,31 @@ let maxDist = 25; // km — default filter
 // ═══════════════════════════════════════════════════════
 // FINGERPRINT ENGINE
 // ═══════════════════════════════════════════════════════
+
+// Returns the dominant route dimension, correcting for vELO "pursuit" (fp.tt) semantics.
+// Pursuit = sustained 3-8 min aerobic power — NOT flat TT.
+// When punch is nearly as high as pursuit, the route is punchy/aerobic, not a TT.
+// When climber is nearly as high as pursuit, the route is a climbing route.
+function getDominant(fp) {
+  const keys = ['climber','punch','tt','sprint','medium','endurance'];
+  const base = keys.reduce((a,b) => (fp[a]||0) > (fp[b]||0) ? a : b);
+  if (base === 'tt') {
+    if ((fp.punch   || 0) >= (fp.tt || 0) * 0.75) return 'punch';
+    if ((fp.climber || 0) >= (fp.tt || 0) * 0.75) return 'climber';
+  }
+  return base;
+}
+
+// Uses the pre-defined route profile from zwiftracing (Flat/Rolling/Hilly/Mountainous)
+// rather than deriving type from vELO weights. Falls back to getDominant(fp) if unknown.
+function getProfileDominant(course, fp) {
+  const profileMap = { Flat: 'tt', Rolling: 'punch', Hilly: 'medium', Mountainous: 'climber' };
+  if (course && course.profile && profileMap[course.profile]) {
+    return profileMap[course.profile];
+  }
+  return fp ? getDominant(fp) : null;
+}
+
 function getCourseFingerprint(c) {
   // Routes with explicit pre-set weights (new format from velo_weights file)
   if (c.pursuit != null) {
@@ -1887,7 +1912,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.43'; // bump this on every update
+const APP_VERSION = 'v1.3.44'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2227,9 +2252,9 @@ function onMatchupRouteChange() {
   const course = getSelectedMatchupCourse();
   if (course && tag) {
     const fp = getCourseFingerprint(course);
-    const dominant = ['climber','punch','tt','sprint'].reduce((a,b) => fp[a] > fp[b] ? a : b);
-    const labels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Flat/TT', sprint:'⚡ Sprint finish' };
-    const colors = { climber:'var(--accent3)', punch:'var(--accent2)', tt:'var(--accent)', sprint:'var(--purple,#b388ff)' };
+    const dominant = getProfileDominant(course, fp);
+    const labels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Flat/TT', sprint:'⚡ Sprint finish', medium:'📈 Hilly', endurance:'⏱ Endurance' };
+    const colors = { climber:'var(--accent3)', punch:'var(--accent2)', tt:'var(--accent)', sprint:'var(--purple,#b388ff)', medium:'var(--accent2)', endurance:'var(--accent3)' };
     tag.textContent  = labels[dominant] || 'Mixed';
     tag.style.background = colors[dominant] || 'var(--border)';
     tag.style.color  = 'var(--bg)';
@@ -2268,8 +2293,8 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
   }
 
   var fp = getCourseFingerprint(course);
-  var dominant = ['climber','punch','tt','sprint','medium','endurance'].reduce(function(a,b){ return fp[a]>fp[b]?a:b; });
-  var routeTypeMap = { climber:'\u26f0 Climbing', punch:'\ud83d\udca5 Punchy', tt:'\u27a1 Pursuit / TT', sprint:'\u26a1 Sprint finish', medium:'\ud83d\udcc8 Medium climbs', endurance:'\u23f1 Endurance' };
+  var dominant = getProfileDominant(course, fp);
+  var routeTypeMap = { climber:'\u26f0 Climbing', punch:'\ud83d\udca5 Punchy', tt:'\u27a1 Flat/TT', sprint:'\u26a1 Sprint finish', medium:'\ud83d\udcc8 Hilly', endurance:'\u23f1 Endurance' };
   var routeType = routeTypeMap[dominant] || '\ud83d\udd00 Mixed terrain';
 
   // Duration modifier: total race distance shifts emphasis subtly.
@@ -2790,7 +2815,7 @@ function renderMatchupAnalysis() {
 
   // Determine route type early so we can pick the right climb metric
   const _fp0 = course ? getCourseFingerprint(course) : null;
-  const _dom0 = _fp0 ? ['climber','punch','tt','sprint','medium'].reduce((a,b) => _fp0[a]>_fp0[b]?a:b) : null;
+  const _dom0 = course ? getProfileDominant(course, _fp0) : null;
   // On true climbing routes use 20min W/kg (FTP W/kg) as primary climb metric;
   // on medium/punch routes use 5min W/kg; blend otherwise
   const climbAdv = _dom0 === 'climber'
@@ -2805,7 +2830,7 @@ function renderMatchupAnalysis() {
 
     // Determine route type from fingerprint (if course is selected)
     const fp = course ? getCourseFingerprint(course) : null;
-    const dominant = fp ? ['climber','punch','tt','sprint','medium'].reduce((a,b) => fp[a]>fp[b]?a:b) : null;
+    const dominant = course ? getProfileDominant(course, fp) : null;
     const isClimb   = dominant === 'climber';
     const isPunch   = dominant === 'punch';
     const isFlat    = dominant === 'tt';
@@ -3211,14 +3236,14 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
   }
   const category = getCategory();
 
-  // fp already declared above — derive dominant route type from it
-  const dominant = ['climber','punch','tt','sprint','medium'].reduce((a,b) => fp[a]>fp[b]?a:b);
+  // fp already declared above — derive dominant route type from profile
+  const dominant = course ? getProfileDominant(course, fp) : (fp ? getDominant(fp) : null);
   const routeCtx = {
     climber: 'on this climbing route, sustained W/kg is everything — ride tempo and let the climb do the selection',
     punch:   'on this punchy course, 1-min power and repeated accelerations decide it',
-    tt:      'on this flat TT course, raw watts and pacing discipline win races',
+    tt:      'on this flat route, raw watts and pacing discipline win races',
     sprint:  'on this sprint course, positioning and explosive power in the final metres are decisive',
-    medium:  'on this medium-climb course, 5-min power and the ability to recover between efforts matters most'
+    medium:  'on this hilly course, 5-min power and the ability to recover between efforts matters most'
   };
   const routeAdvice = routeCtx[dominant] || 'route demands are mixed — versatility and race IQ will be key';
 
@@ -3420,8 +3445,8 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
   const marginLabel = spread === 0 ? 'Even split' : spread <= 1 ? 'Razor thin' : spread <= 4 ? 'Narrow' : spread <= 9 ? 'Clear' : 'Dominant';
 
   // Route key dimension label
-  const dominant = fp ? ['climber','punch','tt','sprint','medium'].reduce((a,b) => fp[a]>fp[b]?a:b) : null;
-  const dimLabels = { climber:'Climbing (W/kg)', punch:'Punch (1-min)', tt:'Flat TT (Watts)', sprint:'Sprint', medium:'Medium climbs (5-min)' };
+  const dominant = course ? getProfileDominant(course, fp) : null;
+  const dimLabels = { climber:'Climbing (W/kg)', punch:'Punch (1-min)', tt:'Flat TT (Watts)', sprint:'Sprint', medium:'Hilly (5-min)' };
   const keyDim = dimLabels[dominant] || '—';
 
   // ── Wildcard logic ──────────────────────────────────────────────────────────
@@ -3892,8 +3917,8 @@ function openDSSheet() {
   let courseHTML = '';
   if (course) {
     const fp = getCourseFingerprint(course);
-    const dominant = ['climber','punch','tt','sprint','medium','endurance'].reduce((a,b) => fp[a]>fp[b]?a:b);
-    const typeLabels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Pursuit/TT', sprint:'⚡ Sprint', medium:'📈 Medium climbs', endurance:'⏱ Endurance' };
+    const dominant = getProfileDominant(course, fp);
+    const typeLabels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Flat/TT', sprint:'⚡ Sprint', medium:'📈 Hilly', endurance:'⏱ Endurance' };
     const typeColors = { climber:'#a5d6a7', punch:'#ffcc80', tt:'#80deea', sprint:'#ce93d8', medium:'#fff176', endurance:'#26c6da' };
     const col = typeColors[dominant] || '#ccc';
     courseHTML = `
