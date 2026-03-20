@@ -3263,29 +3263,29 @@ async function generateMatchupStrategy() {
     return `  ${iv.label}: ${sign}${Math.round(iv.delta)}W (LEQP avg ${Math.round(iv.myVal)}W vs ${Math.round(iv.oppVal)}W)`;
   }).join('\n');
 
-  const prompt = `Du er Chief Strategist for cykelholdet ${d.myName} i Zwift ladder racing.
-Baseret på følgende matchup-data skal du skrive en detaljeret vinderstrategi på dansk.
+  const prompt = `You are Chief Strategist for the Zwift ladder racing team ${d.myName}.
+Based on the following matchup data, write a detailed winning race strategy in English.
 
-Strategien skal have PRÆCIS denne struktur:
+The strategy must follow EXACTLY this structure:
 
-1. Hovedstrategi: [kort fængende titel]
-   - Beskriv den overordnede taktik baseret på ${d.myName}s styrker og svagheder vs. ${d.oppName}
-   - Fremhæv konkret hvilke dimensioner (sprint/punch/klatring/TT) der skal udnyttes eller undgås
+1. Main Strategy: [short punchy title]
+   - Describe the overall tactic based on ${d.myName}'s strengths and weaknesses vs. ${d.oppName}
+   - Highlight specifically which dimensions (sprint/punch/climbing/TT) to exploit or avoid
 
-2. Rytter-specifikke roller
-   - Beskriv ALLE ${d.myName}-rytteres individuelle rolle i strategien
-   - Brug rytterens faktiske profil (diesel, puncher, klatrer, sprinter osv.)
-   - Vær konkret: hvad skal hver rytter gøre og hvornår
+2. Rider-specific roles
+   - Describe ALL ${d.myName} riders' individual roles in the strategy
+   - Use the rider's actual profile (diesel, puncheur, climber, sprinter etc.)
+   - Be specific: what should each rider do and when
 
-3. Taktisk køreplan (${d.course ? d.course.name : 'valgt rute'})
-   - Beskriv løbet omgang for omgang baseret på antal laps og rutetypen
-   - Angiv konkret hvornår angreb skal placeres baseret på rutens karakteristika
-   - Nævn ${d.oppName}s farligste og svageste ryttere og hvordan de håndteres
+3. Race plan (${d.course ? d.course.name : 'selected route'})
+   - Describe the race lap by lap based on number of laps and route type
+   - State specifically when attacks should be launched based on the route's characteristics
+   - Mention ${d.oppName}'s most dangerous and weakest riders and how to handle them
 
-4. Opsummering: "The Winning Move"
-   - 3-4 bullets med de vigtigste handlinger
+4. Summary: "The Winning Move"
+   - 3-4 bullets with the most important actions
 
-Svar KUN på dansk. Vær taktisk, specifik og brug watt-tal og W/kg fra dataene.
+Reply ONLY in English. Be tactical, specific and use watt figures and W/kg from the data.
 
 --- DATA ---
 Hold: ${d.myName} vs ${d.oppName}
