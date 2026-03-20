@@ -3189,15 +3189,29 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
 
   // Route is required — prediction without a course context is meaningless
   if (!course) {
+    const _sorted = [...courses].sort((a,b) => a.name.localeCompare(b.name));
+    const _opts = _sorted.map(c => `<option value="${c.name}">${c.name} (${c.world} · ${c.distance}km · ${c.elevation}m)</option>`).join('');
     return `
     <div class="matchup-section">
       <div class="matchup-section-title">⚡ Match Prediction</div>
       <div style="padding:24px 16px;background:var(--surface2);border:1px solid var(--border);
                   font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim);text-align:center;line-height:1.8">
         <div style="font-size:1.4rem;margin-bottom:10px">🗺</div>
-        No route selected — select a route in the dropdown above to generate a match prediction.<br>
-        <span style="font-size:0.62rem;letter-spacing:1px">The prediction ranks riders by their suitability for the specific course,<br>
+        Vælg en rute for at se match prediction.<br>
+        <span style="font-size:0.62rem;letter-spacing:1px">Riders are ranked by suitability for the specific course,<br>
         weighting raw watts on flat routes and W/kg on climbs.</span>
+        <div style="margin-top:16px;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap">
+          <input type="text" placeholder="Søg rute..." oninput="
+            document.getElementById('matchup-route-search').value=this.value;
+            filterMatchupRoutes();
+            this.nextElementSibling.value=document.getElementById('matchup-route-select').value;"
+            style="width:90px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:4px 8px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;">
+          <select onchange="document.getElementById('matchup-route-select').value=this.value; onMatchupRouteChange();"
+            style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:4px 6px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;max-width:320px;">
+            <option value="">— Vælg rute —</option>
+            ${_opts}
+          </select>
+        </div>
       </div>
     </div>`;
   }
