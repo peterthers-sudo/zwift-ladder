@@ -3326,7 +3326,7 @@ ${wattLines}`;
     if (!res.ok) {
       const msg = json.error?.message || `HTTP ${res.status}`;
       // If key is invalid/leaked, clear it so user is prompted again
-      if (res.status === 403 || res.status === 401) localStorage.removeItem('gemini_api_key');
+      if (res.status === 400 || res.status === 401 || res.status === 403) localStorage.removeItem('gemini_api_key');
       throw new Error(msg);
     }
     const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '(tomt svar)';
