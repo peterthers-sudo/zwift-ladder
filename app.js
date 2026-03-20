@@ -3228,6 +3228,7 @@ async function generateMatchupStrategy() {
     content.appendChild(out);
   }
   out.style.display = 'block';
+  out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
   // Check for stored API key
   let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
