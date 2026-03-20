@@ -3218,8 +3218,15 @@ function renderMatchupAnalysis() {
 
 // ── AI Strategy Generator ──
 async function generateMatchupStrategy() {
-  const out = document.getElementById('ai-strategy-output');
-  if (!out) return;
+  let out = document.getElementById('ai-strategy-output');
+  if (!out) {
+    const content = document.getElementById('matchup-panel-content');
+    if (!content) { alert('Åbn matchup-siden og vælg ryttere først.'); return; }
+    out = document.createElement('div');
+    out.id = 'ai-strategy-output';
+    out.style.cssText = 'margin-top:16px;padding:20px 24px;background:var(--surface2);border:1px solid rgba(0,229,255,0.3);font-family:\'JetBrains Mono\',monospace;font-size:0.72rem;line-height:1.9;color:var(--text);white-space:pre-wrap;border-radius:2px;';
+    content.appendChild(out);
+  }
   out.style.display = 'block';
 
   // Check for stored API key
