@@ -3024,7 +3024,7 @@ function renderMatchupAnalysis() {
         <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
         <div style="display:flex;gap:8px;align-items:center;">
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
-          <button onclick="generateMatchupStrategy()" class="btn btn-sm no-print-hide" style="margin:0;border-radius:2px;border:1px solid rgba(0,229,255,0.6);background:linear-gradient(135deg,rgba(0,229,255,0.15),rgba(179,136,255,0.15));color:var(--accent);cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,0.25),0 0 20px rgba(179,136,255,0.1);font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:1px;padding:5px 12px;">🤖 AI-Strategi</button>
+          <button onclick="generateMatchupStrategy()" class="btn btn-sm no-print-hide" style="margin:0;border-radius:2px;border:2px solid var(--accent);background:linear-gradient(135deg,var(--accent),var(--purple,#b388ff));color:#fff;cursor:pointer;font-weight:700;box-shadow:0 0 12px rgba(0,229,255,0.35);">🤖 AI-Strategi</button>
           <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
         </div>
       </div>
