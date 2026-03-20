@@ -3230,8 +3230,8 @@ async function generateMatchupStrategy() {
     content.appendChild(out);
   }
   out.style.display = 'block';
-  out.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:var(--accent);animation:pulse 1.2s ease-in-out infinite">⏳ ANALYSING MATCHUP...</div>';
+  setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
 
   const d = window._matchupData;
   if (!d) { out.innerHTML = '⚠️ Ingen matchup-data — åbn matchup-siden og vælg ryttere først.'; return; }
