@@ -3024,7 +3024,7 @@ function renderMatchupAnalysis() {
         <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
         <div style="display:flex;gap:8px;align-items:center;">
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
-          <button onclick="generateMatchupStrategy()" class="btn btn-sm no-print-hide" style="margin:0;border-radius:2px;border:2px solid var(--accent);background:linear-gradient(135deg,var(--accent),var(--purple,#b388ff));color:#fff;cursor:pointer;font-weight:700;box-shadow:0 0 12px rgba(0,229,255,0.35);">🤖 AI-Strategi</button>
+          <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
           <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
         </div>
       </div>
