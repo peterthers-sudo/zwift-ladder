@@ -3053,9 +3053,9 @@ function renderMatchupAnalysis() {
         </div>
         <div style="display:flex;gap:8px;align-items:center;">
           <button id="h2h-watt-btn" onclick="renderH2HChart('watt')"
-            style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:4px 10px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer;">WATT</button>
+            style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:4px 10px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;">WATT</button>
           <button id="h2h-wkg-btn" onclick="renderH2HChart('wkg')"
-            style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:4px 10px;border:1px solid var(--border);background:transparent;color:var(--text-dim);cursor:pointer;">W/KG</button>
+            style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:4px 10px;border:1px solid var(--accent);background:var(--accent);color:var(--bg);cursor:pointer;">W/KG</button>
         </div>
       </div>
       <canvas id="h2h-canvas" style="width:100%;height:220px;display:block;"></canvas>
@@ -3179,7 +3179,7 @@ function renderMatchupAnalysis() {
   };
   // Render chart after DOM is updated
   requestAnimationFrame(() => {
-    renderH2HChart('watt');
+    renderH2HChart('wkg');
   });
 }
 
@@ -3445,7 +3445,7 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
   const marginLabel = spread === 0 ? 'Even split' : spread <= 1 ? 'Razor thin' : spread <= 4 ? 'Narrow' : spread <= 9 ? 'Clear' : 'Dominant';
 
   // Route key dimension label
-  const dominant = course ? getProfileDominant(course, fp) : null;
+  const dominant = fp ? getDominant(fp) : null;
   const dimLabels = { climber:'Climbing (W/kg)', punch:'Punch (1-min)', tt:'Flat TT (Watts)', sprint:'Sprint', medium:'Hilly (5-min)' };
   const keyDim = dimLabels[dominant] || '—';
 
