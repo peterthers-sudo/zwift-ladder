@@ -3275,19 +3275,21 @@ async function generateMatchupStrategy() {
 
   const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp, concise race strategy — max 350 words total.
 
+IMPORTANT RACE FORMAT: This is a team points race. Finishing positions earn points: 1st=10, 2nd=9, 3rd=8... 10th=1. The team with the most TOTAL points across all their riders wins — not necessarily the team with the highest finisher. A team can win without anyone finishing 1st. Strategy must focus on maximising total team points, not individual glory.
+
 Use EXACTLY this structure (no extra sections, no padding):
 
 1. **Strategy: [punchy title]**
-   2-3 sentences: overall tactic, which strengths to exploit vs ${d.oppName}.
+   2-3 sentences: overall team points tactic vs ${d.oppName}. Which positions to target collectively.
 
 2. **Rider Roles**
-   One bullet per ${d.myName} rider. Max 1 sentence each. Use avg finish position to judge actual race ability — a rider with high W/kg but poor avg position may not deliver under race pressure.
+   One bullet per ${d.myName} rider. Max 1 sentence each. Assign each rider a realistic target position range based on their W/kg AND avg finish position — a rider with high W/kg but poor avg position may struggle under race pressure.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
-   Lap-by-lap in 3-5 bullets. When to attack, when to sit in, final move.
+   Lap-by-lap in 3-5 bullets. When to work together, when to spread out, how to neutralise ${d.oppName}'s strongest riders to limit their points.
 
 4. **The Winning Move**
-   3 bullets max. Most critical actions only.
+   3 bullets max. Most critical team tactics only.
 
 Reply ONLY in English. Be direct and specific — use W/kg numbers from the data.
 
