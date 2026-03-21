@@ -2261,6 +2261,9 @@ function onMatchupRouteChange() {
     tag.style.display = 'inline-block';
   }
   renderMatchupAnalysis();
+  // Scroll to top of matchup panel so the route selector bar is visible
+  const panel = document.getElementById('matchup-panel-content');
+  if (panel) setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
 }
 
 function getSelectedMatchupCourse() {
