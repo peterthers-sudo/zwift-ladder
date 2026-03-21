@@ -3331,6 +3331,7 @@ Use EXACTLY this structure:
 2. **Rider Roles**
    One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
    CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = protect and target podium. RELIABLE = solid points scorer. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
+   Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, skip the position target and instead describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
