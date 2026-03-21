@@ -3384,14 +3384,14 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
         <span style="font-size:0.62rem;letter-spacing:1px">Riders are ranked by suitability for the specific course,<br>
         weighting raw watts on flat routes and W/kg on climbs.</span>
         <div style="margin-top:16px;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap">
-          <input type="text" placeholder="Søg rute..." oninput="
-            document.getElementById('matchup-route-search').value=this.value;
-            filterMatchupRoutes();
-            this.nextElementSibling.value=document.getElementById('matchup-route-select').value;"
+          <input type="text" placeholder="Search route..." oninput="
+            var q=this.value.toLowerCase();
+            var sel=this.nextElementSibling;
+            Array.from(sel.options).forEach(function(o){o.hidden=q&&!o.text.toLowerCase().includes(q);});"
             style="width:90px;font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:4px 8px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;">
-          <select onchange="document.getElementById('matchup-route-select').value=this.value; onMatchupRouteChange();"
+          <select onchange="document.getElementById('matchup-route-search').value=''; document.getElementById('matchup-route-select').value=this.value; onMatchupRouteChange();"
             style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;padding:4px 6px;background:var(--bg);border:1px solid var(--border);color:var(--text);outline:none;max-width:320px;">
-            <option value="">— Vælg rute —</option>
+            <option value="">— Select route —</option>
             ${_opts}
           </select>
         </div>
