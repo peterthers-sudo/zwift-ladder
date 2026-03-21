@@ -3241,7 +3241,8 @@ async function generateMatchupStrategy() {
   setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
 
   const d = window._matchupData;
-  if (!d) { out.innerHTML = '⚠️ Ingen matchup-data — åbn matchup-siden og vælg ryttere først.'; return; }
+  if (!d) { out.innerHTML = '⚠️ No matchup data — open the matchup page and select riders first.'; return; }
+  if (!d.course) { out.innerHTML = '⚠️ Select a route first — AI strategy requires a route to be meaningful.'; return; }
 
   // Build data block for prompt
   const routeInfo = d.course
