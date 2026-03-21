@@ -3308,7 +3308,7 @@ DRAFTING MECHANICS (critical for realistic tactics):
 - A rider pulling at FTP (e.g. 4.1W/kg) is easy to follow for the group — they only need ~3.0-3.5W/kg
 - Riding at FTP on the front does NOT deter attacks — it actually lets the group recover
 - To suppress attacks, the puller must go 8-10% above FTP (~4.4-4.5W/kg) — this hurts everyone in the group
-- A classic attack has 3 phases: (1) explosive opener 7-10W/kg for just a few seconds to create the gap, (2) sustain 5.0W/kg+ for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~4.3W/kg once the gap is established and the group has given up chasing
+- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 1-min power for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers from the data when recommending attacks
 - Conclusion: never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
 
 Tactical principles to apply where relevant:
