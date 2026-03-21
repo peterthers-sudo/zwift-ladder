@@ -3311,7 +3311,8 @@ DRAFTING MECHANICS (critical for realistic tactics):
 - A rider pulling at FTP (e.g. 4.1W/kg) is easy to follow for the group — they only need ~3.0-3.5W/kg
 - Riding at FTP on the front does NOT deter attacks — it actually lets the group recover
 - To suppress attacks, the puller must go 8-10% above FTP (~4.4-4.5W/kg) — this hurts everyone in the group
-- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 15-sec sprint power (use 5-sec sprint if 15-sec is unavailable) for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers from the data when recommending attacks
+- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 15-sec sprint power (use 5-sec sprint if 15-sec unavailable) for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers when recommending attacks
+- In a final sprint for position, a rider can go to 100% of sprint power. Mid-race attacks should use the 80% figure above — full sprint power mid-race burns matches the team cannot afford
 - Conclusion: never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
 
 Tactical principles to apply where relevant:
@@ -3330,7 +3331,8 @@ Use EXACTLY this structure:
 
 2. **Rider Roles**
    One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
-   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = protect and target podium. RELIABLE = solid points scorer. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
+   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = highest finishing potential, target top positions, but must still contribute actively to the race — close gaps, follow attacks, apply pressure. Do NOT make them passive "sit and wait" riders. RELIABLE = solid points scorer, active role. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
+   This is a TEAM points race — total team score matters more than any single rider winning. Getting positions 2nd, 3rd and 4th beats 1st, 4th and 5th. Never build a strategy around protecting one rider at the expense of team points.
    Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, skip the position target and instead describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
