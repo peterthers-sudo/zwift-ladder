@@ -3366,12 +3366,39 @@ ${wattLines}`;
       // bullet points
       .replace(/^\s*[-*]\s+(.+)/gm, '<div style="padding-left:16px;margin:2px 0">▸ $1</div>')
       .replace(/\n/g, '<br>');
+    const pdfBtn = `<button onclick="printAIStrategy()" style="float:right;margin-top:-2px;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:3px 10px;background:transparent;border:1px solid rgba(0,229,255,0.4);color:var(--accent);cursor:pointer;border-radius:2px" title="Download as PDF">⬇ PDF</button>`;
     out.innerHTML =
-      '<div style="margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(0,229,255,0.2);font-size:0.85rem;letter-spacing:3px;color:var(--accent);font-weight:700">🤖 YOUR WINNING STRATEGY</div>' +
+      `<div style="margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(0,229,255,0.2);font-size:0.85rem;letter-spacing:3px;color:var(--accent);font-weight:700">🤖 YOUR WINNING STRATEGY${pdfBtn}</div>` +
       formatted;
   } catch (e) {
     out.innerHTML = '⚠️ Could not fetch strategy.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
   }
+}
+
+function printAIStrategy() {
+  const out = document.getElementById('ai-strategy-output');
+  if (!out) return;
+  const d = window._matchupData;
+  const title = d ? `${d.myName} vs ${d.oppName}${d.course ? ' — ' + d.course.name : ''}` : 'AI Race Strategy';
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${title}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap');
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.8; color:#111; background:#fff; padding:32px 40px; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:22px; letter-spacing:4px; color:#0077cc; margin-bottom:4px; }
+  .sub { font-size:9px; letter-spacing:2px; color:#888; margin-bottom:24px; }
+  .content { white-space:pre-wrap; }
+  .content div[style*="letter-spacing:2px"] { color:#0077cc !important; font-weight:700; margin-top:16px; margin-bottom:4px; }
+  strong { color:#111; }
+  @media print { body { padding:16px 24px; } button { display:none; } }
+</style></head><body>
+<h1>${title}</h1>
+<div class="sub">LEQP LADDER · AI RACE STRATEGY · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}</div>
+<div class="content">${out.innerHTML}</div>
+<script>setTimeout(()=>window.print(),400);<\/script>
+</body></html>`);
+  w.document.close();
 }
 
 // ── Match Prediction ──
