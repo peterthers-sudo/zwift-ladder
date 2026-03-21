@@ -3188,16 +3188,23 @@ function renderMatchupAnalysis() {
     laps,
     fp: _fp0,
     dominant: _dom0,
-    myRiders: selectedRiders.map(r => ({
-      name: r.name,
-      profile: classifyRider(r).join('/'),
-      weight: r.weight || 70,
-      wkg20: +(r.twentyMin || 0).toFixed(2),
-      wkg5:  +(r.fiveMin   || 0).toFixed(2),
-      wkg1:  +(r.oneMin    || 0).toFixed(2),
-      ftp:   Math.round(getRiderWatts(r, 'ftp')),
-      score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null
-    })),
+    myRiders: selectedRiders.map(r => {
+      const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[r.id] || LADDER_RACES[parseInt(r.id)]);
+      const positions = lrEntry ? lrEntry.races.map(x => x.pos).filter(p => p > 0) : [];
+      const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
+      return {
+        name: r.name,
+        profile: classifyRider(r).join('/'),
+        weight: r.weight || 70,
+        wkg20: +(r.twentyMin || 0).toFixed(2),
+        wkg5:  +(r.fiveMin   || 0).toFixed(2),
+        wkg1:  +(r.oneMin    || 0).toFixed(2),
+        ftp:   Math.round(getRiderWatts(r, 'ftp')),
+        score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null,
+        avgPos: avgPos ? +avgPos : null,
+        races:  positions.length
+      };
+    }),
     oppRiders: oppRiders.map(r => ({
       name: r.name,
       profile: classifyOppRider(r).join('/'),
@@ -3245,9 +3252,12 @@ async function generateMatchupStrategy() {
     ? `Rute-fingerprint: Flat/TT=${d.fp.tt}% · Sprint=${d.fp.sprint}% · Punch=${d.fp.punch}% · Klatring=${d.fp.climber}% · Dominerende type: ${d.dominant || '?'}`
     : '';
 
-  const myRiderLines = (d.myRiders || []).map(r =>
-    `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg · FTP=${r.ftp}W${r.score != null ? ' · Rute-score='+r.score : ''}`
-  ).join('\n');
+  const myRiderLines = (d.myRiders || []).map(r => {
+    let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg · FTP=${r.ftp}W`;
+    if (r.score != null) line += ` · Route score=${r.score}`;
+    if (r.avgPos != null) line += ` · Avg finish pos=#${r.avgPos} (${r.races} races)`;
+    return line;
+  }).join('\n');
 
   const oppRiderLines = (d.oppRiders || []).map(r =>
     `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · FTP=${r.ftp}W${r.score != null ? ' · Rute-score='+r.score : ''}`
@@ -3263,45 +3273,39 @@ async function generateMatchupStrategy() {
     return `  ${iv.label}: ${sign}${Math.round(iv.delta)}W (LEQP avg ${Math.round(iv.myVal)}W vs ${Math.round(iv.oppVal)}W)`;
   }).join('\n');
 
-  const prompt = `You are Chief Strategist for the Zwift ladder racing team ${d.myName}.
-Based on the following matchup data, write a detailed winning race strategy in English.
+  const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp, concise race strategy — max 350 words total.
 
-The strategy must follow EXACTLY this structure:
+Use EXACTLY this structure (no extra sections, no padding):
 
-1. Main Strategy: [short punchy title]
-   - Describe the overall tactic based on ${d.myName}'s strengths and weaknesses vs. ${d.oppName}
-   - Highlight specifically which dimensions (sprint/punch/climbing/TT) to exploit or avoid
+1. **Strategy: [punchy title]**
+   2-3 sentences: overall tactic, which strengths to exploit vs ${d.oppName}.
 
-2. Rider-specific roles
-   - Describe ALL ${d.myName} riders' individual roles in the strategy
-   - Use the rider's actual profile (diesel, puncheur, climber, sprinter etc.)
-   - Be specific: what should each rider do and when
+2. **Rider Roles**
+   One bullet per ${d.myName} rider. Max 1 sentence each. Use avg finish position to judge actual race ability — a rider with high W/kg but poor avg position may not deliver under race pressure.
 
-3. Race plan (${d.course ? d.course.name : 'selected route'})
-   - Describe the race lap by lap based on number of laps and route type
-   - State specifically when attacks should be launched based on the route's characteristics
-   - Mention ${d.oppName}'s most dangerous and weakest riders and how to handle them
+3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
+   Lap-by-lap in 3-5 bullets. When to attack, when to sit in, final move.
 
-4. Summary: "The Winning Move"
-   - 3-4 bullets with the most important actions
+4. **The Winning Move**
+   3 bullets max. Most critical actions only.
 
-Reply ONLY in English. Be tactical, specific and use watt figures and W/kg from the data.
+Reply ONLY in English. Be direct and specific — use W/kg numbers from the data.
 
 --- DATA ---
-Hold: ${d.myName} vs ${d.oppName}
+${d.myName} vs ${d.oppName}
 ${routeInfo}
 ${fpInfo}
 
-${d.myName} ryttere (${(d.myRiders||[]).length} valgte):
+${d.myName} (${(d.myRiders||[]).length} riders):
 ${myRiderLines}
 
-${d.oppName} ryttere (${(d.oppRiders||[]).length}):
+${d.oppName} (${(d.oppRiders||[]).length} riders):
 ${oppRiderLines}
 
-Power delta W/kg (${d.myName} minus ${d.oppName}):
+W/kg delta (${d.myName} minus ${d.oppName}):
 ${deltaLines}
 
-Power delta Watt (${d.myName} minus ${d.oppName}):
+Watt delta:
 ${wattLines}`;
 
   try {
