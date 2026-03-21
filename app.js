@@ -3274,7 +3274,7 @@ async function generateMatchupStrategy() {
   const myRiderLines = (d.myRiders || []).map(r => {
     let raceRating = '';
     if (r.avgPos != null) {
-      const label = r.avgPos <= 2 ? 'MATCH WINNER' : r.avgPos <= 4 ? 'RELIABLE' : r.avgPos <= 6 ? 'INCONSISTENT' : 'STRUGGLES';
+      const label = r.avgPos <= 2 ? 'MATCH WINNER' : r.avgPos <= 4 ? 'RELIABLE' : r.avgPos <= 6 ? 'VARIABLE' : 'STRUGGLES';
       raceRating = ` · Race rating: ${label} (avg #${r.avgPos} over ${r.races} races)`;
     } else {
       raceRating = ' · Race rating: NO DATA';
@@ -3319,7 +3319,7 @@ Use EXACTLY this structure:
 
 2. **Rider Roles**
    One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
-   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = protect and target podium. RELIABLE = solid points scorer. INCONSISTENT = unpredictable, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to INCONSISTENT or STRUGGLES.
+   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = protect and target podium. RELIABLE = solid points scorer. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
