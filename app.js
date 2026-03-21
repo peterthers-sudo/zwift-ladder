@@ -3272,9 +3272,16 @@ async function generateMatchupStrategy() {
     : '';
 
   const myRiderLines = (d.myRiders || []).map(r => {
+    let raceRating = '';
+    if (r.avgPos != null) {
+      const label = r.avgPos <= 2 ? 'MATCH WINNER' : r.avgPos <= 4 ? 'RELIABLE' : r.avgPos <= 6 ? 'INCONSISTENT' : 'STRUGGLES';
+      raceRating = ` · Race rating: ${label} (avg #${r.avgPos} over ${r.races} races)`;
+    } else {
+      raceRating = ' · Race rating: NO DATA';
+    }
     let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg · FTP=${r.ftp}W`;
     if (r.score != null) line += ` · Route score=${r.score}`;
-    if (r.avgPos != null) line += ` · Avg finish pos=#${r.avgPos} (${r.races} races)`;
+    line += raceRating;
     return line;
   }).join('\n');
 
@@ -3312,7 +3319,7 @@ Use EXACTLY this structure:
 
 2. **Rider Roles**
    One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
-   CRITICAL: Avg finish position (#X over N races) is the ground truth for actual race ability — it overrides W/kg on paper. A rider averaging #1-2 is a match winner regardless of W/kg. A rider with high W/kg but avg pos #5+ is unpredictable under race pressure. Never assign sacrifice role to a rider with avg pos #1-3. Never assign top role to a rider with avg pos #6+ unless they have no race history.
+   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = protect and target podium. RELIABLE = solid points scorer. INCONSISTENT = unpredictable, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to INCONSISTENT or STRUGGLES.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
