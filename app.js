@@ -3207,7 +3207,7 @@ function renderMatchupAnalysis() {
     fp: _fp0,
     dominant: _dom0,
     myRiders: selectedRiders.map(r => {
-      const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[r.id] || LADDER_RACES[parseInt(r.id)]);
+      const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[r.zwift_id] || LADDER_RACES[parseInt(r.zwift_id)]);
       const positions = lrEntry ? lrEntry.races.map(x => x.pos).filter(p => p > 0) : [];
       const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
       return {
