@@ -3311,7 +3311,8 @@ Use EXACTLY this structure:
    Offensive or defensive? Why. 2 sentences max.
 
 2. **Rider Roles**
-   One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role. Base realism on avg finish position — high W/kg with poor avg pos = treat as a wildcard.
+   One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
+   CRITICAL: Avg finish position (#X over N races) is the ground truth for actual race ability — it overrides W/kg on paper. A rider averaging #1-2 is a match winner regardless of W/kg. A rider with high W/kg but avg pos #5+ is unpredictable under race pressure. Never assign sacrifice role to a rider with avg pos #1-3. Never assign top role to a rider with avg pos #6+ unless they have no race history.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
