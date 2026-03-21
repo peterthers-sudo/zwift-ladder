@@ -3296,6 +3296,7 @@ Use EXACTLY this structure:
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
+   IMPORTANT: Base the race plan ONLY on the route data provided (distance, elevation, profile, fingerprint %). Do NOT invent or name specific climbs, segments or features — use generic terms like "the climb", "the flat section", "the sprint point".
 
 4. **If The Plan Breaks Down**
    2 bullets: fallback when the race goes chaotic.
