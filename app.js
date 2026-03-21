@@ -3303,6 +3303,14 @@ async function generateMatchupStrategy() {
 
 Race format: team points race, positions earn points. All tactics are team-first. Individual sacrifice is valid if it helps the team score.
 
+DRAFTING MECHANICS (critical for realistic tactics):
+- Riders in the draft save ~25-30% energy vs the rider pulling at the front
+- A rider pulling at FTP (e.g. 4.1W/kg) is easy to follow for the group — they only need ~3.0-3.5W/kg
+- Riding at FTP on the front does NOT deter attacks — it actually lets the group recover
+- To suppress attacks, the puller must go 8-10% above FTP (~4.4-4.5W/kg) — this hurts everyone in the group
+- A classic attack: burst to ~5.0W/kg to open a gap, then settle to ~4.3W/kg to hold it while the chasing group needs more to close
+- Conclusion: never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
+
 Tactical principles to apply where relevant:
 - Assign riders to mark specific dangerous opponents — one rider shadows one opponent
 - If an opponent is clearly strongest in the race, consider letting them go rather than destroying team cohesion chasing them
