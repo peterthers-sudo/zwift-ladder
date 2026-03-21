@@ -480,7 +480,7 @@
       </p>
 
       <h2>What is this?</h2>
-      <p>Race Matcher helps your team select the best route before a ladder race — and the best rider lineup for that route. The system fetches rider data from ZwiftPower (last 90 days of power curve data), analyses strengths and weaknesses for both teams, and ranks all available routes by who has the advantage.</p>
+      <p>Race Matcher helps your team prepare for ladder races — select the best route, build the optimal lineup, analyse the opponent, and generate a team race strategy powered by AI. Data is fetched from ZwiftPower (last 90 days of power curve data) and combined with actual ladder race results.</p>
 
       <h2>Daily use</h2>
 
@@ -498,63 +498,83 @@
       <p>Select the opponent team from <strong>OPPONENT LIBRARY</strong>. Filter by rung first, then select the team. Your own LEQP teams also appear under <em>── Own Teams ──</em> for internal matches. Uncheck any riders not available for this match.</p>
 
       <h3>4. Analyze the matchup</h3>
-      <p>Once an opponent is selected, click <strong>🔍 Matchup</strong> in the tab bar. This is the primary race preparation tool and shows:</p>
+      <p>Once an opponent is selected, click <strong>🔍 Matchup</strong> in the tab bar. Select a route and number of laps. The matchup page shows:</p>
       <ul>
-        <li><strong>Power Head to Head</strong> — a line chart showing average power curves for both teams across all key durations (15s · 30s · 1min · 2min · 5min · 20min) in either Watt or W/kg view. Green = your team, red dashed = opponent.</li>
-        <li><strong>Butterfly Chart</strong> — a symmetrical bar chart comparing the two teams side by side. Each bar shows the delta at a given duration — green bars grow right when you lead, red bars grow left when the opponent leads.</li>
-        <li><strong>Pure Watt Delta</strong> — average watt difference at every interval. Use this for flat and sprint routes.</li>
-        <li><strong>W/kg Delta</strong> — same comparison in watts per kilo. Use this for climbing routes where Zwift's physics are weight-dependent.</li>
-        <li><strong>Rider Profiles</strong> — each rider is automatically classified based on their power curve:
+        <li><strong>Power Head to Head</strong> — line chart comparing average power curves across all key durations (15s · 30s · 1min · 2min · 5min · 20min) in W/kg or Watt view.</li>
+        <li><strong>Power Delta bars</strong> — split bar chart showing your advantage or deficit at each interval. W/kg is the default (best for most routes); switch to Watt for flat/sprint routes.</li>
+        <li><strong>Rider Profiles</strong> — each rider is classified based on their power curve:
           <ul>
-            <li><strong>SPRINTER</strong> — very high 5-second peak relative to FTP (sprint/FTP &gt; 2.8)</li>
-            <li><strong>PUNCHEUR</strong> — strong 1-minute power relative to FTP (1min/FTP &gt; 1.65)</li>
-            <li><strong>CLIMBER</strong> — high W/kg (&gt;4.2) and light body weight (&lt;72 kg)</li>
-            <li><strong>DIESEL</strong> — strong sustained power, no obvious peak — thrives on flat and long efforts</li>
+            <li><strong>SPRINTER</strong> — very high 5s peak relative to FTP</li>
+            <li><strong>PUNCHEUR</strong> — strong 1-min power relative to FTP</li>
+            <li><strong>CLIMBER</strong> — high W/kg and light body weight</li>
+            <li><strong>DIESEL</strong> — strong sustained power across all durations</li>
           </ul>
         </li>
-        <li><strong>Chief Strategist</strong> — automatic tactical verdict with route-aware advice. The text adapts to the selected course type — a climbing route generates different advice than a flat TT or punchy circuit.</li>
-        <li><strong>Route Analysis</strong> — all selected routes sorted from best to worst for your matchup. Use this to argue for or against specific routes in the race pool.</li>
+        <li><strong>Chief Strategist</strong> — automatic tactical verdict with route-aware advice based on the selected course type and your team's strengths.</li>
+        <li><strong>Route Analysis</strong> — all selected routes ranked from best to worst for your matchup. Use this to argue for or against specific routes.</li>
+        <li><strong>Match Prediction</strong> — individual rider-vs-rider scoring for the selected route. Each rider is scored by how well their power profile matches the route's demands. Requires a route to be selected.</li>
       </ul>
 
-      <h3>5. DS Sheet</h3>
-      <p>Click <strong>📋 DS Sheet</strong> next to the PDF button to open a clean race-day reference sheet in a new tab. The DS Sheet shows only W/kg for the four key durations (15s · 1min · 5min · 20min) for both teams side by side. The highest value in each category on each team is highlighted with ★. The sheet follows your chosen Dark/Light theme.</p>
+      <h3>5. AI Race Strategy</h3>
+      <p>Click <strong>🤖 AI-Strategi</strong> on the Matchup page to generate a tailored race strategy. A route must be selected first. The AI receives full rider data including W/kg across all durations, body weight, rider profile, and — crucially — each rider's <strong>average finish position</strong> from actual ladder races. This is used to assign a race rating:</p>
+      <ul>
+        <li><strong>MATCH WINNER</strong> — avg finish #1–2 · highest finishing potential, active role throughout</li>
+        <li><strong>RELIABLE</strong> — avg finish #3–4 · solid points scorer</li>
+        <li><strong>VARIABLE</strong> — avg finish #5–6 · capable but results vary, used tactically</li>
+        <li><strong>STRUGGLES</strong> — avg finish #7+ · sacrifice role candidate</li>
+      </ul>
+      <p>The strategy covers: overall approach (offensive or defensive), individual rider roles with realistic position targets, a lap-by-lap race plan, and a contingency for when the plan breaks down. The AI understands Zwift drafting mechanics, correct attack power profiles, and that this is a <strong>team points race</strong> — total team score matters more than any single rider winning.</p>
+      <p>A <strong>⬇ PDF</strong> button appears in the strategy box after generation — click it to download the strategy as a printable document.</p>
 
-      <h3>6. Select routes</h3>
-      <p>Under the <strong>COURSES</strong> tab, select the routes in the race pool. Filter by distance, world, or search by name. Selected routes are used by both Run Match and Matchup.</p>
+      <h3>6. DS Sheet</h3>
+      <p>Click <strong>📋 DS Sheet</strong> to open a clean race-day reference sheet in a new tab. Shows W/kg for key durations (15s · 1min · 5min · 20min) for both teams side by side. The highest value per category is highlighted with ★.</p>
 
-      <h3>7. Run the match</h3>
+      <h3>7. Download PDF</h3>
+      <p>Click <strong>⬇ Download PDF</strong> on the Matchup page to save the full matchup analysis as a PDF — useful for sharing with teammates before a race.</p>
+
+      <h3>8. Select routes</h3>
+      <p>Under the <strong>COURSES</strong> tab, select the routes in the race pool. Filter by distance, world, or search by name. Selected routes are used by Race Planner and Matchup.</p>
+
+      <h3>9. Run the match</h3>
       <p>Go to <strong>⚡ Race Planner</strong> and click <strong>⚡ RUN MATCH</strong>. Choose mode:</p>
       <ul>
         <li><strong>Find best COURSE</strong> — ranks all selected routes by strategic advantage vs the opponent</li>
         <li><strong>Rank RIDERS</strong> — shows which riders from your pool best suit a specific route</li>
       </ul>
 
-      <h3>8. Ladder overview</h3>
-      <p>The <strong>📊 Ladder</strong> tab shows all teams on the selected rung ranked by ladder position. Your active team is highlighted and compared against every other team — percentages show how each opponent's FTP W/kg, 5min W/kg and 1min W/kg compares to yours. Enable <strong>±7 places</strong> to see only the teams within challenge range across rungs. The rung auto-selects to match your active team when you open the tab.</p>
+      <h3>10. Ladder overview</h3>
+      <p>The <strong>📊 Ladder</strong> tab shows all teams ranked by ladder position. Your active team is highlighted. Percentages show how each opponent compares to your team across FTP W/kg, 5min and 1min. Enable <strong>±7 places</strong> to filter to teams within challenge range.</p>
+
+      <h3>11. Rider Intel</h3>
+      <p>The <strong>👤 LEQP Riders</strong> tab shows full race history for each LEQP rider — every ladder race with position, power data and weight. Stats include best position, average finish position, and number of races. Average finish position is the most important indicator of actual race ability and is used directly by the AI strategy.</p>
+
+      <h3>12. Fixtures</h3>
+      <p>The <strong>📅 Fixtures</strong> tab shows upcoming scheduled matches with date, time, home/away teams and route.</p>
 
       <h2>Understanding the Matchup bars</h2>
-      <p>The split bars work like a tug-of-war centred at zero. A bar growing to the <strong style="color:#ff4455">left in red</strong> means the opponent has the advantage at that interval. A bar growing to the <strong style="color:#7fff6b">right in green</strong> means you have the advantage. The number shown is the raw difference — e.g. <em>+25W</em> at 1 min means your team averages 25 watts more at that duration.</p>
-      <p>Use the W/kg bars for climbing routes and the pure watt bars for flat routes — Zwift uses raw watts on the flat and W/kg on gradients.</p>
+      <p>The split bars work like a tug-of-war centred at zero. A bar growing to the <strong style="color:#ff4455">left in red</strong> means the opponent leads at that interval. A bar growing to the <strong style="color:#7fff6b">right in green</strong> means you lead. The number is the raw difference — e.g. <em>+0.25 W/kg</em> at 5min means your team averages 0.25 W/kg more at that duration.</p>
+      <p>W/kg bars are the default and most useful for the majority of routes. Switch to Watt view for flat or sprint-dominated routes.</p>
 
       <h2>Understanding Match Results</h2>
       <table class="modal-table">
         <tr><th>Dimension</th><th>What it means</th></tr>
-        <tr><td>TT</td><td>Long sustained flat effort — raw watts dominate</td></tr>
+        <tr><td>TT / Flat</td><td>Long sustained flat effort — raw watts dominate</td></tr>
         <tr><td>Sprint</td><td>Short flat route with bunch sprint finish</td></tr>
         <tr><td>Punch</td><td>Repeated short sharp climbs — 1-min power key</td></tr>
-        <tr><td>Medium</td><td>Repeated medium climbs (3–10 min efforts)</td></tr>
-        <tr><td>Climber</td><td>Long sustained climb — W/kg dominates</td></tr>
+        <tr><td>Hilly</td><td>Repeated medium climbs (3–10 min efforts)</td></tr>
+        <tr><td>Climb</td><td>Long sustained climb — W/kg dominates</td></tr>
+        <tr><td>Endurance</td><td>Long route where sustained FTP matters most</td></tr>
       </table>
-      <p>The score blends raw watts (most important on flat routes) and W/kg (most important on climbs), reflecting Zwift's physics model. <strong>Strategic advantage (+/-)</strong> is the difference between your team's best lineup and the opponent's best lineup for that specific route.</p>
+      <p>The route fingerprint is based on pre-defined vELO weights per route. The dominant type drives which power dimension matters most for scoring and the Chief Strategist verdict.</p>
 
       <h2>Laps</h2>
-      <p>Next to the Race Route dropdown on the Matchup tab, the <strong>Laps</strong> field lets you specify how many times the route is ridden. Short routes (under ~4 km) are typically ridden multiple times in ladder races. Setting laps to 3 scales the route's distance, elevation and punch count — which shifts the fingerprint and scoring accordingly. The maximum is automatically capped so total distance stays under 40 km.</p>
+      <p>Next to the Race Route dropdown, the <strong>Laps</strong> field scales the route — distance, elevation and fingerprint all update accordingly. The maximum is capped so total distance stays under 40 km.</p>
 
       <h2>Route Diagnosis</h2>
-      <p>Click <strong>📊 Route Diagnosis</strong> under the logo to open a full table of all 169 routes with their calculated fingerprint scores across all five dimensions (TT · Sprint · Punch · Medium · Climb). The <strong>DOMINANT</strong> column shows which dimension the algorithm scores highest. The DOMINANT column shows which dimension the algorithm scores highest.</p>
+      <p>Click <strong>📊 Route Diagnosis</strong> under the logo to open a full table of all routes with fingerprint scores across all five dimensions and the dominant type for each.</p>
 
       <h2>Dark / Light mode</h2>
-      <p>Use the <strong>☀ Light / 🌙 Dark</strong> button in the top right to switch between the dark Racing theme and the light theme. Your preference is saved automatically.</p>
+      <p>Use the <strong>☀ Light / 🌙 Dark</strong> button in the top right to switch themes. Your preference is saved automatically.</p>
 
     </div>
   </div>
