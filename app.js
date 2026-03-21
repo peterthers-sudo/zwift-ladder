@@ -3273,25 +3273,34 @@ async function generateMatchupStrategy() {
     return `  ${iv.label}: ${sign}${Math.round(iv.delta)}W (LEQP avg ${Math.round(iv.myVal)}W vs ${Math.round(iv.oppVal)}W)`;
   }).join('\n');
 
-  const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp, concise race strategy — max 350 words total.
+  const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp tactical race plan — max 380 words.
 
-IMPORTANT RACE FORMAT: This is a team points race. Finishing positions earn points: 1st=10, 2nd=9, 3rd=8... 10th=1. The team with the most TOTAL points across all their riders wins — not necessarily the team with the highest finisher. A team can win without anyone finishing 1st. Strategy must focus on maximising total team points, not individual glory.
+Race format: team points race, positions earn points. All tactics are team-first. Individual sacrifice is valid if it helps the team score.
 
-Use EXACTLY this structure (no extra sections, no padding):
+Tactical principles to apply where relevant:
+- Assign riders to mark specific dangerous opponents — one rider shadows one opponent
+- If an opponent is clearly strongest in the race, consider letting them go rather than destroying team cohesion chasing them
+- Decide: offensive (attack early, force the race) or defensive (sit in, react, sprint finish) — base this on the points delta vs ${d.oppName}
+- Identify 1-2 specific attack points on the route where efforts should be launched
+- Repeated attacks: riders take turns attacking to fragment the group and create gaps
+- Watch for a sprint start from ${d.oppName} — if they have sprint-type riders, expect an early hard effort
+- This race is unpredictable — give a contingency: what to do if the plan breaks down
+
+Use EXACTLY this structure:
 
 1. **Strategy: [punchy title]**
-   2-3 sentences: overall team points tactic vs ${d.oppName}. Which positions to target collectively.
+   Offensive or defensive? Why. 2 sentences max.
 
 2. **Rider Roles**
-   One bullet per ${d.myName} rider. Max 1 sentence each. Assign each rider a realistic target position range based on their W/kg AND avg finish position — a rider with high W/kg but poor avg position may struggle under race pressure.
+   One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role. Base realism on avg finish position — high W/kg with poor avg pos = treat as a wildcard.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
-   Lap-by-lap in 3-5 bullets. When to work together, when to spread out, how to neutralise ${d.oppName}'s strongest riders to limit their points.
+   4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
 
-4. **The Winning Move**
-   3 bullets max. Most critical team tactics only.
+4. **If The Plan Breaks Down**
+   2 bullets: fallback when the race goes chaotic.
 
-Reply ONLY in English. Be direct and specific — use W/kg numbers from the data.
+Reply ONLY in English. Be tactical and direct — use actual W/kg numbers.
 
 --- DATA ---
 ${d.myName} vs ${d.oppName}
