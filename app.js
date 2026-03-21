@@ -3217,6 +3217,8 @@ function renderMatchupAnalysis() {
         wkg20: +(r.twentyMin || 0).toFixed(2),
         wkg5:  +(r.fiveMin   || 0).toFixed(2),
         wkg1:  +(r.oneMin    || 0).toFixed(2),
+        wkg15s: r.w15s && r.weight ? +((r.w15s / r.weight)).toFixed(1) : null,
+        wkg5s:  r.sprint && r.weight ? +((r.sprint / r.weight)).toFixed(1) : null,
         ftp:   Math.round(getRiderWatts(r, 'ftp')),
         score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null,
         avgPos: avgPos ? +avgPos : null,
@@ -3279,7 +3281,8 @@ async function generateMatchupStrategy() {
     } else {
       raceRating = ' · Race rating: NO DATA';
     }
-    let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg · FTP=${r.ftp}W`;
+    const sprintStr = r.wkg15s ? `15s=${r.wkg15s}W/kg` : r.wkg5s ? `5s=${r.wkg5s}W/kg` : null;
+    let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg${sprintStr ? ' · '+sprintStr : ''} · FTP=${r.ftp}W`;
     if (r.score != null) line += ` · Route score=${r.score}`;
     line += raceRating;
     return line;
@@ -3308,7 +3311,7 @@ DRAFTING MECHANICS (critical for realistic tactics):
 - A rider pulling at FTP (e.g. 4.1W/kg) is easy to follow for the group — they only need ~3.0-3.5W/kg
 - Riding at FTP on the front does NOT deter attacks — it actually lets the group recover
 - To suppress attacks, the puller must go 8-10% above FTP (~4.4-4.5W/kg) — this hurts everyone in the group
-- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 1-min power for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers from the data when recommending attacks
+- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 15-sec sprint power (use 5-sec sprint if 15-sec is unavailable) for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers from the data when recommending attacks
 - Conclusion: never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
 
 Tactical principles to apply where relevant:
