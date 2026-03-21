@@ -2241,7 +2241,23 @@ function populateMatchupRoutes() {
 
 function filterMatchupRoutes() {
   populateMatchupRoutes();
-  onMatchupRouteChange(); // Gennemtvinger en opdatering af skærmen LIVE mens du taster!
+  // Update analysis live while typing, but do NOT scroll
+  const sel = document.getElementById('matchup-route-select');
+  const tag = document.getElementById('matchup-route-tag');
+  const name = sel?.value;
+  if (!name || !tag) { if (tag) tag.style.display = 'none'; renderMatchupAnalysis(); return; }
+  const course = getSelectedMatchupCourse();
+  if (course && tag) {
+    const fp = getCourseFingerprint(course);
+    const dominant = getProfileDominant(course, fp);
+    const labels = { climber:'⛰ Climbing', punch:'💥 Punchy', tt:'➡ Flat/TT', sprint:'⚡ Sprint finish', medium:'📈 Hilly', endurance:'⏱ Endurance' };
+    const colors = { climber:'var(--accent3)', punch:'var(--accent2)', tt:'var(--accent)', sprint:'var(--purple,#b388ff)', medium:'var(--accent2)', endurance:'var(--accent3)' };
+    tag.textContent = labels[dominant] || 'Mixed';
+    tag.style.background = colors[dominant] || 'var(--border)';
+    tag.style.color = 'var(--bg)';
+    tag.style.display = 'inline-block';
+  }
+  renderMatchupAnalysis();
 }
 
 function onMatchupRouteChange() {
@@ -2261,9 +2277,8 @@ function onMatchupRouteChange() {
     tag.style.display = 'inline-block';
   }
   renderMatchupAnalysis();
-  // Scroll to top of matchup panel so the route selector bar is visible
-  const panel = document.getElementById('matchup-panel-content');
-  if (panel) setTimeout(() => panel.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+  // Scroll to top of page so route selector bar is visible
+  setTimeout(() => window.scrollTo({ top: 0, behavior: 'smooth' }), 50);
 }
 
 function getSelectedMatchupCourse() {
