@@ -3281,16 +3281,23 @@ async function generateMatchupStrategy() {
     } else {
       raceRating = ' · Race rating: NO DATA';
     }
-    const sprintStr = r.wkg15s ? `15s=${r.wkg15s}W/kg` : r.wkg5s ? `5s=${r.wkg5s}W/kg` : null;
-    let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · 1min=${r.wkg1}W/kg${sprintStr ? ' · '+sprintStr : ''} · FTP=${r.ftp}W`;
+    const sprintWkg = r.wkg15s || r.wkg5s;
+    const sprintLabel = r.wkg15s ? '15s' : '5s';
+    const sprintStr = sprintWkg ? `${sprintLabel}=${sprintWkg}W/kg (${Math.round(sprintWkg * r.weight)}W)` : null;
+    const w1min = r.wkg1 ? `1min=${r.wkg1}W/kg (${Math.round(r.wkg1 * r.weight)}W)` : null;
+    let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · ${w1min || ''}${sprintStr ? ' · '+sprintStr : ''} · FTP=${r.ftp}W`;
     if (r.score != null) line += ` · Route score=${r.score}`;
     line += raceRating;
     return line;
   }).join('\n');
 
-  const oppRiderLines = (d.oppRiders || []).map(r =>
-    `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · FTP=${r.ftp}W${r.score != null ? ' · Rute-score='+r.score : ''}`
-  ).join('\n');
+  const oppRiderLines = (d.oppRiders || []).map(r => {
+    const sprintWkg = r.wkg15s || r.wkg5s;
+    const sprintLabel = r.wkg15s ? '15s' : '5s';
+    const sprintStr = sprintWkg ? ` · ${sprintLabel}=${sprintWkg}W/kg (${Math.round(sprintWkg * r.weight)}W)` : '';
+    const w1min = r.wkg1 ? ` · 1min=${r.wkg1}W/kg (${Math.round(r.wkg1 * r.weight)}W)` : '';
+    return `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg${w1min}${sprintStr} · FTP=${r.ftp}W${r.score != null ? ' · Route score='+r.score : ''}`;
+  }).join('\n');
 
   const deltaLines = (d.wkgDeltas || []).map(iv => {
     const sign = iv.delta >= 0 ? '+' : '';
@@ -3302,45 +3309,65 @@ async function generateMatchupStrategy() {
     return `  ${iv.label}: ${sign}${Math.round(iv.delta)}W (LEQP avg ${Math.round(iv.myVal)}W vs ${Math.round(iv.oppVal)}W)`;
   }).join('\n');
 
-  const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp tactical race plan — max 380 words.
+  const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp tactical race plan — max 450 words.
 
-Race format: team points race, positions earn points. All tactics are team-first. Individual sacrifice is valid if it helps the team score.
+Race format: team points race. Points: 1st=10, 2nd=9, 3rd=8, 4th=7, 5th=6, 6th=5, 7th=4, 8th=3, 9th=2, 10th=1. Team score = sum of all 5 riders. All tactics are team-first. Individual sacrifice is valid if it helps the team total.
+
+Field size: 10 riders (5 vs 5). Breakaways are rare and hard to sustain. Expect the race to stay together until late splits on climbs, punchy sections, or sprint segments.
 
 DRAFTING MECHANICS (critical for realistic tactics):
 - Riders in the draft save ~25-30% energy vs the rider pulling at the front
-- A rider pulling at FTP (e.g. 4.1W/kg) is easy to follow for the group — they only need ~3.0-3.5W/kg
-- Riding at FTP on the front does NOT deter attacks — it actually lets the group recover
-- To suppress attacks, the puller must go 8-10% above FTP (~4.4-4.5W/kg) — this hurts everyone in the group
-- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 15-sec sprint power (use 5-sec sprint if 15-sec unavailable) for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes to keep the gap growing and discourage the chase, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers when recommending attacks
-- In a final sprint for position, a rider can go to 100% of sprint power. Mid-race attacks should use the 80% figure above — full sprint power mid-race burns matches the team cannot afford
-- Conclusion: never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
+- A rider pulling at FTP is easy to follow — draft riders only need ~3.0-3.5W/kg
+- Riding at FTP on the front does NOT deter attacks — it lets the group recover
+- To suppress attacks, the puller must go 8-10% above FTP — this hurts everyone in the group
+- A classic attack has 3 phases: (1) explosive opener at ~80% of the rider's 15-sec sprint power (use 5-sec sprint if 15-sec unavailable) for just a few seconds to create the gap, (2) sustain at approximately the rider's 5-min power for 1-2 minutes, (3) settle to ~FTP+8-10% once the gap is established — use each rider's actual numbers
+- In a final sprint, a rider can go to 100% of sprint power. Mid-race attacks should use 80% — full sprint power mid-race burns matches the team cannot afford
+- Never recommend "maintain FTP on the front to deter attacks" — it has the opposite effect
+- Weight vs. raw Watts: on flat sections, absolute Watts matter more than W/kg. A heavier rider with high raw power can force lighter riders to go over-threshold just to stay in the draft, even if the lighter rider has a higher W/kg
+- Formation matters: a wide "blob" allows easy counter-attacks from the back. A high-pace "string" (single file) makes it nearly impossible to jump away undetected — use this when the team wants to control the race
+
+Energy discipline:
+- Riders should avoid sustained efforts above 120% FTP for more than ~30 seconds unless it is a decisive move
+- Long tempo pulls should be ~102–108% FTP — enough to stress the group without burning matches
+
+Attacks should be rare and purposeful. In a 5v5 race, constant attacking harms the attacking team more than the opponent. Each attack must have a clear team objective.
 
 Tactical principles to apply where relevant:
 - Assign riders to mark specific dangerous opponents — one rider shadows one opponent
 - If an opponent is clearly strongest in the race, consider letting them go rather than destroying team cohesion chasing them
 - Decide: offensive (attack early, force the race) or defensive (sit in, react, sprint finish) — base this on the points delta vs ${d.oppName}
 - Identify 1-2 specific attack points on the route where efforts should be launched
-- Repeated attacks: riders take turns attacking to fragment the group and create gaps
 - Watch for a sprint start from ${d.oppName} — if they have sprint-type riders, expect an early hard effort
+- Avoid double-marking: ensure two riders do not waste energy chasing the same opponent move. If a Marker is assigned, teammates must trust them to close the gap unless the Marker is clearly cracked
+- Counter-attacking: if an opponent attack is neutralized, immediately consider a counter-attack while the opponent is in their recovery phase (anaerobic debt) — this is the highest-value attack window
 - This race is unpredictable — give a contingency: what to do if the plan breaks down
 
+Base ALL tactical recommendations strictly on the provided rider power numbers and route profile. Do not invent abilities or weaknesses that are not present in the data. Avoid generic advice such as "ride smart", "stay together", or "communicate" — every recommendation must be specific and actionable.
+
 Use EXACTLY this structure:
+
+0. **Threat Assessment**
+   Identify the two most dangerous riders on ${d.oppName} and explain briefly why (based on their W/kg data).
 
 1. **Strategy: [punchy title]**
    Offensive or defensive? Why. 2 sentences max.
 
 2. **Rider Roles**
-   One bullet per ${d.myName} rider. Include: target position, who (if anyone) they should mark, any sacrifice role.
-   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = highest finishing potential, target top positions, but must still contribute actively to the race — close gaps, follow attacks, apply pressure. Do NOT make them passive "sit and wait" riders. RELIABLE = solid points scorer, active role. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
-   This is a TEAM points race — total team score matters more than any single rider winning. Getting positions 2nd, 3rd and 4th beats 1st, 4th and 5th. Never build a strategy around protecting one rider at the expense of team points.
-   Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, skip the position target and instead describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
+   One bullet per ${d.myName} rider. Assign each rider one of these roles: Captain (protected finisher), Enforcer (controls pace / suppresses attacks), Attacker (creates splits), Marker (shadows a specific opponent), Sacrifice rider (burns matches for team advantage).
+   Include: assigned role, target position, who (if anyone) they should mark.
+   CRITICAL: Each rider has a "Race rating" label — this is ground truth and OVERRIDES W/kg. MATCH WINNER = highest finishing potential, target top positions, but must still contribute actively — close gaps, follow attacks, apply pressure. Do NOT make them passive. RELIABLE = solid points scorer, active role. VARIABLE = capable but results vary, use tactically. STRUGGLES = sacrifice role candidate. Never assign sacrifice role to a MATCH WINNER. Never assign a top finishing role to VARIABLE or STRUGGLES.
+   This is a TEAM points race — total team score matters more than any single rider winning. Getting positions 2nd, 3rd and 4th (26 pts) beats 1st, 4th and 5th (23 pts). Never build a strategy around protecting one rider at the expense of team points.
+   Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
+   Finish alignment: match the Captain/Match Winner role to the finish profile. If the route fingerprint shows high Punch% or Climber%, prioritize riders with high 1-min W/kg. If high Sprint% or Flat/TT%, prioritize riders with high 15-sec raw Watts and heavier builds.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
    IMPORTANT: Base the race plan ONLY on the route data provided (distance, elevation, profile, fingerprint %). Do NOT invent or name specific climbs, segments or features — use generic terms like "the climb", "the flat section", "the sprint point".
 
 4. **If The Plan Breaks Down**
-   2 bullets: fallback when the race goes chaotic.
+   Two concrete scenarios:
+   - Scenario A (Match Winner dropped): if our primary Captain is distanced, Reliable riders pivot immediately to a "negative race" — disrupting ${d.oppName}'s lead-out and minimising the points delta rather than chasing hopelessly
+   - Scenario B (Opponent 2-man split, no Marker present): the closest rider bridges immediately regardless of assigned role; the remaining riders sit in and force the opponents to do 100% of the work in the chase group
 
 Reply ONLY in English. Be tactical and direct — use actual W/kg numbers.
 
