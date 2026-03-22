@@ -616,7 +616,7 @@ def update_opponents(content):
         print(f"WARNING: source_code folder missing: {SOURCE_DIR}")
         return content
 
-    files = sorted([f for f in os.listdir(SOURCE_DIR) if f.endswith(".html")])
+    files = sorted([f for f in os.listdir(SOURCE_DIR) if f.endswith(".html") and f != "fixtures.html"])
     all_teams = []
     all_options = []
 
