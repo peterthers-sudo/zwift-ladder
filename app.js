@@ -1912,7 +1912,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.51'; // bump this on every update
+const APP_VERSION = 'v1.3.52'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3478,7 +3478,9 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
   const fp = getCourseFingerprint(course);
 
   function scoreMyRider(r)  { return scoreRiderForCourse(r, fp); }
-  function scoreOppRider(r) { return scoreOppRiderForCourse(r, fp, fn); }
+  // my-team-style opponents (LEQP teams) have twentyMin/fiveMin/sprint — same structure as my riders
+  // library opponents only have wkg/watt — use the dedicated opp scorer
+  function scoreOppRider(r) { return r.twentyMin != null ? scoreRiderForCourse(r, fp) : scoreOppRiderForCourse(r, fp, fn); }
 
   const mySorted  = [...myRiders].map(r => ({ rider:r, score:scoreMyRider(r),  team:'my'  }))
                                   .sort((a,b) => b.score - a.score).slice(0, MAX);
