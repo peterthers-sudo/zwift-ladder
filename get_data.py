@@ -257,18 +257,25 @@ def generate_rider_bio(d, races):
             f"{first} weighs {weight:.0f}kg and produces {wkg20:.2f} W/kg at FTP pace. Long climbs are a natural hunting ground.",
             f"Pure climber profile: {weight:.0f}kg and {wkg20:.2f} W/kg FTP. The longer the gradient, the more this rider hurts the opposition.",
         ]))
+    elif 'sprinter' in labels:
+        parts.append(pick([
+            f"{first} carries serious sprint power — {wkg5s:.1f} W/kg over 5 seconds off a {wkg20:.2f} W/kg base. Flat finishes are the strongest card.",
+            f"Sprint-oriented profile: {wkg5s:.1f} W/kg in 5 seconds. Get {first} to the line in a bunch and the result usually takes care of itself.",
+            f"A sprinter's ratio: {wkg5s:.1f} W/kg peak power versus {wkg20:.2f} W/kg FTP. {first} is built for bunch finishes on flat terrain.",
+        ]))
+        # Hvis også puncheur: nævn 1min som ekstra kvalitet
+        if 'puncheur' in labels and wkg1 > 0:
+            parts.append(pick([
+                f"The 1-minute number ({wkg1:.2f} W/kg) adds punch to the sprint — can go early and still hold it to the line.",
+                f"Not just a sprinter: {wkg1:.2f} W/kg at 1 minute means {first} can also win on punchy finishes, not just flat bunch sprints.",
+                f"With {wkg1:.2f} W/kg over 1 minute alongside the sprint power, {first} is dangerous on both flat and punchy terrain.",
+            ]))
     elif 'puncheur' in labels:
         parts.append(pick([
             f"{first} is a punchy, explosive rider — {wkg1:.2f} W/kg over 1 minute off a {wkg20:.2f} W/kg FTP base makes repeated short climbs dangerous.",
             f"Strong short-effort numbers: {wkg1:.2f} W/kg at 1 minute from a {wkg20:.2f} W/kg base. {first} excels where the road kicks up sharply.",
             f"With {wkg1:.2f} W/kg at 1 minute, {first} can accelerate out of corners and over punchy rises in a way that quickly creates gaps.",
             f"Puncheur profile: {wkg1:.2f} W/kg at 1 minute. {first} is at their best on courses with repeated short climbs and accelerations.",
-        ]))
-    elif 'sprinter' in labels:
-        parts.append(pick([
-            f"{first} carries serious sprint power — {wkg5s:.1f} W/kg over 5 seconds off a {wkg20:.2f} W/kg base. Flat finishes are the strongest card.",
-            f"Sprint-oriented profile: {wkg5s:.1f} W/kg in 5 seconds. Get {first} to the line in a bunch and the result usually takes care of itself.",
-            f"A sprinter's ratio: {wkg5s:.1f} W/kg peak power versus {wkg20:.2f} W/kg FTP. {first} is built for bunch finishes on flat terrain.",
         ]))
     else:
         parts.append(pick([
