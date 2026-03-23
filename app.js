@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.70'; // bump this on every update
+const APP_VERSION = 'v1.3.71'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3627,7 +3627,7 @@ function printRiderAnalysis() {
 <div class="sub">LEQP LADDER · RIDER ANALYSIS · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}</div>
 ${headerHTML ? `<div class="section">${headerHTML}</div>` : ''}
 ${raceHTML   ? `<div class="section">${raceHTML}</div>`   : ''}
-${detailHTML ? `<div class="section">${detailHTML}</div>` : ''}
+${detailHTML ? `<div class="section"><div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;font-weight:700;color:var(--text);letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--border)">📊 Detailed Rider Analysis</div>${detailHTML}</div>` : ''}
 <script>setTimeout(()=>window.print(),400);<\/script>
 </body></html>`);
   w.document.close();
