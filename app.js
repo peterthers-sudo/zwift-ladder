@@ -555,6 +555,94 @@ function matchScore(team, course) {
   return { score: Math.round(score * 10), fp };
 }
 
+// ── Race Metrics: beregner 6 performance-indikatorer fra ladder race historik ──
+function calcRaceMetrics(races) {
+  if (!races || !races.length) return null;
+  const valid = races.filter(r => r.wkg1200 > 0 && r.wkg60 > 0 && r.avg_wkg > 0);
+  const n = valid.length;
+  if (n < 3) return null;
+
+  const avg = arr => arr.reduce((s, x) => s + x, 0) / arr.length;
+  const cv  = arr => { const a = avg(arr); if (!a) return 0; return Math.sqrt(avg(arr.map(x => (x - a) ** 2))) / a * 100; };
+  function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+  function scale(v, vlo, vhi, slo, shi) {
+    if (vhi === vlo) return (slo + shi) / 2;
+    return clamp(slo + (v - vlo) / (vhi - vlo) * (shi - slo), Math.min(slo, shi), Math.max(slo, shi));
+  }
+
+  // Punch: avg(wkg5/wkg1200) ratio
+  const punchData = valid.filter(r => r.wkg5 > 0);
+  const avgPunch  = punchData.length ? avg(punchData.map(r => r.wkg5 / r.wkg1200)) : null;
+
+  // VO₂ stability: avg(wkg300/wkg1200) + CV penalty
+  const vo2Data  = valid.filter(r => r.wkg300 > 0);
+  const avgVo2   = vo2Data.length ? avg(vo2Data.map(r => r.wkg300 / r.wkg1200)) : null;
+  const cvVo2    = vo2Data.length ? cv(vo2Data.map(r => r.wkg300)) : null;
+
+  // Repeatability: avg(wkg60/wkg120) + CV penalty
+  const repData     = valid.filter(r => r.wkg120 > 0);
+  const repeatRatios = repData.map(r => r.wkg60 / r.wkg120);
+  const avgRepeat   = repData.length ? avg(repeatRatios) : null;
+  const cvRepeat    = repData.length ? cv(repeatRatios) : null;
+
+  // Pacing: avg(wkg60/avg_wkg) — lower = better paced
+  const pacingRatios = valid.map(r => r.wkg60 / r.avg_wkg);
+  const avgPacing    = avg(pacingRatios);
+
+  // End sprint proxy: top-5% i velpackede løb vs overall
+  const wellPaced        = valid.filter(r => r.wkg60 / r.avg_wkg < avgPacing);
+  const wellPacedTop5pct = wellPaced.length ? wellPaced.filter(r => r.pos && r.pos <= 5).length / wellPaced.length : 0;
+  const overallTop5pct   = valid.filter(r => r.pos && r.pos <= 5).length / n;
+  const endSprintDelta   = wellPacedTop5pct - overallTop5pct;
+
+  // Fatigue resistance: CV af wkg1200
+  const cvFatigue = cv(valid.map(r => r.wkg1200));
+
+  // Scores 1-10
+  const punchScore = avgPunch != null ? Math.round(scale(avgPunch, 1.4, 3.5, 2, 10)) : null;
+
+  let vo2Score = null;
+  if (avgVo2 != null) {
+    const base    = Math.round(scale(avgVo2, 1.05, 1.28, 3, 10));
+    const penalty = cvVo2 != null ? Math.round(clamp(cvVo2 / 4, 0, 2)) : 0;
+    vo2Score = clamp(base - penalty, 1, 10);
+  }
+
+  const pacingScore = Math.round(scale(avgPacing, 2.2, 1.3, 2, 10));
+
+  let repeatScore = null;
+  if (avgRepeat != null) {
+    const base    = Math.round(scale(avgRepeat, 1.4, 1.05, 2, 9));
+    const penalty = Math.round(clamp((cvRepeat || 0) / 5, 0, 2));
+    repeatScore = clamp(base - penalty, 1, 10);
+  }
+
+  const endSprintScore = clamp(5 + Math.round(endSprintDelta * 8) + (avgPunch != null ? Math.round(avgPunch - 2.0) : 0), 1, 10);
+  const fatigueScore   = Math.round(scale(cvFatigue, 15, 2, 2, 10));
+
+  // Key insights (max 3)
+  const insights = [];
+  if (punchScore != null && punchScore >= 8) insights.push(`Ekstremt eksplosiv — ${avgPunch.toFixed(1)}× sprint/FTP`);
+  else if (punchScore != null && punchScore <= 4) insights.push(`Begrænset sprint — ${avgPunch.toFixed(1)}× sprint/FTP`);
+  if (repeatScore != null && repeatScore <= 4) insights.push(`Fader hurtigt efter spikes — ${avgRepeat.toFixed(2)} 1min/2min ratio`);
+  else if (repeatScore != null && repeatScore >= 8) insights.push(`God repeatability — holder styrken efter gentagne spikes`);
+  if (pacingScore <= 4) insights.push(`Aggressiv start — ${avgPacing.toFixed(2)} 1min/AVG, tømmer tanken tidligt`);
+  else if (pacingScore >= 8) insights.push(`Jævn pacing — ${avgPacing.toFixed(2)} 1min/AVG ratio`);
+  if (fatigueScore <= 4) insights.push(`Ustabil FTP-output — ${cvFatigue.toFixed(1)}% variation på 20min`);
+  else if (fatigueScore >= 8) insights.push(`Stabil FTP-motor — ${cvFatigue.toFixed(1)}% CV på 20min`);
+
+  const confidence      = n < 5 ? 'low' : n < 10 ? 'medium' : 'high';
+  const confidenceLabel = n < 5 ? `⚠ ${n} løb — usikker` : n < 10 ? `${n} løb — moderat` : `${n} løb — god data`;
+  const confidenceColor = n < 5 ? '#ff9f43' : n < 10 ? 'var(--accent)' : 'var(--accent3)';
+
+  return {
+    n, confidence, confidenceLabel, confidenceColor,
+    scores: { punch: punchScore, vo2: vo2Score, pacing: pacingScore, repeatability: repeatScore, endSprint: endSprintScore, fatigue: fatigueScore },
+    ratios: { punch: avgPunch, vo2: avgVo2, pacing: avgPacing, repeat: avgRepeat, fatigue: cvFatigue },
+    insights: insights.slice(0, 3)
+  };
+}
+
 function scoreRiderForCourse(r, fp) {
   // vELO2 fast path: use zwiftracing.app factor ratings when available
   if (r.velo_sprint != null) {
@@ -1211,6 +1299,40 @@ function renderRiders() {
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);line-height:1.7">${RIDER_BIOS[String(r.zwift_id)]}</div>
           </div>` : ''}
+          ${(() => {
+            const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[String(r.zwift_id)] || LADDER_RACES[r.zwift_id]);
+            const rm = calcRaceMetrics(lrEntry ? lrEntry.races : []);
+            if (!rm) return '';
+            const base = "font-family:'JetBrains Mono',monospace;";
+            const dims = [
+              ['🥊', 'Punch',     rm.scores.punch,        rm.ratios.punch  != null ? rm.ratios.punch.toFixed(1)+'× spr/FTP'      : '', '#f7d084'],
+              ['🫁', 'VO₂ stab.', rm.scores.vo2,          rm.ratios.vo2    != null ? rm.ratios.vo2.toFixed(2)+' 5m/20m'           : '', '#b48eff'],
+              ['🎯', 'Pacing',    rm.scores.pacing,       rm.ratios.pacing != null ? rm.ratios.pacing.toFixed(2)+' 1m/AVG'        : '', 'var(--accent)'],
+              ['🔁', 'Repeat.',   rm.scores.repeatability,rm.ratios.repeat != null ? rm.ratios.repeat.toFixed(2)+' 1m/2m'         : '', 'var(--accent2)'],
+              ['🏁', 'Slut-spr.', rm.scores.endSprint,    'proxy',                                                                    'var(--accent3)'],
+              ['💪', 'Fatigue',   rm.scores.fatigue,      rm.ratios.fatigue!= null ? rm.ratios.fatigue.toFixed(1)+'% CV 20m'     : '', '#ff9f43'],
+            ].filter(([,,score]) => score != null);
+            const rows = dims.map(([icon, label, score, detail, color]) => {
+              const pct = score * 10;
+              return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
+                <span style="font-size:0.7rem;width:14px">${icon}</span>
+                <span style="${base}font-size:0.57rem;color:var(--text-dim);width:58px">${label}</span>
+                <div style="flex:1;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
+                  <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
+                </div>
+                <span style="${base}font-size:0.65rem;font-weight:700;color:${color};width:14px;text-align:right">${score}</span>
+                <span style="${base}font-size:0.54rem;color:var(--text-dim);width:90px;text-align:right">${detail}</span>
+              </div>`;
+            }).join('');
+            const insightHTML = rm.insights.length ? `<div style="margin-top:5px;${base}font-size:0.57rem;color:var(--text-dim);line-height:1.7">${rm.insights.map(i => '· '+i).join('<br>')}</div>` : '';
+            return `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
+              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
+                <div style="${base}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Race Analysis</div>
+                <div style="${base}font-size:0.54rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
+              </div>
+              ${rows}${insightHTML}
+            </div>`;
+          })()}
         </div>
       </div>
     `;
@@ -1912,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.52'; // bump this on every update
+const APP_VERSION = 'v1.3.53'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3222,7 +3344,8 @@ function renderMatchupAnalysis() {
         ftp:   Math.round(getRiderWatts(r, 'ftp')),
         score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null,
         avgPos: avgPos ? +avgPos : null,
-        races:  positions.length
+        races:  positions.length,
+        raceMetrics: calcRaceMetrics(lrEntry ? lrEntry.races : [])
       };
     }),
     oppRiders: oppRiders.map(r => ({
@@ -3288,6 +3411,18 @@ async function generateMatchupStrategy() {
     let line = `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg · 5min=${r.wkg5}W/kg · ${w1min || ''}${sprintStr ? ' · '+sprintStr : ''} · FTP=${r.ftp}W`;
     if (r.score != null) line += ` · Route score=${r.score}`;
     line += raceRating;
+    if (r.raceMetrics) {
+      const s = r.raceMetrics.scores;
+      const parts = [];
+      if (s.punch        != null) parts.push(`Punch=${s.punch}`);
+      if (s.vo2          != null) parts.push(`VO2=${s.vo2}`);
+      if (s.pacing       != null) parts.push(`Pacing=${s.pacing}`);
+      if (s.repeatability!= null) parts.push(`Repeat=${s.repeatability}`);
+      if (s.endSprint    != null) parts.push(`EndSprint=${s.endSprint}`);
+      if (s.fatigue      != null) parts.push(`Fatigue=${s.fatigue}`);
+      if (parts.length) line += ` · RaceProfile(1-10): ${parts.join(' ')} [${r.raceMetrics.confidence} conf, ${r.raceMetrics.n} races]`;
+      if (r.raceMetrics.insights.length) line += ` · Notes: ${r.raceMetrics.insights.join('; ')}`;
+    }
     return line;
   }).join('\n');
 
