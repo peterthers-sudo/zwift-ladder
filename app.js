@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.69'; // bump this on every update
+const APP_VERSION = 'v1.3.70'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3597,11 +3597,13 @@ function printAIStrategy() {
 
 function printRiderAnalysis() {
   const name       = document.getElementById('profile-name')?.textContent || 'Rider';
+  const headerEl   = document.getElementById('profile-header');
   const raEl       = document.getElementById('profile-race-analysis');
   const daEl       = document.getElementById('profile-detailed-analysis');
+  const headerHTML = headerEl ? headerEl.innerHTML : '';
   const raceHTML   = raEl && raEl.style.display !== 'none' ? raEl.innerHTML : '';
   const detailHTML = daEl ? daEl.innerHTML : '';
-  if (!raceHTML && !detailHTML) return;
+  if (!headerHTML && !raceHTML && !detailHTML) return;
 
   const isLight = document.body.classList.contains('light-mode');
   const vars = isLight
@@ -3622,8 +3624,8 @@ function printRiderAnalysis() {
   button { display:none; }
   @media print { body { padding:16px 24px; } }
 </style></head><body>
-<h1>${name}</h1>
 <div class="sub">LEQP LADDER · RIDER ANALYSIS · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}</div>
+${headerHTML ? `<div class="section">${headerHTML}</div>` : ''}
 ${raceHTML   ? `<div class="section">${raceHTML}</div>`   : ''}
 ${detailHTML ? `<div class="section">${detailHTML}</div>` : ''}
 <script>setTimeout(()=>window.print(),400);<\/script>
