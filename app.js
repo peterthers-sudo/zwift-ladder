@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.62'; // bump this on every update
+const APP_VERSION = 'v1.3.63'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3467,6 +3467,15 @@ Energy discipline:
 
 Attacks should be rare and purposeful. In a 5v5 race, constant attacking harms the attacking team more than the opponent. Each attack must have a clear team objective.
 
+RaceProfile scores (1–10, derived from actual ladder race history — use these to sharpen role assignments):
+- Punch (1–10): explosive short-burst power relative to FTP. ≥8 = effective attacker on punchy sections. ≤4 = avoid leading sprint attacks.
+- VO2 (1–10): 5min power stability relative to 20min. ≥8 = can sustain hard accelerations. ≤4 = struggles to bridge or respond to sustained efforts.
+- Pacing (1–10): how evenly distributed effort is across the race. ≥8 = disciplined pacer, dangerous in the final phase — prioritise as finisher. ≤4 = goes too hard early and fades — expose them with a late attack or a slow start.
+- Repeatability (1–10): ability to recover power after hard spikes. ≤4 = weakens significantly after repeated efforts — target them in the second half. ≥8 = can attack repeatedly without fading.
+- EndSprint (1–10): closing sprint proxy. ≥8 = dangerous finisher in well-paced races. ≤4 = sprint finish is not a weapon — do not assign captain/finisher role.
+- Fatigue (1–10): consistency of 20min power across races. ≤4 = unpredictable output — may have a bad day; do not over-rely on their average numbers. ≥8 = reliable, race after race.
+Only use RaceProfile scores marked "medium" or "high" confidence. Ignore "low" confidence scores.
+
 Tactical principles to apply where relevant:
 - Assign riders to mark specific dangerous opponents — one rider shadows one opponent
 - If an opponent is clearly strongest in the race, consider letting them go rather than destroying team cohesion chasing them
@@ -3612,7 +3621,29 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
 
   const fp = getCourseFingerprint(course);
 
-  function scoreMyRider(r)  { return scoreRiderForCourse(r, fp); }
+  // Race metrics modifier: adjusts base score by up to ±5 based on behavioural data
+  function raceMetricsModifier(rm, fp) {
+    if (!rm || rm.confidence === 'low') return 0;
+    const s = rm.scores;
+    let mod = 0;
+    // Pacing: disciplined pacer = more reliable output on any course
+    if (s.pacing != null) mod += (s.pacing - 5.5) * 0.45;
+    // Fatigue resistance: consistency across races
+    if (s.fatigue != null) mod += (s.fatigue - 5.5) * 0.35;
+    // Repeatability: especially valuable on punchy/hilly courses
+    if (s.repeatability != null) {
+      const punchWeight = ((fp.punch || 0) + (fp.medium || 0)) / 100;
+      mod += (s.repeatability - 5.5) * 0.6 * punchWeight;
+    }
+    // End sprint: matters most on sprint/flat finishes
+    if (s.endSprint != null) {
+      const sprintWeight = ((fp.sprint || 0) + (fp.tt || 0)) / 100;
+      mod += (s.endSprint - 5.5) * 0.5 * sprintWeight;
+    }
+    return Math.max(-5, Math.min(5, mod));
+  }
+
+  function scoreMyRider(r)  { return scoreRiderForCourse(r, fp) + raceMetricsModifier(r.raceMetrics, fp); }
   // my-team-style opponents (LEQP teams) have twentyMin/fiveMin/sprint — same structure as my riders
   // library opponents only have wkg/watt — use the dedicated opp scorer
   function scoreOppRider(r) { return r.twentyMin != null ? scoreRiderForCourse(r, fp) : scoreOppRiderForCourse(r, fp, fn); }
