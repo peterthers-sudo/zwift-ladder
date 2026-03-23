@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.57'; // bump this on every update
+const APP_VERSION = 'v1.3.58'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4906,7 +4906,7 @@ function _profileGenerateAnalysis(races) {
     ? podiums.slice(0,3).map(r => `P${r.pos} (${fmtDate(r.event_date)})`).join(', ')
     : null;
 
-  // Scores first — strengths/weaknesses driven by scores (≥8 = strength, ≤4 = weakness)
+  // Scores first — strengths/weaknesses driven by scores (≥8 = strength, ≤5 = weakness)
   const rm = calcRaceMetrics(races);
   const strengths = [], weaknesses = [];
   if (rm) {
@@ -4914,33 +4914,33 @@ function _profileGenerateAnalysis(races) {
     // Punch
     if (scores.punch != null && scores.punch >= 8 && avgWkg5 != null)
       strengths.push({ title:'Punch / short spikes (5s–30s)', text:`Avg 5s: ${f1(avgWkg5)} W/kg (range ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Extremely explosive' : 'Solid explosive capacity'} — can go hard at key moments.` });
-    else if (scores.punch != null && scores.punch <= 4 && avgWkg5 != null)
-      weaknesses.push({ title:'Punch / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg — limited sprint capacity. Flat finishes are not ideal terrain.` });
+    else if (scores.punch != null && scores.punch <= 5 && avgWkg5 != null)
+      weaknesses.push({ title:'Punch / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg${scores.punch <= 4 ? ' — limited sprint capacity. Flat finishes are not ideal terrain.' : ' — below average. Not a reliable weapon in sprint finishes.'}` });
     // VO₂
     if (scores.vo2 != null && scores.vo2 >= 8 && avgWkg300 != null && wkg300vals.length >= 3)
       strengths.push({ title:'VO₂ stability (5min)', text:`Avg 5min: ${f2(avgWkg300)} W/kg with low spread (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))}). Most consistent metric — sign of a strong aerobic base.` });
-    else if (scores.vo2 != null && scores.vo2 <= 4 && avgWkg300 != null)
-      weaknesses.push({ title:'VO₂ stability (5min)', text:`5min avg ${f2(avgWkg300)} W/kg — inconsistent or low relative to 20min power. Aerobic ceiling may limit sustained efforts.` });
+    else if (scores.vo2 != null && scores.vo2 <= 5 && avgWkg300 != null)
+      weaknesses.push({ title:'VO₂ stability (5min)', text:`5min avg ${f2(avgWkg300)} W/kg — ${scores.vo2 <= 4 ? 'inconsistent or low relative to 20min power. Aerobic ceiling may limit sustained efforts.' : 'below average relative to 20min power. Sustained high-intensity efforts are a limiting factor.'}` });
     // Pacing
     if (scores.pacing >= 8)
       strengths.push({ title:'Pacing / tactical judgement', text:`1min/AVG ratio of ${f2(avgPac)} is low — maintains steady output and saves energy for the finish.` });
-    else if (scores.pacing <= 4)
+    else if (scores.pacing <= 5)
       weaknesses.push({ title:'Pacing consistency', text:`1min/AVG ratio avg ${f2(avgPac)} (range ${f2(bestPac.ratio)}–${f2(worstPac.ratio)}). ${pacingPattern}` });
     // Repeatability
     if (scores.repeatability != null && scores.repeatability >= 8 && avgRep != null)
       strengths.push({ title:'Repeatability', text:`1min/2min ratio ${f2(avgRep)} ± ${f2(stdRep)} — very consistent after spikes. ${repVurdering}` });
-    else if (scores.repeatability != null && scores.repeatability <= 4 && avgRep != null)
+    else if (scores.repeatability != null && scores.repeatability <= 5 && avgRep != null)
       weaknesses.push({ title:'Repeatability', text:`1min/2min ratio ${f2(avgRep)} ± ${f2(stdRep)}. ${repVurdering}` });
     // Fatigue resistance
     if (scores.fatigue >= 8)
       strengths.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg with only ${Math.round(dropPct)}% drop in hardest races (${f1(minv(wkg1200vals))} W/kg). Very consistent FTP output.` });
-    else if (scores.fatigue <= 4)
-      weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. Notable fatigue toward the finish.` });
+    else if (scores.fatigue <= 5)
+      weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. ${scores.fatigue <= 4 ? 'Notable fatigue toward the finish.' : 'Some drop-off in the final phase.'}` });
     // Late-race sprint
     if (scores.endSprint >= 8)
       strengths.push({ title:'Late-race sprint', text:`Performs significantly better in well-paced races — suggesting strong closing ability when reserves are managed.` });
-    else if (scores.endSprint <= 4)
-      weaknesses.push({ title:'Late-race sprint', text:`No clear improvement in finishing position in well-paced races — closing power may be limited.` });
+    else if (scores.endSprint <= 5)
+      weaknesses.push({ title:'Late-race sprint', text:`${scores.endSprint <= 4 ? 'No clear improvement in finishing position in well-paced races — closing power may be limited.' : 'Limited upside in well-paced races — closing sprint is not a reliable finishing weapon.'}` });
   }
   // Podiums: separate non-score strength
   if (podiums.length >= 2)
