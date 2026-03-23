@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.64'; // bump this on every update
+const APP_VERSION = 'v1.3.65'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3413,14 +3413,22 @@ async function generateMatchupStrategy() {
     line += raceRating;
     if (r.raceMetrics) {
       const s = r.raceMetrics.scores;
+      const label = {
+        punch:         v => v >= 8 ? 'explosive' : v >= 6 ? 'decent' : v === 5 ? 'average' : v >= 3 ? 'weak' : 'no punch',
+        vo2:           v => v >= 8 ? 'strong VO2' : v >= 6 ? 'good VO2' : v === 5 ? 'average VO2' : v >= 3 ? 'inconsistent VO2' : 'poor VO2',
+        pacing:        v => v >= 8 ? 'disciplined pacer' : v >= 6 ? 'good pacing' : v === 5 ? 'moderate pacing' : v >= 3 ? 'aggressive starter, fades' : 'goes all-in early, fades badly',
+        repeatability: v => v >= 8 ? 'high repeatability' : v >= 6 ? 'good repeatability' : v === 5 ? 'moderate repeatability' : v >= 3 ? 'fades after hard efforts' : 'poor repeatability',
+        endSprint:     v => v >= 8 ? 'strong closer' : v >= 6 ? 'decent closer' : v === 5 ? 'average closer' : v >= 3 ? 'weak closer' : 'no closing sprint',
+        fatigue:       v => v >= 8 ? 'fatigue-resistant' : v >= 6 ? 'good fatigue resistance' : v === 5 ? 'average fatigue resistance' : v >= 3 ? 'fades in hard races' : 'poor fatigue resistance',
+      };
       const parts = [];
-      if (s.punch        != null) parts.push(`Punch=${s.punch}`);
-      if (s.vo2          != null) parts.push(`VO2=${s.vo2}`);
-      if (s.pacing       != null) parts.push(`Pacing=${s.pacing}`);
-      if (s.repeatability!= null) parts.push(`Repeat=${s.repeatability}`);
-      if (s.endSprint    != null) parts.push(`EndSprint=${s.endSprint}`);
-      if (s.fatigue      != null) parts.push(`Fatigue=${s.fatigue}`);
-      if (parts.length) line += ` · RaceProfile(1-10): ${parts.join(' ')} [${r.raceMetrics.confidence} conf, ${r.raceMetrics.n} races]`;
+      if (s.punch        != null) parts.push(`Punch: ${label.punch(s.punch)}`);
+      if (s.vo2          != null) parts.push(`VO2: ${label.vo2(s.vo2)}`);
+      if (s.pacing       != null) parts.push(`Pacing: ${label.pacing(s.pacing)}`);
+      if (s.repeatability!= null) parts.push(`Repeatability: ${label.repeatability(s.repeatability)}`);
+      if (s.endSprint    != null) parts.push(`EndSprint: ${label.endSprint(s.endSprint)}`);
+      if (s.fatigue      != null) parts.push(`Fatigue: ${label.fatigue(s.fatigue)}`);
+      if (parts.length) line += ` · RaceProfile (${r.raceMetrics.confidence} conf, ${r.raceMetrics.n} races): ${parts.join(' | ')}`;
       if (r.raceMetrics.insights.length) line += ` · Notes: ${r.raceMetrics.insights.join('; ')}`;
     }
     return line;
@@ -3503,7 +3511,7 @@ Use EXACTLY this structure:
    This is a TEAM points race — total team score matters more than any single rider winning. Getting positions 2nd, 3rd and 4th (26 pts) beats 1st, 4th and 5th (23 pts). Never build a strategy around protecting one rider at the expense of team points.
    Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
    Finish alignment: match the Captain/Match Winner role to the finish profile. If the route fingerprint shows high Punch% or Climber%, prioritize riders with high 1-min W/kg. If high Sprint% or Flat/TT%, prioritize riders with high 15-sec raw Watts and heavier builds.
-   RaceProfile requirement: for every rider who has RaceProfile scores with medium or high confidence, the role assignment MUST explicitly reference the relevant scores. Examples: a rider with Pacing≥8 should be noted as a reliable finisher; a rider with Repeatability≤4 should not be assigned repeated attack duties; a rider with EndSprint≤4 must not be the designated sprint finisher; a rider with Fatigue≥8 is suited for pacemaking roles. Do not assign a role that contradicts the scores without explaining why.
+   RaceProfile requirement: for every rider who has a RaceProfile with medium or high confidence, the role assignment MUST explicitly cite the relevant descriptors. Examples: a rider labelled "disciplined pacer" should be noted as a reliable finisher; a rider labelled "fades after hard efforts" must not be assigned repeated attack duties; a rider labelled "weak closer" or "no closing sprint" must not be the designated sprint finisher; a rider labelled "fatigue-resistant" is well suited for pacemaking. Do not assign a role that contradicts the RaceProfile without explaining why.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
