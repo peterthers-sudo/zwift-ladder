@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.65'; // bump this on every update
+const APP_VERSION = 'v1.3.66'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3609,7 +3609,7 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
       <div style="padding:24px 16px;background:var(--surface2);border:1px solid var(--border);
                   font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim);text-align:center;line-height:1.8">
         <div style="font-size:1.4rem;margin-bottom:10px">🗺</div>
-        Vælg en rute for at se match prediction.<br>
+        Select a route to see the match prediction.<br>
         <span style="font-size:0.62rem;letter-spacing:1px">Riders are ranked by suitability for the specific course,<br>
         weighting raw watts on flat routes and W/kg on climbs.</span>
         <div style="margin-top:16px;display:flex;gap:6px;align-items:center;justify-content:center;flex-wrap:wrap">
