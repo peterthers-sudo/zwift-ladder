@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.58'; // bump this on every update
+const APP_VERSION = 'v1.3.59'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4727,7 +4727,10 @@ function _profileRenderHeader(name, id, races) {
       const analysisHTML = _profileGenerateAnalysis(races);
       if (daWrap && daEl && analysisHTML) {
         daEl.innerHTML = analysisHTML;
+        daEl.style.display = 'block';
         daWrap.style.display = 'block';
+        const daBtn = document.getElementById('profile-analysis-btn');
+        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
       }
     } else {
       raEl.style.display = 'none';
