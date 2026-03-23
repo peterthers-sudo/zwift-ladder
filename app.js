@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.66'; // bump this on every update
+const APP_VERSION = 'v1.3.67'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5231,13 +5231,12 @@ function _renderFixturesList(fixtures) {
       <th style="border-bottom:1px solid var(--border)"></th>
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">AWAY</th>
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">ROUTE</th>
-      <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">POWERUPS</th>
     </tr>`;
 
   for (const date of Object.keys(byDate).sort()) {
     const d = new Date(date);
     const dateLabel = days[d.getDay()] + ', ' + d.getDate() + ' ' + months[d.getMonth()];
-    html += `<tr><td colspan="6" style="padding:14px 8px 4px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase">${dateLabel}</td></tr>`;
+    html += `<tr><td colspan="5" style="padding:14px 8px 4px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;font-weight:700;color:var(--accent);letter-spacing:2px;text-transform:uppercase">${dateLabel}</td></tr>`;
 
     byDate[date].forEach(f => {
       const isLeqpHome = f.home.startsWith('LEQP');
@@ -5250,7 +5249,6 @@ function _renderFixturesList(fixtures) {
         <td style="padding:8px 8px;color:var(--text-dim);text-align:center;font-size:0.6rem">vs</td>
         <td style="padding:8px 8px;${awayStyle};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.away}</td>
         <td style="padding:8px 8px;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.route || '—'}</td>
-        <td style="padding:8px 8px;color:var(--text-dim);font-size:0.6rem">${(f.powerups||[]).map(p=>({DRAFT:'Draft',AERO:'Aero',FEATHER:'Feather',GHOST:'Ghost',ANVIL:'Anvil',BURRITO:'Burrito',STEAMROLLER:'Steamroller'}[p]||p)).join(' · ')}</td>
       </tr>`;
     });
   }
