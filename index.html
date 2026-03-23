@@ -1009,9 +1009,12 @@
 
     <div id="profile-race-analysis" style="display:none;background:var(--surface);border:1px solid var(--border);padding:20px 24px;margin-bottom:20px"></div>
     <div id="profile-detailed-analysis-wrap" style="display:none;margin-bottom:20px">
-      <button onclick="toggleProfileDetailedAnalysis()" id="profile-analysis-btn" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;padding:14px 20px;background:rgba(0,229,255,0.18);border:2px solid rgba(0,229,255,0.7);color:var(--accent);cursor:pointer;width:100%;text-align:left;text-transform:uppercase;font-weight:700;box-shadow:0 0 14px rgba(0,229,255,0.15)">
-        📊 Detailed Rider Analysis ▼
-      </button>
+      <div style="display:flex;gap:0">
+        <button onclick="toggleProfileDetailedAnalysis()" id="profile-analysis-btn" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;padding:14px 20px;background:rgba(0,229,255,0.18);border:2px solid rgba(0,229,255,0.7);color:var(--accent);cursor:pointer;flex:1;text-align:left;text-transform:uppercase;font-weight:700;box-shadow:0 0 14px rgba(0,229,255,0.15)">
+          📊 Detailed Rider Analysis ▼
+        </button>
+        <button onclick="printRiderAnalysis()" title="Download as PDF" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:14px 16px;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.7);border-left:none;color:var(--accent);cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(0,229,255,0.15)">⬇ PDF</button>
+      </div>
       <div id="profile-detailed-analysis" style="display:none;background:var(--surface);border:1px solid rgba(0,229,255,0.35);border-top:none;padding:20px 24px"></div>
     </div>
 

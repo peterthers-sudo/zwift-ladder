@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.67'; // bump this on every update
+const APP_VERSION = 'v1.3.68'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3590,6 +3590,36 @@ function printAIStrategy() {
 <h1>${title}</h1>
 <div class="sub">LEQP LADDER · AI RACE STRATEGY · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}</div>
 <div class="content">${out.innerHTML}</div>
+<script>setTimeout(()=>window.print(),400);<\/script>
+</body></html>`);
+  w.document.close();
+}
+
+function printRiderAnalysis() {
+  const name      = document.getElementById('profile-name')?.textContent || 'Rider';
+  const raEl      = document.getElementById('profile-race-analysis');
+  const daEl      = document.getElementById('profile-detailed-analysis');
+  const raceHTML  = raEl && raEl.style.display !== 'none' ? raEl.innerHTML : '';
+  const detailHTML = daEl ? daEl.innerHTML : '';
+  if (!raceHTML && !detailHTML) return;
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Rider Analysis — ${name}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Bebas+Neue&display=swap');
+  :root { --accent:#00e5ff; --accent2:#ff6b35; --accent3:#00ff88; --text:#e8eaf6; --text-dim:#8892b0; --surface:#0d1829; --surface2:#111f35; --border:#1f2a40; --bg:#080f1a; --purple:#b48eff; }
+  * { box-sizing:border-box; margin:0; padding:0; }
+  body { font-family:'JetBrains Mono',monospace; font-size:11px; line-height:1.7; background:var(--bg); color:var(--text); padding:32px 40px; }
+  h1 { font-family:'Bebas Neue',sans-serif; font-size:28px; letter-spacing:4px; color:var(--accent); margin-bottom:4px; }
+  .sub { font-size:9px; letter-spacing:2px; color:var(--text-dim); margin-bottom:24px; }
+  .section { background:var(--surface); border:1px solid var(--border); padding:20px 24px; margin-bottom:16px; }
+  table { border-collapse:collapse; width:100%; }
+  button { display:none; }
+  @media print { body { padding:16px 24px; } }
+</style></head><body>
+<h1>${name}</h1>
+<div class="sub">LEQP LADDER · RIDER ANALYSIS · ${new Date().toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase()}</div>
+${raceHTML ? `<div class="section">${raceHTML}</div>` : ''}
+${detailHTML ? `<div class="section">${detailHTML}</div>` : ''}
 <script>setTimeout(()=>window.print(),400);<\/script>
 </body></html>`);
   w.document.close();
