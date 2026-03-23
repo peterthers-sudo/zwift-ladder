@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.56'; // bump this on every update
+const APP_VERSION = 'v1.3.57'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4906,20 +4906,47 @@ function _profileGenerateAnalysis(races) {
     ? podiums.slice(0,3).map(r => `P${r.pos} (${fmtDate(r.event_date)})`).join(', ')
     : null;
 
-  // Styrker og svagheder
-  const strengths = [], weaknesses = [];
-  if (avgWkg5 != null && avgWkg5 > 8.5) strengths.push({ title:'Punch / short spikes (5s–30s)', text:`Avg 5s: ${f1(avgWkg5)} W/kg (range ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Extremely explosive' : 'Solid explosive capacity'} — characteristic of a rider who can go hard at key moments.` });
-  if (avgWkg300 != null && wkg300vals.length >= 3 && (std(wkg300vals)/avgWkg300) < 0.07) strengths.push({ title:'VO₂ stability (5min)', text:`Avg 5min: ${f2(avgWkg300)} W/kg with low spread (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))}). Most consistent metric — sign of a strong aerobic base.` });
-  if (podiums.length >= 2) strengths.push({ title:'Results in key races', text:`${podStr}${podiums.length > 3 ? ' and more' : ''} shows ability to perform tactically at key moments.${top3inBest > 0 ? ` Best results correlate with lower 1min/AVG ratio.` : ''}` });
-  if (avgPac < 1.6) strengths.push({ title:'Pacing / tactical judgement', text:`1min/AVG ratio of ${f2(avgPac)} is low — the rider maintains steady output and saves energy for the finish.` });
-
-  if (avgRep != null && avgRep > 1.20) weaknesses.push({ title:'Repeatability', text:`1min/2min ratio ranges ${bestRep?f2(bestRep.ratio):'—'}–${worstRep?f2(worstRep.ratio):'—'}. ${repVurdering}` });
-  if (dropPct > 12) weaknesses.push({ title:'Late-race sprint / fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average — combined with high 1min activity this suggests notable fatigue toward the finish.` });
-  if (avgPac > 1.8) weaknesses.push({ title:'Pacing consistency', text:`1min/AVG ratio ranges from ${f2(bestPac.ratio)} to ${f2(worstPac.ratio)}. ${pacingPattern} ${top3inBest > 0 ? 'Best results (top 3) are achieved in races with a lower ratio.' : ''}` });
-  if (avgWkg5 != null && avgWkg5 < 7.5) weaknesses.push({ title:'Sprint / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg — limited sprint capacity. Flat finishes are not ideal terrain.` });
-
-  // Scores og kommentarer
+  // Scores first — strengths/weaknesses driven by scores (≥8 = strength, ≤4 = weakness)
   const rm = calcRaceMetrics(races);
+  const strengths = [], weaknesses = [];
+  if (rm) {
+    const { scores, ratios } = rm;
+    // Punch
+    if (scores.punch != null && scores.punch >= 8 && avgWkg5 != null)
+      strengths.push({ title:'Punch / short spikes (5s–30s)', text:`Avg 5s: ${f1(avgWkg5)} W/kg (range ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Extremely explosive' : 'Solid explosive capacity'} — can go hard at key moments.` });
+    else if (scores.punch != null && scores.punch <= 4 && avgWkg5 != null)
+      weaknesses.push({ title:'Punch / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg — limited sprint capacity. Flat finishes are not ideal terrain.` });
+    // VO₂
+    if (scores.vo2 != null && scores.vo2 >= 8 && avgWkg300 != null && wkg300vals.length >= 3)
+      strengths.push({ title:'VO₂ stability (5min)', text:`Avg 5min: ${f2(avgWkg300)} W/kg with low spread (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))}). Most consistent metric — sign of a strong aerobic base.` });
+    else if (scores.vo2 != null && scores.vo2 <= 4 && avgWkg300 != null)
+      weaknesses.push({ title:'VO₂ stability (5min)', text:`5min avg ${f2(avgWkg300)} W/kg — inconsistent or low relative to 20min power. Aerobic ceiling may limit sustained efforts.` });
+    // Pacing
+    if (scores.pacing >= 8)
+      strengths.push({ title:'Pacing / tactical judgement', text:`1min/AVG ratio of ${f2(avgPac)} is low — maintains steady output and saves energy for the finish.` });
+    else if (scores.pacing <= 4)
+      weaknesses.push({ title:'Pacing consistency', text:`1min/AVG ratio avg ${f2(avgPac)} (range ${f2(bestPac.ratio)}–${f2(worstPac.ratio)}). ${pacingPattern}` });
+    // Repeatability
+    if (scores.repeatability != null && scores.repeatability >= 8 && avgRep != null)
+      strengths.push({ title:'Repeatability', text:`1min/2min ratio ${f2(avgRep)} ± ${f2(stdRep)} — very consistent after spikes. ${repVurdering}` });
+    else if (scores.repeatability != null && scores.repeatability <= 4 && avgRep != null)
+      weaknesses.push({ title:'Repeatability', text:`1min/2min ratio ${f2(avgRep)} ± ${f2(stdRep)}. ${repVurdering}` });
+    // Fatigue resistance
+    if (scores.fatigue >= 8)
+      strengths.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg with only ${Math.round(dropPct)}% drop in hardest races (${f1(minv(wkg1200vals))} W/kg). Very consistent FTP output.` });
+    else if (scores.fatigue <= 4)
+      weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. Notable fatigue toward the finish.` });
+    // Late-race sprint
+    if (scores.endSprint >= 8)
+      strengths.push({ title:'Late-race sprint', text:`Performs significantly better in well-paced races — suggesting strong closing ability when reserves are managed.` });
+    else if (scores.endSprint <= 4)
+      weaknesses.push({ title:'Late-race sprint', text:`No clear improvement in finishing position in well-paced races — closing power may be limited.` });
+  }
+  // Podiums: separate non-score strength
+  if (podiums.length >= 2)
+    strengths.push({ title:'Results in key races', text:`${podStr}${podiums.length > 3 ? ' and more' : ''} — shows ability to perform tactically at key moments.${top3inBest > 0 ? ' Best results correlate with lower 1min/AVG ratio.' : ''}` });
+
+  // Score comments table
   const scoreComments = rm ? [
     ['🥊', 'Punch / short-burst power', rm.scores.punch, avgWkg5 != null ? `Avg 5s = ${f1(avgWkg5)} W/kg (${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))})` : ''],
     ['🫁', 'VO₂ stability (2–5 min)', rm.scores.vo2, avgWkg300 != null ? `5min avg ${f2(avgWkg300)} W/kg (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))})` : ''],
