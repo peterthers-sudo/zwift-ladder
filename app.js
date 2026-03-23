@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.54'; // bump this on every update
+const APP_VERSION = 'v1.3.55'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4579,6 +4579,10 @@ async function loadRiderProfile() {
   document.getElementById('profile-race-count').textContent = '';
   const _raReset = document.getElementById('profile-race-analysis');
   if (_raReset) { _raReset.style.display = 'none'; _raReset.innerHTML = ''; }
+  const _daReset = document.getElementById('profile-detailed-analysis-wrap');
+  if (_daReset) _daReset.style.display = 'none';
+  const _daInner = document.getElementById('profile-detailed-analysis');
+  if (_daInner) { _daInner.style.display = 'none'; _daInner.innerHTML = ''; }
 
   // Slå op i embedded LADDER_RACES — ingen API nødvendig
   const entry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[id] || LADDER_RACES[parseInt(id)]);
@@ -4716,6 +4720,15 @@ function _profileRenderHeader(name, id, races) {
         </div>
         ${rows}${insightHTML}${bioHTML}`;
       raEl.style.display = 'block';
+
+      // Generer detaljeret analyse og vis toggle-knap
+      const daWrap = document.getElementById('profile-detailed-analysis-wrap');
+      const daEl   = document.getElementById('profile-detailed-analysis');
+      const analysisHTML = _profileGenerateAnalysis(races);
+      if (daWrap && daEl && analysisHTML) {
+        daEl.innerHTML = analysisHTML;
+        daWrap.style.display = 'block';
+      }
     } else {
       raEl.style.display = 'none';
     }
@@ -4771,6 +4784,253 @@ function _profileRiderType(best) {
     `Built for the long game. This rider won't blow anyone away in the first minute — but ${c.toFixed(1)} W/kg over 20 minutes means they're still there when it matters, grinding down the competition.`,
     `Efficiency over explosiveness. The rouleur profile suits routes where sustained power wins over short bursts — and with ${c.toFixed(1)} W/kg over 20 minutes, this rider is firmly in that category.`,
   ])};
+}
+
+function toggleProfileDetailedAnalysis() {
+  const el  = document.getElementById('profile-detailed-analysis');
+  const btn = document.getElementById('profile-analysis-btn');
+  if (!el) return;
+  const open = el.style.display === 'block';
+  el.style.display = open ? 'none' : 'block';
+  if (btn) btn.textContent = open ? '📊 Vis detaljeret rytteranalyse ▼' : '📊 Skjul detaljeret rytteranalyse ▲';
+}
+
+function _profileGenerateAnalysis(races) {
+  const valid = races.filter(r => r.wkg1200 > 0 && r.wkg60 > 0 && r.avg_wkg > 0);
+  const n = valid.length;
+  if (n < 3) return null;
+
+  const avg  = arr => arr.reduce((s,x) => s+x, 0) / arr.length;
+  const std  = arr => { const a = avg(arr); return Math.sqrt(avg(arr.map(x => (x-a)**2))); };
+  const minv = arr => Math.min(...arr);
+  const maxv = arr => Math.max(...arr);
+  const f2   = v => v != null ? v.toFixed(2) : '—';
+  const f1   = v => v != null ? v.toFixed(1) : '—';
+  const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+  const fmtDate = ts => { const d = new Date(ts*1000); return `${d.getDate()}. ${months[d.getMonth()]}. ${d.getFullYear()}`; };
+  const fmtMY   = ts => { const d = new Date(ts*1000); return `${months[d.getMonth()]}. ${d.getFullYear()}`; };
+  const B = "font-family:'JetBrains Mono',monospace;";
+
+  const sorted = [...valid].sort((a,b) => a.event_date - b.event_date);
+  const firstTs = sorted[0].event_date, lastTs = sorted[sorted.length-1].event_date;
+  const weightMin = minv(valid.map(r => r.weight||0).filter(w => w>0));
+  const weightMax = maxv(valid.map(r => r.weight||0).filter(w => w>0));
+  const weightStr = weightMin === weightMax ? `${weightMin} kg` : `${weightMin}–${weightMax} kg`;
+
+  // ── Temporal periods (kvartaler baseret på faktisk datospan) ──
+  const spanMs = (lastTs - firstTs) * 1000;
+  const numPeriods = spanMs < 90*24*3600*1000 ? 2 : spanMs < 270*24*3600*1000 ? 3 : 4;
+  const periodSize = (lastTs - firstTs) / numPeriods;
+  const periods = Array.from({length: numPeriods}, (_, i) => {
+    const pStart = firstTs + i * periodSize;
+    const pEnd   = firstTs + (i+1) * periodSize + 1;
+    return sorted.filter(r => r.event_date >= pStart && r.event_date < pEnd);
+  }).filter(p => p.length > 0);
+
+  const periodRows = periods.map(pr => {
+    const pAvg = avg(pr.map(r => r.avg_wkg));
+    const p5   = pr.filter(r => r.wkg300 > 0).length ? avg(pr.filter(r => r.wkg300 > 0).map(r => r.wkg300)) : null;
+    const p20  = avg(pr.map(r => r.wkg1200));
+    const startL = fmtMY(pr[0].event_date), endL = fmtMY(pr[pr.length-1].event_date);
+    const label = startL === endL ? startL : `${startL}–${endL}`;
+    return `<tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:5px 10px;${B}font-size:0.62rem">${label} (${pr.length} løb)</td>
+      <td style="padding:5px 10px;text-align:center;${B}font-size:0.62rem;color:var(--accent)">${f2(pAvg)}</td>
+      <td style="padding:5px 10px;text-align:center;${B}font-size:0.62rem;color:#b48eff">${p5 ? f2(p5) : '—'}</td>
+      <td style="padding:5px 10px;text-align:center;${B}font-size:0.62rem;color:var(--accent3)">${f2(p20)}</td>
+    </tr>`;
+  }).join('');
+
+  // Tendens (første halvdel vs. anden)
+  const half = Math.floor(sorted.length / 2);
+  const early = sorted.slice(0, half), late = sorted.slice(half);
+  const trendWkg5  = late.filter(r=>r.wkg300>0).length && early.filter(r=>r.wkg300>0).length
+    ? avg(late.filter(r=>r.wkg300>0).map(r=>r.wkg300)) - avg(early.filter(r=>r.wkg300>0).map(r=>r.wkg300)) : 0;
+  const trendWkg20 = avg(late.map(r=>r.wkg1200)) - avg(early.map(r=>r.wkg1200));
+  const trendAvg   = avg(late.map(r=>r.avg_wkg))  - avg(early.map(r=>r.avg_wkg));
+  const trendText  = Math.abs(trendWkg20) < 0.05 && Math.abs(trendWkg5) < 0.08
+    ? 'Power-niveauet er bemærkelsesværdigt stabilt over hele perioden.'
+    : trendWkg20 > 0.08
+      ? `Stigende tendens — 20min power er forbedret med ${f2(trendWkg20)} W/kg fra første til anden halvdel af perioden.`
+      : trendWkg20 < -0.08
+        ? `Svagt faldende tendens — 20min power er faldet med ${f2(Math.abs(trendWkg20))} W/kg fra første til anden halvdel af perioden. AVG er ${Math.abs(trendAvg) < 0.05 ? 'bemærkelsesværdigt stabil' : trendAvg > 0 ? 'dog steget' : 'ligeledes faldet'}.`
+        : `AVG W/kg er stabil over perioden. Mindre udsving i 5min og 20min power.`;
+
+  // ── Repeatability ──
+  const repData    = valid.filter(r => r.wkg120 > 0);
+  const repRatios  = repData.map(r => ({ ratio: r.wkg60/r.wkg120, r }));
+  const avgRep     = repRatios.length ? avg(repRatios.map(x=>x.ratio)) : null;
+  const stdRep     = repRatios.length ? std(repRatios.map(x=>x.ratio)) : null;
+  const bestRep    = repRatios.length ? repRatios.reduce((a,b) => a.ratio < b.ratio ? a : b) : null;
+  const worstRep   = repRatios.length ? repRatios.reduce((a,b) => a.ratio > b.ratio ? a : b) : null;
+  const highSpike  = repData.filter(r => r.wkg60 > 0);
+  const highSpikeThreshold = highSpike.length ? avg(highSpike.map(r=>r.wkg60)) + std(highSpike.map(r=>r.wkg60)) : null;
+  const spikeLowestRep = highSpikeThreshold ? repRatios.filter(x=>x.r.wkg60 >= highSpikeThreshold) : [];
+  const spikeAvgRatio  = spikeLowestRep.length ? avg(spikeLowestRep.map(x=>x.ratio)) : null;
+
+  const repVurdering = avgRep == null ? '' : avgRep < 1.12
+    ? `God repeatability — ${f2(avgRep)} ratio og lav spredning (${f2(stdRep)}) tyder på en rytter der holder intensiteten godt efter spikes.`
+    : avgRep < 1.20
+      ? `Moderat repeatability — ${f2(avgRep)} gennemsnit med spredning ${f2(stdRep)}. Nogen fald efter hårde indsatser, men inden for acceptabelt niveau.`
+      : `Stor variation (${bestRep?f2(bestRep.ratio):'—'}–${worstRep?f2(worstRep.ratio):'—'}) tyder på inkonsistent repeatability. ${spikeAvgRatio ? `I løb med høj 1-min power (>${f1(highSpikeThreshold)} W/kg) stiger 1min/2min ratio til ${f2(spikeAvgRatio)}, hvilket antyder anaerob kapacitet anvendes fuldt, men ikke kan vedligeholdes.` : ''}`;
+
+  // ── Pacing ──
+  const pacRatios = valid.map(r => ({ ratio: r.wkg60/r.avg_wkg, r }));
+  const avgPac    = avg(pacRatios.map(x=>x.ratio));
+  const bestPac   = pacRatios.reduce((a,b) => a.ratio < b.ratio ? a : b);
+  const worstPac  = pacRatios.reduce((a,b) => a.ratio > b.ratio ? a : b);
+  const highWkg60 = valid.reduce((a,b) => b.wkg60 > a.wkg60 ? b : a);
+
+  const top3inBest = valid.filter(r => r.wkg60/r.avg_wkg < avgPac && r.pos > 0 && r.pos <= 3).length;
+  const pacingPattern = avgPac > 2.0
+    ? `Aggressivt mønster — gennemsnitlig 1min/AVG ratio på ${f2(avgPac)} afspejler en rytter der typisk lægger hårdt ud og daler mod slutningen.`
+    : avgPac > 1.7
+      ? `Moderat aggressivt mønster — ${f2(avgPac)} 1min/AVG ratio. Rytteren åbner normalt med høj intensitet, men holder det bedre end gennemsnittet.`
+      : `Jævn pacing — ${f2(avgPac)} 1min/AVG ratio antyder god evne til at dosere indsatsen over løbet.`;
+
+  // ── Stats ──
+  const wkg5vals  = valid.filter(r=>r.wkg5>0).map(r=>r.wkg5);
+  const wkg300vals = valid.filter(r=>r.wkg300>0).map(r=>r.wkg300);
+  const wkg1200vals = valid.map(r=>r.wkg1200);
+  const avgWkg5   = wkg5vals.length  ? avg(wkg5vals) : null;
+  const avgWkg300 = wkg300vals.length ? avg(wkg300vals) : null;
+  const avgWkg20  = avg(wkg1200vals);
+  const cvFat     = std(wkg1200vals) / avgWkg20 * 100;
+  const dropPct   = avgWkg20 > 0 ? ((avgWkg20 - minv(wkg1200vals)) / avgWkg20 * 100) : 0;
+
+  // Positions
+  const posValid  = valid.filter(r => r.pos > 0);
+  const podiums   = posValid.filter(r => r.pos <= 3);
+  const top5      = posValid.filter(r => r.pos <= 5);
+  const podStr    = podiums.length
+    ? podiums.slice(0,3).map(r => `Plads ${r.pos} (${fmtDate(r.event_date)})`).join(', ')
+    : null;
+
+  // Styrker og svagheder
+  const strengths = [], weaknesses = [];
+  if (avgWkg5 != null && avgWkg5 > 8.5) strengths.push({ title:'Punch / korte spikes (5s–30s)', text:`Gennemsnitlig 5s: ${f1(avgWkg5)} W/kg (spænd ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Ekstremt eksplosivt niveau' : 'Solid eksplosiv kapacitet'} — karakteristisk for en rytter der kan aktivere hårdt i nøglemoments.` });
+  if (avgWkg300 != null && wkg300vals.length >= 3 && (std(wkg300vals)/avgWkg300) < 0.07) strengths.push({ title:'VO₂-stabilitet (5min)', text:`Gennemsnitlig 5min: ${f2(avgWkg300)} W/kg med lav spredning (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))}). Det mest konsistente parameter — tegn på god aerob base.` });
+  if (podiums.length >= 2) strengths.push({ title:'Resultater i vigtige løb', text:`${podStr}${podiums.length > 3 ? ' m.fl.' : ''} viser evne til at præstere taktisk korrekt i nøglemoments.${top3inBest > 0 ? ` Bedste resultater korrelerer med lavere 1min/AVG ratio.` : ''}` });
+  if (avgPac < 1.6) strengths.push({ title:'Pacing / taktisk valg', text:`1min/AVG ratio på ${f2(avgPac)} er lavt — rytteren holder en jævn indsats og sparer energi til slutfasen.` });
+
+  if (avgRep != null && avgRep > 1.20) weaknesses.push({ title:'Repeatability', text:`1min/2min ratio varierer ${bestRep?f2(bestRep.ratio):'—'}–${worstRep?f2(worstRep.ratio):'—'}. ${repVurdering}` });
+  if (dropPct > 12) weaknesses.push({ title:'Slut-sprint / træthedsresistens på 20min', text:`Gennemsnitlig 20min: ${f2(avgWkg20)} W/kg. I de hårdeste løb falder 20min til ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% under gennemsnittet — kombineret med høj 1-min aktivitet tyder på udtalt træthed i slutfasen.` });
+  if (avgPac > 1.8) weaknesses.push({ title:'Pacing konsistens', text:`1min/AVG ratio spænder fra ${f2(bestPac.ratio)} til ${f2(worstPac.ratio)}. ${pacingPattern} ${top3inBest > 0 ? 'Bedste resultater (plads 1–3) opnås i løb med lavere ratio.' : ''}` });
+  if (avgWkg5 != null && avgWkg5 < 7.5) weaknesses.push({ title:'Sprint / kortvarig eksplosivitet', text:`Gennemsnitlig 5s: ${f1(avgWkg5)} W/kg — begrænset sprint-kapacitet. Ruter med flad afslutning er ikke ideelle.` });
+
+  // Scores og kommentarer
+  const rm = calcRaceMetrics(races);
+  const scoreComments = rm ? [
+    ['🥊', 'Punch / kortvarig power', rm.scores.punch, avgWkg5 != null ? `Gns. 5s = ${f1(avgWkg5)} W/kg (${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))})` : ''],
+    ['🫁', 'VO₂-stabilitet (2–5 min)', rm.scores.vo2, avgWkg300 != null ? `5min gns. ${f2(avgWkg300)} W/kg (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))})` : ''],
+    ['🎯', 'Pacing / taktisk valg', rm.scores.pacing, `1min/AVG gns. ${f2(avgPac)} — ${avgPac > 1.9 ? 'aggressivt mønster' : avgPac > 1.6 ? 'moderat' : 'god pacing'}`],
+    ['🔁', 'Repeatability', rm.scores.repeatability, avgRep != null ? `1min/2min ${f2(avgRep)} ± ${f2(stdRep)}` : 'ikke nok data'],
+    ['🏁', 'Slut-sprint', rm.scores.endSprint, 'proxy baseret på pacing og positioner'],
+    ['💪', 'Træthedsresistens (20min)', rm.scores.fatigue, `Gns. ${f2(avgWkg20)} W/kg, ${Math.round(dropPct)}% drop i hårdeste løb`],
+  ].filter(([,,s]) => s != null) : [];
+
+  // Samlet profil
+  const profileTexts = [];
+  if (strengths.length > 0 && weaknesses.length > 0) {
+    const mainStr = strengths[0].title.toLowerCase();
+    const mainWeak = weaknesses[0].title.toLowerCase();
+    profileTexts.push(`Rytteren er stærkest på ${mainStr}${strengths.length > 1 ? ` og ${strengths[1].title.toLowerCase()}` : ''}. Den primære begrænsning er ${mainWeak} — ${weaknesses[0].text.split('.')[0].toLowerCase()}.`);
+  } else if (strengths.length > 0) {
+    profileTexts.push(`En veldisponeret rytter med tydelig styrke i ${strengths.map(s=>s.title.toLowerCase()).join(' og ')}.`);
+  } else {
+    profileTexts.push(`Afbalanceret profil uden ekstreme toppe eller dale — stærk på tværs af terræntyper.`);
+  }
+  profileTexts.push(avgPac > 1.8
+    ? 'Bedste resultater opnås i løb hvor rytteren undgår for tidlige, fulde indsatser og gemmer noget til de taktiske nøglemoments.'
+    : avgPac < 1.6
+      ? 'Rytteren pacerer typisk godt og er gefährlich i slutfasen, når andre er ved at løbe tør.'
+      : 'Pacing er moderat — der er gevinst at hente ved at holde igen tidligt og gemme til finale.');
+
+  const recommendation = avgRep != null && avgRep > 1.20
+    ? `Træn specifikt repeated sprint capacity (fx 3×3 min med 30s max i slutningen). Undgå at gå fuldt ud på første punch/klatring — ${avgWkg300 ? `5min-motoren (${f2(avgWkg300)} W/kg)` : 'aerob base'} er stærk nok til at hænge på uden at gå i rødt.`
+    : `Udnyt den stærke aerobe base til at sætte et jævnt, højt tempo — og gem sprint til de afgørende momenter.`;
+
+  // ── HTML rendering ──
+  const sectionTitle = (t) => `<div style="${B}font-size:0.7rem;font-weight:700;color:var(--text);letter-spacing:1px;margin:14px 0 6px">${t}</div>`;
+  const dimText = `color:var(--text-dim);${B}font-size:0.65rem;line-height:1.7`;
+  const tableStyle = `width:100%;border-collapse:collapse;${B}font-size:0.62rem;margin-bottom:8px`;
+  const thStyle = `padding:5px 10px;text-align:left;border-bottom:2px solid var(--border);color:var(--text-dim);font-size:0.58rem;letter-spacing:1px`;
+
+  let html = `<div style="${B}font-size:0.60rem;color:${n<5?'#ff9f43':n<10?'var(--accent)':'var(--accent3)'};margin-bottom:12px">
+    ${n} løb analyseret · Vægt: ${weightStr} · Periode: ${fmtDate(firstTs)} – ${fmtDate(lastTs)}
+  </div>`;
+
+  // Trin 1a: AVG over tid
+  html += sectionTitle('AVG W/kg over tid');
+  html += `<table style="${tableStyle}"><thead><tr>
+    <th style="${thStyle}">Periode</th>
+    <th style="${thStyle};text-align:center">AVG</th>
+    <th style="${thStyle};text-align:center">5min</th>
+    <th style="${thStyle};text-align:center">20min</th>
+  </tr></thead><tbody>${periodRows}</tbody></table>`;
+  html += `<div style="${dimText};margin-bottom:10px">${trendText}</div>`;
+
+  // Trin 1b: Repeatability
+  if (avgRep != null) {
+    html += sectionTitle('Repeatability — 1-min power spikes');
+    html += `<div style="${dimText};margin-bottom:6px">Forholdet 1min/2min — jo tættere på 1,0, desto bedre evne til at holde intensiteten efter en spike.</div>`;
+    html += `<table style="${tableStyle}"><tbody>
+      <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Gns. 1min/2min ratio</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent)">${f2(avgRep)}</td></tr>
+      ${bestRep ? `<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Bedste ratio</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent3)">${f2(bestRep.ratio)} (${fmtDate(bestRep.r.event_date)})</td></tr>` : ''}
+      ${worstRep ? `<tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Svageste ratio</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent2)">${f2(worstRep.ratio)} (${fmtDate(worstRep.r.event_date)})</td></tr>` : ''}
+      <tr><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Std.afv. på ratio</td><td style="padding:4px 10px;font-size:0.62rem">${f2(stdRep)}</td></tr>
+    </tbody></table>`;
+    html += `<div style="${dimText};margin-bottom:10px">${repVurdering}</div>`;
+  }
+
+  // Trin 1c: Pacing proxy
+  html += sectionTitle('Slut-sprint / pacing proxy');
+  html += `<div style="${dimText};margin-bottom:6px">Høj 1min/AVG ratio = aggressiv start, svagere slut. Lav ratio = jævn intensitet = bedre slutkraft.</div>`;
+  html += `<table style="${tableStyle}"><tbody>
+    <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Gns. 1min/AVG ratio</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent)">${f2(avgPac)}</td></tr>
+    <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Bedste pacing</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent3)">${f2(bestPac.ratio)} (${fmtDate(bestPac.r.event_date)})</td></tr>
+    <tr style="border-bottom:1px solid var(--border)"><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Mest aggressiv</td><td style="padding:4px 10px;font-size:0.62rem;color:var(--accent2)">${f2(worstPac.ratio)} (${fmtDate(worstPac.r.event_date)})</td></tr>
+    <tr><td style="padding:4px 10px;color:var(--text-dim);font-size:0.60rem">Højeste 1min registreret</td><td style="padding:4px 10px;font-size:0.62rem">${f1(highWkg60.wkg60)} W/kg (${fmtDate(highWkg60.event_date)}, AVG ${f2(highWkg60.avg_wkg)})</td></tr>
+  </tbody></table>`;
+  html += `<div style="${dimText};margin-bottom:10px">${pacingPattern}</div>`;
+
+  // Trin 2: Styrker
+  if (strengths.length > 0) {
+    html += sectionTitle('✅ Styrker');
+    strengths.forEach(s => {
+      html += `<div style="margin-bottom:8px"><div style="${B}font-size:0.65rem;color:var(--accent3);font-weight:600;margin-bottom:2px">${s.title}</div><div style="${dimText}">${s.text}</div></div>`;
+    });
+  }
+
+  // Trin 2: Svagheder
+  if (weaknesses.length > 0) {
+    html += sectionTitle('❌ Svagheder');
+    weaknesses.forEach(w => {
+      html += `<div style="margin-bottom:8px"><div style="${B}font-size:0.65rem;color:var(--accent2);font-weight:600;margin-bottom:2px">${w.title}</div><div style="${dimText}">${w.text}</div></div>`;
+    });
+  }
+
+  // Trin 3: Scoretabel
+  if (scoreComments.length > 0) {
+    html += sectionTitle('Numerisk vurdering (1–10)');
+    html += `<table style="${tableStyle}"><thead><tr>
+      <th style="${thStyle}">Parameter</th>
+      <th style="${thStyle};text-align:center">Score</th>
+      <th style="${thStyle}">Bemærkning</th>
+    </tr></thead><tbody>${scoreComments.map(([icon, label, score, comment]) => `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:5px 10px;${B}font-size:0.62rem">${icon} ${label}</td>
+        <td style="padding:5px 10px;text-align:center;font-weight:700;font-size:0.75rem;color:${score>=7?'var(--accent3)':score>=5?'var(--accent)':'var(--accent2)'}">${score}</td>
+        <td style="padding:5px 10px;${B}font-size:0.60rem;color:var(--text-dim)">${comment}</td>
+      </tr>`).join('')}</tbody></table>`;
+  }
+
+  // Samlet profil
+  html += sectionTitle('Samlet profil');
+  html += `<div style="${dimText};margin-bottom:6px">${profileTexts.join(' ')}</div>`;
+  html += `<div style="${B}font-size:0.63rem;color:var(--accent);border-left:2px solid var(--accent);padding-left:10px;margin-top:8px">Anbefaling: ${recommendation}</div>`;
+
+  return html;
 }
 
 function _profileRenderTable(races) {
