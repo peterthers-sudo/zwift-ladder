@@ -560,7 +560,7 @@ function calcRaceMetrics(races) {
   if (!races || !races.length) return null;
   const valid = races.filter(r => r.wkg1200 > 0 && r.wkg60 > 0 && r.avg_wkg > 0);
   const n = valid.length;
-  if (n < 3) return null;
+  if (n < 5) return null;
 
   const avg = arr => arr.reduce((s, x) => s + x, 0) / arr.length;
   const cv  = arr => { const a = avg(arr); if (!a) return 0; return Math.sqrt(avg(arr.map(x => (x - a) ** 2))) / a * 100; };
@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.59'; // bump this on every update
+const APP_VERSION = 'v1.3.60'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4724,13 +4724,22 @@ function _profileRenderHeader(name, id, races) {
       // Generer detaljeret analyse og vis toggle-knap
       const daWrap = document.getElementById('profile-detailed-analysis-wrap');
       const daEl   = document.getElementById('profile-detailed-analysis');
-      const analysisHTML = _profileGenerateAnalysis(races);
-      if (daWrap && daEl && analysisHTML) {
-        daEl.innerHTML = analysisHTML;
-        daEl.style.display = 'block';
+      const daBtn  = document.getElementById('profile-analysis-btn');
+      if (daWrap && daEl) {
+        const analysisHTML = _profileGenerateAnalysis(races);
+        if (analysisHTML) {
+          daEl.innerHTML = analysisHTML;
+          daEl.style.display = 'block';
+          if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
+        } else {
+          const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
+          daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
+            Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
+          </div>`;
+          daEl.style.display = 'block';
+          if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
+        }
         daWrap.style.display = 'block';
-        const daBtn = document.getElementById('profile-analysis-btn');
-        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
       }
     } else {
       raEl.style.display = 'none';
@@ -4801,7 +4810,7 @@ function toggleProfileDetailedAnalysis() {
 function _profileGenerateAnalysis(races) {
   const valid = races.filter(r => r.wkg1200 > 0 && r.wkg60 > 0 && r.avg_wkg > 0);
   const n = valid.length;
-  if (n < 3) return null;
+  if (n < 5) return null;
 
   const avg  = arr => arr.reduce((s,x) => s+x, 0) / arr.length;
   const std  = arr => { const a = avg(arr); return Math.sqrt(avg(arr.map(x => (x-a)**2))); };
