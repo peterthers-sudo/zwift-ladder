@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.63'; // bump this on every update
+const APP_VERSION = 'v1.3.64'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3503,6 +3503,7 @@ Use EXACTLY this structure:
    This is a TEAM points race — total team score matters more than any single rider winning. Getting positions 2nd, 3rd and 4th (26 pts) beats 1st, 4th and 5th (23 pts). Never build a strategy around protecting one rider at the expense of team points.
    Position targets must be specific and meaningful — use the rider's avg finish position as a realistic baseline. NEVER use "top 10" as a target when there are 10 riders — it means nothing. For sacrifice roles, describe what the sacrifice achieves for the team (e.g. "drain opponent X", "create chaos to help Brendon break free").
    Finish alignment: match the Captain/Match Winner role to the finish profile. If the route fingerprint shows high Punch% or Climber%, prioritize riders with high 1-min W/kg. If high Sprint% or Flat/TT%, prioritize riders with high 15-sec raw Watts and heavier builds.
+   RaceProfile requirement: for every rider who has RaceProfile scores with medium or high confidence, the role assignment MUST explicitly reference the relevant scores. Examples: a rider with Pacing≥8 should be noted as a reliable finisher; a rider with Repeatability≤4 should not be assigned repeated attack duties; a rider with EndSprint≤4 must not be the designated sprint finisher; a rider with Fatigue≥8 is suited for pacemaking roles. Do not assign a role that contradicts the scores without explaining why.
 
 3. **Race Plan — ${d.course ? d.course.name : 'selected route'}**
    4-5 bullets. Lap by lap: start approach, key attack point(s), how to handle ${d.oppName}'s strongest rider, final move.
