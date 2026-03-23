@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.53'; // bump this on every update
+const APP_VERSION = 'v1.3.54'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4577,6 +4577,8 @@ async function loadRiderProfile() {
   document.getElementById('profile-header').style.display = 'none';
   document.getElementById('profile-tbody').innerHTML = '';
   document.getElementById('profile-race-count').textContent = '';
+  const _raReset = document.getElementById('profile-race-analysis');
+  if (_raReset) { _raReset.style.display = 'none'; _raReset.innerHTML = ''; }
 
   // Slå op i embedded LADDER_RACES — ingen API nødvendig
   const entry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[id] || LADDER_RACES[parseInt(id)]);
@@ -4665,6 +4667,59 @@ function _profileRenderHeader(name, id, races) {
   _profileRenderChart(races);
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ladder races · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
+
+  // Race Analysis section
+  const raEl = document.getElementById('profile-race-analysis');
+  if (raEl) {
+    const rm = calcRaceMetrics(races);
+    if (rm) {
+      const base = "font-family:'JetBrains Mono',monospace;";
+      const dims = [
+        ['🥊', 'Punch',        rm.scores.punch,         rm.ratios.punch  != null ? rm.ratios.punch.toFixed(1)+'× spr/FTP'   : '', '#f7d084'],
+        ['🫁', 'VO₂ stab.',    rm.scores.vo2,           rm.ratios.vo2    != null ? rm.ratios.vo2.toFixed(2)+' 5min/20min'    : '', '#b48eff'],
+        ['🎯', 'Pacing',       rm.scores.pacing,        rm.ratios.pacing != null ? rm.ratios.pacing.toFixed(2)+' 1min/AVG'   : '', 'var(--accent)'],
+        ['🔁', 'Repeatability',rm.scores.repeatability, rm.ratios.repeat != null ? rm.ratios.repeat.toFixed(2)+' 1min/2min'  : '', 'var(--accent2)'],
+        ['🏁', 'Slut-sprint',  rm.scores.endSprint,     'proxy',                                                                  'var(--accent3)'],
+        ['💪', 'Fatigue res.', rm.scores.fatigue,       rm.ratios.fatigue!= null ? rm.ratios.fatigue.toFixed(1)+'% CV 20min': '', '#ff9f43'],
+      ].filter(([,,score]) => score != null);
+
+      const rows = dims.map(([icon, label, score, detail, color]) => {
+        const pct = score * 10;
+        return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+          <span style="font-size:0.85rem;width:20px">${icon}</span>
+          <span style="${base}font-size:0.62rem;color:var(--text-dim);width:110px">${label}</span>
+          <div style="flex:1;height:5px;background:rgba(255,255,255,0.08);border-radius:3px">
+            <div style="width:${pct}%;height:100%;background:${color};border-radius:3px"></div>
+          </div>
+          <span style="${base}font-size:0.78rem;font-weight:700;color:${color};width:20px;text-align:right">${score}</span>
+          <span style="${base}font-size:0.60rem;color:var(--text-dim);width:130px;text-align:right">${detail}</span>
+        </div>`;
+      }).join('');
+
+      const insightHTML = rm.insights.length
+        ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);${base}font-size:0.65rem;color:var(--text-dim);line-height:1.8">${rm.insights.map(i => '· '+i).join('<br>')}</div>`
+        : '';
+
+      // Scout report fra RIDER_BIOS (match på id)
+      const bio = (typeof RIDER_BIOS !== 'undefined') && RIDER_BIOS[String(id)];
+      const bioHTML = bio
+        ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
+             <div style="${base}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
+             <div style="${base}font-size:0.68rem;color:var(--text-dim);line-height:1.8">${bio}</div>
+           </div>`
+        : '';
+
+      raEl.innerHTML = `
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <div class="matchup-section-title" style="font-size:0.85rem">Race Analysis</div>
+          <div style="${base}font-size:0.60rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
+        </div>
+        ${rows}${insightHTML}${bioHTML}`;
+      raEl.style.display = 'block';
+    } else {
+      raEl.style.display = 'none';
+    }
+  }
 }
 
 function _profileRiderType(best) {
