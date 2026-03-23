@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.60'; // bump this on every update
+const APP_VERSION = 'v1.3.61'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4720,30 +4720,31 @@ function _profileRenderHeader(name, id, races) {
         </div>
         ${rows}${insightHTML}${bioHTML}`;
       raEl.style.display = 'block';
-
-      // Generer detaljeret analyse og vis toggle-knap
-      const daWrap = document.getElementById('profile-detailed-analysis-wrap');
-      const daEl   = document.getElementById('profile-detailed-analysis');
-      const daBtn  = document.getElementById('profile-analysis-btn');
-      if (daWrap && daEl) {
-        const analysisHTML = _profileGenerateAnalysis(races);
-        if (analysisHTML) {
-          daEl.innerHTML = analysisHTML;
-          daEl.style.display = 'block';
-          if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
-        } else {
-          const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
-          daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
-            Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
-          </div>`;
-          daEl.style.display = 'block';
-          if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
-        }
-        daWrap.style.display = 'block';
-      }
     } else {
       raEl.style.display = 'none';
     }
+
+    // Detailed analysis — always shown, fallback message if insufficient data
+    const daWrap = document.getElementById('profile-detailed-analysis-wrap');
+    const daEl   = document.getElementById('profile-detailed-analysis');
+    const daBtn  = document.getElementById('profile-analysis-btn');
+    if (daWrap && daEl) {
+      const analysisHTML = _profileGenerateAnalysis(races);
+      if (analysisHTML) {
+        daEl.innerHTML = analysisHTML;
+        daEl.style.display = 'block';
+        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
+      } else {
+        const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
+        daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
+          Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
+        </div>`;
+        daEl.style.display = 'block';
+        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▲';
+      }
+      daWrap.style.display = 'block';
+    }
+  }
   }
 }
 
