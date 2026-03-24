@@ -4817,6 +4817,8 @@ function _profileRenderHeader(name, id, races) {
   const pill = (label, val) => val
     ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${label} <span style="color:var(--accent);font-weight:600">${val}</span></div>`
     : '';
+  const statsTitle = document.getElementById('profile-stats-title');
+  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL Stats', other:'Other Race Stats', combined:'Combined Stats'}[_profileRaceSource] || 'Race Stats';
   document.getElementById('profile-ladder-stats').innerHTML = [
     pill('Races', races.length),
     pill('Best pos', bestPos ? '#' + bestPos : null),
