@@ -1,0 +1,26 @@
+# Ord der filtrerer group rides / ikke-løb fra resultaterne
+# Tjekkes case-insensitivt mod løbstitlen
+# Tilføj nye ord på nye linjer (linjer der starter med # ignoreres)
+
+LEQP
+ride
+big spin
+social
+recon
+recovery
+PACK
+ZHCC
+HCC
+ZZRC
+BMTR
+friday night lights
+pizza burner
+SRZ
+off the maap
+zfondo
+Zwift NL
+GXY
+Cycle Nation
+Power Check
+Zwift Camp
+workout

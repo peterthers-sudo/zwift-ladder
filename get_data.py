@@ -768,7 +768,7 @@ def update_ladder_races(content):
     other_data = {}
     for zid, name in riders.items():
         try:
-            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=365", timeout=20)
+            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=730", timeout=20)
             if resp.status_code == 200:
                 data = resp.json()
                 races = data.get('races', [])

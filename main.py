@@ -8,6 +8,22 @@ from zpdatafetch import ZPCyclistFetch, ZPTeamFetch
 from zrdatafetch import ZRRiderFetch
 
 # =========================
+# Group ride filter
+# =========================
+
+def _load_group_ride_filters():
+    path = os.path.join(os.path.dirname(__file__), "group_ride_filters.txt")
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return [line.strip().lower() for line in f if line.strip() and not line.startswith("#")]
+    except Exception:
+        return []
+
+def _is_group_ride(title: str, filters: list) -> bool:
+    t = title.lower()
+    return any(f in t for f in filters)
+
+# =========================
 # Environment login setup
 # =========================
 
@@ -210,6 +226,8 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
             except (ValueError, TypeError):
                 return None
 
+        gr_filters = _load_group_ride_filters()
+
         ladder_races = []
         other_races = []
         for race in all_races:
@@ -246,7 +264,7 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
 
             if "Club Ladder" in title:
                 ladder_races.append(entry)
-            elif is_race and (cutoff == 0 or event_date >= cutoff):
+            elif is_race and not _is_group_ride(title, gr_filters) and (cutoff == 0 or event_date >= cutoff):
                 entry["tname"] = race.get("tname")
                 other_races.append(entry)
 
@@ -289,6 +307,8 @@ async def get_other_races(zwift_id: int, days: int = 365):
             except (ValueError, TypeError):
                 return None
 
+        gr_filters = _load_group_ride_filters()
+
         other_races = []
         for race in all_races:
             title = race.get("event_title", "")
@@ -297,6 +317,9 @@ async def get_other_races(zwift_id: int, days: int = 365):
 
             ft = race.get("f_t", "")
             if not ("TYPE_RACE" in ft or "TYPE_TIME_TRIAL" in ft or "TYPE_TEAM_TIME_TRIAL" in ft):
+                continue
+
+            if _is_group_ride(title, gr_filters):
                 continue
 
             event_date = race.get("event_date", 0)

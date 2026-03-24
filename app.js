@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.72'; // bump this on every update
+const APP_VERSION = 'v1.3.73'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4644,6 +4644,7 @@ let _profileRaces = [];
 let _profileOtherRaces = [];
 let _profileZrlRaces = [];
 let _profileFrrRaces = [];
+let _profileEcroRaces = [];
 let _profileRaceSource = 'ladder';
 let _profileName = '';
 let _profileId = null;
@@ -4725,11 +4726,13 @@ async function loadRiderProfile() {
 }
 
 function _profileSplitOtherRaces() {
-  _profileZrlRaces = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
-  _profileFrrRaces = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
+  _profileZrlRaces  = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
+  _profileFrrRaces  = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
+  _profileEcroRaces = _profileOtherRaces.filter(r => /\bECRO\b/i.test(r.event_title || ''));
   _profileOtherRaces = _profileOtherRaces.filter(r =>
     !/zwift racing league|ZRL/i.test(r.event_title || '') &&
-    !/\bFRR\b/i.test(r.event_title || '')
+    !/\bFRR\b/i.test(r.event_title || '') &&
+    !/\bECRO\b/i.test(r.event_title || '')
   );
 }
 
@@ -4737,28 +4740,32 @@ function _profileGetRaces() {
   if (_profileRaceSource === 'other')    return _profileOtherRaces;
   if (_profileRaceSource === 'zrl')      return _profileZrlRaces;
   if (_profileRaceSource === 'frr')      return _profileFrrRaces;
-  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
+  if (_profileRaceSource === 'ecro')     return _profileEcroRaces;
+  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces, ..._profileEcroRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
   return _profileRaces;
 }
 
 function _profileUpdateSourceTabs() {
   const wrap = document.getElementById('profile-source-tabs');
   if (!wrap) return;
-  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0;
+  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0 || _profileEcroRaces.length > 0;
   wrap.style.display = hasAny ? 'block' : 'none';
 
-  const zrlBtn = document.getElementById('pst-zrl');
-  const frrBtn = document.getElementById('pst-frr');
-  if (zrlBtn) zrlBtn.style.display = _profileZrlRaces.length > 0 ? '' : 'none';
-  if (frrBtn) frrBtn.style.display = _profileFrrRaces.length > 0 ? '' : 'none';
+  const zrlBtn  = document.getElementById('pst-zrl');
+  const frrBtn  = document.getElementById('pst-frr');
+  const ecroBtn = document.getElementById('pst-ecro');
+  if (zrlBtn)  zrlBtn.style.display  = _profileZrlRaces.length  > 0 ? '' : 'none';
+  if (frrBtn)  frrBtn.style.display  = _profileFrrRaces.length  > 0 ? '' : 'none';
+  if (ecroBtn) ecroBtn.style.display = _profileEcroRaces.length > 0 ? '' : 'none';
 
-  ['ladder','zrl','frr','other','combined'].forEach(s => {
+  ['ladder','zrl','frr','ecro','other','combined'].forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
       btn.style.background  = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
-      btn.style.color       = s === _profileRaceSource ? 'var(--accent)' : 'var(--text-dim)';
+      btn.style.color       = s === _profileRaceSource ? 'var(--accent)' : 'var(--text)';
       btn.style.borderColor = s === _profileRaceSource ? 'rgba(0,229,255,0.7)' : 'var(--border)';
-      btn.style.fontWeight  = s === _profileRaceSource ? '700' : '400';
+      btn.style.fontWeight  = s === _profileRaceSource ? '700' : '500';
+      btn.style.opacity     = s === _profileRaceSource ? '1' : '0.7';
     }
   });
 }
@@ -4813,7 +4820,7 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
+  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel} · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
 
@@ -4889,7 +4896,224 @@ function _profileRenderHeader(name, id, races) {
       }
       daWrap.style.display = 'block';
     }
+
+    // Cross-race type comparison — only shown if rider has data in ≥2 race types
+    const ccWrap = document.getElementById('profile-cross-comparison-wrap');
+    const ccEl   = document.getElementById('profile-cross-comparison');
+    if (ccWrap && ccEl) {
+      const ccHTML = _profileGenerateCrossComparison();
+      if (ccHTML) {
+        ccEl.innerHTML = ccHTML;
+        ccEl.style.display = 'block';
+        document.getElementById('profile-cross-btn').textContent = '⚖ Cross-Race Type Comparison ▲';
+        ccWrap.style.display = 'block';
+      } else {
+        ccWrap.style.display = 'none';
+      }
+    }
   }
+}
+
+function toggleProfileCrossComparison() {
+  const el  = document.getElementById('profile-cross-comparison');
+  const btn = document.getElementById('profile-cross-btn');
+  if (!el) return;
+  const open = el.style.display === 'block';
+  el.style.display = open ? 'none' : 'block';
+  if (btn) btn.textContent = open ? '⚖ Cross-Race Type Comparison ▼' : '⚖ Cross-Race Type Comparison ▲';
+}
+
+function _profileGenerateCrossComparison() {
+  const B  = "font-family:'JetBrains Mono',monospace;";
+  const f2 = v => (v != null && v > 0) ? v.toFixed(2) : '—';
+
+  const allTypes = [
+    { key: 'ladder', label: 'Ladder',      color: 'var(--accent)',  races: _profileRaces },
+    { key: 'zrl',    label: 'ZRL',         color: '#b48eff',        races: _profileZrlRaces },
+    { key: 'frr',    label: 'FRR',         color: '#ff9f43',        races: _profileFrrRaces },
+    { key: 'ecro',   label: 'ECRO',        color: 'var(--accent3)', races: _profileEcroRaces },
+    { key: 'other',  label: 'Other races', color: 'var(--accent2)', races: _profileOtherRaces },
+  ].filter(t => t.races.length >= 2);
+
+  if (allTypes.length < 2) return null;
+
+  const avg = arr => arr.length ? arr.reduce((s,x) => s+x, 0) / arr.length : null;
+  const std = arr => { if (!arr.length) return null; const a = avg(arr); return Math.sqrt(avg(arr.map(x => (x-a)**2))); };
+  const cv  = arr => { const a = avg(arr), s = std(arr); return (a && s) ? (s/a*100) : null; };
+
+  const stats = allTypes.map(t => {
+    const wkg5v   = t.races.filter(r => (r.wkg5  ||0) > 0).map(r => r.wkg5);
+    const wkg60v  = t.races.filter(r => (r.wkg60 ||0) > 0).map(r => r.wkg60);
+    const wkg300v = t.races.filter(r => (r.wkg300||0) > 0).map(r => r.wkg300);
+    const wkg1200v= t.races.filter(r => (r.wkg1200||0) > 0).map(r => r.wkg1200);
+    const avgWkgV = t.races.filter(r => (r.avg_wkg||0) > 0).map(r => r.avg_wkg);
+    return {
+      ...t,
+      avgWkg:   avgWkgV.length ? avg(avgWkgV) : null,
+      avg5s:    wkg5v.length   ? avg(wkg5v)   : null,
+      avg1min:  wkg60v.length  ? avg(wkg60v)  : null,
+      avg5min:  wkg300v.length ? avg(wkg300v) : null,
+      avg20min: wkg1200v.length? avg(wkg1200v): null,
+      cv20min:  wkg1200v.length >= 3 ? cv(wkg1200v) : null,
+    };
+  });
+
+  const maxOf    = key => Math.max(...stats.map(s => s[key] || 0));
+  const minOfKey = key => Math.min(...stats.filter(s => s[key] != null).map(s => s[key]));
+
+  const maxAvgWkg  = maxOf('avgWkg');
+  const maxAvg5s   = maxOf('avg5s');
+  const maxAvg1min = maxOf('avg1min');
+  const maxAvg5min = maxOf('avg5min');
+  const maxAvg20   = maxOf('avg20min');
+  const minCv      = minOfKey('cv20min');
+
+  const hiVal = (val, max) => val != null && val > 0 && Math.abs(val - max) < 0.001;
+  const loVal = (val, min) => val != null && Math.abs(val - min) < 0.001;
+  const cell  = (val, isHi) => isHi
+    ? `<span style="color:var(--accent);font-weight:700">${f2(val)}</span>`
+    : `<span style="color:var(--text-dim)">${f2(val)}</span>`;
+  const cellCv = (val, isLo) => val == null ? `<span style="color:var(--text-dim)">—</span>`
+    : isLo
+      ? `<span style="color:var(--accent);font-weight:700">${val.toFixed(1)}%</span>`
+      : `<span style="color:var(--text-dim)">${val.toFixed(1)}%</span>`;
+
+  // ── Table ──
+  const tableRows = stats.map(s => `
+    <tr style="border-bottom:1px solid var(--border)">
+      <td style="padding:7px 10px;${B}font-size:0.65rem;color:${s.color};font-weight:600">${s.label}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem;color:var(--text-dim)">${s.races.length}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cell(s.avgWkg,   hiVal(s.avgWkg,   maxAvgWkg))}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cell(s.avg5s,    hiVal(s.avg5s,    maxAvg5s))}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cell(s.avg1min,  hiVal(s.avg1min,  maxAvg1min))}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cell(s.avg5min,  hiVal(s.avg5min,  maxAvg5min))}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cell(s.avg20min, hiVal(s.avg20min, maxAvg20))}</td>
+      <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${cellCv(s.cv20min, loVal(s.cv20min, minCv))}</td>
+    </tr>`).join('');
+
+  // ── Bar chart: avg 20min W/kg ──
+  const chartMax = maxAvg20 * 1.15 || 1;
+  const barRows = stats.filter(s => s.avg20min).map(s => {
+    const pct = (s.avg20min / chartMax * 100).toFixed(1);
+    return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+      <div style="${B}font-size:0.62rem;color:${s.color};width:90px;text-align:right;font-weight:600">${s.label}</div>
+      <div style="flex:1;height:14px;background:rgba(255,255,255,0.06);border-radius:3px">
+        <div style="width:${pct}%;height:100%;background:${s.color};opacity:0.75;border-radius:3px"></div>
+      </div>
+      <div style="${B}font-size:0.70rem;color:${s.color};font-weight:700;width:44px">${s.avg20min.toFixed(2)}</div>
+    </div>`;
+  }).join('');
+
+  // ── Narrative analysis ──
+  const paras = [];
+
+  // Para 1: Power output across types
+  const withPower = stats.filter(s => s.avg20min);
+  if (withPower.length >= 2) {
+    const best  = withPower.reduce((a,b) => a.avg20min > b.avg20min ? a : b);
+    const worst = withPower.reduce((a,b) => a.avg20min < b.avg20min ? a : b);
+    const diff20 = ((best.avg20min - worst.avg20min) / worst.avg20min * 100).toFixed(1);
+    const withAvgWkg = stats.filter(s => s.avgWkg != null);
+    let paceNote = '';
+    if (withAvgWkg.length >= 2) {
+      const bestPace  = withAvgWkg.reduce((a,b) => a.avgWkg > b.avgWkg ? a : b);
+      const worstPace = withAvgWkg.reduce((a,b) => a.avgWkg < b.avgWkg ? a : b);
+      const diffPace  = ((bestPace.avgWkg - worstPace.avgWkg) / worstPace.avgWkg * 100).toFixed(1);
+      if (parseFloat(diffPace) > 4)
+        paceNote = ` The average race pace also reflects this — ${bestPace.label} races run at ${bestPace.avgWkg.toFixed(2)} W/kg on average versus ${worstPace.avgWkg.toFixed(2)} in ${worstPace.label}.`;
+    }
+    const allSimilar = parseFloat(diff20) < 3;
+    if (allSimilar) {
+      paras.push(`The 20min power output is remarkably consistent across all race types — the spread between best (${best.label}: ${best.avg20min.toFixed(2)} W/kg) and worst (${worst.label}: ${worst.avg20min.toFixed(2)} W/kg) is only ${diff20}%. This suggests the rider performs at a similar level regardless of race format.${paceNote}`);
+    } else {
+      paras.push(`The highest avg 20min power appears in <strong>${best.label}</strong> races (${best.avg20min.toFixed(2)} W/kg), which is ${diff20}% above the lowest in <strong>${worst.label}</strong> (${worst.avg20min.toFixed(2)} W/kg).${paceNote}`);
+    }
+  }
+
+  // Para 2: Consistency
+  const withCv = stats.filter(s => s.cv20min != null);
+  if (withCv.length >= 2) {
+    const most  = withCv.reduce((a,b) => a.cv20min < b.cv20min ? a : b);
+    const least = withCv.reduce((a,b) => a.cv20min > b.cv20min ? a : b);
+    const cvDiff = least.cv20min - most.cv20min;
+    let cvInterp = '';
+    if (cvDiff < 1.5)
+      cvInterp = `The difference is small — consistency is broadly similar across formats.`;
+    else if (most.cv20min < 4)
+      cvInterp = `A CV of ${most.cv20min.toFixed(1)}% in ${most.label} indicates very uniform power race to race — the rider knows their level and executes reliably in that format.`;
+    else if (least.cv20min > 8)
+      cvInterp = `The high variation in ${least.label} (CV ${least.cv20min.toFixed(1)}%) suggests the rider doesn't always bring the same engine to those races — form or pacing may fluctuate more.`;
+    else
+      cvInterp = `More variation in ${least.label} could reflect harder competition, less familiarity with the format, or simply a smaller sample size.`;
+    paras.push(`Output is most consistent in <strong>${most.label}</strong> races (CV ${most.cv20min.toFixed(1)}%) compared to <strong>${least.label}</strong> (CV ${least.cv20min.toFixed(1)}%). ${cvInterp}`);
+  }
+
+  // Para 3: Sprint and punch profile across types
+  const withSprint = stats.filter(s => s.avg5s != null);
+  const withPunch  = stats.filter(s => s.avg1min != null);
+  const sprintParts = [];
+  if (withSprint.length >= 2) {
+    const best  = withSprint.reduce((a,b) => a.avg5s > b.avg5s ? a : b);
+    const worst = withSprint.reduce((a,b) => a.avg5s < b.avg5s ? a : b);
+    const diff  = ((best.avg5s - worst.avg5s) / worst.avg5s * 100).toFixed(1);
+    if (parseFloat(diff) > 5)
+      sprintParts.push(`sprint power (5s) is ${diff}% higher in <strong>${best.label}</strong> than in ${worst.label} — pointing to more bunch finishes or harder accelerations in that format`);
+  }
+  if (withPunch.length >= 2) {
+    const best  = withPunch.reduce((a,b) => a.avg1min > b.avg1min ? a : b);
+    const worst = withPunch.reduce((a,b) => a.avg1min < b.avg1min ? a : b);
+    const diff  = ((best.avg1min - worst.avg1min) / worst.avg1min * 100).toFixed(1);
+    if (parseFloat(diff) > 5)
+      sprintParts.push(`1min punch is ${diff}% stronger in <strong>${best.label}</strong> versus ${worst.label}`);
+  }
+  if (sprintParts.length > 0)
+    paras.push(`Looking at explosive capacity: ${sprintParts.join(', and ')}. This can reflect both the nature of the race and how aggressively the rider chooses to ride each format.`);
+  else if (withSprint.length >= 2)
+    paras.push(`Sprint and punch numbers are broadly similar across race types — no single format stands out as significantly more explosive than the others.`);
+
+  // Para 4: Overall summary
+  const allWithPower = stats.filter(s => s.avg20min && s.avg5min);
+  if (allWithPower.length >= 2) {
+    const bestFtp    = allWithPower.reduce((a,b) => a.avg20min > b.avg20min ? a : b);
+    const bestCv     = withCv.length >= 2 ? withCv.reduce((a,b) => a.cv20min < b.cv20min ? a : b) : null;
+    const sameType   = bestCv && bestFtp.key === bestCv.key;
+    if (sameType)
+      paras.push(`Overall, <strong>${bestFtp.label}</strong> appears to be this rider's strongest format — both in absolute power output and output consistency. The other race types show either lower sustained power or higher race-to-race variation.`);
+    else if (bestCv)
+      paras.push(`Overall, the rider delivers the highest absolute output in <strong>${bestFtp.label}</strong> races, while showing the most consistent performances in <strong>${bestCv.label}</strong>. Whether that difference reflects race level, course type, or how the rider approaches each format is worth exploring further.`);
+  }
+
+  const narrativeHTML = paras.length
+    ? `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
+         <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px">Analysis</div>
+         ${paras.map(p => `<div style="${B}font-size:0.65rem;color:var(--text-dim);line-height:1.9;margin-bottom:10px">${p}</div>`).join('')}
+       </div>`
+    : '';
+
+  return `
+    <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Performance by Race Type</div>
+    <div style="overflow-x:auto;margin-bottom:20px">
+      <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border)">
+        <thead>
+          <tr style="border-bottom:2px solid var(--border)">
+            <th style="padding:8px 10px;text-align:left;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AVG W/kg</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5s</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">1min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">20min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Consistency</th>
+          </tr>
+        </thead>
+        <tbody>${tableRows}</tbody>
+      </table>
+    </div>
+    <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg 20min W/kg</div>
+    ${barRows}
+    ${narrativeHTML}
+    <div style="${B}font-size:0.52rem;color:var(--text-dim);margin-top:14px;opacity:0.45">Highlighted = best across race types · Consistency CV%: lower = more uniform output · Min 2 races per type</div>
+  `;
 }
 
 function _profileRiderType(best) {
