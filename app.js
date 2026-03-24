@@ -4645,6 +4645,7 @@ let _profileOtherRaces = [];
 let _profileZrlRaces = [];
 let _profileFrrRaces = [];
 let _profileEcroRaces = [];
+let _profileWtrlRaces = [];
 let _profileRaceSource = 'ladder';
 let _profileName = '';
 let _profileId = null;
@@ -4729,10 +4730,12 @@ function _profileSplitOtherRaces() {
   _profileZrlRaces  = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
   _profileFrrRaces  = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
   _profileEcroRaces = _profileOtherRaces.filter(r => /\bECRO\b/i.test(r.event_title || ''));
+  _profileWtrlRaces = _profileOtherRaces.filter(r => /\bWTRL\b/i.test(r.event_title || ''));
   _profileOtherRaces = _profileOtherRaces.filter(r =>
     !/zwift racing league|ZRL/i.test(r.event_title || '') &&
     !/\bFRR\b/i.test(r.event_title || '') &&
-    !/\bECRO\b/i.test(r.event_title || '')
+    !/\bECRO\b/i.test(r.event_title || '') &&
+    !/\bWTRL\b/i.test(r.event_title || '')
   );
 }
 
@@ -4741,24 +4744,27 @@ function _profileGetRaces() {
   if (_profileRaceSource === 'zrl')      return _profileZrlRaces;
   if (_profileRaceSource === 'frr')      return _profileFrrRaces;
   if (_profileRaceSource === 'ecro')     return _profileEcroRaces;
-  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces, ..._profileEcroRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
+  if (_profileRaceSource === 'wtrl')     return _profileWtrlRaces;
+  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces, ..._profileEcroRaces, ..._profileWtrlRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
   return _profileRaces;
 }
 
 function _profileUpdateSourceTabs() {
   const wrap = document.getElementById('profile-source-tabs');
   if (!wrap) return;
-  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0 || _profileEcroRaces.length > 0;
+  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0 || _profileEcroRaces.length > 0 || _profileWtrlRaces.length > 0;
   wrap.style.display = hasAny ? 'block' : 'none';
 
   const zrlBtn  = document.getElementById('pst-zrl');
   const frrBtn  = document.getElementById('pst-frr');
   const ecroBtn = document.getElementById('pst-ecro');
+  const wtrlBtn = document.getElementById('pst-wtrl');
   if (zrlBtn)  zrlBtn.style.display  = _profileZrlRaces.length  > 0 ? '' : 'none';
   if (frrBtn)  frrBtn.style.display  = _profileFrrRaces.length  > 0 ? '' : 'none';
   if (ecroBtn) ecroBtn.style.display = _profileEcroRaces.length > 0 ? '' : 'none';
+  if (wtrlBtn) wtrlBtn.style.display = _profileWtrlRaces.length > 0 ? '' : 'none';
 
-  ['ladder','zrl','frr','ecro','other','combined'].forEach(s => {
+  ['ladder','zrl','frr','ecro','wtrl','other','combined'].forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
       btn.style.background  = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
@@ -4820,7 +4826,7 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
+  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel} · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
 
@@ -4932,6 +4938,7 @@ function _profileGenerateCrossComparison() {
     { key: 'zrl',    label: 'ZRL',         color: '#b48eff',        races: _profileZrlRaces },
     { key: 'frr',    label: 'FRR',         color: '#ff9f43',        races: _profileFrrRaces },
     { key: 'ecro',   label: 'ECRO',        color: 'var(--accent3)', races: _profileEcroRaces },
+    { key: 'wtrl',   label: 'WTRL',        color: '#7fff6b',        races: _profileWtrlRaces },
     { key: 'other',  label: 'Other races', color: 'var(--accent2)', races: _profileOtherRaces },
   ].filter(t => t.races.length >= 2);
 
