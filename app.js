@@ -4641,6 +4641,10 @@ function openRouteAudit() {
 
 // ═══════════ RIDER PROFILE TAB ═══════════
 let _profileRaces = [];
+let _profileOtherRaces = [];
+let _profileRaceSource = 'ladder';
+let _profileName = '';
+let _profileId = null;
 let _profileSortKey = 'event_date';
 let _profileSortDir = 1;
 
@@ -4666,15 +4670,20 @@ async function loadRiderProfile() {
   const entry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[id] || LADDER_RACES[parseInt(id)]);
   if (entry) {
     _profileRaces = entry.races || [];
-    const name = entry.name || 'Unknown';
-    if (_profileRaces.length === 0) {
+    _profileOtherRaces = ((typeof OTHER_RACES !== 'undefined') && (OTHER_RACES[id] || OTHER_RACES[parseInt(id)])) ? (OTHER_RACES[id] || OTHER_RACES[parseInt(id)]).races || [] : [];
+    _profileName = entry.name || 'Unknown';
+    _profileId = id;
+    _profileRaceSource = 'ladder';
+    _profileUpdateSourceTabs();
+    if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
-      status.textContent = 'No ladder races found for this rider — they may not have raced in the ladder yet.';
+      status.textContent = 'No races found for this rider.';
     } else {
-      _profileRenderHeader(name, id, _profileRaces);
-      _profileRenderTable(_profileRaces);
+      const races = _profileGetRaces();
+      _profileRenderHeader(_profileName, id, races);
+      _profileRenderTable(races);
       status.style.color = 'var(--text-dim)';
-      status.textContent = `${_profileRaces.length} ladder races found.`;
+      status.textContent = `${_profileRaces.length} ladder · ${_profileOtherRaces.length} other races.`;
       setTimeout(() => document.getElementById('profile-header').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
     btn.disabled = false;
@@ -4687,14 +4696,20 @@ async function loadRiderProfile() {
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const data = await res.json();
     _profileRaces = data.races || [];
-    if (_profileRaces.length === 0) {
+    _profileOtherRaces = data.other_races || [];
+    _profileName = data.name;
+    _profileId = id;
+    _profileRaceSource = 'ladder';
+    _profileUpdateSourceTabs();
+    if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
-      status.textContent = 'No ladder races found for this rider — they may not have raced in the ladder yet.';
+      status.textContent = 'No races found for this rider.';
     } else {
-      _profileRenderHeader(data.name, id, _profileRaces);
-      _profileRenderTable(_profileRaces);
+      const races = _profileGetRaces();
+      _profileRenderHeader(_profileName, id, races);
+      _profileRenderTable(races);
       status.style.color = 'var(--text-dim)';
-      status.textContent = `${_profileRaces.length} ladder races found.`;
+      status.textContent = `${_profileRaces.length} ladder · ${_profileOtherRaces.length} other races.`;
       setTimeout(() => document.getElementById('profile-header').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
   } catch(e) {
@@ -4703,6 +4718,36 @@ async function loadRiderProfile() {
   } finally {
     btn.disabled = false;
   }
+}
+
+function _profileGetRaces() {
+  if (_profileRaceSource === 'other') return _profileOtherRaces;
+  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
+  return _profileRaces;
+}
+
+function _profileUpdateSourceTabs() {
+  const wrap = document.getElementById('profile-source-tabs');
+  if (!wrap) return;
+  const hasOther = _profileOtherRaces.length > 0;
+  wrap.style.display = hasOther ? 'block' : 'none';
+  ['ladder','other','combined'].forEach(s => {
+    const btn = document.getElementById('pst-' + s);
+    if (btn) {
+      btn.style.background = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
+      btn.style.color = s === _profileRaceSource ? 'var(--accent)' : 'var(--text-dim)';
+      btn.style.borderColor = s === _profileRaceSource ? 'rgba(0,229,255,0.7)' : 'var(--border)';
+      btn.style.fontWeight = s === _profileRaceSource ? '700' : '400';
+    }
+  });
+}
+
+function profileSetRaceSource(source) {
+  _profileRaceSource = source;
+  _profileUpdateSourceTabs();
+  const races = _profileGetRaces();
+  _profileRenderHeader(_profileName, _profileId, races);
+  _profileRenderTable(races);
 }
 
 function _profileRenderHeader(name, id, races) {
@@ -4747,8 +4792,9 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
+  const sourceLabel = _profileRaceSource === 'other' ? 'other races' : _profileRaceSource === 'combined' ? 'combined races' : 'ladder races';
   document.getElementById('profile-race-count').innerHTML =
-    `<span style="color:var(--accent)">${races.length}</span> ladder races · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
+    `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel} · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
 
   // Race Analysis section
   const raEl = document.getElementById('profile-race-analysis');
