@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.71'; // bump this on every update
+const APP_VERSION = 'v1.3.72'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4642,6 +4642,8 @@ function openRouteAudit() {
 // ═══════════ RIDER PROFILE TAB ═══════════
 let _profileRaces = [];
 let _profileOtherRaces = [];
+let _profileZrlRaces = [];
+let _profileFrrRaces = [];
 let _profileRaceSource = 'ladder';
 let _profileName = '';
 let _profileId = null;
@@ -4671,6 +4673,7 @@ async function loadRiderProfile() {
   if (entry) {
     _profileRaces = entry.races || [];
     _profileOtherRaces = ((typeof OTHER_RACES !== 'undefined') && (OTHER_RACES[id] || OTHER_RACES[parseInt(id)])) ? (OTHER_RACES[id] || OTHER_RACES[parseInt(id)]).races || [] : [];
+    _profileSplitOtherRaces();
     _profileName = entry.name || 'Unknown';
     _profileId = id;
     _profileRaceSource = 'ladder';
@@ -4697,6 +4700,7 @@ async function loadRiderProfile() {
     const data = await res.json();
     _profileRaces = data.races || [];
     _profileOtherRaces = data.other_races || [];
+    _profileSplitOtherRaces();
     _profileName = data.name;
     _profileId = id;
     _profileRaceSource = 'ladder';
@@ -4720,24 +4724,41 @@ async function loadRiderProfile() {
   }
 }
 
+function _profileSplitOtherRaces() {
+  _profileZrlRaces = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
+  _profileFrrRaces = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
+  _profileOtherRaces = _profileOtherRaces.filter(r =>
+    !/zwift racing league|ZRL/i.test(r.event_title || '') &&
+    !/\bFRR\b/i.test(r.event_title || '')
+  );
+}
+
 function _profileGetRaces() {
-  if (_profileRaceSource === 'other') return _profileOtherRaces;
-  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
+  if (_profileRaceSource === 'other')    return _profileOtherRaces;
+  if (_profileRaceSource === 'zrl')      return _profileZrlRaces;
+  if (_profileRaceSource === 'frr')      return _profileFrrRaces;
+  if (_profileRaceSource === 'combined') return [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces, ..._profileOtherRaces].sort((a,b) => (b.event_date||0) - (a.event_date||0));
   return _profileRaces;
 }
 
 function _profileUpdateSourceTabs() {
   const wrap = document.getElementById('profile-source-tabs');
   if (!wrap) return;
-  const hasOther = _profileOtherRaces.length > 0;
-  wrap.style.display = hasOther ? 'block' : 'none';
-  ['ladder','other','combined'].forEach(s => {
+  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0;
+  wrap.style.display = hasAny ? 'block' : 'none';
+
+  const zrlBtn = document.getElementById('pst-zrl');
+  const frrBtn = document.getElementById('pst-frr');
+  if (zrlBtn) zrlBtn.style.display = _profileZrlRaces.length > 0 ? '' : 'none';
+  if (frrBtn) frrBtn.style.display = _profileFrrRaces.length > 0 ? '' : 'none';
+
+  ['ladder','zrl','frr','other','combined'].forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
-      btn.style.background = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
-      btn.style.color = s === _profileRaceSource ? 'var(--accent)' : 'var(--text-dim)';
+      btn.style.background  = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
+      btn.style.color       = s === _profileRaceSource ? 'var(--accent)' : 'var(--text-dim)';
       btn.style.borderColor = s === _profileRaceSource ? 'rgba(0,229,255,0.7)' : 'var(--border)';
-      btn.style.fontWeight = s === _profileRaceSource ? '700' : '400';
+      btn.style.fontWeight  = s === _profileRaceSource ? '700' : '400';
     }
   });
 }
@@ -4792,7 +4813,7 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const sourceLabel = _profileRaceSource === 'other' ? 'other races' : _profileRaceSource === 'combined' ? 'combined races' : 'ladder races';
+  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel} · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
 
@@ -4828,12 +4849,12 @@ function _profileRenderHeader(name, id, races) {
         ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);${base}font-size:0.65rem;color:var(--text-dim);line-height:1.8">${rm.insights.map(i => '· '+i).join('<br>')}</div>`
         : '';
 
-      // Scout report fra RIDER_BIOS (match på id)
-      const bio = (typeof RIDER_BIOS !== 'undefined') && RIDER_BIOS[String(id)];
-      const bioHTML = bio
+      // Scout report — dynamically generated based on active race source
+      const scoutText = _profileGenerateScoutReport(rm, _profileRaceSource);
+      const bioHTML = scoutText
         ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
              <div style="${base}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
-             <div style="${base}font-size:0.68rem;color:var(--text-dim);line-height:1.8">${bio}</div>
+             <div style="${base}font-size:0.68rem;color:var(--text-dim);line-height:1.8">${scoutText}</div>
            </div>`
         : '';
 
@@ -5196,6 +5217,111 @@ function _profileGenerateAnalysis(races) {
   return html;
 }
 
+function _profileGenerateScoutReport(rm, raceSource) {
+  if (!rm || rm.n < 3) return null;
+
+  const sc = rm.scores;
+  const n  = rm.n;
+
+  const punch    = sc.punch         ?? 5;
+  const vo2      = sc.vo2           ?? 5;
+  const pacing   = sc.pacing        ?? 5;
+  const repeat   = sc.repeatability ?? 5;
+  const fatigue  = sc.fatigue       ?? 5;
+  const endSpr   = sc.endSprint     ?? 5;
+
+  const isExplosive  = punch   >= 7;
+  const hasFinish    = endSpr  >= 7;
+  const isEndurance  = fatigue >= 7 && vo2 >= 6;
+  const isConsistent = fatigue >= 7 && repeat >= 7;
+  const isTactical   = pacing  >= 7;
+  const fades        = repeat  <= 4;
+  const unstable     = fatigue <= 4;
+  const aggressive   = pacing  <= 4;
+
+  const parts = [];
+
+  if (raceSource === 'ladder') {
+    if (isExplosive && hasFinish)
+      parts.push(`A natural closer — explosive enough to sprint or attack in the final kilometres and hold it. The team's last card.`);
+    else if (isExplosive && !hasFinish)
+      parts.push(`Good punch for creating gaps and disrupting the race, but less effective as a pure finisher. Better used as an attacker or lead-out.`);
+    else if (isEndurance && isConsistent)
+      parts.push(`The engine — stable power output and good aerobic capacity make this rider effective at setting tempo and protecting faster teammates throughout.`);
+    else if (isConsistent && !isExplosive)
+      parts.push(`Steady and reliable. Suited to a domestique role: controlling tempo, covering moves, and delivering teammates into position.`);
+    else
+      parts.push(`No dominant quality stands out — versatile enough to fill different roles but without a clear edge in any one.`);
+
+    if (fades)         parts.push(`Fades after repeated hard efforts — shouldn't be relied on to cover multiple attacks in quick succession.`);
+    else if (unstable) parts.push(`Variable power output can make pacing unpredictable across a race.`);
+
+  } else if (raceSource === 'other') {
+    if (isExplosive && hasFinish)
+      parts.push(`Dangerous whenever the race comes together — punch and end-sprint ability make this rider a genuine threat in bunch finishes.`);
+    else if (isExplosive && !hasFinish)
+      parts.push(`Explosive enough to attack and create selection, but less effective in a pure bunch sprint. Better going early than waiting for the line.`);
+    else if (isEndurance)
+      parts.push(`Built for endurance — consistent 20-minute power and good aerobic capacity means the gap to the field grows on longer and hillier routes.`);
+    else if (isTactical && isConsistent)
+      parts.push(`A controlled, tactical racer who builds through events. Even pacing and good repeatability are assets in races that come down to the final kilometres.`);
+    else
+      parts.push(`Balanced without a dominant quality — competitive across different race types but unlikely to have a strong edge in any one discipline.`);
+
+    if (aggressive) parts.push(`Tends to go hard early — effective when the race splits on the first climb, but risky when it comes back together.`);
+    if (fades)      parts.push(`Loses effectiveness after multiple hard efforts — races with frequent attacks or repeated short climbs are less favourable.`);
+
+  } else if (raceSource === 'zrl') {
+    if (isExplosive && hasFinish)
+      parts.push(`A finisher — explosive enough to close out a sprint in ZRL's typically compact bunch finishes.`);
+    else if (isExplosive && !hasFinish)
+      parts.push(`Good punch for attacking and disrupting, but less effective as a pure sprinter. Better suited to going early than contesting a sprint.`);
+    else if (isEndurance && isConsistent)
+      parts.push(`A strong engine in the ZRL format — consistent output and good aerobic capacity make this rider effective at driving tempo over the course of a season.`);
+    else if (isConsistent && !isExplosive)
+      parts.push(`Steady and reliable in ZRL. Unlikely to win solo but valuable for controlling tempo and delivering teammates in the team format.`);
+    else
+      parts.push(`No dominant quality in ZRL races — competitive without a clear strength or weakness.`);
+
+    if (fades)         parts.push(`Loses punch after repeated efforts — ZRL's repeated sprint demands may expose this over a full season.`);
+    else if (unstable) parts.push(`Inconsistent power output across ZRL races — form varies noticeably from race to race.`);
+
+  } else if (raceSource === 'frr') {
+    if (isExplosive && hasFinish)
+      parts.push(`Well-suited to FRR's typically punchy, competitive format — combines finishing speed with the ability to make moves stick.`);
+    else if (isExplosive && !hasFinish)
+      parts.push(`Explosive and capable of attacking, but less effective in a final sprint. The right moves early can still deliver a result.`);
+    else if (isEndurance)
+      parts.push(`Built for endurance — consistent power over longer efforts is an asset in FRR events where the race is often decided on sustained climbs or prolonged tempo.`);
+    else if (isTactical && isConsistent)
+      parts.push(`Reads FRR races well — disciplined pacing and good repeatability make this rider a threat in events that come down to the final kilometres.`);
+    else
+      parts.push(`Balanced profile in FRR — no standout quality, but no clear weakness either.`);
+
+    if (aggressive) parts.push(`Tends to go hard early — effective when the race splits but risky when it comes back together.`);
+    if (fades)      parts.push(`Loses effectiveness after multiple hard efforts — FRR races with repeated attacks are less favourable.`);
+
+  } else {
+    if (isExplosive)
+      parts.push(`Explosive profile that shows up across both formats — capable of a finishing sprint in team races and attacking in open events.`);
+    else if (isEndurance && isConsistent)
+      parts.push(`Strong endurance base with consistent output across both formats — a reliable performer whether racing for the team or individually.`);
+    else if (isTactical)
+      parts.push(`Disciplined and consistent. Reads races well and rarely burns matches unnecessarily — an asset in both team and individual formats.`);
+    else
+      parts.push(`No dominant strength across either format — versatile, but unlikely to be the decisive factor in either team or open races.`);
+
+    if (isExplosive && !isConsistent)
+      parts.push(`More effective in shorter, punchier races than in events where repeated hard efforts are required.`);
+    else if (isEndurance && !isExplosive)
+      parts.push(`Endurance is the stronger suit — likely more competitive in open races than in tactical, explosive team formats.`);
+
+    if (fades) parts.push(`Limited repeatability is a recurring factor — best when the race is decided by one key effort rather than many.`);
+  }
+
+  return parts.join(' ');
+}
+
 function _profileRenderTable(races) {
   const sorted = [...races].sort((a,b) => {
     const av = a[_profileSortKey] ?? -Infinity;
@@ -5231,7 +5357,7 @@ function _wkgColor(v) {
 function profileSort(key) {
   if (_profileSortKey===key) _profileSortDir*=-1;
   else { _profileSortKey=key; _profileSortDir=-1; }
-  _profileRenderTable(_profileRaces);
+  _profileRenderTable(_profileGetRaces());
 }
 
 // ── RIDER PROFILE: navnesøgning ──

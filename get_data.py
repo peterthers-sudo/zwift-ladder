@@ -765,35 +765,52 @@ def update_ladder_races(content):
     print(f"\n[LEQP RIDERS] Henter races for {len(riders)} LEQP ryttere...")
 
     ladder_data = {}
+    other_data = {}
     for zid, name in riders.items():
         try:
-            resp = requests.get(f"{API_URL}/{zid}/ladder_races", timeout=20)
+            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=365", timeout=20)
             if resp.status_code == 200:
                 data = resp.json()
                 races = data.get('races', [])
+                other = data.get('other_races', [])
                 ladder_data[zid] = {'name': name, 'races': races}
-                print(f"  OK: {name} — {len(races)} races")
+                other_data[zid] = {'name': name, 'races': other}
+                print(f"  OK: {name} — {len(races)} ladder / {len(other)} other")
             else:
                 ladder_data[zid] = {'name': name, 'races': []}
+                other_data[zid] = {'name': name, 'races': []}
                 print(f"  SKIP: {name} (HTTP {resp.status_code})")
         except Exception as e:
             ladder_data[zid] = {'name': name, 'races': []}
+            other_data[zid] = {'name': name, 'races': []}
             print(f"  FEJL: {name} ({e})")
 
-    # Byg JS streng
+    # Byg ladder_races.js
     lines = []
     for zid, entry in ladder_data.items():
         races_js = json.dumps(entry['races'], ensure_ascii=False)
         name_safe = entry['name'].replace("'", "\\'")
         lines.append(f"  {zid}: {{name:'{name_safe}', races:{races_js}}}")
-
     js_block = "// LADDER_RACES_START\nconst LADDER_RACES = {\n" + ",\n".join(lines) + "\n};\n// LADDER_RACES_END\n"
-
     ladder_races_js_path = os.path.join(DATA_DIR, "ladder_races.js")
     with open(ladder_races_js_path, 'w', encoding='utf-8') as f:
         f.write(js_block)
     print(f"[LEQP RIDERS] Skrevet {len(ladder_data)} LEQP ryttere til {ladder_races_js_path}.")
+
+    # Byg other_races.js
+    lines = []
+    for zid, entry in other_data.items():
+        races_js = json.dumps(entry['races'], ensure_ascii=False)
+        name_safe = entry['name'].replace("'", "\\'")
+        lines.append(f"  {zid}: {{name:'{name_safe}', races:{races_js}}}")
+    js_block = "// OTHER_RACES_START\nconst OTHER_RACES = {\n" + ",\n".join(lines) + "\n};\n// OTHER_RACES_END\n"
+    other_races_js_path = os.path.join(DATA_DIR, "other_races.js")
+    with open(other_races_js_path, 'w', encoding='utf-8') as f:
+        f.write(js_block)
+    print(f"[LEQP RIDERS] Skrevet {len(other_data)} LEQP ryttere til {other_races_js_path}.")
+
     return content
+
 
 def main():
     try:
