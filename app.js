@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.77'; // bump this on every update
+const APP_VERSION = 'v1.3.78'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4854,8 +4854,13 @@ function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
   const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
+  const srcLabel    = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel}`;
+
+  // Opdater Power Curve titel
+  const chartTitle = document.getElementById('profile-chart-title');
+  if (chartTitle) chartTitle.textContent = `Power Curve — W/kg · ${srcLabel}`;
 
   // Race Analysis section
   const raEl = document.getElementById('profile-race-analysis');
@@ -4900,7 +4905,7 @@ function _profileRenderHeader(name, id, races) {
 
       raEl.innerHTML = `
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-          <div class="matchup-section-title" style="font-size:0.85rem">Race Analysis</div>
+          <div class="matchup-section-title" style="font-size:0.85rem">Race Analysis — ${srcLabel}</div>
           <div style="${base}font-size:0.60rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
         </div>
         ${rows}${insightHTML}${bioHTML}`;
@@ -4918,14 +4923,14 @@ function _profileRenderHeader(name, id, races) {
       if (analysisHTML) {
         daEl.innerHTML = analysisHTML;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▼';
+        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} ▼`;
       } else {
         const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
         daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
           Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
         </div>`;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = '📊 Detailed Rider Analysis ▼';
+        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} ▼`;
       }
       daWrap.style.display = 'block';
     }
@@ -5205,9 +5210,10 @@ function toggleProfileDetailedAnalysis() {
   const el  = document.getElementById('profile-detailed-analysis');
   const btn = document.getElementById('profile-analysis-btn');
   if (!el) return;
+  const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? '📊 Detailed Rider Analysis ▼' : '📊 Detailed Rider Analysis ▲';
+  if (btn) btn.textContent = open ? `📊 Detailed Rider Analysis — ${_daLabel} ▼` : `📊 Detailed Rider Analysis — ${_daLabel} ▲`;
 }
 
 function _profileGenerateAnalysis(races) {
