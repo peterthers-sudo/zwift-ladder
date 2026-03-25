@@ -2034,7 +2034,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.75'; // bump this on every update
+const APP_VERSION = 'v1.3.76'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4688,8 +4688,8 @@ async function loadRiderProfile() {
       _profileRenderHeader(_profileName, id, races);
       _profileRenderTable(races);
       status.style.color = 'var(--text-dim)';
-      status.textContent = `${_profileRaces.length} ladder · ${_profileOtherRaces.length} other races.`;
-      setTimeout(() => document.getElementById('profile-header').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      status.textContent = '';
+      setTimeout(() => (document.getElementById('profile-source-tabs') || document.getElementById('profile-header')).scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
     btn.disabled = false;
     return;
@@ -4715,8 +4715,8 @@ async function loadRiderProfile() {
       _profileRenderHeader(_profileName, id, races);
       _profileRenderTable(races);
       status.style.color = 'var(--text-dim)';
-      status.textContent = `${_profileRaces.length} ladder · ${_profileOtherRaces.length} other races.`;
-      setTimeout(() => document.getElementById('profile-header').scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
+      status.textContent = '';
+      setTimeout(() => (document.getElementById('profile-source-tabs') || document.getElementById('profile-header')).scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
     }
   } catch(e) {
     status.style.color = 'var(--text-dim)';
@@ -4752,19 +4752,38 @@ function _profileGetRaces() {
 function _profileUpdateSourceTabs() {
   const wrap = document.getElementById('profile-source-tabs');
   if (!wrap) return;
-  const hasAny = _profileOtherRaces.length > 0 || _profileZrlRaces.length > 0 || _profileFrrRaces.length > 0 || _profileEcroRaces.length > 0 || _profileWtrlRaces.length > 0;
-  wrap.style.display = hasAny ? 'block' : 'none';
 
-  const zrlBtn  = document.getElementById('pst-zrl');
-  const frrBtn  = document.getElementById('pst-frr');
-  const ecroBtn = document.getElementById('pst-ecro');
-  const wtrlBtn = document.getElementById('pst-wtrl');
-  if (zrlBtn)  zrlBtn.style.display  = _profileZrlRaces.length  > 0 ? '' : 'none';
-  if (frrBtn)  frrBtn.style.display  = _profileFrrRaces.length  > 0 ? '' : 'none';
-  if (ecroBtn) ecroBtn.style.display = _profileEcroRaces.length > 0 ? '' : 'none';
-  if (wtrlBtn) wtrlBtn.style.display = _profileWtrlRaces.length > 0 ? '' : 'none';
+  // Bestem hvilke tabs der har data
+  const hasData = {
+    ladder:   _profileRaces.length > 0,
+    zrl:      _profileZrlRaces.length > 0,
+    frr:      _profileFrrRaces.length > 0,
+    ecro:     _profileEcroRaces.length > 0,
+    wtrl:     _profileWtrlRaces.length > 0,
+    other:    _profileOtherRaces.filter(r =>
+                !/zwift racing league|ZRL/i.test(r.event_title||'') &&
+                !/\bFRR\b/i.test(r.event_title||'') &&
+                !/\bECRO\b/i.test(r.event_title||'') &&
+                !/\bWTRL\b/i.test(r.event_title||'')).length > 0,
+  };
+  const typesWithData = Object.values(hasData).filter(Boolean).length;
+  hasData.combined = typesWithData > 1;
 
-  ['ladder','zrl','frr','ecro','wtrl','other','combined'].forEach(s => {
+  const order = ['ladder','zrl','frr','ecro','wtrl','other','combined'];
+  order.forEach(s => {
+    const btn = document.getElementById('pst-' + s);
+    if (btn) btn.style.display = hasData[s] ? '' : 'none';
+  });
+
+  // Hvis aktiv tab ikke har data, skift til første synlige tab
+  if (!hasData[_profileRaceSource]) {
+    _profileRaceSource = order.find(s => hasData[s]) || 'ladder';
+  }
+
+  const hasVisible = Object.values(hasData).some(Boolean);
+  wrap.style.display = hasVisible ? 'block' : 'none';
+
+  order.forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
       btn.style.background  = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
@@ -4790,6 +4809,12 @@ function _profileRenderHeader(name, id, races) {
   const best = {wkg5:0, wkg15:0, wkg30:0, wkg60:0, wkg120:0, wkg300:0, wkg1200:0};
   for (const r of races) {
     for (const k of Object.keys(best)) if ((r[k]||0) > best[k]) best[k] = r[k];
+  }
+
+  const _bestsTitle = document.getElementById('profile-bests-title');
+  if (_bestsTitle) {
+    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || 'Ladder';
+    _bestsTitle.textContent = `90-day ${_srcLabel} PR`;
   }
 
   document.getElementById('profile-bests').innerHTML = [
@@ -4830,7 +4855,7 @@ function _profileRenderHeader(name, id, races) {
   _profileRenderChart(races);
   const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
   document.getElementById('profile-race-count').innerHTML =
-    `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel} · Zwift ID: <span style="color:var(--accent)">${id}</span>`;
+    `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel}`;
 
   // Race Analysis section
   const raEl = document.getElementById('profile-race-analysis');
@@ -5102,7 +5127,7 @@ function _profileGenerateCrossComparison() {
   return `
     <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Performance by Race Type</div>
     <div style="overflow-x:auto;margin-bottom:20px">
-      <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border)">
+      <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border);white-space:nowrap">
         <thead>
           <tr style="border-bottom:2px solid var(--border)">
             <th style="padding:8px 10px;text-align:left;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
@@ -5556,6 +5581,8 @@ function _profileGenerateScoutReport(rm, raceSource) {
 }
 
 function _profileRenderTable(races) {
+  const tw = document.getElementById('profile-table-wrap');
+  if (tw) tw.style.display = races.length ? 'block' : 'none';
   const sorted = [...races].sort((a,b) => {
     const av = a[_profileSortKey] ?? -Infinity;
     const bv = b[_profileSortKey] ?? -Infinity;
@@ -5705,13 +5732,24 @@ function _profileBuildLeqpBtns() {
   if (!wrap) return;
   const riders = [];
   const seen = new Set();
-  for (const team of Object.values(typeof MY_TEAMS !== 'undefined' ? MY_TEAMS : {})) {
-    for (const r of (Array.isArray(team.riders) ? team.riders : [])) {
-      if (!r || !r.name || !r.zwift_id) continue;
-      const zid = String(r.zwift_id);
+  // Brug LEQP_MEMBERS (alle aktive klubryttere) hvis tilgængelig, ellers MY_TEAMS
+  if (typeof LEQP_MEMBERS !== 'undefined' && LEQP_MEMBERS.length) {
+    for (const m of LEQP_MEMBERS) {
+      if (!m || !m.name || !m.zwift_id) continue;
+      const zid = String(m.zwift_id);
       if (seen.has(zid)) continue;
       seen.add(zid);
-      riders.push({ name: r.name, id: zid });
+      riders.push({ name: m.name, id: zid });
+    }
+  } else {
+    for (const team of Object.values(typeof MY_TEAMS !== 'undefined' ? MY_TEAMS : {})) {
+      for (const r of (Array.isArray(team.riders) ? team.riders : [])) {
+        if (!r || !r.name || !r.zwift_id) continue;
+        const zid = String(r.zwift_id);
+        if (seen.has(zid)) continue;
+        seen.add(zid);
+        riders.push({ name: r.name, id: zid });
+      }
     }
   }
   riders.sort((a,b) => a.name.localeCompare(b.name));
@@ -5802,9 +5840,31 @@ function profileClear() {
   document.getElementById('profile-header').style.display = 'none';
   document.getElementById('profile-race-count').innerHTML = '';
   document.getElementById('profile-tbody').innerHTML = '';
+  const tw = document.getElementById('profile-table-wrap');
+  if (tw) tw.style.display = 'none';
   const cw = document.getElementById('profile-chart-wrap');
   if (cw) cw.style.display = 'none';
   if (_profileChart) { _profileChart.destroy(); _profileChart = null; }
+  const raEl = document.getElementById('profile-race-analysis');
+  if (raEl) { raEl.style.display = 'none'; raEl.innerHTML = ''; }
+  const daWrap = document.getElementById('profile-detailed-analysis-wrap');
+  if (daWrap) daWrap.style.display = 'none';
+  const daEl = document.getElementById('profile-detailed-analysis');
+  if (daEl) { daEl.style.display = 'none'; daEl.innerHTML = ''; }
+  const ccWrap = document.getElementById('profile-cross-comparison-wrap');
+  if (ccWrap) ccWrap.style.display = 'none';
+  const ccEl = document.getElementById('profile-cross-comparison');
+  if (ccEl) ccEl.innerHTML = '';
+  _profileRaces = [];
+  _profileOtherRaces = [];
+  _profileZrlRaces = [];
+  _profileFrrRaces = [];
+  _profileEcroRaces = [];
+  _profileWtrlRaces = [];
+  _profileRaceSource = 'ladder';
+  _profileName = '';
+  _profileId = null;
+  _profileUpdateSourceTabs();
   _profilePeriod = 3;
   document.querySelectorAll('.profile-period-btn').forEach(b => {
     b.classList.toggle('active', parseInt(b.dataset.p) === 3);
@@ -5841,9 +5901,11 @@ function _profileRenderChart(races) {
     noDataMsg = document.createElement('div');
     noDataMsg.id = 'profile-chart-nodata';
     noDataMsg.style.cssText = 'font-family:JetBrains Mono,monospace;font-size:0.75rem;color:var(--text-dim);text-align:center;padding:24px 0;display:none';
-    noDataMsg.textContent = 'No ladder races in the selected period';
+    noDataMsg.textContent = '';
     chartWrap.appendChild(noDataMsg);
   }
+  const _srcLabelChart = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || 'Ladder';
+  noDataMsg.textContent = `No ${_srcLabelChart} races in the selected period`;
   if (filtered.length === 0) {
     if (_profileChart) { _profileChart.destroy(); _profileChart = null; }
     document.getElementById('profile-chart').style.display = 'none';

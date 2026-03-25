@@ -750,7 +750,7 @@ def update_ladder_races(content):
     """Henter ladder race historik for LEQP ryttere (MY_TEAMS) og skriver til data/ladder_races.js."""
     import json, re as _re
 
-    # Læs rider IDs fra data/my_teams.js (ikke fra content/index.html)
+    # Læs rider IDs fra data/my_teams.js (ladder-ryttere)
     riders = {}  # zwift_id -> name
     my_teams_js_path = os.path.join(DATA_DIR, "my_teams.js")
     try:
@@ -762,10 +762,25 @@ def update_ladder_races(content):
     except Exception as e:
         print(f"[LEQP RIDERS] Kunne ikke læse {my_teams_js_path}: {e}")
 
-    print(f"\n[LEQP RIDERS] Henter races for {len(riders)} LEQP ryttere...")
+    # Læs ekstra ryttere fra data/leqp_members.js (ikke-ladder LEQP-ryttere)
+    extra_riders = {}  # zwift_id -> name
+    leqp_members_path = os.path.join(DATA_DIR, "leqp_members.js")
+    try:
+        with open(leqp_members_path, 'r', encoding='utf-8') as f:
+            leqp_src = f.read()
+        for m in _re.finditer(r"zwift_id:\s*(\d+),\s*name:\s*'([^']+)'", leqp_src):
+            zid, name = m.group(1), m.group(2)
+            if zid not in riders:
+                extra_riders[zid] = name
+    except Exception as e:
+        print(f"[LEQP RIDERS] Kunne ikke læse {leqp_members_path} (ikke-kritisk): {e}")
+
+    print(f"\n[LEQP RIDERS] Henter races for {len(riders)} ladder-ryttere + {len(extra_riders)} ikke-ladder LEQP-ryttere...")
 
     ladder_data = {}
     other_data = {}
+
+    # Ladder-ryttere: hent både ladder og other races
     for zid, name in riders.items():
         try:
             resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=730", timeout=20)
@@ -784,6 +799,25 @@ def update_ladder_races(content):
             ladder_data[zid] = {'name': name, 'races': []}
             other_data[zid] = {'name': name, 'races': []}
             print(f"  FEJL: {name} ({e})")
+
+    # Ikke-ladder LEQP-ryttere: kun other races (ingen ladder races)
+    for zid, name in extra_riders.items():
+        try:
+            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=730", timeout=20)
+            if resp.status_code == 200:
+                data = resp.json()
+                other = data.get('other_races', [])
+                ladder_data[zid] = {'name': name, 'races': []}
+                other_data[zid] = {'name': name, 'races': other}
+                print(f"  OK (extra): {name} — {len(other)} other races")
+            else:
+                ladder_data[zid] = {'name': name, 'races': []}
+                other_data[zid] = {'name': name, 'races': []}
+                print(f"  SKIP (extra): {name} (HTTP {resp.status_code})")
+        except Exception as e:
+            ladder_data[zid] = {'name': name, 'races': []}
+            other_data[zid] = {'name': name, 'races': []}
+            print(f"  FEJL (extra): {name} ({e})")
 
     # Byg ladder_races.js
     lines = []

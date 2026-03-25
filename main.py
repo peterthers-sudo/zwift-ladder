@@ -412,3 +412,37 @@ async def get_velo_batch(zwift_ids: list[int]):
         return result
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# =========================
+# Team Members Endpoint
+# =========================
+
+@app.get("/team/{team_id}")
+async def get_team_members(team_id: int, max_rank: int = 599):
+    try:
+        fetcher = ZPTeamFetch()
+        teams = await fetcher.afetch(team_id)
+        team = teams.get(team_id)
+        if not team:
+            raise HTTPException(status_code=404, detail="Team not found")
+
+        members = []
+        for m in team.members:
+            try:
+                rank_val = int(m.rank) if m.rank and str(m.rank).strip().isdigit() else 9999
+            except (ValueError, TypeError):
+                rank_val = 9999
+            if rank_val == 0 or rank_val > max_rank:
+                continue
+            members.append({
+                "zwift_id": m.zwift_id,
+                "name":     m.name,
+                "rank":     rank_val,
+            })
+
+        members.sort(key=lambda x: x["name"])
+        return members
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

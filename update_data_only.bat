@@ -42,6 +42,13 @@ python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: API klar.\n')"
 echo OK: API klar. Starter data-indsamling...
 echo.
 cd /d %PROJECT_DIR%
+
+echo Henter aktive LEQP-ryttere (fetch_leqp_members.py)...
+python fetch_leqp_members.py >> "%LOG_FILE%" 2>&1
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: LEQP members hentet.\n')"
+echo OK: LEQP members hentet.
+echo.
+
 python get_data.py >> "%LOG_FILE%" 2>&1
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: Rider-data hentet.\n')"
 echo OK: Rider-data hentet.
@@ -67,7 +74,7 @@ cd /d %PROJECT_DIR%
 echo --- git status --- >> "%LOG_FILE%"
 git status >> "%LOG_FILE%" 2>&1
 
-git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/other_races.js data/rider_bios.js CNAME >> "%LOG_FILE%" 2>&1
+git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/other_races.js data/rider_bios.js data/leqp_members.js CNAME >> "%LOG_FILE%" 2>&1
 
 git commit -m "Data update (no scrape): %DATE% %TIME%" >> "%LOG_FILE%" 2>&1
 
