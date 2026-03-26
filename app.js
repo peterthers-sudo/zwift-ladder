@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.94'; // bump this on every update
+const APP_VERSION = 'v1.3.95'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4933,14 +4933,7 @@ function _profileUpdateSourceTabs() {
 
   // AI Training Plan only visible on Combined tab
   const tpWrap = document.getElementById('profile-training-plan-wrap');
-  if (tpWrap) {
-    const showTp = _profileRaceSource === 'combined' && hasData.combined;
-    tpWrap.style.display = showTp ? 'block' : 'none';
-    if (!showTp) {
-      const tpOut = document.getElementById('profile-training-plan-output');
-      if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
-    }
-  }
+  if (tpWrap) tpWrap.style.display = (_profileRaceSource === 'combined' && hasData.combined) ? 'block' : 'none';
 
   order.forEach(s => {
     const btn = document.getElementById('pst-' + s);
