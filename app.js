@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.96'; // bump this on every update
+const APP_VERSION = 'v1.3.97'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5918,7 +5918,7 @@ function _profileBuildLeqpBtns() {
   }
   riders.sort((a,b) => a.name.localeCompare(b.name));
   wrap.innerHTML = riders.map(r =>
-    `<button onclick="profileQuickLoad('${r.id}','${r.name.replace(/'/g,"\'")}')"
+    `<button onclick="profileQuickLoad('${r.id}','${r.name.replace(/'/g, "\\'")}')"
       style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:5px 12px;
       background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);
       cursor:pointer;letter-spacing:1px;transition:all 0.15s"
