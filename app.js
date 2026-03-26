@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.93'; // bump this on every update
+const APP_VERSION = 'v1.3.94'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3617,6 +3617,8 @@ async function generateRiderTrainingPlan() {
     return;
   }
 
+  const startBtn = document.getElementById('profile-training-start-btn');
+  if (startBtn) startBtn.style.display = 'none';
   out.style.display = 'block';
   out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:#7fff6b;animation:pulse 1.2s ease-in-out infinite">⏳ BUILDING TRAINING PLAN...</div>';
   setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
@@ -5095,6 +5097,8 @@ function _profileRenderHeader(name, id, races) {
     // AI Training Plan — visibility controlled by _profileUpdateSourceTabs (combined only)
     const tpOut  = document.getElementById('profile-training-plan-output');
     if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
+    const tpBtn  = document.getElementById('profile-training-start-btn');
+    if (tpBtn) tpBtn.style.display = '';
 
     // Cross-race type comparison — only shown if rider has data in ≥2 race types
     const ccWrap = document.getElementById('profile-cross-comparison-wrap');
@@ -6022,6 +6026,8 @@ function profileClear() {
   if (tpWrap2) tpWrap2.style.display = 'none';
   const tpOut2 = document.getElementById('profile-training-plan-output');
   if (tpOut2) { tpOut2.style.display = 'none'; tpOut2.innerHTML = ''; }
+  const tpBtn2 = document.getElementById('profile-training-start-btn');
+  if (tpBtn2) tpBtn2.style.display = '';
   const ccWrap = document.getElementById('profile-cross-comparison-wrap');
   if (ccWrap) ccWrap.style.display = 'none';
   const ccEl = document.getElementById('profile-cross-comparison');
