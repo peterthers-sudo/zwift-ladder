@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.91'; // bump this on every update
+const APP_VERSION = 'v1.3.92'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3604,6 +3604,136 @@ function printAIStrategy() {
   w.document.close();
 }
 
+// ── AI Rider Training Plan ──
+async function generateRiderTrainingPlan() {
+  const out = document.getElementById('profile-training-plan-output');
+  if (!out) return;
+
+  if (!_profileName || (!_profileRaces.length && !_profileOtherRaces.length &&
+      !_profileZrlRaces.length && !_profileFrrRaces.length &&
+      !_profileEcroRaces.length && !_profileWtrlRaces.length)) {
+    out.style.display = 'block';
+    out.innerHTML = '⚠️ Load a rider first.';
+    return;
+  }
+
+  out.style.display = 'block';
+  out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:#7fff6b;animation:pulse 1.2s ease-in-out infinite">⏳ BUILDING TRAINING PLAN...</div>';
+  setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
+
+  // Collect all races across all types
+  const allRaces = [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces,
+                    ..._profileEcroRaces, ..._profileWtrlRaces, ..._profileOtherRaces];
+
+  // Best power outputs (90-day PR across all types)
+  const best = { wkg5:0, wkg15:0, wkg30:0, wkg60:0, wkg120:0, wkg300:0, wkg1200:0 };
+  const cutoff = Date.now() / 1000 - 90 * 86400;
+  for (const r of allRaces) {
+    if ((r.event_date || 0) < cutoff) continue;
+    for (const k of Object.keys(best)) if ((r[k] || 0) > best[k]) best[k] = r[k];
+  }
+  // Fall back to all-time if 90-day is sparse
+  if (!best.wkg1200) {
+    for (const r of allRaces) for (const k of Object.keys(best)) if ((r[k] || 0) > best[k]) best[k] = r[k];
+  }
+
+  const riderType = _profileRiderType(best);
+  const weight    = allRaces.length ? (allRaces[0].weight || 0) : 0;
+  const ftp       = best.wkg1200 && weight ? Math.round(best.wkg1200 * weight) : 0;
+
+  // Race stats per type
+  const typeStats = (races, label) => {
+    if (!races.length) return null;
+    const withPos = races.filter(r => r.position > 0);
+    const avgPos  = withPos.length ? (withPos.reduce((s, r) => s + r.position, 0) / withPos.length).toFixed(1) : null;
+    return `${label}: ${races.length} races${avgPos ? `, avg finish #${avgPos}` : ''}`;
+  };
+  const statsLines = [
+    typeStats(_profileRaces,     'Ladder'),
+    typeStats(_profileZrlRaces,  'ZRL'),
+    typeStats(_profileFrrRaces,  'FRR'),
+    typeStats(_profileEcroRaces, 'ECRO'),
+    typeStats(_profileWtrlRaces, 'WTRL'),
+    typeStats(_profileOtherRaces,'Other'),
+  ].filter(Boolean).join('\n');
+
+  // Race metrics if available from analysis
+  const analysis = _profileGenerateAnalysis(_profileGetRaces());
+  let metricsBlock = '';
+  if (window._lastRaceMetrics) {
+    const s = window._lastRaceMetrics.scores;
+    const n = window._lastRaceMetrics.n;
+    const conf = window._lastRaceMetrics.confidence;
+    metricsBlock = `Race profile metrics (${conf} confidence, ${n} races):
+  Punch: ${s.punch ?? '—'}/10 · VO2: ${s.vo2 ?? '—'}/10 · Pacing: ${s.pacing ?? '—'}/10
+  Repeatability: ${s.repeatability ?? '—'}/10 · End sprint: ${s.endSprint ?? '—'}/10 · Fatigue resistance: ${s.fatigue ?? '—'}/10`;
+  }
+
+  const f1 = v => v > 0 ? v.toFixed(1) : '—';
+
+  const prompt = `You are an expert cycling coach specialising in Zwift racing and high-performance training periodisation. Based on the power data and race history below, write a personalised, periodised training plan for this rider.
+
+RIDER: ${_profileName}
+Rider type: ${riderType.label}
+Weight: ${weight > 0 ? weight.toFixed(1) + ' kg' : 'unknown'}
+FTP: ${ftp > 0 ? ftp + 'W (' + best.wkg1200.toFixed(2) + ' W/kg)' : 'unknown'}
+
+90-day peak power outputs:
+  5s:   ${f1(best.wkg5)} W/kg  (${best.wkg5 && weight ? Math.round(best.wkg5 * weight) + 'W' : '—'})
+  15s:  ${f1(best.wkg15)} W/kg (${best.wkg15 && weight ? Math.round(best.wkg15 * weight) + 'W' : '—'})
+  30s:  ${f1(best.wkg30)} W/kg (${best.wkg30 && weight ? Math.round(best.wkg30 * weight) + 'W' : '—'})
+  1min: ${f1(best.wkg60)} W/kg (${best.wkg60 && weight ? Math.round(best.wkg60 * weight) + 'W' : '—'})
+  2min: ${f1(best.wkg120)} W/kg (${best.wkg120 && weight ? Math.round(best.wkg120 * weight) + 'W' : '—'})
+  5min: ${f1(best.wkg300)} W/kg (${best.wkg300 && weight ? Math.round(best.wkg300 * weight) + 'W' : '—'})
+  20min:${f1(best.wkg1200)} W/kg (${ftp > 0 ? ftp + 'W' : '—'})
+
+Race history:
+${statsLines}
+
+${metricsBlock}
+
+Based on this data:
+1. Identify the rider's key strengths and the 2–3 most important limiters to address.
+2. Design a 12-week periodised training plan structured as:
+   - Base (weeks 1–4): aerobic foundation, zone 2, endurance
+   - Build (weeks 5–8): race-specific intensity, threshold and VO₂max
+   - Peak (weeks 9–10): sharpening, high-intensity race simulation, taper
+   - Recovery (weeks 11–12): active recovery and consolidation
+3. For each phase, specify 3–4 weekly session types with duration and target intensity (use W/kg or % FTP — always reference this rider's actual numbers). Include:
+   - Endurance rides
+   - Threshold / sweet-spot intervals
+   - VO₂max efforts
+   - Sprint or neuromuscular work (if relevant to rider type)
+   - Strength on the bike (big gear work) where appropriate
+4. Give 2–3 specific, actionable tips tailored to this rider's weaknesses (e.g. pacing, repeatability, sprint timing).
+5. Close with a "Race readiness note" — which race types and routes this rider is best suited for right now, and what to focus on for the next ladder block.
+
+Be specific and data-driven. Use this rider's actual W/kg numbers throughout. Max 600 words. Reply in English.`;
+
+  try {
+    const res = await fetch(GEMINI_PROXY, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contents: [{ parts: [{ text: prompt }] }] })
+    });
+    const json = await res.json();
+    if (!res.ok) throw new Error(json.error?.message || `HTTP ${res.status}`);
+    const text = json.candidates?.[0]?.content?.parts?.[0]?.text || '(empty response)';
+    const formatted = text
+      .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+      .replace(/^(\d+)\.\s+\*\*(.*?)\*\*/gm, '<div style="margin-top:18px;margin-bottom:4px;font-size:0.78rem;letter-spacing:2px;color:#7fff6b;font-weight:700">$1. $2</div>')
+      .replace(/^(\d+)\.\s+(.+)/gm,          '<div style="margin-top:18px;margin-bottom:4px;font-size:0.78rem;letter-spacing:2px;color:#7fff6b;font-weight:700">$1. $2</div>')
+      .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--text)">$1</strong>')
+      .replace(/^\s*[-*]\s+(.+)/gm, '<div style="padding-left:16px;margin:2px 0">▸ $1</div>')
+      .replace(/\n/g, '<br>');
+    out.innerHTML =
+      `<div style="margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(127,255,107,0.25);font-size:0.85rem;letter-spacing:3px;color:#7fff6b;font-weight:700">🏋 TRAINING PLAN — ${_profileName.toUpperCase()}</div>` +
+      formatted;
+  } catch (e) {
+    out.innerHTML = '⚠️ Could not generate training plan.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
+  }
+}
+
 function printRiderAnalysis() {
   const name       = document.getElementById('profile-name')?.textContent || 'Rider';
   const headerEl   = document.getElementById('profile-header');
@@ -4932,16 +5062,24 @@ function _profileRenderHeader(name, id, races) {
       if (analysisHTML) {
         daEl.innerHTML = analysisHTML;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} [show]`;
+        if (daBtn) daBtn.innerHTML = `📊 Detailed Rider Analysis — ${srcLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>`;
       } else {
         const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
         daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
           Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
         </div>`;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} [show]`;
+        if (daBtn) daBtn.innerHTML = `📊 Detailed Rider Analysis — ${srcLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>`;
       }
       daWrap.style.display = 'block';
+    }
+
+    // AI Training Plan button — shown whenever there is enough data for analysis
+    const tpWrap = document.getElementById('profile-training-plan-wrap');
+    const tpOut  = document.getElementById('profile-training-plan-output');
+    if (tpWrap) {
+      tpWrap.style.display = 'block';
+      if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
     }
 
     // Cross-race type comparison — only shown if rider has data in ≥2 race types
@@ -4952,7 +5090,7 @@ function _profileRenderHeader(name, id, races) {
       if (ccHTML) {
         ccEl.innerHTML = ccHTML;
         ccEl.style.display = 'none';
-        document.getElementById('profile-cross-btn').textContent = '⚖ Cross-Race Type Comparison [show]';
+        document.getElementById('profile-cross-btn').innerHTML = '⚖ Cross-Race Type Comparison <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>';
         ccWrap.style.display = 'block';
       } else {
         ccWrap.style.display = 'none';
@@ -4967,7 +5105,7 @@ function toggleProfileCrossComparison() {
   if (!el) return;
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? '⚖ Cross-Race Type Comparison [show]' : '⚖ Cross-Race Type Comparison [hide]';
+  if (btn) btn.innerHTML = open ? '⚖ Cross-Race Type Comparison <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>' : '⚖ Cross-Race Type Comparison <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[hide]</span>';
 }
 
 function _profileGenerateCrossComparison() {
@@ -5222,7 +5360,7 @@ function toggleProfileDetailedAnalysis() {
   const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? `📊 Detailed Rider Analysis — ${_daLabel} [show]` : `📊 Detailed Rider Analysis — ${_daLabel} [hide]`;
+  if (btn) btn.innerHTML = open ? `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>` : `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[hide]</span>`;
 }
 
 function _profileGenerateAnalysis(races) {
@@ -5866,6 +6004,10 @@ function profileClear() {
   if (daWrap) daWrap.style.display = 'none';
   const daEl = document.getElementById('profile-detailed-analysis');
   if (daEl) { daEl.style.display = 'none'; daEl.innerHTML = ''; }
+  const tpWrap2 = document.getElementById('profile-training-plan-wrap');
+  if (tpWrap2) tpWrap2.style.display = 'none';
+  const tpOut2 = document.getElementById('profile-training-plan-output');
+  if (tpOut2) { tpOut2.style.display = 'none'; tpOut2.innerHTML = ''; }
   const ccWrap = document.getElementById('profile-cross-comparison-wrap');
   if (ccWrap) ccWrap.style.display = 'none';
   const ccEl = document.getElementById('profile-cross-comparison');
