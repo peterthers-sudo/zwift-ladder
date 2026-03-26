@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.90'; // bump this on every update
+const APP_VERSION = 'v1.3.91'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2282,6 +2282,8 @@ window.onload = function() {
   // Hide context bar on default tab (profile)
   const cb = document.getElementById('context-bar');
   if (cb) cb.style.display = 'none';
+  // Build LEQP rider buttons on load (profile is default tab, switchTab never called)
+  _profileBuildLeqpBtns();
   // Init fixtures
   initFixtures();
   // Sæt route-antal dynamisk
