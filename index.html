@@ -991,7 +991,7 @@
     </div>
 
     <div style="margin-bottom:20px">
-      <div class="matchup-section-title" onclick="(function(){var b=document.getElementById('leqp-rider-btns'),a=document.getElementById('leqp-toggle-arrow');b.style.display=b.style.display==='none'?'flex':'none';a.textContent=b.style.display==='none'?'▶':'▼'})()" style="font-size:0.85rem;cursor:pointer;user-select:none">LEQP Riders <span id="leqp-toggle-arrow" style="font-size:0.65rem;color:var(--text-dim);margin-left:6px">▶</span></div>
+      <div class="matchup-section-title" onclick="(function(){var b=document.getElementById('leqp-rider-btns'),a=document.getElementById('leqp-toggle-arrow');b.style.display=b.style.display==='none'?'flex':'none';a.textContent=b.style.display==='none'?'[show]':'[hide]'})()" style="font-size:0.85rem;cursor:pointer;user-select:none">LEQP Riders <span id="leqp-toggle-arrow" style="font-size:0.65rem;color:var(--text-dim);margin-left:6px">[show]</span></div>
       <div id="leqp-rider-btns" style="display:none;flex-wrap:wrap;gap:6px"></div>
     </div>
     <div id="profile-status" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--text-dim);margin-bottom:16px;min-height:20px"></div>
@@ -1046,7 +1046,7 @@
     <div id="profile-detailed-analysis-wrap" style="display:none;margin-bottom:20px">
       <div style="display:flex;gap:0">
         <button onclick="toggleProfileDetailedAnalysis()" id="profile-analysis-btn" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;padding:14px 20px;background:rgba(0,229,255,0.18);border:2px solid rgba(0,229,255,0.7);color:var(--accent);cursor:pointer;flex:1;text-align:left;text-transform:uppercase;font-weight:700;box-shadow:0 0 14px rgba(0,229,255,0.15)">
-          📊 Detailed Rider Analysis ▼
+          📊 Detailed Rider Analysis [show]
         </button>
         <button onclick="printRiderAnalysis()" title="Download as PDF" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:14px 16px;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.7);border-left:none;color:var(--accent);cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(0,229,255,0.15)">⬇ PDF</button>
       </div>
@@ -1055,7 +1055,7 @@
     <div id="profile-cross-comparison-wrap" style="display:none;margin-bottom:20px">
       <div style="display:flex;gap:0">
         <button onclick="toggleProfileCrossComparison()" id="profile-cross-btn" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;padding:14px 20px;background:rgba(255,159,67,0.15);border:2px solid rgba(255,159,67,0.6);color:#ff9f43;cursor:pointer;flex:1;text-align:left;text-transform:uppercase;font-weight:700;box-shadow:0 0 14px rgba(255,159,67,0.10)">
-          ⚖ Cross-Race Type Comparison ▼
+          ⚖ Cross-Race Type Comparison [show]
         </button>
       </div>
       <div id="profile-cross-comparison" style="display:none;background:var(--surface);border:1px solid rgba(255,159,67,0.35);border-top:none;padding:20px 24px"></div>

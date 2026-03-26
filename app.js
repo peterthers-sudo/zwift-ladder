@@ -994,13 +994,17 @@ function switchTab(tab) {
   const teamSizeBlock = document.getElementById('ctx-teamsize-block');
   const raceRouteBlock = document.getElementById('ctx-raceroute-block');
 
+  const contextBar = document.getElementById('context-bar');
+
+  const hideContextBar = tab === 'profile' || tab === 'rung' || tab === 'fixtures';
+  if (contextBar) contextBar.style.display = hideContextBar ? 'none' : '';
+
   if (tab === 'analyze') {
     if (routesBlock) routesBlock.style.display = 'none';
     if (teamSizeBlock) teamSizeBlock.style.display = 'none';
     if (raceRouteBlock) raceRouteBlock.style.display = 'flex';
-    
-    populateMatchupRoutes(); 
-    renderMatchupAnalysis(); 
+    populateMatchupRoutes();
+    renderMatchupAnalysis();
   } else {
     if (routesBlock) routesBlock.style.display = 'flex';
     if (teamSizeBlock) teamSizeBlock.style.display = 'flex';
@@ -2034,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.78'; // bump this on every update
+const APP_VERSION = 'v1.3.79'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4958,7 +4962,7 @@ function toggleProfileCrossComparison() {
   if (!el) return;
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? '⚖ Cross-Race Type Comparison ▼' : '⚖ Cross-Race Type Comparison ▲';
+  if (btn) btn.textContent = open ? '⚖ Cross-Race Type Comparison [show]' : '⚖ Cross-Race Type Comparison [hide]';
 }
 
 function _profileGenerateCrossComparison() {
@@ -5213,7 +5217,7 @@ function toggleProfileDetailedAnalysis() {
   const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
-  if (btn) btn.textContent = open ? `📊 Detailed Rider Analysis — ${_daLabel} ▼` : `📊 Detailed Rider Analysis — ${_daLabel} ▲`;
+  if (btn) btn.textContent = open ? `📊 Detailed Rider Analysis — ${_daLabel} [show]` : `📊 Detailed Rider Analysis — ${_daLabel} [hide]`;
 }
 
 function _profileGenerateAnalysis(races) {
