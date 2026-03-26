@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.92'; // bump this on every update
+const APP_VERSION = 'v1.3.93'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3625,16 +3625,12 @@ async function generateRiderTrainingPlan() {
   const allRaces = [..._profileRaces, ..._profileZrlRaces, ..._profileFrrRaces,
                     ..._profileEcroRaces, ..._profileWtrlRaces, ..._profileOtherRaces];
 
-  // Best power outputs (90-day PR across all types)
+  // Best power outputs — last 90 days across all race types
   const best = { wkg5:0, wkg15:0, wkg30:0, wkg60:0, wkg120:0, wkg300:0, wkg1200:0 };
   const cutoff = Date.now() / 1000 - 90 * 86400;
   for (const r of allRaces) {
     if ((r.event_date || 0) < cutoff) continue;
     for (const k of Object.keys(best)) if ((r[k] || 0) > best[k]) best[k] = r[k];
-  }
-  // Fall back to all-time if 90-day is sparse
-  if (!best.wkg1200) {
-    for (const r of allRaces) for (const k of Object.keys(best)) if ((r[k] || 0) > best[k]) best[k] = r[k];
   }
 
   const riderType = _profileRiderType(best);
@@ -3671,14 +3667,14 @@ async function generateRiderTrainingPlan() {
 
   const f1 = v => v > 0 ? v.toFixed(1) : '—';
 
-  const prompt = `You are an expert cycling coach specialising in Zwift racing and high-performance training periodisation. Based on the power data and race history below, write a personalised, periodised training plan for this rider.
+  const prompt = `You are an expert cycling coach specialising in Zwift racing. Analyse this rider and write a personalised coaching report. All data is from race results over the last 90 days across all race types combined.
 
 RIDER: ${_profileName}
 Rider type: ${riderType.label}
 Weight: ${weight > 0 ? weight.toFixed(1) + ' kg' : 'unknown'}
-FTP: ${ftp > 0 ? ftp + 'W (' + best.wkg1200.toFixed(2) + ' W/kg)' : 'unknown'}
+FTP (20-min peak): ${ftp > 0 ? ftp + 'W (' + best.wkg1200.toFixed(2) + ' W/kg)' : 'unknown'}
 
-90-day peak power outputs:
+Peak power outputs (best recorded in any race, last 90 days):
   5s:   ${f1(best.wkg5)} W/kg  (${best.wkg5 && weight ? Math.round(best.wkg5 * weight) + 'W' : '—'})
   15s:  ${f1(best.wkg15)} W/kg (${best.wkg15 && weight ? Math.round(best.wkg15 * weight) + 'W' : '—'})
   30s:  ${f1(best.wkg30)} W/kg (${best.wkg30 && weight ? Math.round(best.wkg30 * weight) + 'W' : '—'})
@@ -3687,28 +3683,38 @@ FTP: ${ftp > 0 ? ftp + 'W (' + best.wkg1200.toFixed(2) + ' W/kg)' : 'unknown'}
   5min: ${f1(best.wkg300)} W/kg (${best.wkg300 && weight ? Math.round(best.wkg300 * weight) + 'W' : '—'})
   20min:${f1(best.wkg1200)} W/kg (${ftp > 0 ? ftp + 'W' : '—'})
 
-Race history:
+Note: these are peak values recorded within races — not dedicated tests. Short intervals (≤2min) may be lower than true maxes if the rider did not go all-out at those durations in any race.
+
+Race history (last 90 days):
 ${statsLines}
 
 ${metricsBlock}
 
-Based on this data:
-1. Identify the rider's key strengths and the 2–3 most important limiters to address.
-2. Design a 12-week periodised training plan structured as:
-   - Base (weeks 1–4): aerobic foundation, zone 2, endurance
-   - Build (weeks 5–8): race-specific intensity, threshold and VO₂max
-   - Peak (weeks 9–10): sharpening, high-intensity race simulation, taper
-   - Recovery (weeks 11–12): active recovery and consolidation
-3. For each phase, specify 3–4 weekly session types with duration and target intensity (use W/kg or % FTP — always reference this rider's actual numbers). Include:
-   - Endurance rides
-   - Threshold / sweet-spot intervals
-   - VO₂max efforts
-   - Sprint or neuromuscular work (if relevant to rider type)
-   - Strength on the bike (big gear work) where appropriate
-4. Give 2–3 specific, actionable tips tailored to this rider's weaknesses (e.g. pacing, repeatability, sprint timing).
-5. Close with a "Race readiness note" — which race types and routes this rider is best suited for right now, and what to focus on for the next ladder block.
+Write the report in this exact order:
 
-Be specific and data-driven. Use this rider's actual W/kg numbers throughout. Max 600 words. Reply in English.`;
+**1. Rider Profile**
+2–3 sentences describing what kind of rider this is, based on the power numbers and rider type. Be specific — reference the actual W/kg values.
+
+**2. Strengths**
+2–3 bullet points. Cite the actual numbers that back each strength.
+
+**3. Key Limiters**
+2–3 bullet points. The most important areas to improve for better race results. Be honest and specific.
+
+**4. Coaching Recommendations**
+3–4 actionable, specific tips tailored to this rider. Reference their actual W/kg numbers when suggesting target intensities. Include session types such as threshold intervals, VO₂max efforts, sprint work, or endurance — whichever are most relevant to this rider's profile.
+
+**5. Race Readiness**
+1 short paragraph: which route types and race formats suit this rider best right now, and one focus area for the next racing block.
+
+**6. 12-Week Training Overview**
+High-level only — no detailed session prescriptions. One short paragraph per phase:
+- Base (weeks 1–4)
+- Build (weeks 5–8)
+- Peak (weeks 9–10)
+- Recovery (weeks 11–12)
+
+Reply in English. Max 550 words total. Be direct and coach-like — no generic filler.`;
 
   try {
     const res = await fetch(GEMINI_PROXY, {
@@ -3727,7 +3733,8 @@ Be specific and data-driven. Use this rider's actual W/kg numbers throughout. Ma
       .replace(/^\s*[-*]\s+(.+)/gm, '<div style="padding-left:16px;margin:2px 0">▸ $1</div>')
       .replace(/\n/g, '<br>');
     out.innerHTML =
-      `<div style="margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(127,255,107,0.25);font-size:0.85rem;letter-spacing:3px;color:#7fff6b;font-weight:700">🏋 TRAINING PLAN — ${_profileName.toUpperCase()}</div>` +
+      `<div style="margin-bottom:4px;font-size:0.85rem;letter-spacing:3px;color:#7fff6b;font-weight:700">🏋 AI TRAINING PLAN — ${_profileName.toUpperCase()}</div>` +
+      `<div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(127,255,107,0.2);font-size:0.62rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase">Based on all race types · Last 90 days · Peak power from race data</div>` +
       formatted;
   } catch (e) {
     out.innerHTML = '⚠️ Could not generate training plan.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
@@ -4922,6 +4929,17 @@ function _profileUpdateSourceTabs() {
   const hasVisible = Object.values(hasData).some(Boolean);
   wrap.style.display = hasVisible ? 'block' : 'none';
 
+  // AI Training Plan only visible on Combined tab
+  const tpWrap = document.getElementById('profile-training-plan-wrap');
+  if (tpWrap) {
+    const showTp = _profileRaceSource === 'combined' && hasData.combined;
+    tpWrap.style.display = showTp ? 'block' : 'none';
+    if (!showTp) {
+      const tpOut = document.getElementById('profile-training-plan-output');
+      if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
+    }
+  }
+
   order.forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
@@ -5074,13 +5092,9 @@ function _profileRenderHeader(name, id, races) {
       daWrap.style.display = 'block';
     }
 
-    // AI Training Plan button — shown whenever there is enough data for analysis
-    const tpWrap = document.getElementById('profile-training-plan-wrap');
+    // AI Training Plan — visibility controlled by _profileUpdateSourceTabs (combined only)
     const tpOut  = document.getElementById('profile-training-plan-output');
-    if (tpWrap) {
-      tpWrap.style.display = 'block';
-      if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
-    }
+    if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
 
     // Cross-race type comparison — only shown if rider has data in ≥2 race types
     const ccWrap = document.getElementById('profile-cross-comparison-wrap');
