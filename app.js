@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.83'; // bump this on every update
+const APP_VERSION = 'v1.3.84'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4793,9 +4793,9 @@ function _profileUpdateSourceTabs() {
   order.forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) {
-      btn.style.background  = s === _profileRaceSource ? 'rgba(0,229,255,0.22)' : 'var(--surface2)';
-      btn.style.color       = s === _profileRaceSource ? 'var(--accent)' : 'var(--text)';
-      btn.style.borderColor = s === _profileRaceSource ? 'rgba(0,229,255,0.7)' : 'var(--border)';
+      btn.style.background  = s === _profileRaceSource ? 'var(--accent)' : 'var(--surface2)';
+      btn.style.color       = s === _profileRaceSource ? 'var(--bg)' : 'var(--text)';
+      btn.style.borderColor = s === _profileRaceSource ? 'var(--accent)' : 'var(--border)';
       btn.style.fontWeight  = s === _profileRaceSource ? '700' : '500';
       btn.style.opacity     = s === _profileRaceSource ? '1' : '0.7';
     }
