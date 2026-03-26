@@ -978,7 +978,7 @@
           onblur="this.style.borderColor='var(--border)'">
         <div id="profile-name-results" style="position:absolute;background:var(--surface);border:1px solid var(--border);z-index:200;width:300px;max-height:240px;overflow-y:auto;display:none"></div>
       </div>
-      <div>
+      <div id="profile-zwiftid-wrap" style="display:none">
         <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:3px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Zwift ID</div>
         <input type="number" id="profile-zwift-id" placeholder=""
           style="background:var(--surface2);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.9rem;padding:10px 14px;outline:none;width:160px"
@@ -986,7 +986,7 @@
           onfocus="this.style.borderColor='var(--accent)'"
           onblur="this.style.borderColor='var(--border)'">
       </div>
-      <button class="btn btn-primary" onclick="loadRiderProfile()" id="profile-load-btn">LOAD RIDER</button>
+      <button id="profile-load-btn" class="btn btn-primary" onclick="loadRiderProfile()" style="display:none">LOAD RIDER</button>
       <button class="btn btn-ghost" onclick="profileClear()" style="font-size:0.75rem;letter-spacing:2px">✕ Clear</button>
     </div>
 
