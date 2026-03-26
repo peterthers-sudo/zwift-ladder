@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.98'; // bump this on every update
+const APP_VERSION = 'v1.3.99'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5087,11 +5087,7 @@ function _profileRenderHeader(name, id, races) {
       daWrap.style.display = 'block';
     }
 
-    // AI Training Plan — visibility controlled by _profileUpdateSourceTabs (combined only)
-    const tpOut  = document.getElementById('profile-training-plan-output');
-    if (tpOut) { tpOut.style.display = 'none'; tpOut.innerHTML = ''; }
-    const tpBtn  = document.getElementById('profile-training-start-btn');
-    if (tpBtn) tpBtn.style.display = '';
+    // AI Training Plan wrap visibility handled by _profileUpdateSourceTabs — do not reset content here
 
     // Cross-race type comparison — only shown if rider has data in ≥2 race types
     const ccWrap = document.getElementById('profile-cross-comparison-wrap');
