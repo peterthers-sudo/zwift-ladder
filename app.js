@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.85'; // bump this on every update
+const APP_VERSION = 'v1.3.86'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4930,14 +4930,14 @@ function _profileRenderHeader(name, id, races) {
       if (analysisHTML) {
         daEl.innerHTML = analysisHTML;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} ▼`;
+        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} [show]`;
       } else {
         const raceCount = races ? races.filter(r => (r.wkg1200||0)>0 && (r.wkg60||0)>0 && (r.avg_wkg||0)>0).length : 0;
         daEl.innerHTML = `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);padding:8px 0">
           Not enough races for data analysis — at least 5 races with complete power data required (${raceCount} available).
         </div>`;
         daEl.style.display = 'none';
-        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} ▼`;
+        if (daBtn) daBtn.textContent = `📊 Detailed Rider Analysis — ${srcLabel} [show]`;
       }
       daWrap.style.display = 'block';
     }
@@ -4950,7 +4950,7 @@ function _profileRenderHeader(name, id, races) {
       if (ccHTML) {
         ccEl.innerHTML = ccHTML;
         ccEl.style.display = 'none';
-        document.getElementById('profile-cross-btn').textContent = '⚖ Cross-Race Type Comparison ▼';
+        document.getElementById('profile-cross-btn').textContent = '⚖ Cross-Race Type Comparison [show]';
         ccWrap.style.display = 'block';
       } else {
         ccWrap.style.display = 'none';
