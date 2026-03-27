@@ -2278,6 +2278,8 @@ function applyStoredTheme() {
   if (btn) btn.textContent = isLight ? '🌙 Dark' : '☀ Light';
 }
 
+window.addEventListener('resize', _updateTabScrollHint);
+
 window.onload = function() {
   // Hide context bar on default tab (profile)
   const cb = document.getElementById('context-bar');
@@ -4945,6 +4947,16 @@ function _profileUpdateSourceTabs() {
       btn.style.opacity     = s === _profileRaceSource ? '1' : '0.7';
     }
   });
+  _updateTabScrollHint();
+}
+
+function _updateTabScrollHint() {
+  const container = document.getElementById('tab-scroll-container');
+  const hint      = document.getElementById('tab-scroll-hint');
+  if (!container || !hint) return;
+  const overflows = container.scrollWidth > container.clientWidth + 4;
+  const atEnd     = container.scrollLeft + container.clientWidth >= container.scrollWidth - 4;
+  hint.style.display = overflows && !atEnd ? 'flex' : 'none';
 }
 
 function profileSetRaceSource(source) {

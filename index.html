@@ -1005,7 +1005,7 @@
         <button class="btn btn-sm btn-ai" onclick="const w=document.getElementById('profile-training-plan-wrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})" style="margin:0;border-radius:2px;font-size:0.6rem;padding:5px 12px;letter-spacing:1.5px">🤖 AI Coach</button>
       </div>
       <div style="position:relative">
-        <div id="tab-scroll-container" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none" onscroll="(function(el){var hint=document.getElementById('tab-scroll-hint');if(hint)hint.style.display=el.scrollLeft+el.clientWidth>=el.scrollWidth-4?'none':'flex'})(this)">
+        <div id="tab-scroll-container" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none" onscroll="_updateTabScrollHint()">
           <div style="display:flex;gap:0;width:max-content;min-width:100%">
             <button id="pst-combined" onclick="profileSetRaceSource('combined')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">All races</button>
             <button id="pst-ladder"   onclick="profileSetRaceSource('ladder')"   style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Ladder</button>
