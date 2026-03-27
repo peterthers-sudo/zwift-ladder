@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.103'; // bump this on every update
+const APP_VERSION = 'v1.3.104'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4951,12 +4951,14 @@ function _profileUpdateSourceTabs() {
 }
 
 function _updateTabScrollHint() {
-  const container = document.getElementById('tab-scroll-container');
-  const hint      = document.getElementById('tab-scroll-hint');
-  if (!container || !hint) return;
-  const overflows = container.scrollWidth > container.clientWidth + 4;
-  const atEnd     = container.scrollLeft + container.clientWidth >= container.scrollWidth - 4;
-  hint.style.display = overflows && !atEnd ? 'flex' : 'none';
+  requestAnimationFrame(() => {
+    const container = document.getElementById('tab-scroll-container');
+    const hint      = document.getElementById('tab-scroll-hint');
+    if (!container || !hint) return;
+    const overflows = container.scrollWidth > container.clientWidth + 4;
+    const atEnd     = container.scrollLeft + container.clientWidth >= container.scrollWidth - 4;
+    hint.style.display = overflows && !atEnd ? 'flex' : 'none';
+  });
 }
 
 function profileSetRaceSource(source) {
