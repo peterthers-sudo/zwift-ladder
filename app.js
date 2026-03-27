@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.102'; // bump this on every update
+const APP_VERSION = 'v1.3.103'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2291,8 +2291,8 @@ window.onload = function() {
   if (rc && typeof ZWIFT_ROUTES !== 'undefined') rc.textContent = Object.keys(ZWIFT_ROUTES).length;
   // Inject app version
   const logoSub = document.getElementById('logo-sub');
-  if (logoSub) logoSub.textContent = `Course × Rider Intelligence System · LEQP Ladder Edition ${APP_VERSION} · Live on 49.dk`;
-  document.querySelectorAll('.app-version-text').forEach(el => el.textContent = `COURSE × RIDER INTELLIGENCE SYSTEM · LEQP LADDER EDITION ${APP_VERSION}`);
+  if (logoSub) logoSub.textContent = `Course × Rider Intelligence System · LEQP Edition ${APP_VERSION} · Live on 49.dk`;
+  document.querySelectorAll('.app-version-text').forEach(el => el.textContent = `COURSE × RIDER INTELLIGENCE SYSTEM · LEQP EDITION ${APP_VERSION}`);
   applyStoredTheme();
   // Populate my-team dropdown from MY_TEAMS
   const myTeamSel = document.getElementById('my-team-select');
@@ -4794,7 +4794,7 @@ let _profileZrlRaces = [];
 let _profileFrrRaces = [];
 let _profileEcroRaces = [];
 let _profileWtrlRaces = [];
-let _profileRaceSource = 'ladder';
+let _profileRaceSource = 'combined';
 let _profileName = '';
 let _profileId = null;
 let _profileSortKey = 'event_date';
@@ -4826,7 +4826,7 @@ async function loadRiderProfile() {
     _profileSplitOtherRaces();
     _profileName = entry.name || 'Unknown';
     _profileId = id;
-    _profileRaceSource = 'ladder';
+    _profileRaceSource = 'combined';
     _profileUpdateSourceTabs();
     if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
@@ -4853,7 +4853,7 @@ async function loadRiderProfile() {
     _profileSplitOtherRaces();
     _profileName = data.name;
     _profileId = id;
-    _profileRaceSource = 'ladder';
+    _profileRaceSource = 'combined';
     _profileUpdateSourceTabs();
     if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
@@ -4917,7 +4917,7 @@ function _profileUpdateSourceTabs() {
   const typesWithData = Object.values(hasData).filter(Boolean).length;
   hasData.combined = typesWithData > 1;
 
-  const order = ['ladder','zrl','frr','ecro','wtrl','other','combined'];
+  const order = ['combined','ladder','zrl','frr','ecro','wtrl','other'];
   order.forEach(s => {
     const btn = document.getElementById('pst-' + s);
     if (btn) btn.style.display = hasData[s] ? '' : 'none';
@@ -4965,7 +4965,7 @@ function _profileRenderHeader(name, id, races) {
 
   const _bestsTitle = document.getElementById('profile-bests-title');
   if (_bestsTitle) {
-    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || 'Ladder';
+    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
     _bestsTitle.textContent = `90-day ${_srcLabel} PR`;
   }
 
@@ -4995,7 +4995,7 @@ function _profileRenderHeader(name, id, races) {
     ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${label} <span style="color:var(--accent);font-weight:600">${val}</span></div>`
     : '';
   const statsTitle = document.getElementById('profile-stats-title');
-  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL Stats', other:'Other Race Stats', combined:'Combined Stats'}[_profileRaceSource] || 'Race Stats';
+  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
   document.getElementById('profile-ladder-stats').innerHTML = [
     pill('Races', races.length),
     pill('Best pos', bestPos ? '#' + bestPos : null),
@@ -5005,8 +5005,8 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'combined races'}[_profileRaceSource] || 'races';
-  const srcLabel    = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
+  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'all races'}[_profileRaceSource] || 'races';
+  const srcLabel    = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || '';
   document.getElementById('profile-race-count').innerHTML =
     `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel}`;
 
@@ -5364,7 +5364,7 @@ function toggleProfileDetailedAnalysis() {
   const el  = document.getElementById('profile-detailed-analysis');
   const btn = document.getElementById('profile-analysis-btn');
   if (!el) return;
-  const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || '';
+  const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || '';
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
   if (btn) btn.innerHTML = open ? `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>` : `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[hide]</span>`;
@@ -5486,11 +5486,13 @@ function _profileGenerateAnalysis(races) {
   const strengths = [], weaknesses = [];
   if (rm) {
     const { scores, ratios } = rm;
-    // Punch
-    if (scores.punch != null && scores.punch >= 8 && avgWkg5 != null)
-      strengths.push({ title:'Punch / short spikes (5s–30s)', text:`Avg 5s: ${f1(avgWkg5)} W/kg (range ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Extremely explosive' : 'Solid explosive capacity'} — can go hard at key moments.` });
-    else if (scores.punch != null && scores.punch <= 5 && avgWkg5 != null)
-      weaknesses.push({ title:'Punch / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg${scores.punch <= 4 ? ' — limited sprint capacity. Flat finishes are not ideal terrain.' : ' — below average. Not a reliable weapon in sprint finishes.'}` });
+    // Punch — not relevant in TTT format
+    if (_profileRaceSource !== 'wtrl') {
+      if (scores.punch != null && scores.punch >= 8 && avgWkg5 != null)
+        strengths.push({ title:'Punch / short spikes (5s–30s)', text:`Avg 5s: ${f1(avgWkg5)} W/kg (range ${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))}). ${avgWkg5 > 10 ? 'Extremely explosive' : 'Solid explosive capacity'} — can go hard at key moments.` });
+      else if (scores.punch != null && scores.punch <= 5 && avgWkg5 != null)
+        weaknesses.push({ title:'Punch / short-burst power', text:`Avg 5s: ${f1(avgWkg5)} W/kg${scores.punch <= 4 ? ' — limited sprint capacity. Flat finishes are not ideal terrain.' : ' — below average. Not a reliable weapon in sprint finishes.'}` });
+    }
     // VO₂
     if (scores.vo2 != null && scores.vo2 >= 8 && avgWkg300 != null && wkg300vals.length >= 3)
       strengths.push({ title:'VO₂ stability (5min)', text:`Avg 5min: ${f2(avgWkg300)} W/kg with low spread (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))}). Most consistent metric — sign of a strong aerobic base.` });
@@ -5511,25 +5513,28 @@ function _profileGenerateAnalysis(races) {
       strengths.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg with only ${Math.round(dropPct)}% drop in hardest races (${f1(minv(wkg1200vals))} W/kg). Very consistent FTP output.` });
     else if (scores.fatigue <= 5)
       weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. ${scores.fatigue <= 4 ? 'Notable fatigue toward the finish.' : 'Some drop-off in the final phase.'}` });
-    // Late-race sprint
-    if (scores.endSprint >= 8)
-      strengths.push({ title:'Late-race sprint', text:`Performs significantly better in well-paced races — suggesting strong closing ability when reserves are managed.` });
-    else if (scores.endSprint <= 5)
-      weaknesses.push({ title:'Late-race sprint', text:`${scores.endSprint <= 4 ? 'No clear improvement in finishing position in well-paced races — closing power may be limited.' : 'Limited upside in well-paced races — closing sprint is not a reliable finishing weapon.'}` });
+    // Late-race sprint — not relevant in TTT format
+    if (_profileRaceSource !== 'wtrl') {
+      if (scores.endSprint >= 8)
+        strengths.push({ title:'Late-race sprint', text:`Performs significantly better in well-paced races — suggesting strong closing ability when reserves are managed.` });
+      else if (scores.endSprint <= 5)
+        weaknesses.push({ title:'Late-race sprint', text:`${scores.endSprint <= 4 ? 'No clear improvement in finishing position in well-paced races — closing power may be limited.' : 'Limited upside in well-paced races — closing sprint is not a reliable finishing weapon.'}` });
+    }
   }
   // Podiums: separate non-score strength
   if (podiums.length >= 2)
     strengths.push({ title:'Results in key races', text:`${podStr}${podiums.length > 3 ? ' and more' : ''} — shows ability to perform tactically at key moments.${top3inBest > 0 ? ' Best results correlate with lower 1min/AVG ratio.' : ''}` });
 
   // Score comments table
+  const isTTT = _profileRaceSource === 'wtrl';
   const scoreComments = rm ? [
-    ['🥊', 'Punch / short-burst power', rm.scores.punch, avgWkg5 != null ? `Avg 5s = ${f1(avgWkg5)} W/kg (${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))})` : ''],
+    !isTTT && ['🥊', 'Punch / short-burst power', rm.scores.punch, avgWkg5 != null ? `Avg 5s = ${f1(avgWkg5)} W/kg (${f1(minv(wkg5vals))}–${f1(maxv(wkg5vals))})` : ''],
     ['🫁', 'VO₂ stability (2–5 min)', rm.scores.vo2, avgWkg300 != null ? `5min avg ${f2(avgWkg300)} W/kg (${f1(minv(wkg300vals))}–${f1(maxv(wkg300vals))})` : ''],
     ['🎯', 'Pacing / tactical judgement', rm.scores.pacing, `1min/AVG avg ${f2(avgPac)} — ${avgPac > 1.9 ? 'aggressive pattern' : avgPac > 1.6 ? 'moderate' : 'good pacing'}`],
     ['🔁', 'Repeatability', rm.scores.repeatability, avgRep != null ? `1min/2min ${f2(avgRep)} ± ${f2(stdRep)}` : 'insufficient data'],
-    ['🏁', 'Late-race sprint', rm.scores.endSprint, 'proxy based on pacing and finishing positions'],
+    !isTTT && ['🏁', 'Late-race sprint', rm.scores.endSprint, 'proxy based on pacing and finishing positions'],
     ['💪', 'Fatigue resistance (20min)', rm.scores.fatigue, `Avg ${f2(avgWkg20)} W/kg, ${Math.round(dropPct)}% drop in hardest races`],
-  ].filter(([,,s]) => s != null) : [];
+  ].filter(row => row && row[2] != null) : [];
 
   // Samlet profil
   const profileTexts = [];
@@ -5718,6 +5723,22 @@ function _profileGenerateScoutReport(rm, raceSource) {
 
     if (aggressive) parts.push(`Tends to go hard early — effective when the race splits but risky when it comes back together.`);
     if (fades)      parts.push(`Loses effectiveness after multiple hard efforts — FRR races with repeated attacks are less favourable.`);
+
+  } else if (raceSource === 'wtrl') {
+    // WTRL = Team Time Trial. Punch and sprint are irrelevant — consistent 20min power is what counts.
+    if (isEndurance && isConsistent)
+      parts.push(`A strong TTT engine — consistent 20-minute power and good aerobic capacity are exactly what counts in a team time trial. Helps set and hold a high collective pace without disrupting the group's rhythm.`);
+    else if (isEndurance && !isConsistent)
+      parts.push(`Good aerobic capacity for TTT efforts, but 20-minute output varies across races. Steadiness over the full effort is key in TTT — variability creates risk for the team's collective pace.`);
+    else if (isConsistent && !isEndurance)
+      parts.push(`Consistent and reliable across TTT efforts — doesn't disrupt the group's rhythm. Raw 20-minute power may be a limiting factor when setting pace at the front.`);
+    else if (isTactical)
+      parts.push(`Even-paced and disciplined — in TTT format, avoiding power spikes and holding a steady output is often more valuable than raw numbers.`);
+    else
+      parts.push(`Moderate TTT profile — neither the strongest engine nor the steadiest wheel. Most effective when the team's collective pace suits their natural output range.`);
+
+    if (unstable) parts.push(`Variable 20-minute power is a liability in TTT — the team is only as fast as its least consistent rider.`);
+    if (fades)    parts.push(`Drops off after sustained hard efforts — in TTT format this risks being shelled before the group reaches the finish.`);
 
   } else {
     if (isExplosive)
@@ -6027,7 +6048,7 @@ function profileClear() {
   _profileFrrRaces = [];
   _profileEcroRaces = [];
   _profileWtrlRaces = [];
-  _profileRaceSource = 'ladder';
+  _profileRaceSource = 'combined';
   _profileName = '';
   _profileId = null;
   _profileUpdateSourceTabs();
@@ -6070,7 +6091,7 @@ function _profileRenderChart(races) {
     noDataMsg.textContent = '';
     chartWrap.appendChild(noDataMsg);
   }
-  const _srcLabelChart = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'Combined'}[_profileRaceSource] || 'Ladder';
+  const _srcLabelChart = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
   noDataMsg.textContent = `No ${_srcLabelChart} races in the selected period`;
   if (filtered.length === 0) {
     if (_profileChart) { _profileChart.destroy(); _profileChart = null; }

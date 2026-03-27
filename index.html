@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Zwift Ladder Race Matcher</title>
+<title>Zwift IQ</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
 <style>
   :root {
@@ -188,6 +188,8 @@
   .tag-endurance { color: #26c6da; border-color: rgba(38,198,218,0.3); background: rgba(38,198,218,0.06); }
   .course-detail-inline { display: none; border-left: 2px solid var(--accent); margin: 0 0 2px 0; background: var(--surface2); padding: 16px 18px; animation: slideDown 0.18s ease; }
   @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes scrollHint { 0%, 100% { transform: translateX(0); opacity: 0.7; } 50% { transform: translateX(4px); opacity: 1; } }
+  .scroll-hint-arrow { animation: scrollHint 1.2s ease-in-out infinite; }
   .course-detail-inline.open { display: block; }
   .eye-btn.active { color: var(--accent); border-color: rgba(0,229,255,0.5); background: rgba(0,229,255,0.08); }
 
@@ -395,8 +397,8 @@
   <header>
     <div class="header-inner">
       <div class="logo">
-        <div class="logo-title">Zwift Ladder Race Matcher</div>
-        <div class="logo-sub" id="logo-sub">Course × Rider Intelligence System · LEQP Ladder Edition v1 · Live on 49.dk</div>
+        <div class="logo-title">Zwift IQ</div>
+        <div class="logo-sub" id="logo-sub">Course × Rider Intelligence System · LEQP Edition v1 · Live on 49.dk</div>
         <div style="font-family:'JetBrains Mono',monospace; font-size:0.55rem; color:var(--text-dim); letter-spacing:1px; margin-top:3px;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: Mar 27, 2026 · 01:06<!-- LAST_UPDATED_END --> · Teams: <!-- TEAMS_UPDATED_START -->yes<!-- TEAMS_UPDATED_END --></div>
       </div>
 
@@ -1003,19 +1005,19 @@
         <button class="btn btn-sm btn-ai" onclick="const w=document.getElementById('profile-training-plan-wrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})" style="margin:0;border-radius:2px;font-size:0.6rem;padding:5px 12px;letter-spacing:1.5px">🤖 AI Coach</button>
       </div>
       <div style="position:relative">
-        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none">
+        <div id="tab-scroll-container" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none" onscroll="(function(el){var hint=document.getElementById('tab-scroll-hint');if(hint)hint.style.display=el.scrollLeft+el.clientWidth>=el.scrollWidth-4?'none':'flex'})(this)">
           <div style="display:flex;gap:0;width:max-content;min-width:100%">
+            <button id="pst-combined" onclick="profileSetRaceSource('combined')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">All races</button>
             <button id="pst-ladder"   onclick="profileSetRaceSource('ladder')"   style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Ladder</button>
             <button id="pst-zrl"      onclick="profileSetRaceSource('zrl')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ZRL</button>
             <button id="pst-frr"      onclick="profileSetRaceSource('frr')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">FRR</button>
             <button id="pst-ecro"     onclick="profileSetRaceSource('ecro')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ECRO</button>
             <button id="pst-wtrl"     onclick="profileSetRaceSource('wtrl')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">WTRL</button>
-            <button id="pst-other"    onclick="profileSetRaceSource('other')"    style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
-            <button id="pst-combined" onclick="profileSetRaceSource('combined')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Combined</button>
+            <button id="pst-other"    onclick="profileSetRaceSource('other')"    style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
           </div>
         </div>
-        <div style="position:absolute;top:0;right:0;bottom:0;width:32px;background:linear-gradient(to right,transparent,rgba(0,229,255,0.18));pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:6px">
-          <span style="font-size:0.7rem;color:var(--accent);opacity:0.8">›</span>
+        <div id="tab-scroll-hint" style="position:absolute;top:0;right:0;bottom:0;width:56px;background:linear-gradient(to right,transparent,rgba(0,229,255,0.45));pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:8px">
+          <span class="scroll-hint-arrow" style="font-size:1.1rem;color:var(--accent);font-weight:700">❯❯</span>
         </div>
       </div>
     </div>
