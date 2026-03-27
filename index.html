@@ -997,19 +997,26 @@
     </div>
     <div id="profile-status" style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--text-dim);margin-bottom:16px;min-height:20px"></div>
 
-    <div id="profile-source-tabs" style="display:none;margin-top:24px;margin-bottom:16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scroll-margin-top:24px">
+    <div id="profile-source-tabs" style="display:none;margin-top:24px;margin-bottom:16px;scroll-margin-top:24px">
       <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.5);box-shadow:0 0 14px rgba(0,229,255,0.10);margin-bottom:0;padding:10px 14px 10px 20px">
         <span style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;font-weight:700">📋 Race Type</span>
         <button class="btn btn-sm btn-ai" onclick="const w=document.getElementById('profile-training-plan-wrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})" style="margin:0;border-radius:2px;font-size:0.6rem;padding:5px 12px;letter-spacing:1.5px">🤖 AI Coach</button>
       </div>
-      <div style="display:flex;gap:0;border:2px solid rgba(0,229,255,0.5);border-top:none;width:100%">
-        <button id="pst-ladder"   onclick="profileSetRaceSource('ladder')"   style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Ladder</button>
-        <button id="pst-zrl"      onclick="profileSetRaceSource('zrl')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ZRL</button>
-        <button id="pst-frr"      onclick="profileSetRaceSource('frr')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">FRR</button>
-        <button id="pst-ecro"     onclick="profileSetRaceSource('ecro')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ECRO</button>
-        <button id="pst-wtrl"     onclick="profileSetRaceSource('wtrl')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">WTRL</button>
-        <button id="pst-other"    onclick="profileSetRaceSource('other')"    style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
-        <button id="pst-combined" onclick="profileSetRaceSource('combined')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Combined</button>
+      <div style="position:relative">
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none">
+          <div style="display:flex;gap:0;width:max-content;min-width:100%">
+            <button id="pst-ladder"   onclick="profileSetRaceSource('ladder')"   style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Ladder</button>
+            <button id="pst-zrl"      onclick="profileSetRaceSource('zrl')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ZRL</button>
+            <button id="pst-frr"      onclick="profileSetRaceSource('frr')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">FRR</button>
+            <button id="pst-ecro"     onclick="profileSetRaceSource('ecro')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ECRO</button>
+            <button id="pst-wtrl"     onclick="profileSetRaceSource('wtrl')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">WTRL</button>
+            <button id="pst-other"    onclick="profileSetRaceSource('other')"    style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
+            <button id="pst-combined" onclick="profileSetRaceSource('combined')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Combined</button>
+          </div>
+        </div>
+        <div style="position:absolute;top:0;right:0;bottom:0;width:32px;background:linear-gradient(to right,transparent,rgba(0,229,255,0.18));pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:6px">
+          <span style="font-size:0.7rem;color:var(--accent);opacity:0.8">›</span>
+        </div>
       </div>
     </div>
 
@@ -1052,7 +1059,7 @@
         <button onclick="toggleProfileDetailedAnalysis()" id="profile-analysis-btn" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;padding:14px 20px;background:rgba(0,229,255,0.18);border:2px solid rgba(0,229,255,0.7);color:var(--accent);cursor:pointer;flex:1;text-align:left;text-transform:uppercase;font-weight:700;box-shadow:0 0 14px rgba(0,229,255,0.15)">
           📊 Detailed Rider Analysis <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>
         </button>
-        <button onclick="printRiderAnalysis()" title="Download as PDF" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:14px 16px;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.7);border-left:none;color:var(--accent);cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(0,229,255,0.15)">⬇ PDF</button>
+        <!-- <button onclick="printRiderAnalysis()" title="Download as PDF" style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:14px 16px;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.7);border-left:none;color:var(--accent);cursor:pointer;white-space:nowrap;box-shadow:0 0 14px rgba(0,229,255,0.15)">⬇ PDF</button> -->
       </div>
       <div id="profile-detailed-analysis" style="display:none;background:var(--surface);border:1px solid rgba(0,229,255,0.35);border-top:none;padding:20px 24px"></div>
     </div>
