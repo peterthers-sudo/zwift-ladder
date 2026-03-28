@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.107'; // bump this on every update
+const APP_VERSION = 'v1.3.108'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3622,7 +3622,7 @@ async function generateRiderTrainingPlan() {
   const startBtn = document.getElementById('profile-training-start-btn');
   if (startBtn) startBtn.style.display = 'none';
   out.style.display = 'block';
-  out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:#7fff6b;animation:pulse 1.2s ease-in-out infinite">⏳ BUILDING TRAINING PLAN...</div>';
+  out.innerHTML = '<div style="text-align:center;padding:16px 0;font-family:\'JetBrains Mono\',monospace;font-size:0.8rem;letter-spacing:3px;color:#7fff6b;animation:pulse 1.2s ease-in-out infinite">⏳ GENERATING COACH REPORT...</div>';
   setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'end' }), 50);
 
   // Collect all races across all types
