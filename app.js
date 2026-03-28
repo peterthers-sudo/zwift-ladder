@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.105'; // bump this on every update
+const APP_VERSION = 'v1.3.106'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4813,6 +4813,7 @@ async function loadRiderProfile() {
   document.getElementById('profile-header').style.display = 'none';
   document.getElementById('profile-tbody').innerHTML = '';
   document.getElementById('profile-race-count').textContent = '';
+  const _rsReset = document.getElementById('profile-race-search'); if (_rsReset) _rsReset.value = '';
   const _raReset = document.getElementById('profile-race-analysis');
   if (_raReset) { _raReset.style.display = 'none'; _raReset.innerHTML = ''; }
   const _daReset = document.getElementById('profile-detailed-analysis-wrap');
@@ -5777,8 +5778,12 @@ function _profileGenerateScoutReport(rm, raceSource) {
 
 function _profileRenderTable(races) {
   const tw = document.getElementById('profile-table-wrap');
+  const sw = document.getElementById('profile-search-wrap');
   if (tw) tw.style.display = races.length ? 'block' : 'none';
-  const sorted = [...races].sort((a,b) => {
+  if (sw) sw.style.display = races.length ? 'block' : 'none';
+  const q = (document.getElementById('profile-race-search')?.value || '').toLowerCase().trim();
+  const filtered = q ? races.filter(r => (r.event_title || '').toLowerCase().includes(q)) : races;
+  const sorted = [...filtered].sort((a,b) => {
     const av = a[_profileSortKey] ?? -Infinity;
     const bv = b[_profileSortKey] ?? -Infinity;
     return av < bv ? _profileSortDir : av > bv ? -_profileSortDir : 0;
