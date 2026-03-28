@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.106'; // bump this on every update
+const APP_VERSION = 'v1.3.107'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6042,6 +6042,10 @@ function profileClear() {
   document.getElementById('profile-tbody').innerHTML = '';
   const tw = document.getElementById('profile-table-wrap');
   if (tw) tw.style.display = 'none';
+  const sw = document.getElementById('profile-search-wrap');
+  if (sw) sw.style.display = 'none';
+  const rs = document.getElementById('profile-race-search');
+  if (rs) rs.value = '';
   const cw = document.getElementById('profile-chart-wrap');
   if (cw) cw.style.display = 'none';
   if (_profileChart) { _profileChart.destroy(); _profileChart = null; }
