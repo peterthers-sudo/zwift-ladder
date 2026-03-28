@@ -783,7 +783,7 @@ def update_ladder_races(content):
     # Ladder-ryttere: hent både ladder og other races
     for zid, name in riders.items():
         try:
-            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=730", timeout=20)
+            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=0", timeout=20)
             if resp.status_code == 200:
                 data = resp.json()
                 races = data.get('races', [])
@@ -803,7 +803,7 @@ def update_ladder_races(content):
     # Ikke-ladder LEQP-ryttere: kun other races (ingen ladder races)
     for zid, name in extra_riders.items():
         try:
-            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=730", timeout=20)
+            resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=0", timeout=20)
             if resp.status_code == 200:
                 data = resp.json()
                 other = data.get('other_races', [])
