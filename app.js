@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.109'; // bump this on every update
+const APP_VERSION = 'v1.3.110'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5021,10 +5021,9 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const sourceLabel = {ladder:'ladder races', zrl:'ZRL races', frr:'FRR races', ecro:'ECRO races', wtrl:'WTRL races', other:'other races', combined:'all races'}[_profileRaceSource] || 'races';
-  const srcLabel    = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || '';
+  const srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other races', combined:'All Races'}[_profileRaceSource] || '';
   document.getElementById('profile-race-count').innerHTML =
-    `<span style="color:var(--accent)">${races.length}</span> ${sourceLabel}`;
+    `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} races)</span>`;
 
   // Opdater Power Curve titel
   const chartTitle = document.getElementById('profile-chart-title');
