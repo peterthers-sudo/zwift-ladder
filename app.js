@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.110'; // bump this on every update
+const APP_VERSION = 'v1.3.111'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3637,8 +3637,8 @@ async function generateRiderTrainingPlan() {
     for (const k of Object.keys(best)) if ((r[k] || 0) > best[k]) best[k] = r[k];
   }
 
-  const riderType = _profileRiderType(best);
   const weight    = allRaces.length ? (allRaces[0].weight || 0) : 0;
+  const riderType = _profileRiderType(best, weight);
   const ftp       = best.wkg1200 && weight ? Math.round(best.wkg1200 * weight) : 0;
 
   // Race stats per type
@@ -4992,15 +4992,14 @@ function _profileRenderHeader(name, id, races) {
     `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${l} <span style="color:${_wkgColor(v)};font-weight:600">${v?v.toFixed(1):'—'}</span></div>`
   ).join('');
 
-  const type = _profileRiderType(best);
+  const latestWeight = races.length ? (races[0].weight || 0) : 0;
+  const type = _profileRiderType(best, latestWeight);
   const badge = document.getElementById('profile-type-badge');
   badge.textContent = type.label;
   badge.style.color = type.color;
   badge.style.borderColor = type.color;
   badge.style.background = type.color + '18';
   document.getElementById('profile-type-desc').textContent = type.desc;
-
-  const latestWeight = races.length ? (races[0].weight || 0) : 0;
   document.getElementById('profile-weight-badge').textContent = latestWeight > 0 ? latestWeight.toFixed(1) + ' kg' : '';
 
   const positions = races.map(r => r.pos).filter(p => p > 0);
@@ -5324,13 +5323,16 @@ function _profileGenerateCrossComparison() {
   `;
 }
 
-function _profileRiderType(best) {
+function _profileRiderType(best, weight) {
   const s = best.wkg5 || 0;
   const p = best.wkg60 || 0;
   const e = best.wkg300 || 0;
   const c = best.wkg1200 || 0;
+  const w = weight || 0;
   const sprintRatio = s > 0 && c > 0 ? s / c : 0;
   const punchRatio  = p > 0 && c > 0 ? p / c : 0;
+  const isLight = w > 0 && w < 62;
+  const absWatt = w > 0 && c > 0 ? Math.round(c * w) : 0;
   const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
   if (c === 0) return { label: 'Unknown', color: '#6b7a99', desc: 'Not enough data to determine rider type.' };
   if (sprintRatio > 3.2 && s > 12) return { label: '⚡ Sprinter', color: '#ff6b35', desc: pick([
@@ -5349,7 +5351,7 @@ function _profileRiderType(best) {
     `Attacks come naturally to this rider. The combination of ${p.toFixed(1)} W/kg over 1 minute and decent sprint speed makes them unpredictable on routes with repeated punchy sections.`,
     `Built for disruption. This rider doesn't wait for the sprint — they try to break the race apart on the climbs. With ${p.toFixed(1)} W/kg over 1 minute, they have the punch to make it stick.`,
   ])};
-  if (e > 0 && c > 0 && (e/c) > 1.15 && c > 3.8) return { label: '🏔️ Climber', color: '#7fff6b', desc: pick([
+  if (e > 0 && c > 0 && ((e/c) > 1.15 || (isLight && (e/c) > 1.05)) && c > 3.5) return { label: '🏔️ Climber', color: '#7fff6b', desc: pick([
     `20-min power of ${c.toFixed(1)} W/kg and strong 5-min capacity. The profile clearly points to a rider who thrives on long climbs. The more elevation, the bigger the advantage.`,
     `A rider with ${c.toFixed(1)} W/kg over 20 minutes is built for mountains. Effective on anything with sustained climbing — and correspondingly hard to follow for heavier riders.`,
     `Low weight and high relative power over time gives this rider a natural home advantage on climbing routes. ${c.toFixed(1)} W/kg over 20 min is competitive on most ladder climbs.`,
@@ -5365,13 +5367,18 @@ function _profileRiderType(best) {
     `Versatility is the signature here. No single number jumps out — but the consistency across all intervals means this rider is rarely caught out whatever the route throws at them.`,
     `This rider fits in everywhere and is never truly out of their depth. ${e.toFixed(1)} W/kg over 5 minutes and ${c.toFixed(1)} W/kg over 20 minutes makes them a reliable asset across the full race calendar.`,
   ])};
+  if (isLight) return { label: '🚀 Rouleur', color: '#ffd700', desc: pick([
+    `${c.toFixed(1)} W/kg over 20 minutes is a strong aerobic base — but at ${w.toFixed(0)} kg the absolute output is ~${absWatt}W. On flat Zwift routes where raw watts dominate, heavier riders will have the advantage. Climbs and rolling terrain are where this profile performs best.`,
+    `Solid relative power at ${c.toFixed(1)} W/kg, but the low body weight (${w.toFixed(0)} kg, ~${absWatt}W FTP) means flat routes are not the ideal hunting ground. The profile favours terrain with elevation — anything requiring sustained effort uphill suits this rider much better.`,
+    `Consistent engine at ${c.toFixed(1)} W/kg over 20 minutes. At ${w.toFixed(0)} kg the power-to-weight ratio is an asset on climbs, but ~${absWatt}W absolute means flat races favour heavier, higher-wattage riders. Best used on routes with gradient.`,
+  ])};
   return { label: '🚀 Rouleur', color: '#ffd700', desc: pick([
-    `Smooth and efficient over mid-length intervals. Strong in time trials and routes with constant resistance. 20-min power: ${c.toFixed(1)} W/kg — solid and hard to shake on flat to lightly rolling terrain.`,
+    `Smooth and efficient over mid-length intervals. Strong in time trials and routes with constant resistance. 20-min power: ${c.toFixed(1)} W/kg${absWatt ? ` (${absWatt}W)` : ''} — solid and hard to shake on flat to lightly rolling terrain.`,
     `${c.toFixed(1)} W/kg over 20 minutes reflects a rider who can hold a high pace for a long time. Classic rouleur profile — not explosive, but consistent and efficient.`,
-    `The rouleur is the backbone of any team. Not the one who wins the sprint, but the one who sets the pace, closes gaps and keeps the bunch together. ${c.toFixed(1)} W/kg over 20 min speaks for itself.`,
+    `The rouleur is the backbone of any team. Not the one who wins the sprint, but the one who sets the pace, closes gaps and keeps the bunch together. ${c.toFixed(1)} W/kg${absWatt ? ` / ${absWatt}W` : ''} over 20 min speaks for itself.`,
     `Consistent power is this rider's trademark. ${e.toFixed(1)} W/kg over 5 min and ${c.toFixed(1)} W/kg over 20 min paints a picture of a rider who thrives on sustained effort — and is hard to shake off.`,
     `Built for the long game. This rider won't blow anyone away in the first minute — but ${c.toFixed(1)} W/kg over 20 minutes means they're still there when it matters, grinding down the competition.`,
-    `Efficiency over explosiveness. The rouleur profile suits routes where sustained power wins over short bursts — and with ${c.toFixed(1)} W/kg over 20 minutes, this rider is firmly in that category.`,
+    `Efficiency over explosiveness. The rouleur profile suits routes where sustained power wins over short bursts — and with ${c.toFixed(1)} W/kg${absWatt ? ` (${absWatt}W)` : ''} over 20 minutes, this rider is firmly in that category.`,
   ])};
 }
 
@@ -5406,6 +5413,8 @@ function _profileGenerateAnalysis(races) {
   const weightMin = minv(valid.map(r => r.weight||0).filter(w => w>0));
   const weightMax = maxv(valid.map(r => r.weight||0).filter(w => w>0));
   const weightStr = weightMin === weightMax ? `${weightMin} kg` : `${weightMin}–${weightMax} kg`;
+  const avgWeight = weightMin > 0 ? (weightMin + weightMax) / 2 : 0;
+  const isLightRider = avgWeight > 0 && avgWeight < 62;
 
   // ── Temporal periods (kvartaler baseret på faktisk datospan) ──
   const spanMs = (lastTs - firstTs) * 1000;
@@ -5524,10 +5533,12 @@ function _profileGenerateAnalysis(races) {
     else if (scores.repeatability != null && scores.repeatability <= 5 && avgRep != null)
       weaknesses.push({ title:'Repeatability', text:`1min/2min ratio ${f2(avgRep)} ± ${f2(stdRep)}. ${repVurdering}` });
     // Fatigue resistance
+    const absAvgWkg20 = avgWeight > 0 ? Math.round(avgWkg20 * avgWeight) : 0;
+    const lightNote = isLightRider && absAvgWkg20 ? ` Note: at ${avgWeight.toFixed(0)} kg the absolute output is ~${absAvgWkg20}W — strong on climbs but limited on flat routes where raw watts dominate.` : '';
     if (scores.fatigue >= 8)
-      strengths.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg with only ${Math.round(dropPct)}% drop in hardest races (${f1(minv(wkg1200vals))} W/kg). Very consistent FTP output.` });
+      strengths.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg${absAvgWkg20 ? ` (~${absAvgWkg20}W)` : ''} with only ${Math.round(dropPct)}% drop in hardest races (${f1(minv(wkg1200vals))} W/kg). Very consistent FTP output.${lightNote}` });
     else if (scores.fatigue <= 5)
-      weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. ${scores.fatigue <= 4 ? 'Notable fatigue toward the finish.' : 'Some drop-off in the final phase.'}` });
+      weaknesses.push({ title:'Fatigue resistance (20min)', text:`Avg 20min: ${f2(avgWkg20)} W/kg${absAvgWkg20 ? ` (~${absAvgWkg20}W)` : ''}. In the hardest races 20min drops to ${f1(minv(wkg1200vals))} W/kg — ${Math.round(dropPct)}% below average. ${scores.fatigue <= 4 ? 'Notable fatigue toward the finish.' : 'Some drop-off in the final phase.'}` });
     // Late-race sprint — not relevant in TTT format
     if (_profileRaceSource !== 'wtrl') {
       if (scores.endSprint >= 8)
