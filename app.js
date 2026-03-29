@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.111'; // bump this on every update
+const APP_VERSION = 'v1.3.112'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2296,6 +2296,10 @@ window.onload = function() {
   if (logoSub) logoSub.textContent = `Course × Rider Intelligence System · LEQP Edition ${APP_VERSION} · Live on 49.dk`;
   document.querySelectorAll('.app-version-text').forEach(el => el.textContent = `COURSE × RIDER INTELLIGENCE SYSTEM · LEQP EDITION ${APP_VERSION}`);
   applyStoredTheme();
+  // Read saved team BEFORE populating dropdown to avoid flash
+  const savedTeam = localStorage.getItem('zwift_active_team');
+  if (savedTeam && MY_TEAMS[savedTeam]) activeMyTeamKey = savedTeam;
+
   // Populate my-team dropdown from MY_TEAMS
   const myTeamSel = document.getElementById('my-team-select');
   if (myTeamSel) {
