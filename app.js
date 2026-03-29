@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.108'; // bump this on every update
+const APP_VERSION = 'v1.3.109'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3737,9 +3737,10 @@ Reply in English. Max 550 words total. Be direct and coach-like — no generic f
       .replace(/^\s*[-*]\s+(.+)/gm, '<div style="padding-left:16px;margin:2px 0">▸ $1</div>')
       .replace(/\n/g, '<br>');
     out.innerHTML =
-      `<div style="margin-bottom:4px;font-size:0.85rem;letter-spacing:3px;color:#7fff6b;font-weight:700">🏋 AI TRAINING PLAN</div>` +
+      `<div style="margin-bottom:4px;font-size:0.85rem;letter-spacing:3px;color:#7fff6b;font-weight:700">🏋 COACH REPORT</div>` +
       `<div style="margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(127,255,107,0.2);font-size:0.78rem;letter-spacing:2px;color:var(--accent2);font-weight:700">${_profileName.toUpperCase()}</div>` +
       formatted;
+    setTimeout(() => out.scrollIntoView({ behavior: 'smooth', block: 'start' }), 50);
   } catch (e) {
     out.innerHTML = '⚠️ Could not generate training plan.<br><span style="font-size:0.6rem;color:var(--text-dim)">' + e.message + '</span>';
   }
