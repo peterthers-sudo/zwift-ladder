@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.115'; // bump this on every update
+const APP_VERSION = 'v1.3.116'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5815,7 +5815,7 @@ function _profileRenderTable(races) {
     return `<tr onmouseover="this.style.background='rgba(0,229,255,0.03)'" onmouseout="this.style.background=''">
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);color:var(--text);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.event_title}">${title}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos}${(r.category&&r.category!=='SEE LADDER SITE')?' <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">'+r.category+'</span>':''}`:'—'}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
       ${td(r.avg_wkg)}${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
     </tr>`;
