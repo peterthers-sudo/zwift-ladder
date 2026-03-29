@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.112'; // bump this on every update
+const APP_VERSION = 'v1.3.113'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4978,8 +4978,10 @@ function profileSetRaceSource(source) {
 function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-name').textContent = name;
 
+  const cutoff90 = (Date.now() / 1000) - (90 * 86400);
+  const races90  = races.filter(r => (r.event_date || 0) >= cutoff90);
   const best = {wkg5:0, wkg15:0, wkg30:0, wkg60:0, wkg120:0, wkg300:0, wkg1200:0};
-  for (const r of races) {
+  for (const r of races90) {
     for (const k of Object.keys(best)) if ((r[k]||0) > best[k]) best[k] = r[k];
   }
 
