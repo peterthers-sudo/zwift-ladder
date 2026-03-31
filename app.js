@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.116'; // bump this on every update
+const APP_VERSION = 'v1.3.117'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3645,7 +3645,8 @@ async function generateRiderTrainingPlan() {
   const riderType = _profileRiderType(best, weight);
   const ftp       = best.wkg1200 && weight ? Math.round(best.wkg1200 * weight) : 0;
 
-  // Race stats per type
+  // Race stats per type — only races within last 90 days
+  const filter90 = races => races.filter(r => (r.event_date || 0) >= cutoff);
   const typeStats = (races, label) => {
     if (!races.length) return null;
     const withPos = races.filter(r => r.position > 0);
@@ -3653,12 +3654,12 @@ async function generateRiderTrainingPlan() {
     return `${label}: ${races.length} races${avgPos ? `, avg finish #${avgPos}` : ''}`;
   };
   const statsLines = [
-    typeStats(_profileRaces,     'Ladder'),
-    typeStats(_profileZrlRaces,  'ZRL'),
-    typeStats(_profileFrrRaces,  'FRR'),
-    typeStats(_profileEcroRaces, 'ECRO'),
-    typeStats(_profileWtrlRaces, 'WTRL'),
-    typeStats(_profileOtherRaces,'Other'),
+    typeStats(filter90(_profileRaces),     'Ladder'),
+    typeStats(filter90(_profileZrlRaces),  'ZRL'),
+    typeStats(filter90(_profileFrrRaces),  'FRR'),
+    typeStats(filter90(_profileEcroRaces), 'ECRO'),
+    typeStats(filter90(_profileWtrlRaces), 'WTRL'),
+    typeStats(filter90(_profileOtherRaces),'Other'),
   ].filter(Boolean).join('\n');
 
   // Race metrics if available from analysis
