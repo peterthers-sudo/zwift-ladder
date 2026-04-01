@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.117'; // bump this on every update
+const APP_VERSION = 'v1.3.118'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3658,7 +3658,7 @@ async function generateRiderTrainingPlan() {
     typeStats(filter90(_profileZrlRaces),  'ZRL'),
     typeStats(filter90(_profileFrrRaces),  'FRR'),
     typeStats(filter90(_profileEcroRaces), 'ECRO'),
-    typeStats(filter90(_profileWtrlRaces), 'WTRL'),
+    typeStats(filter90(_profileWtrlRaces), 'WTRL TTT'),
     typeStats(filter90(_profileOtherRaces),'Other'),
   ].filter(Boolean).join('\n');
 
@@ -4887,7 +4887,7 @@ function _profileSplitOtherRaces() {
   _profileZrlRaces  = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
   _profileFrrRaces  = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
   _profileEcroRaces = _profileOtherRaces.filter(r => /\bECRO\b/i.test(r.event_title || ''));
-  _profileWtrlRaces = _profileOtherRaces.filter(r => /\bWTRL\b/i.test(r.event_title || ''));
+  _profileWtrlRaces = _profileOtherRaces.filter(r => /\bWTRL\b/i.test(r.event_title || '') && !/zwift racing league/i.test(r.event_title || ''));
   _profileOtherRaces = _profileOtherRaces.filter(r =>
     !/zwift racing league|ZRL/i.test(r.event_title || '') &&
     !/\bFRR\b/i.test(r.event_title || '') &&
@@ -4988,7 +4988,7 @@ function _profileRenderHeader(name, id, races) {
 
   const _bestsTitle = document.getElementById('profile-bests-title');
   if (_bestsTitle) {
-    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
+    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
     _bestsTitle.textContent = `90-day ${_srcLabel} PR`;
   }
 
@@ -5017,7 +5017,7 @@ function _profileRenderHeader(name, id, races) {
     ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${label} <span style="color:var(--accent);font-weight:600">${val}</span></div>`
     : '';
   const statsTitle = document.getElementById('profile-stats-title');
-  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
+  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL TTT Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
   document.getElementById('profile-ladder-stats').innerHTML = [
     pill('Races', races.length),
     pill('Best pos', bestPos ? '#' + bestPos : null),
@@ -5027,7 +5027,7 @@ function _profileRenderHeader(name, id, races) {
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other races', combined:'All Races'}[_profileRaceSource] || '';
+  const srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other races', combined:'All Races'}[_profileRaceSource] || '';
   document.getElementById('profile-race-count').innerHTML =
     `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} races)</span>`;
 
@@ -5145,7 +5145,7 @@ function _profileGenerateCrossComparison() {
     { key: 'zrl',    label: 'ZRL',         color: '#b48eff',        races: _profileZrlRaces },
     { key: 'frr',    label: 'FRR',         color: '#ff9f43',        races: _profileFrrRaces },
     { key: 'ecro',   label: 'ECRO',        color: 'var(--accent3)', races: _profileEcroRaces },
-    { key: 'wtrl',   label: 'WTRL',        color: '#7fff6b',        races: _profileWtrlRaces },
+    { key: 'wtrl',   label: 'WTRL TTT',     color: '#7fff6b',        races: _profileWtrlRaces },
     { key: 'other',  label: 'Other races', color: 'var(--accent2)', races: _profileOtherRaces },
   ].filter(t => t.races.length >= 2);
 
@@ -5393,7 +5393,7 @@ function toggleProfileDetailedAnalysis() {
   const el  = document.getElementById('profile-detailed-analysis');
   const btn = document.getElementById('profile-analysis-btn');
   if (!el) return;
-  const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || '';
+  const _daLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || '';
   const open = el.style.display === 'block';
   el.style.display = open ? 'none' : 'block';
   if (btn) btn.innerHTML = open ? `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[show]</span>` : `📊 Detailed Rider Analysis — ${_daLabel} <span style="font-size:0.65rem;color:var(--text-dim);margin-left:8px;font-weight:400">[hide]</span>`;
@@ -6132,7 +6132,7 @@ function _profileRenderChart(races) {
     noDataMsg.textContent = '';
     chartWrap.appendChild(noDataMsg);
   }
-  const _srcLabelChart = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
+  const _srcLabelChart = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
   noDataMsg.textContent = `No ${_srcLabelChart} races in the selected period`;
   if (filtered.length === 0) {
     if (_profileChart) { _profileChart.destroy(); _profileChart = null; }
