@@ -365,6 +365,79 @@ async def get_other_races(zwift_id: int, days: int = 365):
         raise HTTPException(status_code=500, detail=str(e))
 
 # =========================
+# Rides Endpoint
+# =========================
+
+@app.get("/rider/{zwift_id}/rides")
+async def get_rides(zwift_id: int):
+    try:
+        fetcher = ZPCyclistFetch()
+        cyclists = await fetcher.afetch(zwift_id)
+        cyclist = cyclists.get(zwift_id)
+
+        if not cyclist:
+            raise HTTPException(status_code=404, detail="Rider not found")
+
+        full_res = cyclist.asdict()
+        all_activities = full_res.get("data", [])
+
+        def clean_num(val):
+            if isinstance(val, list) and len(val) > 0:
+                val = val[0]
+            if val is None or val == "":
+                return None
+            try:
+                return float(val)
+            except (ValueError, TypeError):
+                return None
+
+        rides = []
+        for activity in all_activities:
+            ft = activity.get("f_t", "")
+            if "TYPE_RIDE" not in ft or "TYPE_RACE" in ft or "TYPE_WORKOUT" in ft:
+                continue
+
+            title = activity.get("event_title", "")
+            event_date = activity.get("event_date", 0)
+            if isinstance(event_date, list):
+                event_date = event_date[0] if event_date else 0
+            try:
+                event_date = float(event_date)
+            except (ValueError, TypeError):
+                event_date = 0
+
+            dist = activity.get("distance")
+            try:
+                dist = float(dist) if dist not in (None, "") else None
+            except (ValueError, TypeError):
+                dist = None
+
+            rides.append({
+                "event_title": title,
+                "event_date":  event_date,
+                "distance":    dist,
+                "weight":      clean_num(activity.get("weight")),
+                "avg_wkg":     clean_num(activity.get("avg_wkg")),
+                "wkg5":        clean_num(activity.get("wkg5")),
+                "wkg15":       clean_num(activity.get("wkg15")),
+                "wkg30":       clean_num(activity.get("wkg30")),
+                "wkg60":       clean_num(activity.get("wkg60")),
+                "wkg120":      clean_num(activity.get("wkg120")),
+                "wkg300":      clean_num(activity.get("wkg300")),
+                "wkg600":      clean_num(activity.get("wkg600")),
+                "wkg1200":     clean_num(activity.get("wkg1200")),
+            })
+
+        rides.sort(key=lambda r: r["event_date"] or 0, reverse=True)
+
+        name = all_activities[0].get("name", "Unknown") if all_activities else "Unknown"
+        return {"zwift_id": zwift_id, "name": name, "rides": rides}
+
+    except Exception as e:
+        print(f"FEJL rides: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+# =========================
 # vELO2 Endpoints
 # =========================
 

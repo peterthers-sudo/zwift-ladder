@@ -4802,7 +4802,11 @@ let _profileZrlRaces = [];
 let _profileFrrRaces = [];
 let _profileEcroRaces = [];
 let _profileWtrlRaces = [];
+let _profileAllRides  = [];
+let _profileLeqpRides = [];
 let _profileRaceSource = 'combined';
+let _profileRideSource = 'all-rides';
+let _profileMode = 'races'; // 'races' | 'rides'
 let _profileName = '';
 let _profileId = null;
 let _profileSortKey = 'event_date';
@@ -4833,9 +4837,13 @@ async function loadRiderProfile() {
     _profileRaces = entry.races || [];
     _profileOtherRaces = ((typeof OTHER_RACES !== 'undefined') && (OTHER_RACES[id] || OTHER_RACES[parseInt(id)])) ? (OTHER_RACES[id] || OTHER_RACES[parseInt(id)]).races || [] : [];
     _profileSplitOtherRaces();
+    const ridesEntry = (typeof RIDES !== 'undefined') && (RIDES[id] || RIDES[parseInt(id)]);
+    _profileAllRides  = ridesEntry ? (ridesEntry.rides || []) : [];
+    _profileLeqpRides = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
     _profileName = entry.name || 'Unknown';
     _profileId = id;
     _profileRaceSource = 'combined';
+    _profileMode = 'races';
     _profileUpdateSourceTabs();
     if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
@@ -4860,9 +4868,18 @@ async function loadRiderProfile() {
     _profileRaces = data.races || [];
     _profileOtherRaces = data.other_races || [];
     _profileSplitOtherRaces();
+    try {
+      const ridesRes = await fetch(`http://127.0.0.1:8000/rider/${id}/rides`);
+      if (ridesRes.ok) {
+        const ridesData = await ridesRes.json();
+        _profileAllRides  = ridesData.rides || [];
+        _profileLeqpRides = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
+      }
+    } catch(_) { _profileAllRides = []; _profileLeqpRides = []; }
     _profileName = data.name;
     _profileId = id;
     _profileRaceSource = 'combined';
+    _profileMode = 'races';
     _profileUpdateSourceTabs();
     if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
       status.style.color = 'var(--text-dim)';
@@ -4897,6 +4914,9 @@ function _profileSplitOtherRaces() {
 }
 
 function _profileGetRaces() {
+  if (_profileMode === 'rides') {
+    return _profileRideSource === 'leqp' ? _profileLeqpRides : _profileAllRides;
+  }
   if (_profileRaceSource === 'other')    return _profileOtherRaces;
   if (_profileRaceSource === 'zrl')      return _profileZrlRaces;
   if (_profileRaceSource === 'frr')      return _profileFrrRaces;
@@ -4910,7 +4930,61 @@ function _profileUpdateSourceTabs() {
   const wrap = document.getElementById('profile-source-tabs');
   if (!wrap) return;
 
-  // Bestem hvilke tabs der har data
+  // Mode-knapper
+  const modeRacesBtn = document.getElementById('profile-mode-races');
+  const modeRidesBtn = document.getElementById('profile-mode-rides');
+  const isRidesMode  = _profileMode === 'rides';
+  if (modeRacesBtn) {
+    modeRacesBtn.style.background = isRidesMode ? 'var(--surface2)' : 'var(--accent)';
+    modeRacesBtn.style.color      = isRidesMode ? 'var(--text)' : 'var(--bg)';
+    modeRacesBtn.style.fontWeight = isRidesMode ? '500' : '700';
+  }
+  if (modeRidesBtn) {
+    modeRidesBtn.style.background = isRidesMode ? 'var(--accent)' : 'var(--surface2)';
+    modeRidesBtn.style.color      = isRidesMode ? 'var(--bg)' : 'var(--text)';
+    modeRidesBtn.style.fontWeight = isRidesMode ? '700' : '500';
+    modeRidesBtn.style.display    = _profileAllRides.length > 0 ? '' : 'none';
+  }
+
+  // AI Coach kun synlig i race-mode
+  const aiBtn = document.getElementById('profile-ai-coach-btn');
+  if (aiBtn) aiBtn.style.display = isRidesMode ? 'none' : '';
+
+  if (isRidesMode) {
+    // Skjul race-tabs, vis ride-tabs
+    ['combined','ladder','zrl','frr','ecro','wtrl','other'].forEach(s => {
+      const btn = document.getElementById('pst-' + s);
+      if (btn) btn.style.display = 'none';
+    });
+    const allRidesBtn  = document.getElementById('pst-all-rides');
+    const leqpRideBtn  = document.getElementById('pst-leqp-ride');
+    if (allRidesBtn) { allRidesBtn.style.display = _profileAllRides.length > 0 ? '' : 'none'; }
+    if (leqpRideBtn) { leqpRideBtn.style.display = _profileLeqpRides.length > 0 ? '' : 'none'; }
+    const rideOrder = ['all-rides','leqp'];
+    rideOrder.forEach(s => {
+      const btn = document.getElementById('pst-' + (s === 'all-rides' ? 'all-rides' : 'leqp-ride'));
+      if (btn) {
+        btn.style.background  = s === _profileRideSource ? 'var(--accent)' : 'var(--surface2)';
+        btn.style.color       = s === _profileRideSource ? 'var(--bg)' : 'var(--text)';
+        btn.style.borderColor = s === _profileRideSource ? 'var(--accent)' : 'var(--border)';
+        btn.style.fontWeight  = s === _profileRideSource ? '700' : '500';
+        btn.style.opacity     = s === _profileRideSource ? '1' : '0.7';
+      }
+    });
+    wrap.style.display = _profileAllRides.length > 0 ? 'block' : 'none';
+    const tpWrap = document.getElementById('profile-training-plan-wrap');
+    if (tpWrap) tpWrap.style.display = 'none';
+    _updateTabScrollHint();
+    return;
+  }
+
+  // Race mode: skjul ride-tabs
+  ['pst-all-rides','pst-leqp-ride'].forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) btn.style.display = 'none';
+  });
+
+  // Bestem hvilke race-tabs der har data
   const hasData = {
     ladder:   _profileRaces.length > 0,
     zrl:      _profileZrlRaces.length > 0,
@@ -4976,6 +5050,24 @@ function profileSetRaceSource(source) {
   _profileRenderTable(races);
 }
 
+function profileSetRideSource(source) {
+  _profileRideSource = source;
+  _profileUpdateSourceTabs();
+  const rides = _profileGetRaces();
+  _profileRenderHeader(_profileName, _profileId, rides);
+  _profileRenderTable(rides);
+}
+
+function profileSetMode(mode) {
+  _profileMode = mode;
+  if (mode === 'rides') _profileRideSource = 'all-rides';
+  else _profileRaceSource = 'combined';
+  _profileUpdateSourceTabs();
+  const items = _profileGetRaces();
+  _profileRenderHeader(_profileName, _profileId, items);
+  _profileRenderTable(items);
+}
+
 function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-name').textContent = name;
 
@@ -4988,8 +5080,13 @@ function _profileRenderHeader(name, id, races) {
 
   const _bestsTitle = document.getElementById('profile-bests-title');
   if (_bestsTitle) {
-    const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
-    _bestsTitle.textContent = `90-day ${_srcLabel} PR`;
+    if (_profileMode === 'rides') {
+      const _rideLabel = _profileRideSource === 'leqp' ? 'LEQP' : 'All rides';
+      _bestsTitle.textContent = `90-day ${_rideLabel} PR`;
+    } else {
+      const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
+      _bestsTitle.textContent = `90-day ${_srcLabel} PR`;
+    }
   }
 
   document.getElementById('profile-bests').innerHTML = [
@@ -5009,34 +5106,60 @@ function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-type-desc').textContent = type.desc;
   document.getElementById('profile-weight-badge').textContent = latestWeight > 0 ? latestWeight.toFixed(1) + ' kg' : '';
 
-  const positions = races.map(r => r.pos_in_cat || r.pos).filter(p => p > 0);
-  const bestPos = positions.length ? Math.min(...positions) : null;
-  const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
-  const lastRace = races.length ? new Date(races[0].event_date*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : null;
+  const lastDate = races.length ? new Date(races[0].event_date*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : null;
   const pill = (label, val) => val
     ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${label} <span style="color:var(--accent);font-weight:600">${val}</span></div>`
     : '';
   const statsTitle = document.getElementById('profile-stats-title');
-  if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL TTT Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
-  document.getElementById('profile-ladder-stats').innerHTML = [
-    pill('Races', races.length),
-    pill('Best pos', bestPos ? '#' + bestPos : null),
-    pill('Avg pos', avgPos ? '#' + avgPos : null),
-    pill('Latest', lastRace),
-  ].join('');
+  if (_profileMode === 'rides') {
+    const rideLabel = _profileRideSource === 'leqp' ? 'LEQP Rides' : 'All Rides';
+    if (statsTitle) statsTitle.textContent = `${rideLabel} Stats`;
+    const totalDist = races.reduce((s, r) => s + (parseFloat(r.distance) || 0), 0);
+    document.getElementById('profile-ladder-stats').innerHTML = [
+      pill('Rides', races.length || null),
+      pill('Total dist', totalDist > 0 ? totalDist.toFixed(0) + ' km' : null),
+      pill('Latest', lastDate),
+    ].join('');
+  } else {
+    const positions = races.map(r => r.pos_in_cat || r.pos).filter(p => p > 0);
+    const bestPos = positions.length ? Math.min(...positions) : null;
+    const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
+    if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL TTT Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
+    document.getElementById('profile-ladder-stats').innerHTML = [
+      pill('Races', races.length),
+      pill('Best pos', bestPos ? '#' + bestPos : null),
+      pill('Avg pos', avgPos ? '#' + avgPos : null),
+      pill('Latest', lastDate),
+    ].join('');
+  }
 
   document.getElementById('profile-header').style.display = 'block';
   _profileRenderChart(races);
-  const srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other races', combined:'All Races'}[_profileRaceSource] || '';
-  document.getElementById('profile-race-count').innerHTML =
-    `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} races)</span>`;
+  let srcLabel;
+  if (_profileMode === 'rides') {
+    srcLabel = _profileRideSource === 'leqp' ? 'LEQP rides' : 'All rides';
+    document.getElementById('profile-race-count').innerHTML =
+      `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} rides)</span>`;
+  } else {
+    srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other races', combined:'All Races'}[_profileRaceSource] || '';
+    document.getElementById('profile-race-count').innerHTML =
+      `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} races)</span>`;
+  }
 
   // Opdater Power Curve titel
   const chartTitle = document.getElementById('profile-chart-title');
   if (chartTitle) chartTitle.textContent = `Power Curve — W/kg · ${srcLabel}`;
 
-  // Race Analysis section
+  // Rider type badge og desc — skjul i ride-mode
+  const _typeBadge = document.getElementById('profile-type-badge');
+  const _typeDesc  = document.getElementById('profile-type-desc');
+  if (_typeBadge) _typeBadge.style.display = _profileMode === 'rides' ? 'none' : '';
+  if (_typeDesc)  _typeDesc.style.display  = _profileMode === 'rides' ? 'none' : '';
+
+  // Race Analysis section — skjul i ride-mode
   const raEl = document.getElementById('profile-race-analysis');
+  if (raEl && _profileMode === 'rides') { raEl.style.display = 'none'; raEl.innerHTML = ''; }
+  if (_profileMode === 'rides') return;
   if (raEl) {
     const rm = calcRaceMetrics(races);
     if (rm) {
@@ -5799,6 +5922,15 @@ function _profileRenderTable(races) {
   const sw = document.getElementById('profile-search-wrap');
   if (tw) tw.style.display = races.length ? 'block' : 'none';
   if (sw) sw.style.display = races.length ? 'block' : 'none';
+
+  // Skift Pos/Dist kolonneoverskrift afhængigt af mode
+  const posHeader = document.getElementById('pth-pos');
+  const isRides = _profileMode === 'rides';
+  if (posHeader) {
+    posHeader.textContent = isRides ? 'Dist' : 'Pos';
+    posHeader.onclick = isRides ? () => profileSort('distance') : () => profileSort('pos');
+  }
+
   const q = (document.getElementById('profile-race-search')?.value || '').toLowerCase().trim();
   const filtered = q ? races.filter(r => (r.event_title || '').toLowerCase().includes(q)) : races;
   const sorted = [...filtered].sort((a,b) => {
@@ -5813,10 +5945,13 @@ function _profileRenderTable(races) {
       : '—';
     const title = (r.event_title||'').replace('Club Ladder // ', '');
     const td = (v) => `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
+    const thirdCell = isRides
+      ? `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
+      : `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>`;
     return `<tr onmouseover="this.style.background='rgba(0,229,255,0.03)'" onmouseout="this.style.background=''">
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);color:var(--text);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.event_title}">${title}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>
+      ${thirdCell}
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
       ${td(r.avg_wkg)}${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
     </tr>`;

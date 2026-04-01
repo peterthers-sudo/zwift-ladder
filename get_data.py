@@ -778,9 +778,10 @@ def update_ladder_races(content):
     print(f"\n[LEQP RIDERS] Henter races for {len(riders)} ladder-ryttere + {len(extra_riders)} ikke-ladder LEQP-ryttere...")
 
     ladder_data = {}
-    other_data = {}
+    other_data  = {}
+    rides_data  = {}
 
-    # Ladder-ryttere: hent både ladder og other races
+    # Ladder-ryttere: hent ladder, other races og rides
     for zid, name in riders.items():
         try:
             resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=0", timeout=20)
@@ -789,18 +790,31 @@ def update_ladder_races(content):
                 races = data.get('races', [])
                 other = data.get('other_races', [])
                 ladder_data[zid] = {'name': name, 'races': races}
-                other_data[zid] = {'name': name, 'races': other}
+                other_data[zid]  = {'name': name, 'races': other}
                 print(f"  OK: {name} — {len(races)} ladder / {len(other)} other")
             else:
                 ladder_data[zid] = {'name': name, 'races': []}
-                other_data[zid] = {'name': name, 'races': []}
+                other_data[zid]  = {'name': name, 'races': []}
                 print(f"  SKIP: {name} (HTTP {resp.status_code})")
         except Exception as e:
             ladder_data[zid] = {'name': name, 'races': []}
-            other_data[zid] = {'name': name, 'races': []}
+            other_data[zid]  = {'name': name, 'races': []}
             print(f"  FEJL: {name} ({e})")
 
-    # Ikke-ladder LEQP-ryttere: kun other races (ingen ladder races)
+        try:
+            resp2 = requests.get(f"{API_URL}/{zid}/rides", timeout=20)
+            if resp2.status_code == 200:
+                rdata = resp2.json()
+                rides = rdata.get('rides', [])
+                rides_data[zid] = {'name': name, 'rides': rides}
+                print(f"  OK rides: {name} — {len(rides)} rides")
+            else:
+                rides_data[zid] = {'name': name, 'rides': []}
+        except Exception as e:
+            rides_data[zid] = {'name': name, 'rides': []}
+            print(f"  FEJL rides: {name} ({e})")
+
+    # Ikke-ladder LEQP-ryttere: kun other races og rides (ingen ladder races)
     for zid, name in extra_riders.items():
         try:
             resp = requests.get(f"{API_URL}/{zid}/ladder_races?days=0", timeout=20)
@@ -808,16 +822,29 @@ def update_ladder_races(content):
                 data = resp.json()
                 other = data.get('other_races', [])
                 ladder_data[zid] = {'name': name, 'races': []}
-                other_data[zid] = {'name': name, 'races': other}
+                other_data[zid]  = {'name': name, 'races': other}
                 print(f"  OK (extra): {name} — {len(other)} other races")
             else:
                 ladder_data[zid] = {'name': name, 'races': []}
-                other_data[zid] = {'name': name, 'races': []}
+                other_data[zid]  = {'name': name, 'races': []}
                 print(f"  SKIP (extra): {name} (HTTP {resp.status_code})")
         except Exception as e:
             ladder_data[zid] = {'name': name, 'races': []}
-            other_data[zid] = {'name': name, 'races': []}
+            other_data[zid]  = {'name': name, 'races': []}
             print(f"  FEJL (extra): {name} ({e})")
+
+        try:
+            resp2 = requests.get(f"{API_URL}/{zid}/rides", timeout=20)
+            if resp2.status_code == 200:
+                rdata = resp2.json()
+                rides = rdata.get('rides', [])
+                rides_data[zid] = {'name': name, 'rides': rides}
+                print(f"  OK rides (extra): {name} — {len(rides)} rides")
+            else:
+                rides_data[zid] = {'name': name, 'rides': []}
+        except Exception as e:
+            rides_data[zid] = {'name': name, 'rides': []}
+            print(f"  FEJL rides (extra): {name} ({e})")
 
     # Byg ladder_races.js
     lines = []
@@ -842,6 +869,18 @@ def update_ladder_races(content):
     with open(other_races_js_path, 'w', encoding='utf-8') as f:
         f.write(js_block)
     print(f"[LEQP RIDERS] Skrevet {len(other_data)} LEQP ryttere til {other_races_js_path}.")
+
+    # Byg rides.js
+    lines = []
+    for zid, entry in rides_data.items():
+        rides_js = json.dumps(entry['rides'], ensure_ascii=False)
+        name_safe = entry['name'].replace("'", "\\'")
+        lines.append(f"  {zid}: {{name:'{name_safe}', rides:{rides_js}}}")
+    js_block = "// RIDES_START\nconst RIDES = {\n" + ",\n".join(lines) + "\n};\n// RIDES_END\n"
+    rides_js_path = os.path.join(DATA_DIR, "rides.js")
+    with open(rides_js_path, 'w', encoding='utf-8') as f:
+        f.write(js_block)
+    print(f"[LEQP RIDERS] Skrevet {len(rides_data)} LEQP ryttere til {rides_js_path}.")
 
     return content
 

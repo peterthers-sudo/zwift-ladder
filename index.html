@@ -1001,8 +1001,11 @@
 
     <div id="profile-source-tabs" style="display:none;margin-top:24px;margin-bottom:16px;scroll-margin-top:24px">
       <div style="display:flex;align-items:center;justify-content:space-between;background:rgba(0,229,255,0.08);border:2px solid rgba(0,229,255,0.5);box-shadow:0 0 14px rgba(0,229,255,0.10);margin-bottom:0;padding:10px 14px 10px 20px">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.88rem;letter-spacing:1.5px;color:var(--accent);text-transform:uppercase;font-weight:700">📋 Race Type</span>
-        <button class="btn btn-sm btn-ai" onclick="const w=document.getElementById('profile-training-plan-wrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})" style="margin:0;border-radius:2px;font-size:0.6rem;padding:5px 12px;letter-spacing:1.5px">🤖 AI Coach</button>
+        <div style="display:flex;gap:6px;align-items:center">
+          <button id="profile-mode-races" onclick="profileSetMode('races')" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border:1px solid rgba(0,229,255,0.5);cursor:pointer;transition:all 0.15s">🏁 Races</button>
+          <button id="profile-mode-rides" onclick="profileSetMode('rides')" style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;letter-spacing:1.5px;text-transform:uppercase;padding:5px 14px;border:1px solid rgba(0,229,255,0.5);cursor:pointer;transition:all 0.15s">🚴 Rides</button>
+        </div>
+        <button class="btn btn-sm btn-ai" id="profile-ai-coach-btn" onclick="const w=document.getElementById('profile-training-plan-wrap');if(w)w.scrollIntoView({behavior:'smooth',block:'start'})" style="margin:0;border-radius:2px;font-size:0.6rem;padding:5px 12px;letter-spacing:1.5px">🤖 AI Coach</button>
       </div>
       <div style="position:relative">
         <div id="tab-scroll-container" style="overflow-x:auto;-webkit-overflow-scrolling:touch;border:2px solid rgba(0,229,255,0.5);border-top:none" onscroll="_updateTabScrollHint()">
@@ -1013,7 +1016,9 @@
             <button id="pst-frr"      onclick="profileSetRaceSource('frr')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">FRR</button>
             <button id="pst-ecro"     onclick="profileSetRaceSource('ecro')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">ECRO</button>
             <button id="pst-wtrl"     onclick="profileSetRaceSource('wtrl')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">WTRL</button>
-            <button id="pst-other"    onclick="profileSetRaceSource('other')"    style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
+            <button id="pst-other"     onclick="profileSetRaceSource('other')"     style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s">Other races</button>
+            <button id="pst-all-rides" onclick="profileSetRideSource('all-rides')" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;border-right:1px solid rgba(0,229,255,0.25);cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">All rides</button>
+            <button id="pst-leqp-ride" onclick="profileSetRideSource('leqp')"      style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;padding:12px 18px;border:none;cursor:pointer;white-space:nowrap;flex:1 0 auto;transition:all 0.15s;display:none">LEQP</button>
           </div>
         </div>
         <div id="tab-scroll-hint" style="position:absolute;top:0;right:0;bottom:0;width:56px;background:linear-gradient(to right,transparent,rgba(0,229,255,0.45));pointer-events:none;display:flex;align-items:center;justify-content:flex-end;padding-right:8px">
@@ -1093,7 +1098,7 @@
           <tr style="background:var(--surface2)">
             <th onclick="profileSort('event_date')" id="pth-date"  style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);cursor:pointer">Dato</th>
             <th onclick="profileSort('event_title')" id="pth-title" style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:left;border-bottom:2px solid var(--border);cursor:pointer">Race</th>
-            <th onclick="profileSort('pos')"       style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:right;border-bottom:2px solid var(--border);cursor:pointer">Pos</th>
+            <th id="pth-pos" onclick="profileSort('pos')" style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:right;border-bottom:2px solid var(--border);cursor:pointer">Pos</th>
             <th onclick="profileSort('weight')"    style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:right;border-bottom:2px solid var(--border);cursor:pointer">Kg</th>
             <th onclick="profileSort('avg_wkg')"   style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:right;border-bottom:2px solid var(--border);cursor:pointer">Avg</th>
             <th onclick="profileSort('wkg5')"      style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--text-dim);padding:10px 12px;text-align:right;border-bottom:2px solid var(--border);cursor:pointer">5s</th>
@@ -1360,6 +1365,7 @@
 <script src="data/fixtures.js"></script>
 <script src="data/ladder_races.js"></script>
 <script src="data/other_races.js"></script>
+<script src="data/rides.js"></script>
 <script src="data/rider_bios.js"></script>
 <script src="data/leqp_members.js"></script>
 <script src="app.js"></script>
