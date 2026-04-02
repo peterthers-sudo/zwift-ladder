@@ -85,7 +85,7 @@ cd /d %PROJECT_DIR%
 echo --- git status --- >> "%LOG_FILE%"
 git status >> "%LOG_FILE%" 2>&1
 
-git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js CNAME >> "%LOG_FILE%" 2>&1
+git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js data/rides.js CNAME >> "%LOG_FILE%" 2>&1
 
 git commit -m "Auto update: %DATE% %TIME%" >> "%LOG_FILE%" 2>&1
 
@@ -106,5 +106,4 @@ echo ==========================================
 echo    ALT FAERDIGT!
 echo    Log gemt i: %LOG_FILE%
 echo ==========================================
-REM sæt computer i sleep
-rundll32.exe powrprof.dll,SetSuspendState 0,1,0
+
