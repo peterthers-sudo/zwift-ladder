@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.123'; // bump this on every update
+const APP_VERSION = 'v1.3.124'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5140,10 +5140,11 @@ function _profileRenderHeader(name, id, races) {
       'ptit-chasseur': 'Ptit Chasseur', 'other-rides': 'Other Rides',
     }[_profileRideSource] || 'All Rides';
     if (statsTitle) statsTitle.textContent = `${rideLabel} Stats`;
-    const totalDist = races.reduce((s, r) => s + (parseFloat(r.distance) || 0), 0);
+    const showDist = ['leqp','badge-hunt','rose-ride','ptit-chasseur'].includes(_profileRideSource);
+    const totalDist = showDist ? races.reduce((s, r) => s + (parseFloat(r.distance) || 0), 0) : 0;
     document.getElementById('profile-ladder-stats').innerHTML = [
       pill('Rides', races.length || null),
-      pill('Total dist', totalDist > 0 ? totalDist.toFixed(0) + ' km' : null),
+      showDist ? pill('Total dist', totalDist > 0 ? totalDist.toFixed(0) + ' km' : null) : '',
       pill('Latest', lastDate),
     ].join('');
   } else {
