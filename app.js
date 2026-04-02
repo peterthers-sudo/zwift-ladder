@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.126'; // bump this on every update
+const APP_VERSION = 'v1.3.127'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4879,7 +4879,7 @@ async function loadRiderProfile() {
       if (ridesRes.ok) {
         const ridesData = await ridesRes.json();
         _profileAllRides  = ridesData.rides || [];
-        _profileLeqpRides = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
+        _profileLeqpRides = _profileAllRides.filter(r => /^(LEQP|LEquipe)/i.test(r.event_title || ''));
       }
     } catch(_) { _profileAllRides = []; _profileLeqpRides = []; }
     _profileName = data.name;
@@ -4909,11 +4909,11 @@ async function loadRiderProfile() {
 }
 
 function _profileSplitRides() {
-  _profileLeqpRides         = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
-  _profileBadgeHuntRides    = _profileAllRides.filter(r => /^(LEQP|LEquipe)/i.test(r.event_title || '') && /badge[\s-]?hunt/i.test(r.event_title || ''));
+  _profileLeqpRides         = _profileAllRides.filter(r => /^(LEQP|LEquipe)/i.test(r.event_title || ''));
+  _profileBadgeHuntRides    = _profileLeqpRides.filter(r => /badge[\s-]?hunt/i.test(r.event_title || ''));
   _profileRoseRideRides     = _profileLeqpRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
   _profilePtitChasseurRides = _profileLeqpRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
-  _profileOtherRides        = _profileAllRides.filter(r => !/^LEQP/i.test(r.event_title || ''));
+  _profileOtherRides        = _profileAllRides.filter(r => !/^(LEQP|LEquipe)/i.test(r.event_title || ''));
 }
 
 function _profileSplitOtherRaces() {
@@ -5092,6 +5092,62 @@ function profileSetMode(mode) {
   _profileRenderTable(items);
 }
 
+function _profileRideProfileText() {
+  const all    = _profileAllRides;
+  const leqp   = _profileLeqpRides;
+  const badge  = _profileBadgeHuntRides;
+  const rose   = _profileRoseRideRides;
+  const ptit   = _profilePtitChasseurRides;
+  const other  = _profileOtherRides;
+  if (!all.length) return '';
+
+  const parts = [];
+  const sorted = [...all].sort((a, b) => (a.event_date || 0) - (b.event_date || 0));
+  const spanDays = all.length > 1
+    ? (sorted[sorted.length - 1].event_date - sorted[0].event_date) / 86400
+    : 0;
+  const spanMonths = spanDays / 30.5;
+
+  // LEQP series participation
+  const series = [];
+  if (badge.length) series.push(`Badge Hunt (${badge.length})`);
+  if (rose.length)  series.push(`Rose Ride (${rose.length})`);
+  if (ptit.length)  series.push(`Ptit Chasseur (${ptit.length})`);
+
+  if (leqp.length > 0 && series.length > 0) {
+    parts.push(`${leqp.length} LEQP rides across ${series.join(', ')}.`);
+  } else if (leqp.length > 0) {
+    parts.push(`${leqp.length} LEQP rides recorded.`);
+  }
+  if (other.length > 0) {
+    parts.push(`${other.length} additional ride${other.length > 1 ? 's' : ''} outside LEQP events.`);
+  }
+
+  // Consistency
+  if (spanMonths >= 2 && all.length >= 4) {
+    const rpm = all.length / spanMonths;
+    if (rpm >= 3)
+      parts.push(`Averaging ${rpm.toFixed(1)} rides per month over ${Math.round(spanMonths)} months — a consistent training presence.`);
+    else if (rpm >= 1)
+      parts.push(`Averaging ${rpm.toFixed(1)} rides per month over ${Math.round(spanMonths)} months.`);
+    else
+      parts.push(`Spread across ${Math.round(spanMonths)} months of activity.`);
+  } else if (all.length >= 2 && spanMonths >= 1) {
+    parts.push(`${all.length} rides over ${Math.round(spanMonths)} month${Math.round(spanMonths) > 1 ? 's' : ''}.`);
+  }
+
+  // Dominant series
+  const dominant = [badge, rose, ptit].reduce((a, b) => (b.length > a.length ? b : a), []);
+  if (dominant === badge && badge.length >= 3)
+    parts.push(`Badge Hunt is clearly a favourite — taking on routes and collecting badges.`);
+  else if (dominant === rose && rose.length >= 2)
+    parts.push(`Rose Ride features prominently in the ride history.`);
+  else if (dominant === ptit && ptit.length >= 2)
+    parts.push(`Ptit Chasseur is the go-to LEQP ride.`);
+
+  return parts.join(' ') || `${all.length} rides in total.`;
+}
+
 function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-name').textContent = name;
 
@@ -5133,7 +5189,9 @@ function _profileRenderHeader(name, id, races) {
   document.getElementById('profile-type-desc').textContent = type.desc;
   document.getElementById('profile-weight-badge').textContent = latestWeight > 0 ? latestWeight.toFixed(1) + ' kg' : '';
 
-  const lastDate = races.length ? new Date(races[0].event_date*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : null;
+  const lastDate  = races.length ? new Date(races[0].event_date*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : null;
+  const sortedByDate = [...races].sort((a,b) => (a.event_date||0) - (b.event_date||0));
+  const firstDate = sortedByDate.length ? new Date(sortedByDate[0].event_date*1000).toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'}) : null;
   const pill = (label, val) => val
     ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:var(--surface2);border:1px solid var(--border);padding:4px 12px;color:var(--text-dim)">${label} <span style="color:var(--accent);font-weight:600">${val}</span></div>`
     : '';
@@ -5149,6 +5207,7 @@ function _profileRenderHeader(name, id, races) {
     document.getElementById('profile-ladder-stats').innerHTML = [
       pill('Rides', races.length || null),
       showDist ? pill('Total dist', totalDist > 0 ? totalDist.toFixed(0) + ' km' : null) : '',
+      pill('First', firstDate),
       pill('Latest', lastDate),
     ].join('');
   } else {
@@ -5160,6 +5219,7 @@ function _profileRenderHeader(name, id, races) {
       pill('Races', races.length),
       pill('Best pos', bestPos ? '#' + bestPos : null),
       pill('Avg pos', avgPos ? '#' + avgPos : null),
+      pill('First', firstDate),
       pill('Latest', lastDate),
     ].join('');
   }
@@ -5181,11 +5241,10 @@ function _profileRenderHeader(name, id, races) {
   const chartTitle = document.getElementById('profile-chart-title');
   if (chartTitle) chartTitle.textContent = `Power Curve — W/kg · ${srcLabel}`;
 
-  // Rider type badge og desc — skjul i ride-mode
+  // Rider type badge og desc — skjul i ride-mode, vis ride-profil tekst i stedet
   const _typeBadge = document.getElementById('profile-type-badge');
   const _typeDesc  = document.getElementById('profile-type-desc');
   if (_typeBadge) _typeBadge.style.display = _profileMode === 'rides' ? 'none' : '';
-  if (_typeDesc)  _typeDesc.style.display  = _profileMode === 'rides' ? 'none' : '';
 
   // Race Analysis, Detailed Analysis og Cross Comparison — skjul i ride-mode
   const raEl = document.getElementById('profile-race-analysis');
@@ -5195,8 +5254,13 @@ function _profileRenderHeader(name, id, races) {
     if (_daW) _daW.style.display = 'none';
     const _ccW = document.getElementById('profile-cross-comparison-wrap');
     if (_ccW) _ccW.style.display = 'none';
+    if (_typeDesc) {
+      _typeDesc.style.display = '';
+      _typeDesc.textContent = _profileRideProfileText();
+    }
     return;
   }
+  if (_typeDesc) _typeDesc.style.display = '';
   if (raEl) {
     const rm = calcRaceMetrics(races);
     if (rm) {
@@ -5960,13 +6024,14 @@ function _profileRenderTable(races) {
   if (tw) tw.style.display = races.length ? 'block' : 'none';
   if (sw) sw.style.display = races.length ? 'block' : 'none';
 
-  // Skift Pos/Dist kolonneoverskrift afhængigt af mode
-  const posHeader = document.getElementById('pth-pos');
+  // Skift kolonneoverskrifter og søgepladsholder afhængigt af mode
+  const posHeader   = document.getElementById('pth-pos');
+  const titleHeader = document.getElementById('pth-title');
+  const searchInput = document.getElementById('profile-race-search');
   const isRides = _profileMode === 'rides';
-  if (posHeader) {
-    posHeader.textContent = isRides ? 'Dist' : 'Pos';
-    posHeader.onclick = isRides ? () => profileSort('distance') : () => profileSort('pos');
-  }
+  if (posHeader)   { posHeader.textContent = isRides ? 'Dist' : 'Pos'; posHeader.onclick = isRides ? () => profileSort('distance') : () => profileSort('pos'); }
+  if (titleHeader) titleHeader.textContent = isRides ? 'Ride' : 'Race';
+  if (searchInput) searchInput.placeholder = isRides ? 'Search rides…' : 'Search races…';
 
   const q = (document.getElementById('profile-race-search')?.value || '').toLowerCase().trim();
   const filtered = q ? races.filter(r => (r.event_title || '').toLowerCase().includes(q)) : races;
