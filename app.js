@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.120'; // bump this on every update
+const APP_VERSION = 'v1.3.121'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4907,7 +4907,7 @@ function _profileSplitRides() {
   _profileLeqpRides         = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
   _profileBadgeHuntRides    = _profileAllRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
   _profileRoseRideRides     = _profileAllRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
-  _profilePtitChasseurRides = _profileAllRides.filter(r => /p.tit\s*chasseur/i.test(r.event_title || ''));
+  _profilePtitChasseurRides = _profileAllRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
 }
 
 function _profileSplitOtherRaces() {
@@ -4994,8 +4994,8 @@ function _profileUpdateSourceTabs() {
     return;
   }
 
-  // Race mode: skjul ride-tabs
-  ['pst-all-rides','pst-leqp-ride'].forEach(id => {
+  // Race mode: skjul alle ride-tabs
+  ['pst-all-rides','pst-leqp-ride','pst-badge-hunt','pst-rose-ride','pst-ptit-chasseur'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.style.display = 'none';
   });
