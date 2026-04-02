@@ -413,6 +413,7 @@ async def get_rides(zwift_id: int):
                 dist = None
 
             rides.append({
+                "zid":         activity.get("zid"),
                 "event_title": title,
                 "event_date":  event_date,
                 "distance":    dist,

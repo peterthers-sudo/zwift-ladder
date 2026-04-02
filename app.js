@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.125'; // bump this on every update
+const APP_VERSION = 'v1.3.126'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4847,11 +4847,13 @@ async function loadRiderProfile() {
     _profileName = entry.name || 'Unknown';
     _profileId = id;
     _profileRaceSource = 'combined';
-    _profileMode = 'races';
+    const _hasRaces1 = _profileRaces.length + _profileZrlRaces.length + _profileFrrRaces.length + _profileEcroRaces.length + _profileWtrlRaces.length + _profileOtherRaces.length > 0;
+    _profileMode = (!_hasRaces1 && _profileAllRides.length > 0) ? 'rides' : 'races';
+    if (_profileMode === 'rides') _profileRideSource = 'all-rides';
     _profileUpdateSourceTabs();
-    if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
+    if (!_hasRaces1 && _profileAllRides.length === 0) {
       status.style.color = 'var(--text-dim)';
-      status.textContent = 'No races found for this rider.';
+      status.textContent = 'No data found for this rider.';
     } else {
       const races = _profileGetRaces();
       _profileRenderHeader(_profileName, id, races);
@@ -4883,11 +4885,13 @@ async function loadRiderProfile() {
     _profileName = data.name;
     _profileId = id;
     _profileRaceSource = 'combined';
-    _profileMode = 'races';
+    const _hasRaces2 = _profileRaces.length + _profileZrlRaces.length + _profileFrrRaces.length + _profileEcroRaces.length + _profileWtrlRaces.length + _profileOtherRaces.length > 0;
+    _profileMode = (!_hasRaces2 && _profileAllRides.length > 0) ? 'rides' : 'races';
+    if (_profileMode === 'rides') _profileRideSource = 'all-rides';
     _profileUpdateSourceTabs();
-    if (_profileRaces.length === 0 && _profileOtherRaces.length === 0) {
+    if (!_hasRaces2 && _profileAllRides.length === 0) {
       status.style.color = 'var(--text-dim)';
-      status.textContent = 'No races found for this rider.';
+      status.textContent = 'No data found for this rider.';
     } else {
       const races = _profileGetRaces();
       _profileRenderHeader(_profileName, id, races);
@@ -4906,7 +4910,7 @@ async function loadRiderProfile() {
 
 function _profileSplitRides() {
   _profileLeqpRides         = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
-  _profileBadgeHuntRides    = _profileLeqpRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
+  _profileBadgeHuntRides    = _profileAllRides.filter(r => /^(LEQP|LEquipe)/i.test(r.event_title || '') && /badge[\s-]?hunt/i.test(r.event_title || ''));
   _profileRoseRideRides     = _profileLeqpRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
   _profilePtitChasseurRides = _profileLeqpRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
   _profileOtherRides        = _profileAllRides.filter(r => !/^LEQP/i.test(r.event_title || ''));
@@ -5032,9 +5036,9 @@ function _profileUpdateSourceTabs() {
   }
 
   const hasVisible = Object.values(hasData).some(Boolean);
-  wrap.style.display = hasVisible ? 'block' : 'none';
+  wrap.style.display = (hasVisible || _profileAllRides.length > 0) ? 'block' : 'none';
 
-  // AI Training Plan only visible on Combined tab
+  // AI Training Plan only visible when there are races
   const tpWrap = document.getElementById('profile-training-plan-wrap');
   if (tpWrap) tpWrap.style.display = hasVisible ? 'block' : 'none';
 
@@ -5977,13 +5981,14 @@ function _profileRenderTable(races) {
       ? new Date(r.event_date*1000).toLocaleDateString('da-DK',{day:'2-digit',month:'short',year:'numeric'})
       : '—';
     const title = (r.event_title||'').replace('Club Ladder // ', '');
+    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--border);font-size:0.65rem;text-decoration:none;vertical-align:middle" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--border)'">↗</a>` : '';
     const td = (v) => `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
     const thirdCell = isRides
       ? `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
       : `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>`;
     return `<tr onmouseover="this.style.background='rgba(0,229,255,0.03)'" onmouseout="this.style.background=''">
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);color:var(--text);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.event_title}">${title}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);color:var(--text);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.event_title}">${title}${zpLink}</td>
       ${thirdCell}
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
       ${td(r.avg_wkg)}${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
@@ -6190,6 +6195,18 @@ function profileNameSearch(query) {
   //     hits.push({ name: r.name, id: rid, team: team.name || '' });
   //   }
   // }
+
+  // RIDES — ryttere med nylige rides men ingen ladder/my_teams data
+  const ridesObj  = typeof RIDES !== 'undefined' ? RIDES : {};
+  const cutoff90s = Date.now() / 1000 - 90 * 86400;
+  for (const [zid, entry] of Object.entries(ridesObj)) {
+    if (seenId.has(zid)) continue;
+    if (!entry.name || !entry.name.toLowerCase().includes(q)) continue;
+    const hasRecentRide = (entry.rides || []).some(r => (r.event_date || 0) >= cutoff90s);
+    if (!hasRecentRide) continue;
+    seenId.add(zid);
+    hits.push({ name: entry.name, id: zid, team: 'LEQP' });
+  }
 
   if (!hits.length) { wrap.style.display = 'none'; return; }
   window._profileHits = hits;
