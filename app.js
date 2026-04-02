@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.121'; // bump this on every update
+const APP_VERSION = 'v1.3.122'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4807,6 +4807,7 @@ let _profileLeqpRides         = [];
 let _profileBadgeHuntRides    = [];
 let _profileRoseRideRides     = [];
 let _profilePtitChasseurRides = [];
+let _profileOtherRides        = [];
 let _profileRaceSource = 'combined';
 let _profileRideSource = 'all-rides';
 let _profileMode = 'races'; // 'races' | 'rides'
@@ -4908,6 +4909,7 @@ function _profileSplitRides() {
   _profileBadgeHuntRides    = _profileAllRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
   _profileRoseRideRides     = _profileAllRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
   _profilePtitChasseurRides = _profileAllRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
+  _profileOtherRides        = _profileAllRides.filter(r => !/^LEQP/i.test(r.event_title || ''));
 }
 
 function _profileSplitOtherRaces() {
@@ -4929,6 +4931,7 @@ function _profileGetRaces() {
     if (_profileRideSource === 'badge-hunt')    return _profileBadgeHuntRides;
     if (_profileRideSource === 'rose-ride')     return _profileRoseRideRides;
     if (_profileRideSource === 'ptit-chasseur') return _profilePtitChasseurRides;
+    if (_profileRideSource === 'other-rides')   return _profileOtherRides;
     return _profileAllRides;
   }
   if (_profileRaceSource === 'other')    return _profileOtherRaces;
@@ -4976,6 +4979,7 @@ function _profileUpdateSourceTabs() {
       { id: 'pst-badge-hunt',    src: 'badge-hunt',     data: _profileBadgeHuntRides },
       { id: 'pst-rose-ride',     src: 'rose-ride',      data: _profileRoseRideRides },
       { id: 'pst-ptit-chasseur', src: 'ptit-chasseur',  data: _profilePtitChasseurRides },
+      { id: 'pst-other-rides',   src: 'other-rides',    data: _profileLeqpRides.length > 0 ? _profileOtherRides : [] },
     ];
     rideTabs.forEach(({ id, src, data }) => {
       const btn = document.getElementById(id);
@@ -4995,7 +4999,7 @@ function _profileUpdateSourceTabs() {
   }
 
   // Race mode: skjul alle ride-tabs
-  ['pst-all-rides','pst-leqp-ride','pst-badge-hunt','pst-rose-ride','pst-ptit-chasseur'].forEach(id => {
+  ['pst-all-rides','pst-leqp-ride','pst-badge-hunt','pst-rose-ride','pst-ptit-chasseur','pst-other-rides'].forEach(id => {
     const btn = document.getElementById(id);
     if (btn) btn.style.display = 'none';
   });
@@ -5097,7 +5101,10 @@ function _profileRenderHeader(name, id, races) {
   const _bestsTitle = document.getElementById('profile-bests-title');
   if (_bestsTitle) {
     if (_profileMode === 'rides') {
-      const _rideLabel = _profileRideSource === 'leqp' ? 'LEQP' : 'All rides';
+      const _rideLabel = {
+        'leqp': 'All LEQP', 'badge-hunt': 'Badge Hunt', 'rose-ride': 'Rose Ride',
+        'ptit-chasseur': 'Ptit Chasseur', 'other-rides': 'Other Rides',
+      }[_profileRideSource] || 'All rides';
       _bestsTitle.textContent = `90-day ${_rideLabel} PR`;
     } else {
       const _srcLabel = {ladder:'Ladder', zrl:'ZRL', frr:'FRR', ecro:'ECRO', wtrl:'WTRL TTT', other:'Other', combined:'All Races'}[_profileRaceSource] || 'Ladder';
@@ -5128,7 +5135,10 @@ function _profileRenderHeader(name, id, races) {
     : '';
   const statsTitle = document.getElementById('profile-stats-title');
   if (_profileMode === 'rides') {
-    const rideLabel = _profileRideSource === 'leqp' ? 'LEQP Rides' : 'All Rides';
+    const rideLabel = {
+      'leqp': 'All LEQP', 'badge-hunt': 'Badge Hunt', 'rose-ride': 'Rose Ride',
+      'ptit-chasseur': 'Ptit Chasseur', 'other-rides': 'Other Rides',
+    }[_profileRideSource] || 'All Rides';
     if (statsTitle) statsTitle.textContent = `${rideLabel} Stats`;
     const totalDist = races.reduce((s, r) => s + (parseFloat(r.distance) || 0), 0);
     document.getElementById('profile-ladder-stats').innerHTML = [
