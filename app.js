@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.122'; // bump this on every update
+const APP_VERSION = 'v1.3.123'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5163,7 +5163,7 @@ function _profileRenderHeader(name, id, races) {
   _profileRenderChart(races);
   let srcLabel;
   if (_profileMode === 'rides') {
-    srcLabel = _profileRideSource === 'leqp' ? 'LEQP rides' : 'All rides';
+    srcLabel = {'leqp':'All LEQP', 'badge-hunt':'Badge Hunt', 'rose-ride':'Rose Ride', 'ptit-chasseur':'Ptit Chasseur', 'other-rides':'Other rides'}[_profileRideSource] || 'All rides';
     document.getElementById('profile-race-count').innerHTML =
       `${srcLabel} <span style="font-size:0.72rem;font-weight:400;color:var(--text-dim);letter-spacing:1px">(${races.length} rides)</span>`;
   } else {
