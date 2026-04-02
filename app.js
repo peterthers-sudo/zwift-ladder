@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.124'; // bump this on every update
+const APP_VERSION = 'v1.3.125'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4906,9 +4906,9 @@ async function loadRiderProfile() {
 
 function _profileSplitRides() {
   _profileLeqpRides         = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
-  _profileBadgeHuntRides    = _profileAllRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
-  _profileRoseRideRides     = _profileAllRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
-  _profilePtitChasseurRides = _profileAllRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
+  _profileBadgeHuntRides    = _profileLeqpRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
+  _profileRoseRideRides     = _profileLeqpRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
+  _profilePtitChasseurRides = _profileLeqpRides.filter(r => /ptit\s*chasseur/i.test(r.event_title || ''));
   _profileOtherRides        = _profileAllRides.filter(r => !/^LEQP/i.test(r.event_title || ''));
 }
 
