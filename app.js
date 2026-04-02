@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.119'; // bump this on every update
+const APP_VERSION = 'v1.3.120'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4802,8 +4802,11 @@ let _profileZrlRaces = [];
 let _profileFrrRaces = [];
 let _profileEcroRaces = [];
 let _profileWtrlRaces = [];
-let _profileAllRides  = [];
-let _profileLeqpRides = [];
+let _profileAllRides          = [];
+let _profileLeqpRides         = [];
+let _profileBadgeHuntRides    = [];
+let _profileRoseRideRides     = [];
+let _profilePtitChasseurRides = [];
 let _profileRaceSource = 'combined';
 let _profileRideSource = 'all-rides';
 let _profileMode = 'races'; // 'races' | 'rides'
@@ -4838,8 +4841,8 @@ async function loadRiderProfile() {
     _profileOtherRaces = ((typeof OTHER_RACES !== 'undefined') && (OTHER_RACES[id] || OTHER_RACES[parseInt(id)])) ? (OTHER_RACES[id] || OTHER_RACES[parseInt(id)]).races || [] : [];
     _profileSplitOtherRaces();
     const ridesEntry = (typeof RIDES !== 'undefined') && (RIDES[id] || RIDES[parseInt(id)]);
-    _profileAllRides  = ridesEntry ? (ridesEntry.rides || []) : [];
-    _profileLeqpRides = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
+    _profileAllRides = ridesEntry ? (ridesEntry.rides || []) : [];
+    _profileSplitRides();
     _profileName = entry.name || 'Unknown';
     _profileId = id;
     _profileRaceSource = 'combined';
@@ -4900,6 +4903,13 @@ async function loadRiderProfile() {
   }
 }
 
+function _profileSplitRides() {
+  _profileLeqpRides         = _profileAllRides.filter(r => /^LEQP/i.test(r.event_title || ''));
+  _profileBadgeHuntRides    = _profileAllRides.filter(r => /badge\s*hunt/i.test(r.event_title || ''));
+  _profileRoseRideRides     = _profileAllRides.filter(r => /rose\s*ride/i.test(r.event_title || ''));
+  _profilePtitChasseurRides = _profileAllRides.filter(r => /p.tit\s*chasseur/i.test(r.event_title || ''));
+}
+
 function _profileSplitOtherRaces() {
   _profileZrlRaces  = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
   _profileFrrRaces  = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
@@ -4915,7 +4925,11 @@ function _profileSplitOtherRaces() {
 
 function _profileGetRaces() {
   if (_profileMode === 'rides') {
-    return _profileRideSource === 'leqp' ? _profileLeqpRides : _profileAllRides;
+    if (_profileRideSource === 'leqp')          return _profileLeqpRides;
+    if (_profileRideSource === 'badge-hunt')    return _profileBadgeHuntRides;
+    if (_profileRideSource === 'rose-ride')     return _profileRoseRideRides;
+    if (_profileRideSource === 'ptit-chasseur') return _profilePtitChasseurRides;
+    return _profileAllRides;
   }
   if (_profileRaceSource === 'other')    return _profileOtherRaces;
   if (_profileRaceSource === 'zrl')      return _profileZrlRaces;
@@ -4956,20 +4970,22 @@ function _profileUpdateSourceTabs() {
       const btn = document.getElementById('pst-' + s);
       if (btn) btn.style.display = 'none';
     });
-    const allRidesBtn  = document.getElementById('pst-all-rides');
-    const leqpRideBtn  = document.getElementById('pst-leqp-ride');
-    if (allRidesBtn) { allRidesBtn.style.display = _profileAllRides.length > 0 ? '' : 'none'; }
-    if (leqpRideBtn) { leqpRideBtn.style.display = _profileLeqpRides.length > 0 ? '' : 'none'; }
-    const rideOrder = ['all-rides','leqp'];
-    rideOrder.forEach(s => {
-      const btn = document.getElementById('pst-' + (s === 'all-rides' ? 'all-rides' : 'leqp-ride'));
-      if (btn) {
-        btn.style.background  = s === _profileRideSource ? 'var(--accent)' : 'var(--surface2)';
-        btn.style.color       = s === _profileRideSource ? 'var(--bg)' : 'var(--text)';
-        btn.style.borderColor = s === _profileRideSource ? 'var(--accent)' : 'var(--border)';
-        btn.style.fontWeight  = s === _profileRideSource ? '700' : '500';
-        btn.style.opacity     = s === _profileRideSource ? '1' : '0.7';
-      }
+    const rideTabs = [
+      { id: 'pst-all-rides',     src: 'all-rides',     data: _profileAllRides },
+      { id: 'pst-leqp-ride',     src: 'leqp',          data: _profileLeqpRides },
+      { id: 'pst-badge-hunt',    src: 'badge-hunt',     data: _profileBadgeHuntRides },
+      { id: 'pst-rose-ride',     src: 'rose-ride',      data: _profileRoseRideRides },
+      { id: 'pst-ptit-chasseur', src: 'ptit-chasseur',  data: _profilePtitChasseurRides },
+    ];
+    rideTabs.forEach(({ id, src, data }) => {
+      const btn = document.getElementById(id);
+      if (!btn) return;
+      btn.style.display     = data.length > 0 ? '' : 'none';
+      btn.style.background  = src === _profileRideSource ? 'var(--accent)' : 'var(--surface2)';
+      btn.style.color       = src === _profileRideSource ? 'var(--bg)' : 'var(--text)';
+      btn.style.borderColor = src === _profileRideSource ? 'var(--accent)' : 'var(--border)';
+      btn.style.fontWeight  = src === _profileRideSource ? '700' : '500';
+      btn.style.opacity     = src === _profileRideSource ? '1' : '0.7';
     });
     wrap.style.display = _profileAllRides.length > 0 ? 'block' : 'none';
     const tpWrap = document.getElementById('profile-training-plan-wrap');
@@ -5156,10 +5172,16 @@ function _profileRenderHeader(name, id, races) {
   if (_typeBadge) _typeBadge.style.display = _profileMode === 'rides' ? 'none' : '';
   if (_typeDesc)  _typeDesc.style.display  = _profileMode === 'rides' ? 'none' : '';
 
-  // Race Analysis section — skjul i ride-mode
+  // Race Analysis, Detailed Analysis og Cross Comparison — skjul i ride-mode
   const raEl = document.getElementById('profile-race-analysis');
   if (raEl && _profileMode === 'rides') { raEl.style.display = 'none'; raEl.innerHTML = ''; }
-  if (_profileMode === 'rides') return;
+  if (_profileMode === 'rides') {
+    const _daW = document.getElementById('profile-detailed-analysis-wrap');
+    if (_daW) _daW.style.display = 'none';
+    const _ccW = document.getElementById('profile-cross-comparison-wrap');
+    if (_ccW) _ccW.style.display = 'none';
+    return;
+  }
   if (raEl) {
     const rm = calcRaceMetrics(races);
     if (rm) {
