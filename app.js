@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.128'; // bump this on every update
+const APP_VERSION = 'v1.3.129'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6333,15 +6333,21 @@ function profileClear() {
   if (ccWrap) ccWrap.style.display = 'none';
   const ccEl = document.getElementById('profile-cross-comparison');
   if (ccEl) ccEl.innerHTML = '';
-  const stEl = document.getElementById('profile-source-tabs');
-  if (stEl) stEl.style.display = 'none';
   _profileRaces = [];
   _profileOtherRaces = [];
   _profileZrlRaces = [];
   _profileFrrRaces = [];
   _profileEcroRaces = [];
   _profileWtrlRaces = [];
+  _profileAllRides = [];
+  _profileLeqpRides = [];
+  _profileBadgeHuntRides = [];
+  _profileRoseRideRides = [];
+  _profilePtitChasseurRides = [];
+  _profileOtherRides = [];
   _profileRaceSource = 'combined';
+  _profileRideSource = 'all-rides';
+  _profileMode = 'races';
   _profileName = '';
   _profileId = null;
   _profileUpdateSourceTabs();
