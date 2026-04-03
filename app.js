@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.129'; // bump this on every update
+const APP_VERSION = 'v1.3.130'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6046,14 +6046,14 @@ function _profileRenderTable(races) {
       ? new Date(r.event_date*1000).toLocaleDateString('da-DK',{day:'2-digit',month:'short',year:'numeric'})
       : '—';
     const title = (r.event_title||'').replace('Club Ladder // ', '');
-    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--border);font-size:0.65rem;text-decoration:none;vertical-align:middle" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--border)'">↗</a>` : '';
+    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--border);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--border)'">↗</a>` : '';
     const td = (v) => `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
     const thirdCell = isRides
       ? `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
       : `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>`;
     return `<tr onmouseover="this.style.background='rgba(0,229,255,0.03)'" onmouseout="this.style.background=''">
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);color:var(--text);max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${r.event_title}">${title}${zpLink}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);max-width:260px" title="${r.event_title}"><div style="display:flex;align-items:center;gap:5px;overflow:hidden"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)">${title}</span>${zpLink}</div></td>
       ${thirdCell}
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
       ${td(r.avg_wkg)}${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
