@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.131'; // bump this on every update
+const APP_VERSION = 'v1.3.132'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4917,12 +4917,13 @@ function _profileSplitRides() {
 }
 
 function _profileSplitOtherRaces() {
-  _profileZrlRaces  = _profileOtherRaces.filter(r => /zwift racing league|ZRL/i.test(r.event_title || ''));
+  const _isZrl = t => /^(zwift racing league|ZRL)/i.test(t) && !/warmup/i.test(t);
+  _profileZrlRaces  = _profileOtherRaces.filter(r => _isZrl(r.event_title || ''));
   _profileFrrRaces  = _profileOtherRaces.filter(r => /\bFRR\b/i.test(r.event_title || ''));
   _profileEcroRaces = _profileOtherRaces.filter(r => /\bECRO\b/i.test(r.event_title || ''));
-  _profileWtrlRaces = _profileOtherRaces.filter(r => /\bWTRL\b/i.test(r.event_title || '') && !/zwift racing league/i.test(r.event_title || ''));
+  _profileWtrlRaces = _profileOtherRaces.filter(r => /\bWTRL\b/i.test(r.event_title || '') && !_isZrl(r.event_title || ''));
   _profileOtherRaces = _profileOtherRaces.filter(r =>
-    !/zwift racing league|ZRL/i.test(r.event_title || '') &&
+    !_isZrl(r.event_title || '') &&
     !/\bFRR\b/i.test(r.event_title || '') &&
     !/\bECRO\b/i.test(r.event_title || '') &&
     !/\bWTRL\b/i.test(r.event_title || '')
