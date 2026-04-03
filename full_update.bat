@@ -77,6 +77,14 @@ python emea_teams.py >> "%LOG_FILE%" 2>&1
 echo OK: emea_teams.json opdateret.
 echo.
 
+:: TRIN 5b: Slå rutenavne op (kun nye rt-IDs)
+echo [5b/6] Slaar rutenavne op (lookup_routes.py)...
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[5b/6] Rutenavne...\n')"
+python lookup_routes.py >> "%LOG_FILE%" 2>&1
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: Rutenavne opdateret.\n')"
+echo OK: Rutenavne opdateret.
+echo.
+
 :: TRIN 6: Git commit + push
 echo [6/6] Uploader til GitHub...
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[6/6] Uploader til GitHub...\n')"
@@ -85,7 +93,7 @@ cd /d %PROJECT_DIR%
 echo --- git status --- >> "%LOG_FILE%"
 git status >> "%LOG_FILE%" 2>&1
 
-git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js data/rides.js CNAME >> "%LOG_FILE%" 2>&1
+git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js data/rides.js data/routes.js CNAME >> "%LOG_FILE%" 2>&1
 
 git commit -m "Auto update: %DATE% %TIME%" >> "%LOG_FILE%" 2>&1
 

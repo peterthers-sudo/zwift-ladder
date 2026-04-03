@@ -242,6 +242,7 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
 
             entry = {
                 "zid":         race.get("zid"),
+                "rt":          race.get("rt"),
                 "event_title": title,
                 "event_date":  event_date,
                 "distance":    race.get("distance"),
@@ -336,6 +337,7 @@ async def get_other_races(zwift_id: int, days: int = 365):
 
             other_races.append({
                 "zid":         race.get("zid"),
+                "rt":          race.get("rt"),
                 "event_title": title,
                 "tname":       race.get("tname"),
                 "event_date":  event_date,
@@ -414,6 +416,7 @@ async def get_rides(zwift_id: int):
 
             rides.append({
                 "zid":         activity.get("zid"),
+                "rt":          activity.get("rt"),
                 "event_title": title,
                 "event_date":  event_date,
                 "distance":    dist,
