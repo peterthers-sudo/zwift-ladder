@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.130'; // bump this on every update
+const APP_VERSION = 'v1.3.131'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6209,6 +6209,8 @@ function _profileBuildLeqpBtns() {
     }
   }
   riders.sort((a,b) => a.name.localeCompare(b.name));
+  const countEl = document.getElementById('leqp-rider-count');
+  if (countEl) countEl.textContent = `(${riders.length} riders)`;
   wrap.innerHTML = riders.map(r =>
     `<button onclick="profileQuickLoad('${r.id}','${r.name.replace(/'/g, "\\'")}')"
       style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;padding:5px 12px;
