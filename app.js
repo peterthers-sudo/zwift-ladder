@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.145'; // bump this on every update
+const APP_VERSION = 'v1.3.146'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3345,6 +3345,14 @@ function renderMatchupAnalysis() {
       const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[r.zwift_id] || LADDER_RACES[parseInt(r.zwift_id)]);
       const positions = lrEntry ? lrEntry.races.map(x => x.pos).filter(p => p > 0) : [];
       const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
+      const _ac = arr => arr.length ? arr.reduce((s,x)=>s+x,0)/arr.length : null;
+      const lrRaces = lrEntry ? lrEntry.races : [];
+      const _apR  = lrRaces.filter(x=>(x.avg_watts||0)>0);
+      const _npR  = lrRaces.filter(x=>(x.np||0)>0);
+      const _viR  = lrRaces.filter(x=>(x.avg_watts||0)>0&&(x.np||0)>0);
+      const _ifR  = lrRaces.filter(x=>(x.np||0)>0&&(x.ftp||0)>0);
+      const _tssR = lrRaces.filter(x=>(x.np||0)>0&&(x.ftp||0)>0&&(x.time||0)>0);
+      const _hrR  = lrRaces.filter(x=>(x.avg_hr||0)>0);
       return {
         name: r.name,
         profile: classifyRider(r).join('/'),
@@ -3358,7 +3366,13 @@ function renderMatchupAnalysis() {
         score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null,
         avgPos: avgPos ? +avgPos : null,
         races:  positions.length,
-        raceMetrics: calcRaceMetrics(lrEntry ? lrEntry.races : [])
+        raceMetrics: calcRaceMetrics(lrRaces),
+        pacingAP:  _apR.length  ? Math.round(_ac(_apR.map(x=>x.avg_watts))) : null,
+        pacingNP:  _npR.length  ? Math.round(_ac(_npR.map(x=>x.np)))        : null,
+        pacingVI:  _viR.length  ? _ac(_viR.map(x=>x.np/x.avg_watts))        : null,
+        pacingIF:  _ifR.length  ? _ac(_ifR.map(x=>x.np/x.ftp))              : null,
+        pacingTSS: _tssR.length ? _ac(_tssR.map(x=>(x.time*Math.pow(x.np/x.ftp,2)/3600)*100)) : null,
+        pacingHR:  _hrR.length  ? Math.round(_ac(_hrR.map(x=>x.avg_hr)))    : null,
       };
     }),
     oppRiders: oppRiders.map(r => ({
@@ -3444,6 +3458,14 @@ async function generateMatchupStrategy() {
       if (parts.length) line += ` · RaceProfile (${r.raceMetrics.confidence} conf, ${r.raceMetrics.n} races): ${parts.join(' | ')}`;
       if (r.raceMetrics.insights.length) line += ` · Notes: ${r.raceMetrics.insights.join('; ')}`;
     }
+    const pacParts = [];
+    if (r.pacingAP)  pacParts.push(`AP=${r.pacingAP}W`);
+    if (r.pacingNP)  pacParts.push(`NP=${r.pacingNP}W`);
+    if (r.pacingVI)  pacParts.push(`VI=${r.pacingVI.toFixed(2)}`);
+    if (r.pacingIF)  pacParts.push(`IF=${r.pacingIF.toFixed(2)}`);
+    if (r.pacingTSS) pacParts.push(`TSS=${Math.round(r.pacingTSS)}`);
+    if (r.pacingHR)  pacParts.push(`HR=${r.pacingHR}bpm`);
+    if (pacParts.length) line += ` · Ladder pacing (avg): ${pacParts.join(' ')}`;
     return line;
   }).join('\n');
 
