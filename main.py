@@ -251,6 +251,12 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
                 "category":    race.get("category"),
                 "weight":      clean_num(race.get("weight")),
                 "avg_wkg":     clean_num(race.get("avg_wkg")),
+                "avg_watts":   clean_num(race.get("avg_power")),
+                "np":          clean_num(race.get("np")),
+                "ftp":         clean_num(race.get("ftp")),
+                "time":        clean_num(race.get("time")),
+                "avg_hr":      clean_num(race.get("avg_hr")),
+                "max_hr":      clean_num(race.get("max_hr")),
                 "wkg5":        clean_num(race.get("wkg5")),
                 "wkg15":       clean_num(race.get("wkg15")),
                 "wkg30":       clean_num(race.get("wkg30")),
@@ -259,6 +265,14 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
                 "wkg300":      clean_num(race.get("wkg300")),
                 "wkg600":      clean_num(race.get("wkg600")),
                 "wkg1200":     clean_num(race.get("wkg1200")),
+                "w5":          clean_num(race.get("w5")),
+                "w15":         clean_num(race.get("w15")),
+                "w30":         clean_num(race.get("w30")),
+                "w60":         clean_num(race.get("w60")),
+                "w120":        clean_num(race.get("w120")),
+                "w300":        clean_num(race.get("w300")),
+                "w600":        clean_num(race.get("w600")),
+                "w1200":       clean_num(race.get("w1200")),
             }
 
             ft = race.get("f_t", "")
@@ -347,6 +361,12 @@ async def get_other_races(zwift_id: int, days: int = 365):
                 "category":    race.get("category"),
                 "weight":      clean_num(race.get("weight")),
                 "avg_wkg":     clean_num(race.get("avg_wkg")),
+                "avg_watts":   clean_num(race.get("avg_power")),
+                "np":          clean_num(race.get("np")),
+                "ftp":         clean_num(race.get("ftp")),
+                "time":        clean_num(race.get("time")),
+                "avg_hr":      clean_num(race.get("avg_hr")),
+                "max_hr":      clean_num(race.get("max_hr")),
                 "wkg5":        clean_num(race.get("wkg5")),
                 "wkg15":       clean_num(race.get("wkg15")),
                 "wkg30":       clean_num(race.get("wkg30")),
@@ -355,6 +375,14 @@ async def get_other_races(zwift_id: int, days: int = 365):
                 "wkg300":      clean_num(race.get("wkg300")),
                 "wkg600":      clean_num(race.get("wkg600")),
                 "wkg1200":     clean_num(race.get("wkg1200")),
+                "w5":          clean_num(race.get("w5")),
+                "w15":         clean_num(race.get("w15")),
+                "w30":         clean_num(race.get("w30")),
+                "w60":         clean_num(race.get("w60")),
+                "w120":        clean_num(race.get("w120")),
+                "w300":        clean_num(race.get("w300")),
+                "w600":        clean_num(race.get("w600")),
+                "w1200":       clean_num(race.get("w1200")),
             })
 
         other_races.sort(key=lambda r: r["event_date"] or 0, reverse=True)
@@ -422,6 +450,12 @@ async def get_rides(zwift_id: int):
                 "distance":    dist,
                 "weight":      clean_num(activity.get("weight")),
                 "avg_wkg":     clean_num(activity.get("avg_wkg")),
+                "avg_watts":   clean_num(activity.get("avg_power")),
+                "np":          clean_num(activity.get("np")),
+                "ftp":         clean_num(activity.get("ftp")),
+                "time":        clean_num(activity.get("time")),
+                "avg_hr":      clean_num(activity.get("avg_hr")),
+                "max_hr":      clean_num(activity.get("max_hr")),
                 "wkg5":        clean_num(activity.get("wkg5")),
                 "wkg15":       clean_num(activity.get("wkg15")),
                 "wkg30":       clean_num(activity.get("wkg30")),
@@ -430,6 +464,14 @@ async def get_rides(zwift_id: int):
                 "wkg300":      clean_num(activity.get("wkg300")),
                 "wkg600":      clean_num(activity.get("wkg600")),
                 "wkg1200":     clean_num(activity.get("wkg1200")),
+                "w5":          clean_num(activity.get("w5")),
+                "w15":         clean_num(activity.get("w15")),
+                "w30":         clean_num(activity.get("w30")),
+                "w60":         clean_num(activity.get("w60")),
+                "w120":        clean_num(activity.get("w120")),
+                "w300":        clean_num(activity.get("w300")),
+                "w600":        clean_num(activity.get("w600")),
+                "w1200":       clean_num(activity.get("w1200")),
             })
 
         rides.sort(key=lambda r: r["event_date"] or 0, reverse=True)
@@ -505,6 +547,14 @@ async def get_team_members(team_id: int, max_rank: int = 599):
         if not team:
             raise HTTPException(status_code=404, detail="Team not found")
 
+        def clean_team(val):
+            if val is None or val == "":
+                return None
+            try:
+                return float(val)
+            except (ValueError, TypeError):
+                return None
+
         members = []
         for m in team.aslist():
             try:
@@ -513,10 +563,20 @@ async def get_team_members(team_id: int, max_rank: int = 599):
                 rank_val = 9999
             if rank_val == 0 or rank_val > max_rank:
                 continue
+
             members.append({
-                "zwift_id": m.get('zwift_id'),
-                "name":     m.get('name', '').strip(),
-                "rank":     int(rank_val),
+                "zwift_id":     m.get('zwift_id'),
+                "name":         m.get('name', '').strip(),
+                "rank":         int(rank_val),
+                "h_15_wkg":     clean_team(m.get('h_15_wkg')),
+                "h_15_watts":   clean_team(m.get('h_15_watts')),
+                "h_1200_wkg":   clean_team(m.get('h_1200_wkg')),
+                "h_1200_watts": clean_team(m.get('h_1200_watts')),
+                "skill_race":   clean_team(m.get('skill_race')),
+                "skill_seg":    clean_team(m.get('skill_seg')),
+                "skill_power":  clean_team(m.get('skill_power')),
+                "distance":     clean_team(m.get('distance')),
+                "climbed":      clean_team(m.get('climbed')),
             })
 
         members.sort(key=lambda x: x["name"])

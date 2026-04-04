@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.138'; // bump this on every update
+const APP_VERSION = 'v1.3.139'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6021,7 +6021,7 @@ function _profileGenerateScoutReport(rm, raceSource) {
 function _profileRenderTable(races) {
   const tw = document.getElementById('profile-table-wrap');
   const sw = document.getElementById('profile-search-wrap');
-  if (tw) tw.style.display = races.length ? 'block' : 'none';
+  if (tw) { tw.style.display = races.length ? 'block' : 'none'; tw.style.paddingBottom = races.length ? '40px' : '0'; }
   if (sw) { sw.style.display = races.length ? 'flex' : 'none'; }
 
   // Skift kolonneoverskrifter og søgepladsholder afhængigt af mode
