@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.141'; // bump this on every update
+const APP_VERSION = 'v1.3.142'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5385,6 +5385,12 @@ function _profileGenerateCrossComparison() {
     const wkg300v = t.races.filter(r => (r.wkg300||0) > 0).map(r => r.wkg300);
     const wkg1200v= t.races.filter(r => (r.wkg1200||0) > 0).map(r => r.wkg1200);
     const avgWkgV = t.races.filter(r => (r.avg_wkg||0) > 0).map(r => r.avg_wkg);
+    const apV     = t.races.filter(r => (r.avg_watts||0) > 0).map(r => r.avg_watts);
+    const npV     = t.races.filter(r => (r.np||0) > 0).map(r => r.np);
+    const viRaces = t.races.filter(r => (r.avg_watts||0) > 0 && (r.np||0) > 0);
+    const ifRaces = t.races.filter(r => (r.np||0) > 0 && (r.ftp||0) > 0);
+    const tssRaces= t.races.filter(r => (r.np||0) > 0 && (r.ftp||0) > 0 && (r.time||0) > 0);
+    const hrRaces = t.races.filter(r => (r.avg_hr||0) > 0);
     return {
       ...t,
       avgWkg:   avgWkgV.length ? avg(avgWkgV) : null,
@@ -5393,6 +5399,13 @@ function _profileGenerateCrossComparison() {
       avg5min:  wkg300v.length ? avg(wkg300v) : null,
       avg20min: wkg1200v.length? avg(wkg1200v): null,
       cv20min:  wkg1200v.length >= 3 ? cv(wkg1200v) : null,
+      avgAP:    apV.length     ? avg(apV)     : null,
+      avgNP:    npV.length     ? avg(npV)     : null,
+      avgVI:    viRaces.length ? avg(viRaces.map(r => r.np / r.avg_watts)) : null,
+      avgIF:    ifRaces.length ? avg(ifRaces.map(r => r.np / r.ftp))       : null,
+      avgTSS:   tssRaces.length? avg(tssRaces.map(r => (r.time * Math.pow(r.np / r.ftp, 2) / 3600) * 100)) : null,
+      avgHR:    hrRaces.length ? avg(hrRaces.map(r => r.avg_hr))           : null,
+      nPacing:  ifRaces.length,
     };
   });
 
@@ -5528,6 +5541,123 @@ function _profileGenerateCrossComparison() {
        </div>`
     : '';
 
+  // ── Pacing & Intensity section ──
+  const pacingTypes = stats.filter(s => s.nPacing >= 2);
+  let pacingHTML = '';
+  if (pacingTypes.length >= 1) {
+    const f1 = v => v != null ? v.toFixed(1) : '—';
+    const f2p = v => v != null ? v.toFixed(2) : '—';
+    const fi = v => v != null ? Math.round(v) : '—';
+
+    const maxIF  = Math.max(...pacingTypes.map(s => s.avgIF  || 0));
+    const maxTSS = Math.max(...pacingTypes.map(s => s.avgTSS || 0));
+    const maxVI  = Math.max(...pacingTypes.map(s => s.avgVI  || 0));
+    const minVI  = Math.min(...pacingTypes.filter(s => s.avgVI).map(s => s.avgVI));
+
+    const hiCell = (val, fmt, isHi) => isHi
+      ? `<span style="color:var(--accent);font-weight:700">${fmt(val)}</span>`
+      : `<span style="color:var(--text-dim)">${fmt(val)}</span>`;
+
+    const viLabel = v => {
+      if (v == null) return '—';
+      if (v < 1.05) return `<span style="color:#7fff6b">${v.toFixed(2)}</span>`;
+      if (v < 1.10) return `<span style="color:var(--accent3)">${v.toFixed(2)}</span>`;
+      return `<span style="color:#ff9f43">${v.toFixed(2)}</span>`;
+    };
+    const ifLabel = v => {
+      if (v == null) return '—';
+      if (v >= 0.95) return `<span style="color:var(--red)">${v.toFixed(2)}</span>`;
+      if (v >= 0.85) return `<span style="color:#ff9f43">${v.toFixed(2)}</span>`;
+      if (v >= 0.75) return `<span style="color:var(--accent3)">${v.toFixed(2)}</span>`;
+      return `<span style="color:var(--text-dim)">${v.toFixed(2)}</span>`;
+    };
+
+    const pacingRows = pacingTypes.map(s => `
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:7px 10px;${B}font-size:0.65rem;color:${s.color};font-weight:600">${s.label}</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem;color:var(--text-dim)">${s.nPacing}</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem;color:var(--text-dim)">${f1(s.avgAP)}W</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem;color:var(--text-dim)">${f1(s.avgNP)}W</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${viLabel(s.avgVI)}</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${ifLabel(s.avgIF)}</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem">${hiCell(s.avgTSS, fi, s.avgTSS != null && Math.abs(s.avgTSS - maxTSS) < 1)}</td>
+        <td style="padding:7px 10px;text-align:center;${B}font-size:0.65rem;color:var(--text-dim)">${s.avgHR ? Math.round(s.avgHR) + ' bpm' : '—'}</td>
+      </tr>`).join('');
+
+    // IF bar chart
+    const ifMax = maxIF * 1.15 || 1;
+    const ifBars = pacingTypes.filter(s => s.avgIF).map(s => {
+      const pct = (s.avgIF / ifMax * 100).toFixed(1);
+      return `<div style="display:flex;align-items:center;gap:10px;margin-bottom:8px">
+        <div style="${B}font-size:0.62rem;color:${s.color};width:90px;text-align:right;font-weight:600">${s.label}</div>
+        <div style="flex:1;height:14px;background:rgba(255,255,255,0.06);border-radius:3px">
+          <div style="width:${pct}%;height:100%;background:${s.color};opacity:0.75;border-radius:3px"></div>
+        </div>
+        <div style="${B}font-size:0.70rem;color:${s.color};font-weight:700;width:44px">${s.avgIF.toFixed(2)} IF</div>
+      </div>`;
+    }).join('');
+
+    // Pacing narrative
+    const pacParas = [];
+    if (pacingTypes.length >= 2) {
+      const hiVI = pacingTypes.reduce((a,b) => (a.avgVI||0) > (b.avgVI||0) ? a : b);
+      const loVI = pacingTypes.reduce((a,b) => (a.avgVI||0) < (b.avgVI||0) ? a : b);
+      if (hiVI.avgVI && loVI.avgVI && hiVI.key !== loVI.key) {
+        const viDiff = ((hiVI.avgVI - loVI.avgVI) / loVI.avgVI * 100).toFixed(1);
+        const hiVIDesc = hiVI.avgVI >= 1.10 ? 'highly variable with many accelerations' : hiVI.avgVI >= 1.05 ? 'moderately variable' : 'relatively even';
+        const loVIDesc = loVI.avgVI < 1.05 ? 'very even paced' : 'more controlled';
+        pacParas.push(`Pacing style varies across formats. <strong>${hiVI.label}</strong> races show a ${hiVIDesc} effort profile (VI ${hiVI.avgVI.toFixed(2)}) — NP is noticeably higher than AP, indicating frequent surges. <strong>${loVI.label}</strong> races are ${loVIDesc} (VI ${loVI.avgVI.toFixed(2)}), suggesting a more steady-state effort.`);
+      }
+
+      const hiIF = pacingTypes.reduce((a,b) => (a.avgIF||0) > (b.avgIF||0) ? a : b);
+      const loIF = pacingTypes.reduce((a,b) => (a.avgIF||0) < (b.avgIF||0) ? a : b);
+      if (hiIF.avgIF && loIF.avgIF && hiIF.key !== loIF.key) {
+        const hiIFDesc = hiIF.avgIF >= 0.90 ? 'near-maximal, close to FTP ceiling' : hiIF.avgIF >= 0.80 ? 'high intensity' : 'moderate-to-hard';
+        const loIFDesc = loIF.avgIF < 0.70 ? 'notably below FTP — a more controlled effort' : loIF.avgIF < 0.80 ? 'moderate' : 'solid but below peak';
+        pacParas.push(`Intensity is highest in <strong>${hiIF.label}</strong> (IF ${hiIF.avgIF.toFixed(2)} — ${hiIFDesc}) and lowest in <strong>${loIF.label}</strong> (IF ${loIF.avgIF.toFixed(2)} — ${loIFDesc}). A higher IF means the rider is working closer to their FTP ceiling for that race type.`);
+      }
+
+      const hiTSS = pacingTypes.filter(s => s.avgTSS).reduce((a,b) => (a.avgTSS||0) > (b.avgTSS||0) ? a : b, {});
+      const loTSS = pacingTypes.filter(s => s.avgTSS).reduce((a,b) => (a.avgTSS||0) < (b.avgTSS||0) ? a : b, {});
+      if (hiTSS.avgTSS && loTSS.avgTSS && hiTSS.key !== loTSS.key) {
+        const tssDesc = t => t < 100 ? 'light load' : t < 200 ? 'moderate load' : t < 300 ? 'hard effort' : 'very high load';
+        pacParas.push(`Training stress is highest per race in <strong>${hiTSS.label}</strong> (avg TSS ${Math.round(hiTSS.avgTSS)} — ${tssDesc(hiTSS.avgTSS)}) compared to <strong>${loTSS.label}</strong> (avg TSS ${Math.round(loTSS.avgTSS)} — ${tssDesc(loTSS.avgTSS)}). Higher TSS means more recovery is needed after each race.`);
+      }
+    }
+
+    const pacNarrHTML = pacParas.length
+      ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+           ${pacParas.map(p => `<div style="${B}font-size:0.65rem;color:var(--text-dim);line-height:1.9;margin-bottom:10px">${p}</div>`).join('')}
+         </div>`
+      : '';
+
+    pacingHTML = `
+      <div style="margin-top:28px;padding-top:20px;border-top:2px solid var(--border)">
+        <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Pacing &amp; Intensity by Race Type</div>
+        <div style="overflow-x:auto;margin-bottom:20px">
+          <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border);white-space:nowrap">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border)">
+                <th style="padding:8px 10px;text-align:left;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AP</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">NP</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Variability Index = NP/AP · &lt;1.05 even · &gt;1.10 explosive">VI</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Intensity Factor = NP/FTP">IF</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Training Stress Score = time × IF² / 3600 × 100">TSS</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Avg HR</th>
+              </tr>
+            </thead>
+            <tbody>${pacingRows}</tbody>
+          </table>
+        </div>
+        <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg IF by Race Type</div>
+        ${ifBars}
+        ${pacNarrHTML}
+        <div style="${B}font-size:0.52rem;color:var(--text-dim);margin-top:14px;opacity:0.45">VI: &lt;1.05 even · 1.05–1.10 moderate · &gt;1.10 explosive &nbsp;·&nbsp; IF: &lt;0.75 easy · 0.75–0.85 hard · &gt;0.85 very hard &nbsp;·&nbsp; TSS per race · Min 2 races with AP+NP+FTP data</div>
+      </div>`;
+  }
+
   return `
     <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Performance by Race Type</div>
     <div style="overflow-x:auto;margin-bottom:20px">
@@ -5550,6 +5680,7 @@ function _profileGenerateCrossComparison() {
     <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg 20min W/kg</div>
     ${barRows}
     ${narrativeHTML}
+    ${pacingHTML}
     <div style="${B}font-size:0.52rem;color:var(--text-dim);margin-top:14px;opacity:0.45">Highlighted = best across race types · Consistency CV%: lower = more uniform output · Min 2 races per type</div>
   `;
 }
