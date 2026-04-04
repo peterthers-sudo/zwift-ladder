@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.143'; // bump this on every update
+const APP_VERSION = 'v1.3.144'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3643,13 +3643,53 @@ async function generateRiderTrainingPlan() {
   const riderType = _profileRiderType(best, weight);
   const ftp       = best.wkg1200 && weight ? Math.round(best.wkg1200 * weight) : 0;
 
+  // Physiological averages — races with complete data, last 90 days
+  const recentRaces = allRaces.filter(r => (r.event_date || 0) >= cutoff);
+  const avgCalc = arr => arr.length ? arr.reduce((s, x) => s + x, 0) / arr.length : 0;
+
+  const apRaces   = recentRaces.filter(r => (r.avg_watts || 0) > 0);
+  const npRaces   = recentRaces.filter(r => (r.np || 0) > 0);
+  const viRaces2  = recentRaces.filter(r => (r.avg_watts || 0) > 0 && (r.np || 0) > 0);
+  const ifRaces2  = recentRaces.filter(r => (r.np || 0) > 0 && (r.ftp || 0) > 0);
+  const tssRaces2 = recentRaces.filter(r => (r.np || 0) > 0 && (r.ftp || 0) > 0 && (r.time || 0) > 0);
+  const hrRaces2  = recentRaces.filter(r => (r.avg_hr || 0) > 0);
+  const mhrRaces  = recentRaces.filter(r => (r.max_hr || 0) > 0);
+
+  const avgAP  = apRaces.length   ? Math.round(avgCalc(apRaces.map(r => r.avg_watts))) : 0;
+  const avgNP  = npRaces.length   ? Math.round(avgCalc(npRaces.map(r => r.np)))        : 0;
+  const avgVI  = viRaces2.length  ? avgCalc(viRaces2.map(r => r.np / r.avg_watts))     : 0;
+  const avgIF  = ifRaces2.length  ? avgCalc(ifRaces2.map(r => r.np / r.ftp))           : 0;
+  const avgTSS = tssRaces2.length ? avgCalc(tssRaces2.map(r => (r.time * Math.pow(r.np / r.ftp, 2) / 3600) * 100)) : 0;
+  const avgHR  = hrRaces2.length  ? Math.round(avgCalc(hrRaces2.map(r => r.avg_hr)))   : 0;
+  const peakHR = mhrRaces.length  ? Math.round(Math.max(...mhrRaces.map(r => r.max_hr))) : 0;
+
+  const viDesc  = avgVI > 0 ? (avgVI >= 1.10 ? 'highly variable/explosive' : avgVI >= 1.05 ? 'moderately variable' : 'even/steady') : '';
+  const ifDesc  = avgIF > 0 ? (avgIF >= 0.90 ? 'near-maximal' : avgIF >= 0.80 ? 'hard' : avgIF >= 0.70 ? 'moderate-hard' : 'moderate') : '';
+  const tssDesc = avgTSS > 0 ? (avgTSS >= 300 ? 'very high load' : avgTSS >= 200 ? 'hard effort' : avgTSS >= 100 ? 'moderate load' : 'light load') : '';
+
+  const physioBlock = (avgAP || avgNP || avgHR) ? `
+Race physiology (averages, last 90 days, ${recentRaces.length} races):
+  AP (avg power):      ${avgAP > 0 ? avgAP + 'W' : '—'}
+  NP (norm. power):    ${avgNP > 0 ? avgNP + 'W' : '—'}
+  VI (variability):    ${avgVI > 0 ? avgVI.toFixed(2) + ' — ' + viDesc : '—'}
+  IF (intensity):      ${avgIF > 0 ? avgIF.toFixed(2) + ' — ' + ifDesc : '—'}
+  TSS per race (avg):  ${avgTSS > 0 ? Math.round(avgTSS) + ' — ' + tssDesc : '—'}
+  Avg HR:              ${avgHR > 0 ? avgHR + ' bpm' : '—'}
+  Peak HR (in races):  ${peakHR > 0 ? peakHR + ' bpm' : '—'}` : '';
+
   // Race stats per type — only races within last 90 days
   const filter90 = races => races.filter(r => (r.event_date || 0) >= cutoff);
   const typeStats = (races, label) => {
     if (!races.length) return null;
-    const withPos = races.filter(r => r.position > 0);
-    const avgPos  = withPos.length ? (withPos.reduce((s, r) => s + r.position, 0) / withPos.length).toFixed(1) : null;
-    return `${label}: ${races.length} races${avgPos ? `, avg finish #${avgPos}` : ''}`;
+    const withPos  = races.filter(r => r.position > 0);
+    const avgPos   = withPos.length ? (withPos.reduce((s, r) => s + r.position, 0) / withPos.length).toFixed(1) : null;
+    const ifR  = races.filter(r => (r.np || 0) > 0 && (r.ftp || 0) > 0);
+    const viR  = races.filter(r => (r.avg_watts || 0) > 0 && (r.np || 0) > 0);
+    const tssR = races.filter(r => (r.np || 0) > 0 && (r.ftp || 0) > 0 && (r.time || 0) > 0);
+    const ifStr  = ifR.length  ? `, IF ${avgCalc(ifR.map(r => r.np / r.ftp)).toFixed(2)}`  : '';
+    const viStr  = viR.length  ? `, VI ${avgCalc(viR.map(r => r.np / r.avg_watts)).toFixed(2)}` : '';
+    const tssStr = tssR.length ? `, TSS ${Math.round(avgCalc(tssR.map(r => (r.time * Math.pow(r.np / r.ftp, 2) / 3600) * 100)))}` : '';
+    return `${label}: ${races.length} races${avgPos ? `, avg finish #${avgPos}` : ''}${ifStr}${viStr}${tssStr}`;
   };
   const statsLines = [
     typeStats(filter90(_profileRaces),     'Ladder'),
@@ -3694,6 +3734,7 @@ Note: these are peak values recorded within races — not dedicated tests. Short
 
 Race history (last 90 days):
 ${statsLines}
+${physioBlock}
 
 ${metricsBlock}
 
