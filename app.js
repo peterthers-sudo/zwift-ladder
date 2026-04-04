@@ -632,8 +632,9 @@ function calcRaceMetrics(races) {
   else if (fatigueScore >= 8) insights.push(`Stable FTP engine — ${cvFatigue.toFixed(1)}% CV on 20min`);
 
   const confidence      = n < 5 ? 'low' : n < 10 ? 'medium' : 'high';
-  const confidenceLabel = n < 5 ? `⚠ ${n} races — low confidence` : n < 10 ? `${n} races — moderate` : `${n} races — good data`;
-  const confidenceColor = n < 5 ? '#ff9f43' : n < 10 ? 'var(--accent)' : 'var(--accent3)';
+  const total           = races.length;
+  const confidenceLabel = n < 5 ? `⚠ ${total} races — low confidence` : `${total} races`;
+  const confidenceColor = n < 5 ? '#ff9f43' : 'var(--accent3)';
 
   return {
     n, confidence, confidenceLabel, confidenceColor,
@@ -1268,7 +1269,6 @@ function renderRiders() {
               <span><strong style="color:var(--accent)">${ftpWatts}W</strong> FTP</span>
               <span style="color:var(--accent2)">🔥 ${r.w5s || Math.round((r.sprint||0)*(r.weight||70))}W spr</span>
               <span style="color:var(--accent3)">⛰ ${r.w5min || Math.round((r.fiveMin||0)*(r.weight||70))}W 5min</span>
-              ${hasCurve ? '<span style="color:var(--accent3);font-size:0.58rem">● CURVE</span>' : '<span style="color:var(--text-dim);font-size:0.58rem">○ est.</span>'}
             </div>
           </div>
           <span id="rider-arrow-${r.id}" style="color:var(--text-dim);font-size:0.65rem;flex-shrink:0">▶</span>
@@ -1937,7 +1937,6 @@ function runMatch() {
               <span>Sprint <strong style="color:var(--accent2)">${r.wSprint}W</strong></span>
               <span>1min <strong style="color:var(--purple)">${r.w1min}W</strong></span>
               <span>5min <strong style="color:var(--accent3)">${r.w5min}W</strong></span>
-              ${r.hasCurve ? '<span style="color:var(--accent3);font-size:0.6rem">● CURVE DATA</span>' : '<span style="color:var(--text-dim);font-size:0.6rem">○ estimated</span>'}
             </div>
           </div>
           <div class="result-score-wrap">
@@ -2039,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.136'; // bump this on every update
+const APP_VERSION = 'v1.3.137'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6046,9 +6045,13 @@ function _profileRenderTable(races) {
     if (qr && !(routeDb[String(r.rt)] || '').toLowerCase().includes(qr)) return false;
     return true;
   });
+  const getSortVal = (r, key) => {
+    if (key === 'pos') return r.pos_in_cat || r.pos || Infinity;
+    return r[key] ?? -Infinity;
+  };
   const sorted = [...filtered].sort((a,b) => {
-    const av = a[_profileSortKey] ?? -Infinity;
-    const bv = b[_profileSortKey] ?? -Infinity;
+    const av = getSortVal(a, _profileSortKey);
+    const bv = getSortVal(b, _profileSortKey);
     return av < bv ? _profileSortDir : av > bv ? -_profileSortDir : 0;
   });
   const tbody = document.getElementById('profile-tbody');
