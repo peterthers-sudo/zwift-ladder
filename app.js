@@ -2038,7 +2038,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.134'; // bump this on every update
+const APP_VERSION = 'v1.3.135'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4828,6 +4828,7 @@ async function loadRiderProfile() {
   document.getElementById('profile-tbody').innerHTML = '';
   document.getElementById('profile-race-count').textContent = '';
   const _rsReset = document.getElementById('profile-race-search'); if (_rsReset) _rsReset.value = '';
+  const _rrsReset = document.getElementById('profile-route-search'); if (_rrsReset) _rrsReset.value = '';
   const _raReset = document.getElementById('profile-race-analysis');
   if (_raReset) { _raReset.style.display = 'none'; _raReset.innerHTML = ''; }
   const _daReset = document.getElementById('profile-detailed-analysis-wrap');
@@ -6023,7 +6024,7 @@ function _profileRenderTable(races) {
   const tw = document.getElementById('profile-table-wrap');
   const sw = document.getElementById('profile-search-wrap');
   if (tw) tw.style.display = races.length ? 'block' : 'none';
-  if (sw) sw.style.display = races.length ? 'block' : 'none';
+  if (sw) { sw.style.display = races.length ? 'flex' : 'none'; }
 
   // Skift kolonneoverskrifter og søgepladsholder afhængigt af mode
   const posHeader   = document.getElementById('pth-pos');
@@ -6033,9 +6034,17 @@ function _profileRenderTable(races) {
   if (posHeader)   { posHeader.textContent = isRides ? 'Dist' : 'Pos'; posHeader.onclick = isRides ? () => profileSort('distance') : () => profileSort('pos'); }
   if (titleHeader) titleHeader.textContent = isRides ? 'Ride' : 'Race';
   if (searchInput) searchInput.placeholder = isRides ? 'Search rides…' : 'Search races…';
+  const routeSearch = document.getElementById('profile-route-search');
+  if (routeSearch) routeSearch.placeholder = isRides ? 'Search routes…' : 'Search routes…';
 
-  const q = (document.getElementById('profile-race-search')?.value || '').toLowerCase().trim();
-  const filtered = q ? races.filter(r => (r.event_title || '').toLowerCase().includes(q)) : races;
+  const q  = (document.getElementById('profile-race-search')?.value || '').toLowerCase().trim();
+  const qr = (document.getElementById('profile-route-search')?.value || '').toLowerCase().trim();
+  const routeDb = typeof ROUTES !== 'undefined' ? ROUTES : {};
+  const filtered = races.filter(r => {
+    if (q  && !(r.event_title || '').toLowerCase().includes(q))  return false;
+    if (qr && !(routeDb[String(r.rt)] || '').toLowerCase().includes(qr)) return false;
+    return true;
+  });
   const sorted = [...filtered].sort((a,b) => {
     const av = a[_profileSortKey] ?? -Infinity;
     const bv = b[_profileSortKey] ?? -Infinity;
@@ -6319,6 +6328,8 @@ function profileClear() {
   if (sw) sw.style.display = 'none';
   const rs = document.getElementById('profile-race-search');
   if (rs) rs.value = '';
+  const rrs = document.getElementById('profile-route-search');
+  if (rrs) rrs.value = '';
   const cw = document.getElementById('profile-chart-wrap');
   if (cw) cw.style.display = 'none';
   if (_profileChart) { _profileChart.destroy(); _profileChart = null; }
