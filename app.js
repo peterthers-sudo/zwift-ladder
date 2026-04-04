@@ -907,7 +907,6 @@ function renderOppRoster() {
               <span style="color:var(--accent)">${wFtp}W FTP</span>
               <span style="color:var(--accent2)">${wSprint}W spr</span>
               <span style="color:var(--accent3)">${w5min}W 5m</span>
-              ${hasCurve ? '<span style="color:var(--accent3); font-size:0.55rem;">● curve</span>' : '<span style="opacity:0.4; font-size:0.55rem;">○ est</span>'}
             </div>
           </div>
           <span id="opp-arrow-${i}" style="color:var(--text-dim);font-size:0.65rem;flex-shrink:0">▶</span>
@@ -1855,8 +1854,7 @@ function runMatch() {
       const lAvg1min   = Math.round(r.lineup.reduce((s,x) => s + getRiderWatts(x.rider,'w1min'),  0) / ln);
       const lAvg5min   = Math.round(r.lineup.reduce((s,x) => s + getRiderWatts(x.rider,'w5min'),  0) / ln);
       const lAvgWkg    = (r.lineup.reduce((s,x) => s + x.rider.twentyMin, 0) / ln).toFixed(2);
-      const lCurve     = r.lineup.some(x => hasCurveData(x.rider)) ? ' ★ curve' : '';
-      const lineupStats = `Lineup avg: ${lAvgFtp}W FTP · ${lAvgSprint}W sprint · ${lAvg1min}W 1min · ${lAvg5min}W 5min · ${lAvgWkg} W/kg${lCurve}`;
+      const lineupStats = `Lineup avg: ${lAvgFtp}W FTP · ${lAvgSprint}W sprint · ${lAvg1min}W 1min · ${lAvg5min}W 5min · ${lAvgWkg} W/kg`;
 
       return `
         <div class="result-card ${isBest ? 'rank-1' : ''}" style="animation:slideIn 0.25s ease ${i*0.06}s both">
@@ -2038,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.137'; // bump this on every update
+const APP_VERSION = 'v1.3.138'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4513,7 +4511,7 @@ function loadOpponentFromLibrary() {
   const opp_w5min   = teamData.riders.reduce((s,r) => s + oppRiderWatts(r,'w5min'),  0) / count;
 
   statsEl.innerHTML = `
-    <div>${teamData.name} — ${avgWkg.toFixed(2)} W/kg · ${Math.round(avgWatt)}W FTP avg · ${avgWeight.toFixed(1)}kg ${oppHasCurve ? '<span style="color:var(--accent3)">● curve data</span>' : '<span style="opacity:0.5">○ estimated</span>'}</div>
+    <div>${teamData.name} — ${avgWkg.toFixed(2)} W/kg · ${Math.round(avgWatt)}W FTP avg · ${avgWeight.toFixed(1)}kg</div>
     <div style="font-size:0.65rem;opacity:0.7;margin-top:3px">
       Full squad avg — FTP:${Math.round(opp_wFtp)}W · Sprint:${Math.round(opp_wSprint)}W · 1min:${Math.round(opp_w1min)}W · 5min:${Math.round(opp_w5min)}W
     </div>`;
