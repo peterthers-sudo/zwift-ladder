@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.144'; // bump this on every update
+const APP_VERSION = 'v1.3.145'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5256,10 +5256,19 @@ function _profileRenderHeader(name, id, races) {
     const bestPos = positions.length ? Math.min(...positions) : null;
     const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
     if (statsTitle) statsTitle.textContent = {ladder:'Ladder Stats', zrl:'ZRL Stats', frr:'FRR Stats', ecro:'ECRO Stats', wtrl:'WTRL TTT Stats', other:'Other Race Stats', combined:'All Races Stats'}[_profileRaceSource] || 'Race Stats';
+    const ifRaces90  = races90.filter(r => (r.np||0) > 0 && (r.ftp||0) > 0);
+    const tssRaces90 = races90.filter(r => (r.np||0) > 0 && (r.ftp||0) > 0 && (r.time||0) > 0);
+    const hrRaces90  = races90.filter(r => (r.avg_hr||0) > 0);
+    const avgIF90  = ifRaces90.length  ? ifRaces90.reduce((s,r)=>s+r.np/r.ftp,0)/ifRaces90.length : 0;
+    const avgTSS90 = tssRaces90.length ? tssRaces90.reduce((s,r)=>s+(r.time*Math.pow(r.np/r.ftp,2)/3600*100),0)/tssRaces90.length : 0;
+    const avgHR90  = hrRaces90.length  ? Math.round(hrRaces90.reduce((s,r)=>s+r.avg_hr,0)/hrRaces90.length) : 0;
     document.getElementById('profile-ladder-stats').innerHTML = [
       pill('Races', races.length),
       pill('Best pos', bestPos ? '#' + bestPos : null),
       pill('Avg pos', avgPos ? '#' + avgPos : null),
+      pill('Avg IF', avgIF90 > 0 ? avgIF90.toFixed(2) : null),
+      pill('Avg TSS', avgTSS90 > 0 ? Math.round(avgTSS90) : null),
+      pill('Avg HR', avgHR90 > 0 ? avgHR90 + ' bpm' : null),
       pill('First', firstDate),
       pill('Latest', lastDate),
     ].join('');
@@ -5332,6 +5341,28 @@ function _profileRenderHeader(name, id, races) {
         ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);${base}font-size:0.65rem;color:var(--text-dim);line-height:1.8">${rm.insights.map(i => '· '+i).join('<br>')}</div>`
         : '';
 
+      // Pacing & intensity nøgletal for aktiv løbstype
+      const _ac = arr => arr.length ? arr.reduce((s,x)=>s+x,0)/arr.length : 0;
+      const _apV  = races.filter(r=>(r.avg_watts||0)>0).map(r=>r.avg_watts);
+      const _npV  = races.filter(r=>(r.np||0)>0).map(r=>r.np);
+      const _viV  = races.filter(r=>(r.avg_watts||0)>0&&(r.np||0)>0).map(r=>r.np/r.avg_watts);
+      const _ifV  = races.filter(r=>(r.np||0)>0&&(r.ftp||0)>0).map(r=>r.np/r.ftp);
+      const _tssV = races.filter(r=>(r.np||0)>0&&(r.ftp||0)>0&&(r.time||0)>0).map(r=>(r.time*Math.pow(r.np/r.ftp,2)/3600)*100);
+      const _hrV  = races.filter(r=>(r.avg_hr||0)>0).map(r=>r.avg_hr);
+      const _raMetrics = [
+        ['AP',  _apV.length  ? Math.round(_ac(_apV))+'W'     : null],
+        ['NP',  _npV.length  ? Math.round(_ac(_npV))+'W'     : null],
+        ['VI',  _viV.length  ? _ac(_viV).toFixed(2)          : null],
+        ['IF',  _ifV.length  ? _ac(_ifV).toFixed(2)          : null],
+        ['TSS', _tssV.length ? Math.round(_ac(_tssV))        : null],
+        ['HR',  _hrV.length  ? Math.round(_ac(_hrV))+' bpm'  : null],
+      ].filter(([,v]) => v != null);
+      const physioRowHTML = _raMetrics.length >= 2
+        ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px">
+             ${_raMetrics.map(([l,v]) => `<div style="${base}font-size:0.60rem;background:var(--surface2);border:1px solid var(--border);padding:3px 9px;color:var(--text-dim)">${l} <span style="color:var(--accent3);font-weight:700">${v}</span></div>`).join('')}
+           </div>`
+        : '';
+
       // Scout report — dynamically generated based on active race source
       const scoutText = _profileGenerateScoutReport(rm, _profileRaceSource);
       const bioHTML = scoutText
@@ -5346,7 +5377,7 @@ function _profileRenderHeader(name, id, races) {
           <div class="matchup-section-title" style="font-size:0.85rem">Race Analysis — ${srcLabel}</div>
           <div style="${base}font-size:0.60rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
         </div>
-        ${rows}${insightHTML}${bioHTML}`;
+        ${rows}${insightHTML}${physioRowHTML}${bioHTML}`;
       raEl.style.display = 'block';
     } else {
       raEl.style.display = 'none';
