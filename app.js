@@ -1588,7 +1588,8 @@ function showCourseDetail(id) {
         <div style="margin-top:14px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);line-height:1.7">
           ${generateCourseDescription(c, fp)}
         </div>
-        <div style="margin-top:10px">
+        <!-- ZwiftInsider link removed — route name now shown in race list -->
+        <!-- <div style="margin-top:10px">
           <a href="https://zwiftinsider.com/route/${c.name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')}"
              target="_blank"
              style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;color:var(--accent);text-decoration:none;border:1px solid rgba(0,229,255,0.3);padding:4px 10px;display:inline-block;transition:background 0.2s"
@@ -1596,7 +1597,7 @@ function showCourseDetail(id) {
              onmouseout="this.style.background='transparent'">
             🔗 ZWIFT INSIDER ↗
           </a>
-        </div>
+        </div> -->
       </div>
 
       <!-- RIGHT: stats -->
@@ -2038,7 +2039,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.135'; // bump this on every update
+const APP_VERSION = 'v1.3.136'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
