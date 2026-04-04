@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.142'; // bump this on every update
+const APP_VERSION = 'v1.3.143'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6201,7 +6201,10 @@ function _profileRenderTable(races) {
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);max-width:260px" title="${r.event_title}"><div style="display:flex;align-items:center;gap:5px;overflow:hidden"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)">${title}</span>${zpLink}</div>${routeName ? `<div style="font-size:0.6rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${routeName}</div>` : ''}</td>
       ${thirdCell}
       <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
-      ${td(r.avg_wkg)}${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
+      ${td(r.avg_wkg)}
+      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">${r.avg_watts>0?Math.round(r.avg_watts)+'W':'<span style="color:#333d52">—</span>'}</td>
+      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">${r.np>0?Math.round(r.np)+'W':'<span style="color:#333d52">—</span>'}</td>
+      ${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
     </tr>`;
   }).join('');
 }
