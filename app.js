@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.140'; // bump this on every update
+const APP_VERSION = 'v1.3.141'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5270,7 +5270,7 @@ function _profileRenderHeader(name, id, races) {
         ['🫁', 'VO₂ stab.',    rm.scores.vo2,           rm.ratios.vo2    != null ? rm.ratios.vo2.toFixed(2)+' 5min/20min'    : '', '#b48eff'],
         ['🎯', 'Pacing',       rm.scores.pacing,        rm.ratios.pacing != null ? rm.ratios.pacing.toFixed(2)+' 1min/AVG'   : '', 'var(--accent)'],
         ['🔁', 'Repeatability',rm.scores.repeatability, rm.ratios.repeat != null ? rm.ratios.repeat.toFixed(2)+' 1min/2min'  : '', 'var(--accent2)'],
-        ['🏁', 'Slut-sprint',  rm.scores.endSprint,     'proxy',                                                                  'var(--accent3)'],
+        ['🏁', 'Finish sprint', rm.scores.endSprint,     'proxy',                                                                  'var(--accent3)'],
         ['💪', 'Fatigue res.', rm.scores.fatigue,       rm.ratios.fatigue!= null ? rm.ratios.fatigue.toFixed(1)+'% CV 20min': '', '#ff9f43'],
       ].filter(([,,score]) => score != null);
 
@@ -6060,7 +6060,7 @@ function _profileRenderTable(races) {
     const title = (r.event_title||'').replace('Club Ladder // ', '');
     const routeDb = typeof ROUTES !== 'undefined' ? ROUTES : {};
     const routeName = r.rt ? (routeDb[String(r.rt)] || '') : '';
-    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--border);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--border)'">↗</a>` : '';
+    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--text-dim);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">↗</a>` : '';
     const td = (v) => `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
     const thirdCell = isRides
       ? `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
