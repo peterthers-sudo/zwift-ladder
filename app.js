@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.146'; // bump this on every update
+const APP_VERSION = 'v1.3.147'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5687,7 +5687,7 @@ function _profileGenerateCrossComparison() {
         <div style="flex:1;height:14px;background:rgba(255,255,255,0.06);border-radius:3px">
           <div style="width:${pct}%;height:100%;background:${s.color};opacity:0.75;border-radius:3px"></div>
         </div>
-        <div style="${B}font-size:0.70rem;color:${s.color};font-weight:700;width:44px">${s.avgIF.toFixed(2)} IF</div>
+        <div style="${B}font-size:0.70rem;color:${s.color};font-weight:700;width:60px;white-space:nowrap">${s.avgIF.toFixed(2)} IF</div>
       </div>`;
     }).join('');
 
