@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.148'; // bump this on every update
+const APP_VERSION = 'v1.3.149'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5386,11 +5386,11 @@ function _profileRenderHeader(name, id, races) {
 
       const _metricRow = (abbr, full, value, valueStr, color, desc) => value == null ? '' :
         `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
-           <div style="${base}font-size:0.78rem;font-weight:700;color:${color};width:36px;flex-shrink:0;padding-top:1px">${abbr}</div>
-           <div style="flex:1;min-width:0">
-             <div style="display:flex;justify-content:space-between;align-items:baseline">
-               <span style="${base}font-size:0.60rem;color:var(--text-dim);letter-spacing:0.5px">${full}</span>
+           <div style="${base}font-size:0.72rem;font-weight:700;color:${color};width:36px;flex-shrink:0;padding-top:1px">${abbr}</div>
+           <div style="min-width:0">
+             <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
                <span style="${base}font-size:0.82rem;font-weight:700;color:${color}">${valueStr}</span>
+               <span style="${base}font-size:0.60rem;color:var(--text-dim)">${full}</span>
              </div>
              <div style="${base}font-size:0.58rem;color:var(--text-dim);opacity:0.7;margin-top:1px">${desc}</div>
            </div>
