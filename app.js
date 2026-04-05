@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.147'; // bump this on every update
+const APP_VERSION = 'v1.3.148'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5371,17 +5371,44 @@ function _profileRenderHeader(name, id, races) {
       const _ifV  = races.filter(r=>(r.np||0)>0&&(r.ftp||0)>0).map(r=>r.np/r.ftp);
       const _tssV = races.filter(r=>(r.np||0)>0&&(r.ftp||0)>0&&(r.time||0)>0).map(r=>(r.time*Math.pow(r.np/r.ftp,2)/3600)*100);
       const _hrV  = races.filter(r=>(r.avg_hr||0)>0).map(r=>r.avg_hr);
-      const _raMetrics = [
-        ['AP',  _apV.length  ? Math.round(_ac(_apV))+'W'     : null],
-        ['NP',  _npV.length  ? Math.round(_ac(_npV))+'W'     : null],
-        ['VI',  _viV.length  ? _ac(_viV).toFixed(2)          : null],
-        ['IF',  _ifV.length  ? _ac(_ifV).toFixed(2)          : null],
-        ['TSS', _tssV.length ? Math.round(_ac(_tssV))        : null],
-        ['HR',  _hrV.length  ? Math.round(_ac(_hrV))+' bpm'  : null],
-      ].filter(([,v]) => v != null);
-      const physioRowHTML = _raMetrics.length >= 2
-        ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border);display:flex;flex-wrap:wrap;gap:6px">
-             ${_raMetrics.map(([l,v]) => `<div style="${base}font-size:0.60rem;background:var(--surface2);border:1px solid var(--border);padding:3px 9px;color:var(--text-dim)">${l} <span style="color:var(--accent3);font-weight:700">${v}</span></div>`).join('')}
+      const _avgAP  = _apV.length  ? Math.round(_ac(_apV))  : null;
+      const _avgNP  = _npV.length  ? Math.round(_ac(_npV))  : null;
+      const _avgVI  = _viV.length  ? _ac(_viV)              : null;
+      const _avgIF  = _ifV.length  ? _ac(_ifV)              : null;
+      const _avgTSS = _tssV.length ? Math.round(_ac(_tssV)) : null;
+      const _avgHR  = _hrV.length  ? Math.round(_ac(_hrV))  : null;
+
+      const _viColor = v => v >= 1.10 ? '#ff9f43' : v >= 1.05 ? 'var(--accent3)' : '#7fff6b';
+      const _viDesc  = v => v >= 1.10 ? 'Explosive — many surges & accelerations' : v >= 1.05 ? 'Moderate variation in effort' : 'Even pacing — steady effort throughout';
+      const _ifColor = v => v >= 0.95 ? 'var(--red)' : v >= 0.85 ? '#ff9f43' : v >= 0.75 ? 'var(--accent3)' : 'var(--text-dim)';
+      const _ifDesc  = v => v >= 0.95 ? 'Near-maximal — at or above FTP ceiling' : v >= 0.85 ? 'Hard — close to threshold' : v >= 0.75 ? 'Moderate-hard effort' : 'Below threshold — controlled pace';
+      const _tssDesc = v => v >= 300 ? 'Very high load — needs long recovery' : v >= 200 ? 'High load — hard effort' : v >= 100 ? 'Moderate load' : 'Light load per race';
+
+      const _metricRow = (abbr, full, value, valueStr, color, desc) => value == null ? '' :
+        `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
+           <div style="${base}font-size:0.78rem;font-weight:700;color:${color};width:36px;flex-shrink:0;padding-top:1px">${abbr}</div>
+           <div style="flex:1;min-width:0">
+             <div style="display:flex;justify-content:space-between;align-items:baseline">
+               <span style="${base}font-size:0.60rem;color:var(--text-dim);letter-spacing:0.5px">${full}</span>
+               <span style="${base}font-size:0.82rem;font-weight:700;color:${color}">${valueStr}</span>
+             </div>
+             <div style="${base}font-size:0.58rem;color:var(--text-dim);opacity:0.7;margin-top:1px">${desc}</div>
+           </div>
+         </div>`;
+
+      const physioRows = [
+        _metricRow('AP',  'Avg Power — actual watts averaged over the race',         _avgAP,  _avgAP+'W',        'var(--text-dim)', 'Raw output; lower than NP in variable races'),
+        _metricRow('NP',  'Normalized Power — physiological cost of the effort',     _avgNP,  _avgNP+'W',        'var(--accent3)',  'Accounts for spikes; better reflects true load'),
+        _avgVI != null ? _metricRow('VI',  'Variability Index — NP ÷ AP',           _avgVI,  _avgVI.toFixed(2), _viColor(_avgVI), _viDesc(_avgVI)) : '',
+        _avgIF != null ? _metricRow('IF',  'Intensity Factor — NP ÷ FTP',           _avgIF,  _avgIF.toFixed(2), _ifColor(_avgIF), _ifDesc(_avgIF)) : '',
+        _avgTSS != null ? _metricRow('TSS', 'Training Stress Score — load per race', _avgTSS, String(_avgTSS),   'var(--text-dim)', _tssDesc(_avgTSS)) : '',
+        _avgHR  != null ? _metricRow('HR',  'Avg Heart Rate during races',           _avgHR,  _avgHR+' bpm',     '#ff9f43',        'Cardiovascular load indicator') : '',
+      ].filter(Boolean).join('');
+
+      const physioRowHTML = physioRows
+        ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
+             <div style="${base}font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Race Physiology — avg ${srcLabel}</div>
+             ${physioRows}
            </div>`
         : '';
 
