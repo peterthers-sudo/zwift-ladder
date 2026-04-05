@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.149'; // bump this on every update
+const APP_VERSION = 'v1.3.150'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6307,25 +6307,35 @@ function _profileRenderTable(races) {
   const tbody = document.getElementById('profile-tbody');
   tbody.innerHTML = sorted.map(r => {
     const date = r.event_date
-      ? new Date(r.event_date*1000).toLocaleDateString('da-DK',{day:'2-digit',month:'short',year:'numeric'})
+      ? new Date(r.event_date*1000).toLocaleDateString('da-DK',{day:'2-digit',month:'2-digit',year:'2-digit'})
       : '—';
     const title = (r.event_title||'').replace('Club Ladder // ', '');
     const routeDb = typeof ROUTES !== 'undefined' ? ROUTES : {};
     const routeName = r.rt ? (routeDb[String(r.rt)] || '') : '';
     const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--text-dim);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">↗</a>` : '';
-    const td = (v) => `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
+    const p = 'padding:7px 10px';
+    const bb = 'border-bottom:1px solid rgba(31,42,64,0.6)';
+    const td = (v) => `<td style="${p};${bb};text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
+    const tdDim = (v) => `<td style="${p};${bb};text-align:right;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">${v||'<span style="color:#333d52">—</span>'}</td>`;
+    const raceSec = r.time || 0;
+    const timeStr = raceSec > 0
+      ? (() => { const h=Math.floor(raceSec/3600), m=Math.floor((raceSec%3600)/60), s=Math.floor(raceSec%60);
+                 return h>0 ? `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}` : `${m}:${String(s).padStart(2,'0')}`; })()
+      : null;
+    const show20min = raceSec <= 0 || raceSec >= 1200;
     const thirdCell = isRides
-      ? `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
-      : `<td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>`;
+      ? `<td style="${p};${bb};text-align:right;font-family:'JetBrains Mono',monospace;color:var(--text-dim)">${r.distance ? parseFloat(r.distance).toFixed(1) + ' km' : '—'}</td>`
+      : `<td style="${p};${bb};text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--accent3)">${(r.pos_in_cat||r.pos)?`${r.pos_in_cat||r.pos} <span style="font-size:0.65rem;color:var(--text-dim);font-weight:400">${(r.category&&r.category!=='SEE LADDER SITE')?r.category:'—'}</span>`:'—'}</td>`;
     return `<tr onmouseover="this.style.background='rgba(0,229,255,0.03)'" onmouseout="this.style.background=''">
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);max-width:260px" title="${r.event_title}"><div style="display:flex;align-items:center;gap:5px;overflow:hidden"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)">${title}</span>${zpLink}</div>${routeName ? `<div style="font-size:0.6rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${routeName}</div>` : ''}</td>
+      <td style="${p};${bb};font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:var(--text-dim)">${date}</td>
+      <td style="${p};${bb};max-width:240px" title="${r.event_title}"><div style="display:flex;align-items:center;gap:5px;overflow:hidden"><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--text)">${title}</span>${zpLink}</div>${routeName ? `<div style="font-size:0.6rem;color:var(--text-dim);font-family:'JetBrains Mono',monospace;margin-top:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${routeName}</div>` : ''}</td>
       ${thirdCell}
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;color:var(--text-dim)">${r.weight?r.weight.toFixed(1):'—'}</td>
+      ${tdDim(timeStr)}
+      <td style="${p};${bb};text-align:right;color:var(--text-dim);font-family:'JetBrains Mono',monospace;font-size:0.75rem">${r.weight?r.weight.toFixed(1):'—'}</td>
       ${td(r.avg_wkg)}
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">${r.avg_watts>0?Math.round(r.avg_watts)+'W':'<span style="color:#333d52">—</span>'}</td>
-      <td style="padding:9px 12px;border-bottom:1px solid rgba(31,42,64,0.6);text-align:right;font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--text-dim)">${r.np>0?Math.round(r.np)+'W':'<span style="color:#333d52">—</span>'}</td>
-      ${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${td(r.wkg1200)}
+      ${tdDim(r.avg_watts>0?Math.round(r.avg_watts)+'W':null)}
+      ${tdDim(r.np>0?Math.round(r.np)+'W':null)}
+      ${td(r.wkg5)}${td(r.wkg15)}${td(r.wkg30)}${td(r.wkg60)}${td(r.wkg120)}${td(r.wkg300)}${show20min?td(r.wkg1200):'<td style="'+p+';'+bb+';text-align:right"><span style="color:#333d52">—</span></td>'}
     </tr>`;
   }).join('');
 }
