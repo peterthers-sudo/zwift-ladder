@@ -47,7 +47,6 @@ def main():
             f'  {{ zwift_id: {m["zwift_id"]}, name: \'{name}\', rank: {m["rank"]}'
             f', h_15_wkg: {fmt(m.get("h_15_wkg"))}, h_15_watts: {fmt(m.get("h_15_watts"))}'
             f', h_1200_wkg: {fmt(m.get("h_1200_wkg"))}, h_1200_watts: {fmt(m.get("h_1200_watts"))}'
-            f', skill_race: {fmt(m.get("skill_race"))}, skill_seg: {fmt(m.get("skill_seg"))}, skill_power: {fmt(m.get("skill_power"))}'
             f', distance: {fmt(m.get("distance"))}, climbed: {fmt(m.get("climbed"))} }}'
         )
 

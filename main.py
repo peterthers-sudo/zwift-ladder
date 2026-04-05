@@ -581,9 +581,6 @@ async def get_team_members(team_id: int, max_rank: int = 599):
                 "h_15_watts":   clean_team(m.get('h_15_watts')),
                 "h_1200_wkg":   clean_team(m.get('h_1200_wkg')),
                 "h_1200_watts": clean_team(m.get('h_1200_watts')),
-                "skill_race":   clean_team(m.get('skill_race')),
-                "skill_seg":    clean_team(m.get('skill_seg')),
-                "skill_power":  clean_team(m.get('skill_power')),
                 "distance":     clean_team(m.get('distance')),
                 "climbed":      clean_team(m.get('climbed')),
             })
