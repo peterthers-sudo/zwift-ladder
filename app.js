@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.152'; // bump this on every update
+const APP_VERSION = 'v1.3.153'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5379,7 +5379,7 @@ function _profileRenderHeader(name, id, races) {
       const _avgHR  = _hrV.length  ? Math.round(_ac(_hrV))  : null;
 
       const _viColor = v => v >= 1.10 ? '#ff9f43' : v >= 1.05 ? 'var(--accent3)' : '#7fff6b';
-      const _ifColor = v => v >= 0.95 ? 'var(--red)' : v >= 0.85 ? '#ff9f43' : v >= 0.75 ? 'var(--accent3)' : 'var(--text-dim)';
+      const _ifColor = v => v >= 1.00 ? '#ff4444' : v >= 0.95 ? 'var(--red)' : v >= 0.85 ? '#ff9f43' : v >= 0.75 ? 'var(--accent3)' : 'var(--text-dim)';
 
       const _block = (abbr, color, valueStr, title, explanation, note) => `
         <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(31,42,64,0.5)">
@@ -5399,14 +5399,16 @@ function _profileRenderHeader(name, id, races) {
         : `Very even pacing — the rider holds a consistent power output throughout. AP and NP are close together, which means few big spikes. This is typical of time trials or races where the rider stays disciplined and avoids wasting energy.`;
       const _viNote = v => `Scale: 1.00 = perfectly even · 1.05 = moderate variation · above 1.10 = explosive/variable`;
 
-      const _ifExpl = v => v >= 0.95
-        ? `The rider is working at or above their FTP threshold for the duration of these races. That is an extremely high sustained intensity — only possible in short races or when the rider is going significantly above threshold. Either FTP may be slightly underestimated, or these are genuinely maximal efforts.`
+      const _ifExpl = v => v >= 1.00
+        ? `The average NP is above FTP for the full race duration — physiologically very unusual for anything longer than 30–40 minutes. This most likely means the recorded FTP is slightly underestimated, or these races are short enough that the rider can sustain above-threshold power throughout. Worth checking whether FTP reflects current fitness.`
+        : v >= 0.95
+        ? `The rider is working right at the FTP ceiling — a very high and demanding intensity level. This is only sustainable for shorter races, and reflects a genuinely maximal effort. Solid recovery between races is essential at this intensity.`
         : v >= 0.85
-        ? `Hard racing — the rider spends a large portion of each race close to their threshold ceiling. This level of intensity is demanding and requires solid recovery between races.`
+        ? `Hard racing — the rider spends a large portion of each race close to their threshold. This level of intensity is demanding and typical of competitive mass-start races where the pace is high but not all-out from start to finish.`
         : v >= 0.75
-        ? `Moderate-to-hard effort. The rider works solidly without consistently pushing into the red zone. A typical IF for a well-paced competitive race.`
+        ? `Moderate-to-hard effort. The rider works solidly without consistently pushing into the red zone. A typical IF for a well-paced competitive race where the rider has something left at the end.`
         : `Controlled intensity, comfortably below threshold. This could reflect conservative pacing, a race with an easy tempo, or a rider who has significant capacity above the recorded FTP.`;
-      const _ifNote = v => `Scale: 0.75 = moderate · 0.85 = hard · 0.95+ = near-maximal · 1.00 = exactly at FTP for the full duration`;
+      const _ifNote = v => `Scale: below 0.75 = easy · 0.75–0.84 = moderate · 0.85–0.94 = hard · 0.95–0.99 = near-maximal · 1.00+ = above FTP`;
 
       const _tssExpl = v => {
         const base2 = v >= 300 ? `Very high training load per race. Each race demands serious recovery — typically 2–3 days before full capacity returns.`
