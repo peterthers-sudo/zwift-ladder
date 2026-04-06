@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.151'; // bump this on every update
+const APP_VERSION = 'v1.3.152'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5379,36 +5379,71 @@ function _profileRenderHeader(name, id, races) {
       const _avgHR  = _hrV.length  ? Math.round(_ac(_hrV))  : null;
 
       const _viColor = v => v >= 1.10 ? '#ff9f43' : v >= 1.05 ? 'var(--accent3)' : '#7fff6b';
-      const _viDesc  = v => v >= 1.10 ? 'Explosive — many surges & accelerations' : v >= 1.05 ? 'Moderate variation in effort' : 'Even pacing — steady effort throughout';
       const _ifColor = v => v >= 0.95 ? 'var(--red)' : v >= 0.85 ? '#ff9f43' : v >= 0.75 ? 'var(--accent3)' : 'var(--text-dim)';
-      const _ifDesc  = v => v >= 0.95 ? 'Near-maximal — at or above FTP ceiling' : v >= 0.85 ? 'Hard — close to threshold' : v >= 0.75 ? 'Moderate-hard effort' : 'Below threshold — controlled pace';
-      const _tssDesc = v => v >= 300 ? 'Very high load — needs long recovery' : v >= 200 ? 'High load — hard effort' : v >= 100 ? 'Moderate load' : 'Light load per race';
 
-      const _metricRow = (abbr, full, value, valueStr, color, desc) => value == null ? '' :
-        `<div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:8px">
-           <div style="${base}font-size:0.72rem;font-weight:700;color:${color};width:36px;flex-shrink:0;padding-top:1px">${abbr}</div>
-           <div style="min-width:0">
-             <div style="display:flex;align-items:baseline;gap:8px;flex-wrap:wrap">
-               <span style="${base}font-size:0.82rem;font-weight:700;color:${color}">${valueStr}</span>
-               <span style="${base}font-size:0.60rem;color:var(--text-dim)">${full}</span>
-             </div>
-             <div style="${base}font-size:0.58rem;color:var(--text-dim);opacity:0.7;margin-top:1px">${desc}</div>
-           </div>
-         </div>`;
+      const _block = (abbr, color, valueStr, title, explanation, note) => `
+        <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(31,42,64,0.5)">
+          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:5px">
+            <span style="${base}font-size:0.65rem;font-weight:700;color:${color};letter-spacing:1px">${abbr}</span>
+            <span style="${base}font-size:0.95rem;font-weight:700;color:${color}">${valueStr}</span>
+            <span style="${base}font-size:0.62rem;color:var(--text-dim)">${title}</span>
+          </div>
+          <div style="${base}font-size:0.65rem;color:var(--text);line-height:1.75;margin-bottom:${note?'4px':'0'}">${explanation}</div>
+          ${note ? `<div style="${base}font-size:0.60rem;color:var(--text-dim);font-style:italic;line-height:1.6">${note}</div>` : ''}
+        </div>`;
 
-      const physioRows = [
-        _metricRow('AP',  'Avg Power — actual watts averaged over the race',         _avgAP,  _avgAP+'W',        'var(--text-dim)', 'Raw output; lower than NP in variable races'),
-        _metricRow('NP',  'Normalized Power — physiological cost of the effort',     _avgNP,  _avgNP+'W',        'var(--accent3)',  'Accounts for spikes; better reflects true load'),
-        _avgVI != null ? _metricRow('VI',  'Variability Index — NP ÷ AP',           _avgVI,  _avgVI.toFixed(2), _viColor(_avgVI), _viDesc(_avgVI)) : '',
-        _avgIF != null ? _metricRow('IF',  'Intensity Factor — NP ÷ FTP',           _avgIF,  _avgIF.toFixed(2), _ifColor(_avgIF), _ifDesc(_avgIF)) : '',
-        _avgTSS != null ? _metricRow('TSS', 'Training Stress Score — load per race', _avgTSS, String(_avgTSS),   'var(--text-dim)', _tssDesc(_avgTSS)) : '',
-        _avgHR  != null ? _metricRow('HR',  'Avg Heart Rate during races',           _avgHR,  _avgHR+' bpm',     '#ff9f43',        'Cardiovascular load indicator') : '',
+      const _viExpl = v => v >= 1.10
+        ? `This rider's races are highly variable — lots of accelerations, attacks and surges. NP is significantly higher than AP, meaning the effort is physiologically harder than the average watt suggests. A high VI is typical for punchy, aggressive racing styles.`
+        : v >= 1.05
+        ? `Moderate pacing variation. There are surges and tempo changes, but the effort is reasonably controlled overall. A VI around 1.05 is common in well-paced mass-start races with occasional hard efforts.`
+        : `Very even pacing — the rider holds a consistent power output throughout. AP and NP are close together, which means few big spikes. This is typical of time trials or races where the rider stays disciplined and avoids wasting energy.`;
+      const _viNote = v => `Scale: 1.00 = perfectly even · 1.05 = moderate variation · above 1.10 = explosive/variable`;
+
+      const _ifExpl = v => v >= 0.95
+        ? `The rider is working at or above their FTP threshold for the duration of these races. That is an extremely high sustained intensity — only possible in short races or when the rider is going significantly above threshold. Either FTP may be slightly underestimated, or these are genuinely maximal efforts.`
+        : v >= 0.85
+        ? `Hard racing — the rider spends a large portion of each race close to their threshold ceiling. This level of intensity is demanding and requires solid recovery between races.`
+        : v >= 0.75
+        ? `Moderate-to-hard effort. The rider works solidly without consistently pushing into the red zone. A typical IF for a well-paced competitive race.`
+        : `Controlled intensity, comfortably below threshold. This could reflect conservative pacing, a race with an easy tempo, or a rider who has significant capacity above the recorded FTP.`;
+      const _ifNote = v => `Scale: 0.75 = moderate · 0.85 = hard · 0.95+ = near-maximal · 1.00 = exactly at FTP for the full duration`;
+
+      const _tssExpl = v => {
+        const base2 = v >= 300 ? `Very high training load per race. Each race demands serious recovery — typically 2–3 days before full capacity returns.`
+          : v >= 200 ? `High load per race. The physiological cost is significant, reflecting long duration, high intensity, or both.`
+          : v >= 100 ? `Moderate training load. A typical competitive race — the body is stressed but recovery within 24 hours is realistic for most riders.`
+          : `Light training load per race. Either the races are short, the intensity is low, or both. Recovery is quick.`;
+        return base2 + ` TSS is calculated as: (duration in seconds × IF²) ÷ 3600 × 100.`;
+      };
+      const _tssNote = () => `Reference: 1 hour at exactly FTP = TSS 100 · under 100 = light · 150–250 = hard race · above 300 = very demanding`;
+
+      const physioBlocks = [
+        _avgAP != null ? _block('AP', 'var(--text-dim)', _avgAP+'W', 'Average Power',
+          `Average Power is the simple mean of every watt produced during the race — hard efforts and easy moments counted equally. It is the most straightforward power number, but it can understate how hard a race really was if the effort was very variable.`,
+          `AP is always equal to or lower than NP. The bigger the gap between AP and NP, the more variable the race was.`) : '',
+
+        _avgNP != null ? _block('NP', 'var(--accent3)', _avgNP+'W', 'Normalized Power',
+          `Normalized Power is a smarter measure of physiological effort. It weights harder efforts more heavily — specifically using a 4th-power calculation — so a race with frequent big surges will show a much higher NP than AP, even if the average watt looks modest. NP better reflects how hard the body actually worked.`,
+          `NP was developed by Dr. Andrew Coggan and is the standard metric used by coaches to assess race and training load.`) : '',
+
+        _avgVI != null ? _block('VI', _viColor(_avgVI), _avgVI.toFixed(2), 'Variability Index',
+          _viExpl(_avgVI), _viNote(_avgVI)) : '',
+
+        _avgIF != null ? _block('IF', _ifColor(_avgIF), _avgIF.toFixed(2), 'Intensity Factor',
+          _ifExpl(_avgIF), _ifNote(_avgIF)) : '',
+
+        _avgTSS != null ? _block('TSS', 'var(--text-dim)', String(_avgTSS), 'Training Stress Score',
+          _tssExpl(_avgTSS), _tssNote()) : '',
+
+        _avgHR != null ? _block('HR', '#ff9f43', _avgHR+' bpm', 'Average Heart Rate',
+          `Average heart rate during races. On its own, HR shows cardiovascular load — how hard the heart was working. It is most useful when tracked over time: if HR drops at the same power output, fitness is improving. A high HR relative to power output can indicate fatigue, heat, or dehydration.`,
+          `HR data is only available for riders using a heart rate monitor. If HR seems low, the rider may have removed the monitor partway through, or the data was not captured.`) : '',
       ].filter(Boolean).join('');
 
-      const physioRowHTML = physioRows
-        ? `<div style="margin-top:14px;padding-top:12px;border-top:1px solid var(--border)">
-             <div style="${base}font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Race Physiology — avg ${srcLabel}</div>
-             ${physioRows}
+      const physioRowHTML = physioBlocks
+        ? `<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+             <div style="${base}font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Race Physiology — avg ${srcLabel}</div>
+             ${physioBlocks}
            </div>`
         : '';
 
