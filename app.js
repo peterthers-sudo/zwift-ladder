@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.155'; // bump this on every update
+const APP_VERSION = 'v1.3.156'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5386,13 +5386,13 @@ function _profileRenderHeader(name, id, races) {
         const id = _blockId();
         return `
         <div style="margin-bottom:4px;border-bottom:1px solid rgba(31,42,64,0.4)">
-          <div onclick="(function(el){var b=document.getElementById('${id}');var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.ph-arrow').textContent=open?'▸':'▾';})(this)"
-               style="display:flex;align-items:baseline;gap:10px;padding:7px 0;cursor:pointer"
+          <div onclick="(function(el){var b=document.getElementById('${id}');var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.ph-toggle').textContent=open?'[show]':'[hide]';})(this)"
+               style="display:flex;align-items:center;gap:10px;padding:7px 0;cursor:pointer"
                onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
-            <span style="${base}font-size:0.75rem;color:var(--accent);width:14px;flex-shrink:0;transition:color 0.15s" class="ph-arrow">▸</span>
             <span style="${base}font-size:0.65rem;font-weight:700;color:${color};letter-spacing:1px;width:28px;flex-shrink:0">${abbr}</span>
             <span style="${base}font-size:0.88rem;font-weight:700;color:${color}">${valueStr}</span>
-            <span style="${base}font-size:0.62rem;color:var(--text-dim)">${title}</span>
+            <span style="${base}font-size:0.62rem;color:var(--text-dim);flex:1">${title}</span>
+            <span style="${base}font-size:0.60rem;color:var(--accent);letter-spacing:1px;flex-shrink:0" class="ph-toggle">[show]</span>
           </div>
           <div id="${id}" style="display:none;padding:0 0 10px 38px">
             <div style="${base}font-size:0.65rem;color:var(--text);line-height:1.75;margin-bottom:${note?'6px':'0'}">${explanation}</div>
