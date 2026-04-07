@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.156'; // bump this on every update
+const APP_VERSION = 'v1.3.157'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5391,8 +5391,8 @@ function _profileRenderHeader(name, id, races) {
                onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
             <span style="${base}font-size:0.65rem;font-weight:700;color:${color};letter-spacing:1px;width:28px;flex-shrink:0">${abbr}</span>
             <span style="${base}font-size:0.88rem;font-weight:700;color:${color}">${valueStr}</span>
-            <span style="${base}font-size:0.62rem;color:var(--text-dim);flex:1">${title}</span>
-            <span style="${base}font-size:0.60rem;color:var(--accent);letter-spacing:1px;flex-shrink:0" class="ph-toggle">[show]</span>
+            <span style="${base}font-size:0.62rem;color:var(--text-dim)">${title}</span>
+            <span style="${base}font-size:0.60rem;color:var(--accent);letter-spacing:1px;margin-left:10px;flex-shrink:0" class="ph-toggle">[show]</span>
           </div>
           <div id="${id}" style="display:none;padding:0 0 10px 38px">
             <div style="${base}font-size:0.65rem;color:var(--text);line-height:1.75;margin-bottom:${note?'6px':'0'}">${explanation}</div>
