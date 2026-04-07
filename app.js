@@ -2036,7 +2036,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.153'; // bump this on every update
+const APP_VERSION = 'v1.3.154'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -5381,16 +5381,25 @@ function _profileRenderHeader(name, id, races) {
       const _viColor = v => v >= 1.10 ? '#ff9f43' : v >= 1.05 ? 'var(--accent3)' : '#7fff6b';
       const _ifColor = v => v >= 1.00 ? '#ff4444' : v >= 0.95 ? 'var(--red)' : v >= 0.85 ? '#ff9f43' : v >= 0.75 ? 'var(--accent3)' : 'var(--text-dim)';
 
-      const _block = (abbr, color, valueStr, title, explanation, note) => `
-        <div style="margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid rgba(31,42,64,0.5)">
-          <div style="display:flex;align-items:baseline;gap:10px;margin-bottom:5px">
-            <span style="${base}font-size:0.65rem;font-weight:700;color:${color};letter-spacing:1px">${abbr}</span>
-            <span style="${base}font-size:0.95rem;font-weight:700;color:${color}">${valueStr}</span>
+      const _blockId = () => 'ph_' + Math.random().toString(36).slice(2,8);
+      const _block = (abbr, color, valueStr, title, explanation, note) => {
+        const id = _blockId();
+        return `
+        <div style="margin-bottom:4px;border-bottom:1px solid rgba(31,42,64,0.4)">
+          <div onclick="(function(el){var b=document.getElementById('${id}');var open=b.style.display==='block';b.style.display=open?'none':'block';el.querySelector('.ph-arrow').textContent=open?'▸':'▾';})(this)"
+               style="display:flex;align-items:baseline;gap:10px;padding:7px 0;cursor:pointer"
+               onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+            <span style="${base}font-size:0.58rem;color:var(--text-dim);width:10px;flex-shrink:0" class="ph-arrow">▸</span>
+            <span style="${base}font-size:0.65rem;font-weight:700;color:${color};letter-spacing:1px;width:28px;flex-shrink:0">${abbr}</span>
+            <span style="${base}font-size:0.88rem;font-weight:700;color:${color}">${valueStr}</span>
             <span style="${base}font-size:0.62rem;color:var(--text-dim)">${title}</span>
           </div>
-          <div style="${base}font-size:0.65rem;color:var(--text);line-height:1.75;margin-bottom:${note?'4px':'0'}">${explanation}</div>
-          ${note ? `<div style="${base}font-size:0.60rem;color:var(--text-dim);font-style:italic;line-height:1.6">${note}</div>` : ''}
+          <div id="${id}" style="display:none;padding:0 0 10px 38px">
+            <div style="${base}font-size:0.65rem;color:var(--text);line-height:1.75;margin-bottom:${note?'6px':'0'}">${explanation}</div>
+            ${note ? `<div style="${base}font-size:0.60rem;color:var(--text-dim);font-style:italic;line-height:1.6">${note}</div>` : ''}
+          </div>
         </div>`;
+      };
 
       const _viExpl = v => v >= 1.10
         ? `This rider's races are highly variable — lots of accelerations, attacks and surges. NP is significantly higher than AP, meaning the effort is physiologically harder than the average watt suggests. A high VI is typical for punchy, aggressive racing styles.`
