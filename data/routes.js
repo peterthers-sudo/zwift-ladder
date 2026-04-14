@@ -374,5 +374,11 @@ const ROUTES = {
   "4149936043": "Climb Portal - Mont Saint-Michel",
   "86621553": "Lutece Express Run",
   "3351665212": "Glasgow Crit Circuit Run",
-  "1384155764": "Loch Loop Run"
+  "1384155764": "Loch Loop Run",
+  "10050": "Koppenberg",
+  "10049": "Mur de Huy",
+  "10051": "Paterberg",
+  "1437969615": "Red Rock Loop Reverse",
+  "967374265": "Red Rock Run",
+  "2521625692": "Yumezi Grit"
 };
