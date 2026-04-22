@@ -837,6 +837,88 @@ function getBestOppLineupForCourse(course, teamSize) {
 }
 
 // ═══════════════════════════════════════════════════════
+// TEAM ACTIVITY — hjælpere til rytter-aktivitet (seneste 60 dage)
+// ═══════════════════════════════════════════════════════
+// Niveauer:
+//   very_active (grøn) : ratio >= 0.5 (kørte i halvdelen+ af holdets løb)
+//   active      (gul)  : ratio >  0   og < 0.5
+//   inactive    (grå)  : ingen løb i vinduet
+function getRiderActivity(teamKey, riderId) {
+  if (typeof TEAM_ACTIVITY === 'undefined' || !teamKey || riderId == null) return null;
+  const team = TEAM_ACTIVITY[teamKey];
+  if (!team) return null;
+  const totalRaces = team.total_races_in_window || 0;
+  const riderEntry = team.riders && team.riders[String(riderId)];
+  const races = riderEntry ? (riderEntry.races || 0) : 0;
+  const ratio = totalRaces > 0 ? (races / totalRaces) : 0;
+  let level = 'inactive';
+  if (totalRaces === 0) {
+    level = 'none'; // holdet har slet ingen løb i vinduet — ignorér badge
+  } else if (races === 0) {
+    level = 'inactive';
+  } else if (ratio >= 0.5) {
+    level = 'very_active';
+  } else {
+    level = 'active';
+  }
+  return {
+    races,
+    totalRaces,
+    ratio,
+    level,
+    lastRace: riderEntry ? riderEntry.last_race : null,
+    wins:     riderEntry ? (riderEntry.wins || 0) : 0,
+    points:   riderEntry ? (riderEntry.points || 0) : 0,
+    bestPos:  riderEntry ? riderEntry.best_pos : null,
+    cutoffDays: team.cutoff_days || 60,
+    scrapedAt:  team.scraped_at || null,
+  };
+}
+
+// Sorterer en rytter-liste så mest aktive står først.
+// riderIdKey: 'id' for OPPONENT_LIBRARY, 'zwift_id' for MY_TEAMS
+function sortByActivity(list, teamKey, riderIdKey) {
+  if (!list || !list.length) return list;
+  const withAct = list.map((r, idx) => {
+    const act = getRiderActivity(teamKey, r[riderIdKey]);
+    return { r, idx, act };
+  });
+  withAct.sort((a, b) => {
+    const aR = a.act && a.act.totalRaces > 0 ? a.act.races : -1;
+    const bR = b.act && b.act.totalRaces > 0 ? b.act.races : -1;
+    if (bR !== aR) return bR - aR;
+    // Sekundært: nyeste last_race først
+    const aLR = (a.act && a.act.lastRace) || '';
+    const bLR = (b.act && b.act.lastRace) || '';
+    if (bLR !== aLR) return bLR < aLR ? -1 : 1;
+    // Fallback: bevar oprindelig rækkefølge
+    return a.idx - b.idx;
+  });
+  return withAct.map(x => x.r);
+}
+
+// Returnerer HTML for et aktivitets-badge. Tom streng hvis ingen data/ingen løb på holdet.
+// Solid farver som læses godt i både dark og light mode.
+function renderActivityBadge(act) {
+  if (!act || act.level === 'none') return '';
+  const palette = {
+    very_active: { bg: '#16a34a', color: '#ffffff', label: 'ACTIVE'   },  // kraftig grøn
+    active:      { bg: '#f59e0b', color: '#1a1a1a', label: 'RARE'     },  // amber/orange
+    inactive:    { bg: '#dc2626', color: '#ffffff', label: 'INACTIVE' },  // rød
+  };
+  const c = palette[act.level] || palette.inactive;
+  const tip = act.lastRace
+    ? `Seneste ${act.cutoffDays} dage: ${act.races} af ${act.totalRaces} holdløb · sidst: ${act.lastRace}${act.wins ? ' · ' + act.wins + ' sejr' + (act.wins>1?'e':'') : ''}`
+    : `Ingen løb i seneste ${act.cutoffDays} dage (${act.totalRaces} holdløb)`;
+  const count = act.level === 'inactive'
+    ? `0/${act.totalRaces}`
+    : `${act.races}/${act.totalRaces}`;
+  return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
+    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>
+  </span>`;
+}
+
+// ═══════════════════════════════════════════════════════
 // UI — OPPONENT ROSTER
 // ═══════════════════════════════════════════════════════
 function renderOppRoster() {
@@ -850,8 +932,18 @@ function renderOppRoster() {
   const active = opponentTeam.riders.filter(r => r.active !== false);
   countEl.textContent = `${active.length} / ${opponentTeam.riders.length} ACTIVE`;
 
-  listEl.innerHTML = opponentTeam.riders.map((r, i) => {
+  // Sorter efter aktivitet (mest aktive først) hvis vi har et library-nøgle
+  const teamKey = opponentTeam.libraryKey || null;
+  const sortedRiders = teamKey
+    ? sortByActivity(opponentTeam.riders, teamKey, 'id')
+    : opponentTeam.riders;
+
+  listEl.innerHTML = sortedRiders.map((r, sortIdx) => {
+    // Brug original-index så toggleOppRider / detail-IDs fortsat passer.
+    const i = opponentTeam.riders.indexOf(r);
     const isActive = r.active !== false;
+    const act      = getRiderActivity(teamKey, r.id);
+    const badgeHTML = renderActivityBadge(act);
     const wFtp    = getRiderWatts(r, 'ftp');
     const wSprint = getRiderWatts(r, 'sprint');
     const w5min   = getRiderWatts(r, 'w5min');
@@ -899,8 +991,11 @@ function renderOppRoster() {
         <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; cursor:pointer;" onclick="toggleOppExpand('opp-detail-${i}', 'opp-arrow-${i}')">
           <input type="checkbox" ${isActive ? 'checked' : ''} onchange="event.stopPropagation();toggleOppRider(${i})" style="cursor:pointer; accent-color:var(--accent2); flex-shrink:0;">
           <div style="flex:1; min-width:0;">
-			<div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:600; color:${isActive ? 'var(--text)' : 'var(--text-dim)'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              ${r.name}
+            <div style="display:flex;align-items:center;gap:6px;min-width:0">
+              <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:600; color:${isActive ? 'var(--text)' : 'var(--text-dim)'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; min-width:0;">
+                ${r.name}
+              </div>
+              ${badgeHTML}
             </div>
             <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-dim); display:flex; gap:8px; margin-top:2px; flex-wrap:wrap;">
               <span>${(r.wkg || r.twentyMin || 0).toFixed(2)} W/kg</span>
@@ -1215,9 +1310,15 @@ function renderRiders() {
     return;
   }
 
-  const ridersHTML = riders.map(r => {
+  // Sortér efter aktivitet (mest aktive først). activeMyTeamKey peger på TEAM_ACTIVITY-nøgle.
+  const myTeamKey = (typeof activeMyTeamKey !== 'undefined') ? activeMyTeamKey : null;
+  const sortedMy  = myTeamKey ? sortByActivity(riders, myTeamKey, 'zwift_id') : riders;
+
+  const ridersHTML = sortedMy.map(r => {
     const ftpWatts = r.watt ? r.watt : Math.round((r.twentyMin || 0) * (r.weight || 70));
     const hasCurve = hasCurveData(r);
+    const myAct    = getRiderActivity(myTeamKey, r.zwift_id);
+    const myBadge  = renderActivityBadge(myAct);
 
     // Full curve rows — only shown if data exists
     const curveRows = [
@@ -1262,7 +1363,10 @@ function renderRiders() {
         <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer" onclick="toggleRiderExpand(${r.id})">
           <input type="checkbox" ${r.selected ? 'checked' : ''} onchange="event.stopPropagation();toggleRiderSelection(${r.id})" style="cursor:pointer;flex-shrink:0">
           <div style="flex:1;min-width:0">
-            <div style="font-weight:700;color:var(--text);font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${r.name}</div>
+            <div style="display:flex;align-items:center;gap:6px;min-width:0">
+              <div style="font-weight:700;color:var(--text);font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${r.name}</div>
+              ${myBadge}
+            </div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;color:var(--text-dim);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
               <span style="color:var(--text)">${(r.twentyMin||0).toFixed(2)} W/kg</span>
               <span><strong style="color:var(--accent)">${ftpWatts}W</strong> FTP</span>
@@ -2036,7 +2140,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.157'; // bump this on every update
+const APP_VERSION = 'v1.3.158'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4507,8 +4611,10 @@ function loadOpponentFromLibrary() {
     const teamData = MY_TEAMS[teamKey];
     if (!teamData) return;
     opponentTeam = {
+      libraryKey: teamKey,
       name: teamData.name,
       riders: teamData.riders.map(r => ({
+        id: r.zwift_id, // tag zwift_id med så TEAM_ACTIVITY-lookup virker
         name: r.name, weight: r.weight, watt: r.watt || Math.round((r.twentyMin||0)*(r.weight||70)),
         sprint: r.sprint, oneMin: r.oneMin, fiveMin: r.fiveMin, twentyMin: r.twentyMin,
         w5s: r.w5s, w10s: r.w10s, w15s: r.w15s, w30s: r.w30s,
@@ -4560,6 +4666,7 @@ function loadOpponentFromLibrary() {
 
   // Store full rider list so runMatch() can pick best N per course
   opponentTeam = {
+    libraryKey: key,            // gem nøglen så TEAM_ACTIVITY-lookup virker
     name:    teamData.name,
     riders:  teamData.riders,   // raw riders — best lineup computed per course in runMatch
     getRiderWatts: oppRiderWatts  // attach the helper so runMatch can use it

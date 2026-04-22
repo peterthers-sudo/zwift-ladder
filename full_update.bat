@@ -43,6 +43,33 @@ if errorlevel 1 (
 )
 echo.
 
+:: TRIN 1b: Hent teamStats-sider (per-hold race log til aktivitetsberegning)
+echo [1b/6] Henter teamStats-sider (fetch_team_stats.py)...
+echo        Dette tager ca. 5-10 minutter...
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[1b/6] Henter teamStats...\n')"
+python fetch_team_stats.py --skip-existing >> "%LOG_FILE%" 2>&1
+if errorlevel 1 (
+    echo ADVARSEL: fetch_team_stats.py fejlede - fortsætter med eksisterende teamStats-filer
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('ADVARSEL: fetch_team_stats fejlede.\n')"
+) else (
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: teamStats hentet.\n')"
+    echo OK: teamStats hentet.
+)
+echo.
+
+:: TRIN 1c: Parse teamStats til data/team_activity.js
+echo [1c/6] Parser teamStats (parse_team_stats.py)...
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[1c/6] Parser teamStats...\n')"
+python parse_team_stats.py --days 60 >> "%LOG_FILE%" 2>&1
+if errorlevel 1 (
+    echo ADVARSEL: parse_team_stats.py fejlede
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('ADVARSEL: parse_team_stats fejlede.\n')"
+) else (
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: team_activity.js genereret.\n')"
+    echo OK: team_activity.js genereret.
+)
+echo.
+
 :: TRIN 4: Start API + hent rider-data
 echo [4/6] Starter API og henter rider-data (get_data.py)...
 echo       Dette tager ca. 2 timer...
@@ -93,7 +120,7 @@ cd /d %PROJECT_DIR%
 echo --- git status --- >> "%LOG_FILE%"
 git status >> "%LOG_FILE%" 2>&1
 
-git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js data/rides.js data/routes.js CNAME >> "%LOG_FILE%" 2>&1
+git add index.html app.js data/my_teams.js data/opponents.js data/fixtures.js data/ladder_races.js data/rider_bios.js data/other_races.js data/leqp_members.js data/rides.js data/routes.js data/team_activity.js CNAME >> "%LOG_FILE%" 2>&1
 
 git commit -m "Auto update: %DATE% %TIME%" >> "%LOG_FILE%" 2>&1
 
