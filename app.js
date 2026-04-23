@@ -1150,12 +1150,6 @@ function switchTab(tab) {
     if (teamSizeBlock) teamSizeBlock.style.display = 'none';
     if (raceRouteBlock) raceRouteBlock.style.display = 'flex';
     populateMatchupRoutes();
-    // Auto-preselect: if nothing is currently selected and exactly 1 route is in the pool, select it
-    const _mSel = document.getElementById('matchup-route-select');
-    if (_mSel && !_mSel.value) {
-      const _pool = courses.filter(c => c.selected);
-      if (_pool.length === 1) _mSel.value = _pool[0].name;
-    }
     onMatchupRouteChange();
   } else {
     if (routesBlock) routesBlock.style.display = 'flex';
@@ -2206,7 +2200,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.172'; // bump this on every update
+const APP_VERSION = 'v1.3.173'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
