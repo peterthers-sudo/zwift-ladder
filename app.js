@@ -2200,7 +2200,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.168'; // bump this on every update
+const APP_VERSION = 'v1.3.169'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2561,7 +2561,16 @@ function populateMatchupRoutes() {
   if (search && !matchFound && sel.options.length > 1) {
     sel.selectedIndex = 1;
   } else if (!search && !matchFound) {
-    sel.selectedIndex = 0;
+    // Pre-select if exactly one route is selected on the Routes page
+    const selectedRoutes = courses.filter(c => c.selected);
+    if (selectedRoutes.length === 1) {
+      const autoName = selectedRoutes[0].name;
+      const autoOpt = Array.from(sel.options).find(o => o.value === autoName);
+      if (autoOpt) autoOpt.selected = true;
+      else sel.selectedIndex = 0;
+    } else {
+      sel.selectedIndex = 0;
+    }
   }
 }
 
