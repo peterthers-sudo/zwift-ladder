@@ -309,9 +309,8 @@ let currentPredictedPool = null;    // cached predicted rider pool for current o
 function updatePredictedPool() {
   currentPredictedPool = null;
   if (!opponentTeam || !opponentTeam.libraryKey || typeof TEAM_ACTIVITY === 'undefined') return;
-  const team = TEAM_ACTIVITY[opponentTeam.libraryKey];
-  if (!team) return;
-  const key = opponentTeam.libraryKey;
+  const key = resolveTeamActivityKey(opponentTeam.libraryKey);
+  if (!key) return;
   currentPredictedPool = opponentTeam.riders
     .map(r => ({ r, act: getRiderActivity(key, r.id) }))
     .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
@@ -858,13 +857,32 @@ function getBestOppLineupForCourse(course, teamSize) {
 // ═══════════════════════════════════════════════════════
 // TEAM ACTIVITY — hjælpere til rytter-aktivitet (seneste 60 dage)
 // ═══════════════════════════════════════════════════════
+
+// OPPONENT_LIBRARY keys use TEAMSTATS_<id> format, TEAM_ACTIVITY uses TEAMVIEW_<name> format.
+// This function resolves a library key to the correct TEAM_ACTIVITY key.
+const _teamActivityKeyCache = {};
+function resolveTeamActivityKey(libraryKey) {
+  if (!libraryKey || typeof TEAM_ACTIVITY === 'undefined') return null;
+  if (_teamActivityKeyCache[libraryKey] !== undefined) return _teamActivityKeyCache[libraryKey];
+  // Direct match (MY_TEAMS used as opponent, or already a TEAMVIEW key)
+  if (TEAM_ACTIVITY[libraryKey]) return (_teamActivityKeyCache[libraryKey] = libraryKey);
+  // Match via team_stats_id embedded in TEAMSTATS_<id> key
+  const m = libraryKey.match(/TEAMSTATS_(\d+)/i);
+  if (m) {
+    const statsId = parseInt(m[1]);
+    const found = Object.keys(TEAM_ACTIVITY).find(k => TEAM_ACTIVITY[k].team_stats_id === statsId);
+    return (_teamActivityKeyCache[libraryKey] = found || null);
+  }
+  return (_teamActivityKeyCache[libraryKey] = null);
+}
 // Niveauer:
 //   very_active (grøn) : ratio >= 0.5 (kørte i halvdelen+ af holdets løb)
 //   active      (gul)  : ratio >  0   og < 0.5
 //   inactive    (grå)  : ingen løb i vinduet
 function getRiderActivity(teamKey, riderId) {
   if (typeof TEAM_ACTIVITY === 'undefined' || !teamKey || riderId == null) return null;
-  const team = TEAM_ACTIVITY[teamKey];
+  const resolvedKey = resolveTeamActivityKey(teamKey);
+  const team = resolvedKey ? TEAM_ACTIVITY[resolvedKey] : null;
   if (!team) return null;
   const totalRaces = team.total_races_in_window || 0;
   const riderEntry = team.riders && team.riders[String(riderId)];
@@ -2182,7 +2200,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.165'; // bump this on every update
+const APP_VERSION = 'v1.3.166'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
