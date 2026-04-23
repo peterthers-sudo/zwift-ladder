@@ -960,6 +960,15 @@ function renderActivityBadge(act) {
   </span>`;
 }
 
+function getTeamWinStats(actData) {
+  if (!actData || !actData.riders) return null;
+  const totalRaces = actData.total_races_in_window || 0;
+  if (totalRaces === 0) return null;
+  const totalWins = Object.values(actData.riders).reduce((s, r) => s + (r.wins || 0), 0);
+  const rate = Math.round((totalWins / totalRaces) * 100);
+  return { wins: totalWins, races: totalRaces, rate };
+}
+
 // ═══════════════════════════════════════════════════════
 // UI — OPPONENT ROSTER
 // ═══════════════════════════════════════════════════════
@@ -2200,7 +2209,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.174'; // bump this on every update
+const APP_VERSION = 'v1.3.175'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2381,12 +2390,13 @@ function renderRungOverview() {
   if (lastUpdated) html += '<span style="opacity:0.5">\u00b7 ' + lastUpdated + '</span>';
   html += '</div>';
 
-  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px;gap:4px;align-items:center;' + base + 'font-size:0.65rem;font-weight:700;color:var(--text-dim);letter-spacing:1.2px;padding:0 6px;margin-bottom:4px">';
+  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px 64px;gap:4px;align-items:center;' + base + 'font-size:0.65rem;font-weight:700;color:var(--text-dim);letter-spacing:1.2px;padding:0 6px;margin-bottom:4px">';
   html += '<div></div><div>TEAM</div>';
   html += '<div style="text-align:center;line-height:1.4">FTP W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
   html += '<div style="text-align:center;line-height:1.4">5MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
   html += '<div style="text-align:center;line-height:1.4">1MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
   html += '<div style="text-align:center;line-height:1.4">RACES<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">WIN RATE<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '</div>';
 
   teams.forEach(function(team, i) {
@@ -2425,10 +2435,26 @@ function renderRungOverview() {
         + '</div>';
     }
 
-    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px;gap:4px;align-items:center">';
+    var winStats = getTeamWinStats(actData);
+    var winHtml;
+    if (!winStats) {
+      winHtml = '<span style="opacity:0.25">—</span>';
+    } else {
+      var wColor = winStats.rate >= 65 ? 'var(--accent3)' : winStats.rate >= 40 ? 'var(--text)' : 'var(--red)';
+      winHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'
+        + '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + wColor + '">' + winStats.rate + '%</span>'
+        + '<span style="' + base + 'font-size:0.48rem;color:var(--text-dim);opacity:0.6">' + winStats.wins + '/' + winStats.races + ' wins</span>'
+        + '</div>';
+    }
+
+    var hotBadge = (winStats && winStats.rate >= 65 && winStats.races >= 3)
+      ? ' <span style="font-size:0.42rem;letter-spacing:0.8px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;vertical-align:middle;margin-left:4px;font-family:\'JetBrains Mono\',monospace">🔥 HOT</span>'
+      : '';
+
+    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px 64px;gap:4px;align-items:center">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:' + rankColor + ';line-height:1">' + rank + '</div>';
     html += '<div style="min-width:0">';
-    html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + '</div>';
+    html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
     html += '<div style="' + base + 'font-size:0.5rem;color:var(--text-dim);margin-top:1px">';
     if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
     if (team.positionInRung) html += ' \u00b7 #' + team.positionInRung + ' in rung';
@@ -2437,6 +2463,7 @@ function renderRungOverview() {
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.medWkg,   ownMedWkg))   + '</div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.punchWkg, ownPunchWkg)) + '</div>';
     html += '<div style="text-align:center">' + actHtml + '</div>';
+    html += '<div style="text-align:center">' + winHtml + '</div>';
     html += '</div>';
   });
 
@@ -3414,6 +3441,28 @@ function renderMatchupAnalysis() {
         <div class="matchup-vs-badge">VS</div>
         <div class="matchup-team-name" style="color:var(--accent2)">${opponentTeam.name}</div>
       </div>
+      ${(() => {
+        if (typeof TEAM_ACTIVITY === 'undefined') return '';
+        const oppActKey = resolveTeamActivityKey(opponentTeam.libraryKey);
+        const oppActData = oppActKey ? TEAM_ACTIVITY[oppActKey] : null;
+        const ws = getTeamWinStats(oppActData);
+        if (!ws) return '';
+        const wColor = ws.rate >= 65 ? 'var(--accent3)' : ws.rate >= 40 ? 'var(--text-dim)' : 'var(--red)';
+        const hotTag = ws.rate >= 65 && ws.races >= 3
+          ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:1px;padding:2px 6px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;margin-left:8px;">🔥 HOT FORM</span>`
+          : '';
+        const barW = ws.rate;
+        return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);margin-bottom:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+          <div>
+            <div style="font-size:0.48rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:4px;">OPPONENT RECENT FORM · LAST 60 DAYS</div>
+            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+              <span style="color:${wColor};font-size:0.85rem;font-weight:700;">${ws.rate}%</span>
+              <span style="color:var(--text-dim);">Won ${ws.wins} of ${ws.races} races${hotTag}</span>
+            </div>
+            <div style="margin-top:6px;width:160px;height:4px;background:var(--border);border-radius:2px;"><div style="width:${barW}%;height:100%;background:${wColor};border-radius:2px;"></div></div>
+          </div>
+        </div>`;
+      })()}
       ${oppStatsUrl ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-left:2px solid var(--accent2);margin-bottom:12px;line-height:1.7;">
         💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Go to team page to view their recent races and rider stats —
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
