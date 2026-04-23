@@ -910,8 +910,8 @@ function renderActivityBadge(act) {
   const ptsPerRace = act.races > 0 ? (act.points / act.races).toFixed(1) : null;
   const daysAgo = act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
   const tip = act.lastRace
-    ? `Seneste ${act.cutoffDays} dage: ${act.races} af ${act.totalRaces} holdløb · sidst: ${daysAgo}d siden${act.wins ? ' · ' + act.wins + ' sejr' + (act.wins>1?'e':'') : ''}${ptsPerRace ? ' · ' + ptsPerRace + ' pts/løb' : ''}`
-    : `Ingen løb i seneste ${act.cutoffDays} dage (${act.totalRaces} holdløb)`;
+    ? `Last ${act.cutoffDays} days: ${act.races} of ${act.totalRaces} team races · last: ${daysAgo}d ago${act.wins ? ' · ' + act.wins + ' win' + (act.wins>1?'s':'') : ''}${ptsPerRace ? ' · ' + ptsPerRace + ' pts/race' : ''}`
+    : `No races in the last ${act.cutoffDays} days (${act.totalRaces} team races)`;
   const count = act.level === 'inactive'
     ? `0/${act.totalRaces}`
     : `${act.races}/${act.totalRaces}`;
@@ -2163,7 +2163,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.161'; // bump this on every update
+const APP_VERSION = 'v1.3.162'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3011,7 +3011,7 @@ function renderMatchupAnalysis() {
     if (!oppActKey || typeof TEAM_ACTIVITY === 'undefined' || !TEAM_ACTIVITY[oppActKey]) return null;
     return opponentTeam.riders
       .map(r => ({ r, act: getRiderActivity(oppActKey, r.id) }))
-      .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
+      .filter(x => x.r.active !== false && x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
       .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''))
       .slice(0, teamSize);
   })();
