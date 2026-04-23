@@ -907,14 +907,19 @@ function renderActivityBadge(act) {
     inactive:    { bg: '#dc2626', color: '#ffffff', label: 'INACTIVE' },  // rød
   };
   const c = palette[act.level] || palette.inactive;
+  const ptsPerRace = act.races > 0 ? (act.points / act.races).toFixed(1) : null;
+  const daysAgo = act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
   const tip = act.lastRace
-    ? `Seneste ${act.cutoffDays} dage: ${act.races} af ${act.totalRaces} holdløb · sidst: ${act.lastRace}${act.wins ? ' · ' + act.wins + ' sejr' + (act.wins>1?'e':'') : ''}`
+    ? `Seneste ${act.cutoffDays} dage: ${act.races} af ${act.totalRaces} holdløb · sidst: ${daysAgo}d siden${act.wins ? ' · ' + act.wins + ' sejr' + (act.wins>1?'e':'') : ''}${ptsPerRace ? ' · ' + ptsPerRace + ' pts/løb' : ''}`
     : `Ingen løb i seneste ${act.cutoffDays} dage (${act.totalRaces} holdløb)`;
   const count = act.level === 'inactive'
     ? `0/${act.totalRaces}`
     : `${act.races}/${act.totalRaces}`;
-  return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
-    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span><span style="opacity:0.5;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">2mo</span>
+  const daysBadge = daysAgo !== null && act.level !== 'inactive'
+    ? `<span style="opacity:0.6;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">${daysAgo}d</span>`
+    : '';
+  return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
+    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>${daysBadge}<span style="opacity:0.5;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">2mo</span>
   </span>`;
 }
 
@@ -2158,7 +2163,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.160'; // bump this on every update
+const APP_VERSION = 'v1.3.161'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2339,11 +2344,12 @@ function renderRungOverview() {
   if (lastUpdated) html += '<span style="opacity:0.5">\u00b7 ' + lastUpdated + '</span>';
   html += '</div>';
 
-  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px;gap:4px;align-items:center;' + base + 'font-size:0.5rem;color:var(--text-dim);letter-spacing:1px;padding:0 6px;margin-bottom:4px">';
+  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 54px;gap:4px;align-items:center;' + base + 'font-size:0.5rem;color:var(--text-dim);letter-spacing:1px;padding:0 6px;margin-bottom:4px">';
   html += '<div></div><div>TEAM</div>';
   html += '<div style="text-align:center">FTP W/KG<br><span style="opacity:0.5">vs you</span></div>';
   html += '<div style="text-align:center">5MIN W/KG<br><span style="opacity:0.5">vs you</span></div>';
   html += '<div style="text-align:center">1MIN W/KG<br><span style="opacity:0.5">vs you</span></div>';
+  html += '<div style="text-align:center">RACES<br><span style="opacity:0.5">2mo</span></div>';
   html += '</div>';
 
   teams.forEach(function(team, i) {
@@ -2364,7 +2370,25 @@ function renderRungOverview() {
     var rowBg = isOwn ? 'background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.3);' : 'background:var(--surface2);border:1px solid var(--border);';
     var rungBadge = challengeOnly ? ' <span style="' + base + 'font-size:0.47rem;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);padding:1px 4px">R' + team.rung + '</span>' : '';
 
-    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px;gap:4px;align-items:center">';
+    var actData = (typeof TEAM_ACTIVITY !== 'undefined') ? TEAM_ACTIVITY[team.key] : null;
+    var teamRaces = actData ? (actData.total_races_in_window || 0) : null;
+    var maxRaces = 0;
+    if (typeof TEAM_ACTIVITY !== 'undefined') {
+      teams.forEach(function(t) { var d = TEAM_ACTIVITY[t.key]; if (d && d.total_races_in_window > maxRaces) maxRaces = d.total_races_in_window; });
+    }
+    var actHtml;
+    if (teamRaces === null) {
+      actHtml = '<span style="opacity:0.25">—</span>';
+    } else {
+      var barPct = maxRaces > 0 ? Math.round((teamRaces / maxRaces) * 100) : 0;
+      var actColor = teamRaces === 0 ? 'var(--red)' : teamRaces >= maxRaces * 0.6 ? 'var(--accent3)' : 'var(--text-dim)';
+      actHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">'
+        + '<span style="' + base + 'font-size:0.68rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>'
+        + '<div style="width:36px;height:3px;background:var(--border);border-radius:2px"><div style="width:' + barPct + '%;height:100%;background:' + actColor + ';border-radius:2px"></div></div>'
+        + '</div>';
+    }
+
+    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 54px;gap:4px;align-items:center">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:' + rankColor + ';line-height:1">' + rank + '</div>';
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + '</div>';
@@ -2375,6 +2399,7 @@ function renderRungOverview() {
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.ftpWkg,   ownFtpWkg))   + '</div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.medWkg,   ownMedWkg))   + '</div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.punchWkg, ownPunchWkg)) + '</div>';
+    html += '<div style="text-align:center">' + actHtml + '</div>';
     html += '</div>';
   });
 
@@ -2980,6 +3005,17 @@ function renderMatchupAnalysis() {
   const oppStatsUrl = oppStatsId ? `https://ladder.cycleracing.club/teamStats/${oppStatsId}` : null;
   const myStatsUrl  = myStatsId  ? `https://ladder.cycleracing.club/teamStats/${myStatsId}`  : null;
 
+  // Predicted lineup: opponent riders sorted by recent activity (most active first), inactive excluded
+  const oppActKey = opponentTeam.libraryKey || null;
+  const predictedLineup = (() => {
+    if (!oppActKey || typeof TEAM_ACTIVITY === 'undefined' || !TEAM_ACTIVITY[oppActKey]) return null;
+    return opponentTeam.riders
+      .map(r => ({ r, act: getRiderActivity(oppActKey, r.id) }))
+      .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
+      .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''))
+      .slice(0, teamSize);
+  })();
+
   // Get active opp riders
   const oppRiders = opponentTeam.riders.filter(r => r.active !== false);
   const fn = getRiderWatts;
@@ -3332,6 +3368,25 @@ function renderMatchupAnalysis() {
       ${oppStatsUrl ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-left:2px solid var(--accent2);margin-bottom:12px;line-height:1.7;">
         💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Go to team page to view their recent races and rider stats —
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
+      </div>` : ''}
+      ${predictedLineup && predictedLineup.length ? `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
+        <div style="font-size:0.5rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">PREDICTED LINEUP — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
+        <div style="display:flex;flex-direction:column;gap:4px;">
+          ${predictedLineup.map(({r, act}, i) => {
+            const wkg = r.wkg ? r.wkg.toFixed(2) : (r.watt && r.weight ? (r.watt/r.weight).toFixed(2) : '—');
+            const ptsPerRace = act.races > 0 ? (act.points / act.races).toFixed(1) : null;
+            const daysAgo = act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
+            const dotColor = act.level === 'very_active' ? '#16a34a' : '#f59e0b';
+            return `<div style="display:flex;align-items:center;gap:10px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${dotColor}">
+              <span style="font-size:0.6rem;color:var(--text-dim);width:16px;text-align:right">${i+1}</span>
+              <span style="font-size:0.72rem;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.name}</span>
+              <span style="font-size:0.6rem;color:var(--text-dim)">${wkg} W/kg</span>
+              <span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} løb</span>
+              ${daysAgo !== null ? `<span style="font-size:0.55rem;color:var(--text-dim);opacity:0.7">${daysAgo}d siden</span>` : ''}
+              ${ptsPerRace ? `<span style="font-size:0.55rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/løb</span>` : ''}
+            </div>`;
+          }).join('')}
+        </div>
       </div>` : ''}
       ${buildComparisonTable(selectedRiders, oppRiders, fn, myName, opponentTeam.name)}
     </div>
