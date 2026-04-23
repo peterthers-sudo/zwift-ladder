@@ -1058,7 +1058,7 @@ function toggleAllOppRiders(checked) {
     if (checked) {
       // Don't select riders with 0 races in the last 60 days
       const act = getRiderActivity(teamKey, r.id);
-      r.active = act.level !== 'inactive';
+      r.active = !act || act.level !== 'inactive';
     } else {
       r.active = false;
     }
@@ -1193,7 +1193,7 @@ function toggleSelectAll(checked) {
     if (checked) {
       // Don't select riders with 0 races in the last 60 days
       const act = getRiderActivity(myTeamKey, r.zwift_id);
-      r.selected = act.level !== 'inactive';
+      r.selected = !act || act.level !== 'inactive';
     } else {
       r.selected = false;
     }
@@ -2167,7 +2167,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.163'; // bump this on every update
+const APP_VERSION = 'v1.3.164'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2207,7 +2207,7 @@ function loadFromStorage() {
     if (activeMyTeamKey) {
       riders.forEach(r => {
         const act = getRiderActivity(activeMyTeamKey, r.zwift_id);
-        r.selected = act.level !== 'inactive';
+        r.selected = !act || act.level !== 'inactive';
       });
     }
   }
@@ -3020,7 +3020,7 @@ function renderMatchupAnalysis() {
     if (!oppActKey || typeof TEAM_ACTIVITY === 'undefined' || !TEAM_ACTIVITY[oppActKey]) return null;
     return opponentTeam.riders
       .map(r => ({ r, act: getRiderActivity(oppActKey, r.id) }))
-      .filter(x => x.r.active !== false && x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
+      .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
       .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''));
   })();
   const predictedLineup = predictedPool ? predictedPool.slice(0, teamSize) : null;
@@ -3362,10 +3362,12 @@ function renderMatchupAnalysis() {
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
         <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
         <div style="display:flex;gap:8px;align-items:center;">
-          <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;border:1px solid var(--border);border-radius:2px;overflow:hidden;" title="Switch opponent lineup source for all charts and tables">
-            <span style="padding:4px 7px;color:var(--text-dim);border-right:1px solid var(--border);white-space:nowrap">OPP:</span>
-            <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')" style="padding:4px 8px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};color:${matchupOppMode==='selected'?'#000':'var(--text-dim)'};">SELECTED</button>
-            <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:4px 8px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--text-dim)'};">PREDICTED</button>
+          <div style="display:flex;flex-direction:column;gap:3px;" title="Switch which opponent riders are used in all charts, tables and analysis">
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;">Analyse opponent as:</span>
+            <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;">
+              <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')" style="padding:6px 12px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED</button>
+              <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:6px 12px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">PREDICTED</button>
+            </div>
           </div>
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
           <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
@@ -4736,7 +4738,7 @@ function loadOpponentFromLibrary() {
     // Apply activity filter: inactive riders start deselected
     opponentTeam.riders.forEach(r => {
       const act = getRiderActivity(teamKey, r.id);
-      r.active = act.level !== 'inactive';
+      r.active = !act || act.level !== 'inactive';
     });
     renderOppRoster();
     updateContextBar();
@@ -4789,7 +4791,7 @@ function loadOpponentFromLibrary() {
   // Apply activity filter: inactive riders start deselected
   opponentTeam.riders.forEach(r => {
     const act = getRiderActivity(key, r.id);
-    r.active = act.level !== 'inactive';
+    r.active = !act || act.level !== 'inactive';
   });
 
   localStorage.setItem('zwift_opponent_data', JSON.stringify(teamData)); 
