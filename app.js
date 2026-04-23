@@ -2200,7 +2200,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.173'; // bump this on every update
+const APP_VERSION = 'v1.3.174'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2381,12 +2381,12 @@ function renderRungOverview() {
   if (lastUpdated) html += '<span style="opacity:0.5">\u00b7 ' + lastUpdated + '</span>';
   html += '</div>';
 
-  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 54px;gap:4px;align-items:center;' + base + 'font-size:0.5rem;color:var(--text-dim);letter-spacing:1px;padding:0 6px;margin-bottom:4px">';
+  html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px;gap:4px;align-items:center;' + base + 'font-size:0.65rem;font-weight:700;color:var(--text-dim);letter-spacing:1.2px;padding:0 6px;margin-bottom:4px">';
   html += '<div></div><div>TEAM</div>';
-  html += '<div style="text-align:center">FTP W/KG<br><span style="opacity:0.5">vs you</span></div>';
-  html += '<div style="text-align:center">5MIN W/KG<br><span style="opacity:0.5">vs you</span></div>';
-  html += '<div style="text-align:center">1MIN W/KG<br><span style="opacity:0.5">vs you</span></div>';
-  html += '<div style="text-align:center">RACES<br><span style="opacity:0.5">2mo</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">FTP W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">5MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">1MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">RACES<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '</div>';
 
   teams.forEach(function(team, i) {
@@ -2419,13 +2419,13 @@ function renderRungOverview() {
     } else {
       var barPct = maxRaces > 0 ? Math.round((teamRaces / maxRaces) * 100) : 0;
       var actColor = teamRaces === 0 ? 'var(--red)' : teamRaces >= maxRaces * 0.6 ? 'var(--accent3)' : 'var(--text-dim)';
-      actHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:2px">'
-        + '<span style="' + base + 'font-size:0.68rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>'
-        + '<div style="width:36px;height:3px;background:var(--border);border-radius:2px"><div style="width:' + barPct + '%;height:100%;background:' + actColor + ';border-radius:2px"></div></div>'
+      actHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'
+        + '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>'
+        + '<div style="width:52px;height:4px;background:var(--border);border-radius:2px"><div style="width:' + barPct + '%;height:100%;background:' + actColor + ';border-radius:2px"></div></div>'
         + '</div>';
     }
 
-    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 54px;gap:4px;align-items:center">';
+    html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px;gap:4px;align-items:center">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:' + rankColor + ';line-height:1">' + rank + '</div>';
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + '</div>';
