@@ -1043,7 +1043,7 @@ function renderOppRoster() {
               <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:600; color:${isActive ? 'var(--text)' : 'var(--text-dim)'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; min-width:0;">
                 ${r.name}
               </div>
-              ${badgeHTML}${oppHotBadge}
+              ${oppHotBadge}${badgeHTML}
             </div>
             <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-dim); display:flex; gap:8px; margin-top:2px; flex-wrap:wrap;">
               <span>${(r.wkg || r.twentyMin || 0).toFixed(2)} W/kg</span>
@@ -1439,7 +1439,7 @@ function renderRiders() {
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;min-width:0">
               <div style="font-weight:700;color:var(--text);font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${r.name}</div>
-              ${myBadge}${myHotBadge}
+              ${myHotBadge}${myBadge}
             </div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;color:var(--text-dim);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
               <span style="color:var(--text)">${(r.twentyMin||0).toFixed(2)} W/kg</span>
@@ -2215,7 +2215,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.179'; // bump this on every update
+const APP_VERSION = 'v1.3.180'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
