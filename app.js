@@ -303,7 +303,21 @@ const ZWIFT_ROUTES = [
 // Give each route an id and initialize as selected
 let courses = ZWIFT_ROUTES.map((r, i) => ({ ...r, id: i + 1, selected: true, custom: false }));
 let opponentTeam = null;
-let matchupOppMode = 'selected'; // 'selected' | 'predicted'
+let matchupOppMode = 'selected';    // 'selected' | 'predicted'
+let currentPredictedPool = null;    // cached predicted rider pool for current opponent
+
+function updatePredictedPool() {
+  currentPredictedPool = null;
+  if (!opponentTeam || !opponentTeam.libraryKey || typeof TEAM_ACTIVITY === 'undefined') return;
+  const team = TEAM_ACTIVITY[opponentTeam.libraryKey];
+  if (!team) return;
+  const key = opponentTeam.libraryKey;
+  currentPredictedPool = opponentTeam.riders
+    .map(r => ({ r, act: getRiderActivity(key, r.id) }))
+    .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
+    .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''))
+    .map(x => x.r);
+}
 
 function setOpponent(type) {
   const wkg = parseFloat(document.getElementById(`opp-wkg-${type}`).value);
@@ -799,13 +813,14 @@ function scoreOppRiderForCourse(r, fp, oppRiderWattsFn) {
   );
 }
 
-function getBestOppLineupForCourse(course, teamSize, riderPool) {
+function getBestOppLineupForCourse(course, teamSize) {
   if (!opponentTeam || !opponentTeam.riders) return null;
   const fp = getCourseFingerprint(course);
   const fn = getRiderWatts;
 
-  const pool = riderPool
-    ? riderPool.filter(r => r.wkg > 0 || r.watt > 0)
+  const usePred = matchupOppMode === 'predicted' && currentPredictedPool && currentPredictedPool.length;
+  const pool = usePred
+    ? currentPredictedPool.filter(r => r.wkg > 0 || r.watt > 0)
     : opponentTeam.riders.filter(r => r.active !== false && (r.wkg > 0 || r.watt > 0));
 
   const scored = pool
@@ -1928,7 +1943,7 @@ function runMatch() {
 
       if (opponentTeam) {
         // Pick opponent's best N for THIS course
-        const oppBest = getBestOppLineupForCourse(c, teamSize, oppRiderPool);
+        const oppBest = getBestOppLineupForCourse(c, teamSize);
         const oppProfile = oppBest ? oppBest.profile : null;
 
         if (oppProfile) {
@@ -2167,7 +2182,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.164'; // bump this on every update
+const APP_VERSION = 'v1.3.165'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3014,23 +3029,17 @@ function renderMatchupAnalysis() {
   const oppStatsUrl = oppStatsId ? `https://ladder.cycleracing.club/teamStats/${oppStatsId}` : null;
   const myStatsUrl  = myStatsId  ? `https://ladder.cycleracing.club/teamStats/${myStatsId}`  : null;
 
-  // Predicted pool: all active+recently-raced opponent riders, sorted by activity (no slice — full pool for course analysis)
+  // Predicted lineup display (top N by activity) — uses the global currentPredictedPool
   const oppActKey = opponentTeam.libraryKey || null;
-  const predictedPool = (() => {
-    if (!oppActKey || typeof TEAM_ACTIVITY === 'undefined' || !TEAM_ACTIVITY[oppActKey]) return null;
-    return opponentTeam.riders
-      .map(r => ({ r, act: getRiderActivity(oppActKey, r.id) }))
-      .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
-      .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''));
-  })();
-  const predictedLineup = predictedPool ? predictedPool.slice(0, teamSize) : null;
+  const predictedLineup = currentPredictedPool ? currentPredictedPool.slice(0, teamSize).map(r => ({
+    r, act: getRiderActivity(oppActKey, r.id)
+  })) : null;
 
   // Opponent rider pool for all analyses — switches based on mode toggle
-  const usePredicted = matchupOppMode === 'predicted' && predictedPool && predictedPool.length;
+  const usePredicted = matchupOppMode === 'predicted' && currentPredictedPool && currentPredictedPool.length;
   const oppRiders = usePredicted
-    ? predictedPool.map(x => x.r)
+    ? currentPredictedPool
     : opponentTeam.riders.filter(r => r.active !== false);
-  const oppRiderPool = usePredicted ? oppRiders : null; // passed to getBestOppLineupForCourse
   const fn = getRiderWatts;
 
   // Helper to get avg for my team
@@ -3369,9 +3378,11 @@ function renderMatchupAnalysis() {
               <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:6px 12px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">PREDICTED</button>
             </div>
           </div>
-          <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
-          <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
-          <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
+          <div style="display:flex;gap:8px;align-items:flex-end">
+            <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
+            <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
+            <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
+          </div>
         </div>
       </div>
       <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:1.5px; color:var(--text-dim);">
@@ -4740,6 +4751,7 @@ function loadOpponentFromLibrary() {
       const act = getRiderActivity(teamKey, r.id);
       r.active = !act || act.level !== 'inactive';
     });
+    updatePredictedPool();
     renderOppRoster();
     updateContextBar();
     runMatch();
@@ -4807,6 +4819,7 @@ function loadOpponentFromLibrary() {
     <div style="font-size:0.65rem;opacity:0.7;margin-top:3px">
       Full squad avg — FTP:${Math.round(opp_wFtp)}W · Sprint:${Math.round(opp_wSprint)}W · 1min:${Math.round(opp_w1min)}W · 5min:${Math.round(opp_w5min)}W
     </div>`;
+  updatePredictedPool();
   renderOppRoster();
   updateContextBar();
   runMatch();
