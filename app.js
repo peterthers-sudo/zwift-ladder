@@ -953,10 +953,10 @@ function renderActivityBadge(act) {
     ? `0/${act.totalRaces}`
     : `${act.races}/${act.totalRaces}`;
   const daysBadge = daysAgo !== null && act.level !== 'inactive'
-    ? `<span style="opacity:0.6;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">${daysAgo}d</span>`
+    ? `<span style="opacity:0.6;font-size:0.65rem;font-weight:600;letter-spacing:0.5px">${daysAgo}d</span>`
     : '';
   return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
-    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>${daysBadge}<span style="opacity:0.5;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">2mo</span>
+    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>${daysBadge}<span style="opacity:0.5;font-size:0.65rem;font-weight:600;letter-spacing:0.5px">2mo</span>
   </span>`;
 }
 
@@ -1029,7 +1029,7 @@ function renderOppRoster() {
     const veloHTML = r.velo_sprint != null ? veloDims.map(([label, val, color]) => {
       const pct = Math.min(100, Math.max(0, ((val||0) - 400) / 5));
       return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.50rem;color:var(--text-dim)">${label}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${label}</span>
         <div style="width:100%;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
           <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
         </div>
@@ -1060,11 +1060,11 @@ function renderOppRoster() {
         <div id="opp-detail-${i}" style="display:none; padding:0 12px 12px 12px; border-top:1px solid var(--border);">
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:10px;">
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Power Curve</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Power Curve</div>
               ${curveHTML || '<span style="color:var(--text-dim);font-size:0.7rem">No curve data</span>'}
             </div>
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Profile</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Profile</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;display:flex;flex-direction:column;gap:3px">
                 <div><span style="color:var(--text-dim)">Weight  </span><strong>${r.weight || '?'}kg</strong></div>
                 <div><span style="color:var(--text-dim)">FTP     </span><strong style="color:var(--accent)">${wFtp}W</strong> · ${(r.wkg || r.twentyMin || 0).toFixed(2)} W/kg</div>
@@ -1076,7 +1076,7 @@ function renderOppRoster() {
           </div>
           ${veloHTML ? `
           <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
             <div style="display:flex;gap:6px">${veloHTML}</div>
           </div>` : ''}
         </div>
@@ -1419,7 +1419,7 @@ function renderRiders() {
     const myVeloHTML = r.velo_sprint != null ? myVeloDims.map(([label, val, color]) => {
       const pct = Math.min(100, Math.max(0, ((val||0) - 400) / 5));
       return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.50rem;color:var(--text-dim)">${label}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${label}</span>
         <div style="width:100%;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
           <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
         </div>
@@ -1450,12 +1450,12 @@ function renderRiders() {
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:10px">
 
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Power Curve</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Power Curve</div>
               ${curveHTML || '<span style="color:var(--text-dim);font-size:0.7rem">No curve data</span>'}
             </div>
 
             <div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Profile</div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Profile</div>
               <div style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;display:flex;flex-direction:column;gap:3px">
                 <div><span style="color:var(--text-dim)">Weight  </span><strong>${r.weight || '?'}kg</strong></div>
                 <div><span style="color:var(--text-dim)">FTP     </span><strong style="color:var(--accent)">${ftpWatts}W</strong> · ${(r.twentyMin||0).toFixed(2)} W/kg</div>
@@ -1467,12 +1467,12 @@ function renderRiders() {
           </div>
           ${myVeloHTML ? `
           <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
             <div style="display:flex;gap:6px">${myVeloHTML}</div>
           </div>` : ''}
           ${(typeof RIDER_BIOS !== 'undefined' && RIDER_BIOS[String(r.zwift_id)]) ? `
           <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
+            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);line-height:1.7">${RIDER_BIOS[String(r.zwift_id)]}</div>
           </div>` : ''}
           ${(() => {
@@ -1492,19 +1492,19 @@ function renderRiders() {
               const pct = score * 10;
               return `<div style="display:flex;align-items:center;gap:6px;margin-bottom:3px">
                 <span style="font-size:0.7rem;width:14px">${icon}</span>
-                <span style="${base}font-size:0.57rem;color:var(--text-dim);width:58px">${label}</span>
+                <span style="${base}font-size:0.65rem;color:var(--text-dim);width:58px">${label}</span>
                 <div style="flex:1;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
                   <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
                 </div>
                 <span style="${base}font-size:0.65rem;font-weight:700;color:${color};width:14px;text-align:right">${score}</span>
-                <span style="${base}font-size:0.54rem;color:var(--text-dim);width:90px;text-align:right">${detail}</span>
+                <span style="${base}font-size:0.6rem;color:var(--text-dim);width:90px;text-align:right">${detail}</span>
               </div>`;
             }).join('');
-            const insightHTML = rm.insights.length ? `<div style="margin-top:5px;${base}font-size:0.57rem;color:var(--text-dim);line-height:1.7">${rm.insights.map(i => '· '+i).join('<br>')}</div>` : '';
+            const insightHTML = rm.insights.length ? `<div style="margin-top:5px;${base}font-size:0.65rem;color:var(--text-dim);line-height:1.7">${rm.insights.map(i => '· '+i).join('<br>')}</div>` : '';
             return `<div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
               <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:7px">
-                <div style="${base}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Race Analysis</div>
-                <div style="${base}font-size:0.54rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
+                <div style="${base}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Race Analysis</div>
+                <div style="${base}font-size:0.6rem;color:${rm.confidenceColor}">${rm.confidenceLabel}</div>
               </div>
               ${rows}${insightHTML}
             </div>`;
@@ -1653,11 +1653,11 @@ function renderCourseList(list) {
       ['END', fp.endurance, '#ff6b9d'],
     ].map(([label, val, color]) => `
       <div style="display:flex;align-items:center;gap:3px;flex:1;min-width:30px">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;color:var(--text-dim);width:20px;flex-shrink:0">${label}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);width:20px;flex-shrink:0">${label}</span>
         <div style="flex:1;height:3px;background:rgba(255,255,255,0.08);border-radius:1px;overflow:hidden">
           <div style="width:${val}%;height:100%;background:${color};border-radius:1px"></div>
         </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;color:var(--text-dim);width:18px;text-align:right">${val}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);width:18px;text-align:right">${val}</span>
       </div>`).join('');
 
     return `
@@ -1745,7 +1745,7 @@ function showCourseDetail(id) {
 
       <!-- LEFT: fingerprint bars -->
       <div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">COURSE FINGERPRINT</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">COURSE FINGERPRINT</div>
         <div style="display:flex;flex-direction:column;gap:8px">
           ${dims.map(([label, key, color]) => `
             <div style="display:grid;grid-template-columns:80px 1fr 32px;gap:8px;align-items:center">
@@ -1774,7 +1774,7 @@ function showCourseDetail(id) {
 
       <!-- RIGHT: stats -->
       <div style="min-width:160px">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">ROUTE STATS</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);margin-bottom:10px">ROUTE STATS</div>
         <div style="display:flex;flex-direction:column;gap:6px">
           ${[
             ['Distance',    c.distance + ' km'],
@@ -2209,7 +2209,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.175'; // bump this on every update
+const APP_VERSION = 'v1.3.176'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2392,11 +2392,11 @@ function renderRungOverview() {
 
   html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px 64px;gap:4px;align-items:center;' + base + 'font-size:0.65rem;font-weight:700;color:var(--text-dim);letter-spacing:1.2px;padding:0 6px;margin-bottom:4px">';
   html += '<div></div><div>TEAM</div>';
-  html += '<div style="text-align:center;line-height:1.4">FTP W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
-  html += '<div style="text-align:center;line-height:1.4">5MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
-  html += '<div style="text-align:center;line-height:1.4">1MIN W/KG<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
-  html += '<div style="text-align:center;line-height:1.4">RACES<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
-  html += '<div style="text-align:center;line-height:1.4">WIN RATE<br><span style="opacity:0.55;font-size:0.55rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">FTP W/KG<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">5MIN W/KG<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">1MIN W/KG<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">RACES<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
+  html += '<div style="text-align:center;line-height:1.4">WIN RATE<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '</div>';
 
   teams.forEach(function(team, i) {
@@ -2415,7 +2415,7 @@ function renderRungOverview() {
 
     var rankColor = rank === 1 ? '#ffd700' : rank === 2 ? '#c0c0c0' : rank === 3 ? '#cd7f32' : 'var(--text-dim)';
     var rowBg = isOwn ? 'background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.3);' : 'background:var(--surface2);border:1px solid var(--border);';
-    var rungBadge = challengeOnly ? ' <span style="' + base + 'font-size:0.47rem;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);padding:1px 4px">R' + team.rung + '</span>' : '';
+    var rungBadge = challengeOnly ? ' <span style="' + base + 'font-size:0.6rem;background:var(--surface2);border:1px solid var(--border);color:var(--text-dim);padding:1px 4px">R' + team.rung + '</span>' : '';
 
     var actData = (typeof TEAM_ACTIVITY !== 'undefined') ? TEAM_ACTIVITY[team.key] : null;
     var teamRaces = actData ? (actData.total_races_in_window || 0) : null;
@@ -2427,8 +2427,8 @@ function renderRungOverview() {
     if (teamRaces === null) {
       actHtml = '<span style="opacity:0.25">—</span>';
     } else {
-      var barPct = maxRaces > 0 ? Math.round((teamRaces / maxRaces) * 100) : 0;
-      var actColor = teamRaces === 0 ? 'var(--red)' : teamRaces >= maxRaces * 0.6 ? 'var(--accent3)' : 'var(--text-dim)';
+      var barPct = Math.min(100, Math.round((teamRaces / 8) * 100)); // fixed scale: 8 races = full bar
+      var actColor = teamRaces === 0 ? 'var(--red)' : teamRaces >= 5 ? 'var(--accent3)' : 'var(--text-dim)';
       actHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'
         + '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>'
         + '<div style="width:52px;height:4px;background:var(--border);border-radius:2px"><div style="width:' + barPct + '%;height:100%;background:' + actColor + ';border-radius:2px"></div></div>'
@@ -2443,19 +2443,19 @@ function renderRungOverview() {
       var wColor = winStats.rate >= 65 ? 'var(--accent3)' : winStats.rate >= 40 ? 'var(--text)' : 'var(--red)';
       winHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'
         + '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + wColor + '">' + winStats.rate + '%</span>'
-        + '<span style="' + base + 'font-size:0.48rem;color:var(--text-dim);opacity:0.6">' + winStats.wins + '/' + winStats.races + ' wins</span>'
+        + '<span style="' + base + 'font-size:0.6rem;color:var(--text-dim);opacity:0.6">' + winStats.wins + '/' + winStats.races + ' wins</span>'
         + '</div>';
     }
 
     var hotBadge = (winStats && winStats.rate >= 65 && winStats.races >= 3)
-      ? ' <span style="font-size:0.42rem;letter-spacing:0.8px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;vertical-align:middle;margin-left:4px;font-family:\'JetBrains Mono\',monospace">🔥 HOT</span>'
+      ? ' <span style="font-size:0.6rem;letter-spacing:0.8px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;vertical-align:middle;margin-left:4px;font-family:\'JetBrains Mono\',monospace">🔥 HOT</span>'
       : '';
 
     html += '<div style="' + rowBg + 'padding:7px 10px;margin-bottom:3px;display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px 64px;gap:4px;align-items:center">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:' + rankColor + ';line-height:1">' + rank + '</div>';
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
-    html += '<div style="' + base + 'font-size:0.5rem;color:var(--text-dim);margin-top:1px">';
+    html += '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);margin-top:1px">';
     if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
     if (team.positionInRung) html += ' \u00b7 #' + team.positionInRung + ' in rung';
     html += '</div></div>';
@@ -2751,7 +2751,7 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
 
   // Fingerprint bars for this route
   html += '<div style="background:var(--surface2);border:1px solid var(--border);padding:12px 16px;margin-bottom:12px">';
-  html += '<div style="' + base + 'font-size:0.55rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:8px">ROUTE DEMANDS</div>';
+  html += '<div style="' + base + 'font-size:0.65rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:8px">ROUTE DEMANDS</div>';
   var dims = [
     {key:'tt',      label:'Flat / TT',     color:'var(--accent)'},
     {key:'sprint',  label:'Sprint',        color:'var(--accent2)'},
@@ -2761,11 +2761,11 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
   ];
   dims.forEach(function(d) {
     html += '<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px">';
-    html += '<span style="' + base + 'font-size:0.58rem;color:var(--text-dim);width:70px;flex-shrink:0">' + d.label + '</span>';
+    html += '<span style="' + base + 'font-size:0.65rem;color:var(--text-dim);width:70px;flex-shrink:0">' + d.label + '</span>';
     html += '<div style="flex:1;height:5px;background:var(--border)">';
     html += '<div style="height:100%;width:' + fp[d.key] + '%;background:' + d.color + '"></div>';
     html += '</div>';
-    html += '<span style="' + base + 'font-size:0.58rem;color:' + d.color + ';width:28px;text-align:right">' + fp[d.key] + '</span>';
+    html += '<span style="' + base + 'font-size:0.65rem;color:' + d.color + ';width:28px;text-align:right">' + fp[d.key] + '</span>';
     html += '</div>';
   });
   html += '</div>';
@@ -2774,14 +2774,14 @@ function buildRouteAnalysis(course, flatAdv, climbAdv, punchAdv, sprintAdv, laps
   if (advantages.length || disadvantages.length) {
     html += '<div style="background:var(--surface2);border:1px solid var(--border);padding:12px 16px;margin-bottom:12px">';
     if (advantages.length) {
-      html += '<div style="' + base + 'font-size:0.58rem;color:var(--accent3);letter-spacing:1px;margin-bottom:6px">\u25b2 YOUR ADVANTAGES ON THIS ROUTE</div>';
+      html += '<div style="' + base + 'font-size:0.65rem;color:var(--accent3);letter-spacing:1px;margin-bottom:6px">\u25b2 YOUR ADVANTAGES ON THIS ROUTE</div>';
       advantages.forEach(function(a) {
         html += '<div style="' + base + 'font-size:0.63rem;color:var(--accent3);padding:2px 0">&#9679; ' + a + '</div>';
       });
     }
     if (advantages.length && disadvantages.length) html += '<div style="height:8px"></div>';
     if (disadvantages.length) {
-      html += '<div style="' + base + 'font-size:0.58rem;color:var(--red);letter-spacing:1px;margin-bottom:6px">\u25bc OPPONENT ADVANTAGES ON THIS ROUTE</div>';
+      html += '<div style="' + base + 'font-size:0.65rem;color:var(--red);letter-spacing:1px;margin-bottom:6px">\u25bc OPPONENT ADVANTAGES ON THIS ROUTE</div>';
       disadvantages.forEach(function(d) {
         html += '<div style="' + base + 'font-size:0.63rem;color:var(--red);padding:2px 0">&#9679; ' + d + '</div>';
       });
@@ -2878,7 +2878,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
   }
 
   var base   = 'font-family:JetBrains Mono,monospace;';
-  var thBase = base + 'font-size:0.58rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;';
+  var thBase = base + 'font-size:0.65rem;letter-spacing:1.5px;text-transform:uppercase;color:var(--text-dim);padding:6px 8px;border-bottom:1px solid var(--border);white-space:nowrap;';
   var tdAvg  = base + 'font-size:0.72rem;text-align:center;padding:5px 8px;color:var(--text);';
   var tdSub  = base + 'font-size:0.65rem;text-align:center;padding:4px 8px;color:var(--text-dim);';
 
@@ -2914,7 +2914,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
 
   // My team avg row - W/KG
   html += '<tr style="background:rgba(0,229,255,0.06);cursor:pointer" onclick="toggleCompareSection(\'' + uid + '-my-k\', this.querySelector(\'.arr\'))">';
-  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + myName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent);font-weight:600"><span class="arr" style="font-size:0.65rem;margin-right:6px;opacity:0.6">&#9654;</span>' + myName + ' <span style="font-size:0.65rem;font-weight:400;opacity:0.5">avg</span></td>';
   intervals.forEach(function(_,i) {
     html += '<td style="' + tdAvg + '">' + myK[i].toFixed(2) + '</td>';
   });
@@ -2938,7 +2938,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
 
   // Opp avg row - W/KG
   html += '<tr style="background:rgba(255,107,53,0.06);cursor:pointer" onclick="toggleCompareSection(\'' + uid + '-opp-k\', this.querySelector(\'.arr\'))">';
-  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent2);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + oppName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent2);font-weight:600"><span class="arr" style="font-size:0.65rem;margin-right:6px;opacity:0.6">&#9654;</span>' + oppName + ' <span style="font-size:0.65rem;font-weight:400;opacity:0.5">avg</span></td>';
   intervals.forEach(function(_,i) {
     html += '<td style="' + tdAvg + '">' + oppK[i].toFixed(2) + '</td>';
   });
@@ -2983,7 +2983,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
 
   // My team avg row - Watt
   html += '<tr style="background:rgba(0,229,255,0.06);cursor:pointer" onclick="toggleCompareSection(\'' + uid + '-my-w\', this.querySelector(\'.arr\'))">';
-  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + myName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent);font-weight:600"><span class="arr" style="font-size:0.65rem;margin-right:6px;opacity:0.6">&#9654;</span>' + myName + ' <span style="font-size:0.65rem;font-weight:400;opacity:0.5">avg</span></td>';
   intervals.forEach(function(_,i) {
     html += '<td style="' + tdAvg + '">' + Math.round(myW[i]) + '</td>';
   });
@@ -3007,7 +3007,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
 
   // Opp avg row - Watt
   html += '<tr style="background:rgba(255,107,53,0.06);cursor:pointer" onclick="toggleCompareSection(\'' + uid + '-opp-w\', this.querySelector(\'.arr\'))">';
-  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent2);font-weight:600"><span class="arr" style="font-size:0.55rem;margin-right:6px;opacity:0.6">&#9654;</span>' + oppName + ' <span style="font-size:0.55rem;font-weight:400;opacity:0.5">avg</span></td>';
+  html += '<td style="' + tdAvg + 'text-align:left;color:var(--accent2);font-weight:600"><span class="arr" style="font-size:0.65rem;margin-right:6px;opacity:0.6">&#9654;</span>' + oppName + ' <span style="font-size:0.65rem;font-weight:400;opacity:0.5">avg</span></td>';
   intervals.forEach(function(_,i) {
     html += '<td style="' + tdAvg + '">' + Math.round(oppW[i]) + '</td>';
   });
@@ -3040,7 +3040,7 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
   html += '</table>';
 
   html += '</div>';
-  html += '<div style=\'font-family:JetBrains Mono,monospace;font-size:0.55rem;color:var(--text-dim);margin-top:6px;padding:2px 0\'>Click a team row to expand individual riders</div>';
+  html += '<div style=\'font-family:JetBrains Mono,monospace;font-size:0.65rem;color:var(--text-dim);margin-top:6px;padding:2px 0\'>Click a team row to expand individual riders</div>';
   return html;
 }
 
@@ -3356,7 +3356,7 @@ function renderMatchupAnalysis() {
       barHtml = `<div style="position:absolute;right:50%;width:${pct}%;height:10px;top:50%;transform:translateY(-50%);background:var(--red);opacity:0.8;border-radius:2px 0 0 2px;"></div>`;
       numHtml = `<div style="position:absolute;right:calc(50% + ${pct}% + 5px);top:50%;transform:translateY(-50%);font-size:0.6rem;font-weight:600;color:var(--red);white-space:nowrap;text-align:right;">${valStr}</div>`;
     } else {
-      numHtml = `<div style="position:absolute;left:50%;transform:translate(-50%,-50%);top:50%;font-size:0.58rem;color:var(--text-dim);">0</div>`;
+      numHtml = `<div style="position:absolute;left:50%;transform:translate(-50%,-50%);top:50%;font-size:0.65rem;color:var(--text-dim);">0</div>`;
     }
 
     return `<div class="delta-row" style="display:flex;align-items:center;height:26px;" title="${fmt(myVal)} vs ${fmt(oppVal)}">
@@ -3417,7 +3417,7 @@ function renderMatchupAnalysis() {
         <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
           <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
           <div style="display:flex;flex-direction:column;gap:3px;" title="Switch which opponent riders are used in all charts, tables and analysis">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.48rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;">Analyse opponent as:</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;">Analyse opponent as:</span>
             <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;">
               <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')" style="padding:6px 12px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED</button>
               <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:6px 12px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">PREDICTED</button>
@@ -3449,12 +3449,12 @@ function renderMatchupAnalysis() {
         if (!ws) return '';
         const wColor = ws.rate >= 65 ? 'var(--accent3)' : ws.rate >= 40 ? 'var(--text-dim)' : 'var(--red)';
         const hotTag = ws.rate >= 65 && ws.races >= 3
-          ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.5rem;letter-spacing:1px;padding:2px 6px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;margin-left:8px;">🔥 HOT FORM</span>`
+          ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:2px 6px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;margin-left:8px;">🔥 HOT FORM</span>`
           : '';
         const barW = ws.rate;
         return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);margin-bottom:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
           <div>
-            <div style="font-size:0.48rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:4px;">OPPONENT RECENT FORM · LAST 60 DAYS</div>
+            <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:4px;">OPPONENT RECENT FORM · LAST 60 DAYS</div>
             <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
               <span style="color:${wColor};font-size:0.85rem;font-weight:700;">${ws.rate}%</span>
               <span style="color:var(--text-dim);">Won ${ws.wins} of ${ws.races} races${hotTag}</span>
@@ -3468,7 +3468,7 @@ function renderMatchupAnalysis() {
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
       </div>` : ''}
       ${predictedLineup && predictedLineup.length ? `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
-        <div style="font-size:0.5rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">PREDICTED LINEUP — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
+        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">PREDICTED LINEUP — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
         <div style="display:flex;flex-direction:column;gap:4px;">
           ${predictedLineup.map(({r, act}, i) => {
             const wkg = r.wkg ? r.wkg.toFixed(2) : (r.watt && r.weight ? (r.watt/r.weight).toFixed(2) : '—');
@@ -3480,8 +3480,8 @@ function renderMatchupAnalysis() {
               <span style="font-size:0.72rem;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.name}</span>
               <span style="font-size:0.6rem;color:var(--text-dim)">${wkg} W/kg</span>
               <span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} løb</span>
-              ${daysAgo !== null ? `<span style="font-size:0.55rem;color:var(--text-dim);opacity:0.7">${daysAgo}d siden</span>` : ''}
-              ${ptsPerRace ? `<span style="font-size:0.55rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/løb</span>` : ''}
+              ${daysAgo !== null ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${daysAgo}d siden</span>` : ''}
+              ${ptsPerRace ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/løb</span>` : ''}
             </div>`;
           }).join('')}
         </div>
@@ -3510,7 +3510,7 @@ function renderMatchupAnalysis() {
     </div>
 
     <!-- Legend -->
-    <div style="display:flex;gap:20px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;margin-top:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
+    <div style="display:flex;gap:20px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;margin-top:10px;margin-bottom:12px;flex-wrap:wrap;align-items:center;">
       <span style="display:flex;align-items:center;gap:6px;">
         <svg width="28" height="10" style="flex-shrink:0"><line x1="0" y1="5" x2="28" y2="5" stroke="rgba(127,255,107,0.9)" stroke-width="2.5"/><circle cx="14" cy="5" r="4" fill="rgba(127,255,107,1)" stroke="rgba(0,0,0,0.5)" stroke-width="1.5"/></svg>
         <span style="color:var(--accent3)">${myName}</span>
@@ -4343,7 +4343,7 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
                 background:${i % 2 === 0 ? 'var(--surface2)' : 'transparent'};">
       <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;color:var(--text-dim);text-align:center">${medal}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${nameColor};font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName(entry.rider)}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim);text-align:right;padding-right:8px;white-space:nowrap">${teamLabel}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);text-align:right;padding-right:8px;white-space:nowrap">${teamLabel}</span>
       <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:${nameColor};text-align:right">${pts}</span>
     </div>`;
   }).join('');
@@ -4353,7 +4353,7 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     <div class="matchup-section-title">⚡ Match Prediction</div>
 
     <div style="text-align:center;margin-bottom:16px;padding:20px 16px;background:var(--surface2);border:1px solid var(--border);">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:3px;color:var(--text-dim);margin-bottom:10px;text-transform:uppercase">
         Predicted Result · Best ${Math.min(MAX, myRiders.length)} vs ${Math.min(MAX, oppRiders.length)} riders
       </div>
       <div style="display:flex;justify-content:center;align-items:center;gap:20px;flex-wrap:wrap;">
@@ -4381,7 +4381,7 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
         <span style="color:var(--text);font-size:0.72rem;letter-spacing:1px">Match assessment</span>
       </div>
       <div style="font-size:0.82rem;line-height:1.7;color:var(--text)">${getStrategistAdvice()}</div>
-      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim);
+      <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);
                   border-top:1px solid var(--border);padding-top:8px">
         ⚠ Power numbers only — race dynamics, tactics and form on the day can change this result.
       </div>
@@ -4395,9 +4395,9 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
         <div style="display:grid;grid-template-columns:26px 1fr auto 32px;align-items:center;padding:5px 10px;
                     background:var(--surface);border-bottom:1px solid var(--border);">
           <span></span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Rider</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;padding-right:8px">Team</span>
-          <span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;text-align:right">Pts</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Rider</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;padding-right:8px">Team</span>
+          <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;text-align:right">Pts</span>
         </div>
         ${rowsHTML}
         <div style="display:grid;grid-template-columns:26px 1fr auto 32px;align-items:center;padding:8px 10px;
@@ -4568,11 +4568,11 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
 
   function wildcardBox(icon, label, labelColor, name, reason, bgColor) {
     return `<div style="padding:10px 12px;background:${bgColor};border:1px solid var(--border);margin-top:8px;">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--text-dim);
                   text-transform:uppercase;margin-bottom:6px">${icon} ${label}</div>
       <div style="font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:${labelColor};font-weight:600;
                   white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${name}</div>
-      ${reason ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim);margin-top:2px">
+      ${reason ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);margin-top:2px">
                   Strong: ${reason}</div>` : ''}
     </div>`;
   }
@@ -4581,7 +4581,7 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
   <div style="flex:1 1 0;min-width:200px;">
 
     <!-- Header -->
-    <div style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:3px;color:var(--text-dim);
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:3px;color:var(--text-dim);
                 text-transform:uppercase;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid var(--border);">
       Match Stats
     </div>
@@ -4590,15 +4590,15 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
     <div style="margin-bottom:14px;">
       <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
         <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent3)">${mySharePct}%</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim);letter-spacing:1px">${marginLabel}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);letter-spacing:1px">${marginLabel}</span>
         <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent2)">${oppSharePct}%</span>
       </div>
       <div style="height:6px;background:var(--surface2);border-radius:0;overflow:hidden;border:1px solid var(--border);">
         <div style="height:100%;width:${mySharePct}%;background:linear-gradient(90deg,var(--accent3),rgba(127,255,107,0.5));transition:width 0.4s"></div>
       </div>
       <div style="display:flex;justify-content:space-between;margin-top:3px;">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;color:var(--accent3);letter-spacing:1px;text-transform:uppercase;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${myName}</span>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right">${oppName}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent3);letter-spacing:1px;text-transform:uppercase;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${myName}</span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--accent2);letter-spacing:1px;text-transform:uppercase;max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:right">${oppName}</span>
       </div>
     </div>
 
@@ -4610,19 +4610,19 @@ function buildMatchStats(mySorted, oppSorted, myName, oppName, myPoints, oppPoin
 
     <!-- Head to head -->
     <div style="margin-top:10px;padding:10px;background:var(--surface2);border:1px solid var(--border);">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:2px;color:var(--text-dim);
                   text-transform:uppercase;margin-bottom:8px">Key matchup</div>
       <div style="display:flex;justify-content:space-between;align-items:center;gap:6px;">
         <div style="text-align:left;flex:1;overflow:hidden;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--accent3);font-weight:600;
                       white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${myBest ? shortName(myBest.rider) : '—'}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim)">${myBest ? Math.round(myBest.score) : '—'} pts</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim)">${myBest ? Math.round(myBest.score) : '—'} pts</div>
         </div>
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--text-dim);flex-shrink:0">VS</div>
         <div style="text-align:right;flex:1;overflow:hidden;">
           <div style="font-family:'JetBrains Mono',monospace;font-size:0.7rem;color:var(--accent2);font-weight:600;
                       white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${oppBest ? shortName(oppBest.rider) : '—'}</div>
-          <div style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--text-dim)">${oppBest ? Math.round(oppBest.score) : '—'} pts</div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim)">${oppBest ? Math.round(oppBest.score) : '—'} pts</div>
         </div>
       </div>
     </div>
@@ -5015,7 +5015,7 @@ function openDSSheet() {
     <div>${buildTable(myTeam ? myTeam.name : 'My Team', myRidersFinal, myMax, '#00e5ff')}</div>
     <div>${buildTable(opponentTeam.name, oppRiders, oppMax, '#ff6b6b')}</div>
   </div>
-  <div style="margin-top:16px;font-size:0.55rem;color:var(--ds-dim);letter-spacing:1px">★ = BEST ON THE TEAM &nbsp;·&nbsp; 90-DAY POWER FROM ZWIFTPOWER</div></body>
+  <div style="margin-top:16px;font-size:0.65rem;color:var(--ds-dim);letter-spacing:1px">★ = BEST ON THE TEAM &nbsp;·&nbsp; 90-DAY POWER FROM ZWIFTPOWER</div></body>
 </html>`;
   const win = window.open('', '_blank');
   win.document.write(html);
@@ -5086,16 +5086,16 @@ function openRouteAudit() {
     const bar = (val, col) => {
       const pct = Math.round(Math.min(100, Math.max(0, val)));
       const w = Math.round(pct * 0.18);
-      return '<td style="padding:2px 3px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:2px;"><div style="height:5px;width:' + w + 'px;max-width:14px;background:' + col + ';opacity:0.85;flex-shrink:0"></div><span style="font-size:0.52rem;color:var(--text-dim);flex-shrink:0">' + pct + '</span></div></td>';
+      return '<td style="padding:2px 3px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:2px;"><div style="height:5px;width:' + w + 'px;max-width:14px;background:' + col + ';opacity:0.85;flex-shrink:0"></div><span style="font-size:0.6rem;color:var(--text-dim);flex-shrink:0">' + pct + '</span></div></td>';
     };
 
     const shortName = route.name.length > 18 ? route.name.slice(0,18) + '…' : route.name;
     rows += '<tr style="border-bottom:1px solid var(--border);">'
-      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.58rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + route.name + '">' + shortName + '</td>'
-      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + route.world + '</td>'
-      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:' + (typeColor[dominant]||'var(--text)') + '">' + dominant.toUpperCase() + '</td>'
-      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim)">' + route.distance + '</td>'
-      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.5rem;color:var(--text-dim)">' + route.elevation + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.65rem;color:var(--text);overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="' + route.name + '">' + shortName + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + route.world + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:' + (typeColor[dominant]||'var(--text)') + '">' + dominant.toUpperCase() + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.distance + '</td>'
+      + '<td style="padding:2px 4px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.elevation + '</td>'
       + bar(fp.tt, typeColor.tt)
       + bar(fp.sprint, typeColor.sprint)
       + bar(fp.punch, typeColor.punch)
@@ -5104,19 +5104,19 @@ function openRouteAudit() {
       + '</tr>';
   }
 
-  const th = (t) => '<th style="text-align:left;padding:4px 5px;font-size:0.52rem;letter-spacing:1px;color:var(--text-dim);white-space:nowrap">' + t + '</th>';
+  const th = (t) => '<th style="text-align:left;padding:4px 5px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);white-space:nowrap">' + t + '</th>';
   container.innerHTML = '<table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;table-layout:fixed;">'
     + '<thead><tr style="border-bottom:2px solid var(--border);">'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:29%">ROUTE</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">WORLD</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:8%">DOM.</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:5%">KM</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:5%">ELEV</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">TT</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">SPRT</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:9%">PNCH</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:8%">CLB</th>'
-    + '<th style="text-align:left;padding:4px 4px;font-size:0.5rem;letter-spacing:1px;color:var(--text-dim);width:8%">ENDU</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:29%">ROUTE</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:9%">WORLD</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:8%">DOM.</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:5%">KM</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:5%">ELEV</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:9%">TT</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:9%">SPRT</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:9%">PNCH</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:8%">CLB</th>'
+    + '<th style="text-align:left;padding:4px 4px;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);width:8%">ENDU</th>'
     + '</tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
@@ -5135,12 +5135,12 @@ function openRouteAudit() {
 
     const bar = (val, col) => {
       const pct = Math.round(Math.min(100, Math.max(0, val)));
-      return '<td style="padding:2px 4px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:5px;"><div style="height:7px;width:' + pct + 'px;max-width:32px;background:' + col + ';opacity:0.8;flex-shrink:0"></div><span style="font-size:0.55rem;color:var(--text-dim);min-width:18px;flex-shrink:0">' + pct + '</span></div></td>';
+      return '<td style="padding:2px 4px;vertical-align:middle;"><div style="display:flex;align-items:center;gap:5px;"><div style="height:7px;width:' + pct + 'px;max-width:32px;background:' + col + ';opacity:0.8;flex-shrink:0"></div><span style="font-size:0.65rem;color:var(--text-dim);min-width:18px;flex-shrink:0">' + pct + '</span></div></td>';
     };
 
     rows += '<tr style="border-bottom:1px solid var(--border);">'
       + '<td style="padding:4px 6px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text);white-space:nowrap;max-width:140px;overflow:hidden;text-overflow:ellipsis" title="' + route.name + '">' + (route.name.length > 18 ? route.name.slice(0,18) + '\u2026' : route.name) + '</td>'
-      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.55rem;color:var(--text-dim)">' + route.world + '</td>'
+      + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.65rem;color:var(--text-dim)">' + route.world + '</td>'
       + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:' + (typeColor[dominant]||'var(--text)') + '">' + dominant.toUpperCase() + '</td>'
       + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.distance + 'km</td>'
       + '<td style="padding:5px 8px;font-family:JetBrains Mono,monospace;font-size:0.6rem;color:var(--text-dim)">' + route.elevation + 'm</td>'
@@ -5154,16 +5154,16 @@ function openRouteAudit() {
 
   container.innerHTML = '<table style="width:100%;border-collapse:collapse;font-family:JetBrains Mono,monospace;">'
     + '<thead><tr style="border-bottom:2px solid var(--border);">'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">ROUTE</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">WORLD</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">DOMINANT</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">DIST</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">ELEV</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">TT</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">SPRINT</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">PUNCH</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">CLIMB</th>'
-    + '<th style="text-align:left;padding:6px 8px;font-size:0.55rem;letter-spacing:2px;color:var(--text-dim)">ENDURANCE</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">ROUTE</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">WORLD</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">DOMINANT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">DIST</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">ELEV</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">TT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">SPRINT</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">PUNCH</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">CLIMB</th>'
+    + '<th style="text-align:left;padding:6px 8px;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">ENDURANCE</th>'
     + '</tr></thead><tbody>' + rows + '</tbody></table>';
 }
 
@@ -5764,7 +5764,7 @@ function _profileRenderHeader(name, id, races) {
 
       const physioRowHTML = physioBlocks
         ? `<div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
-             <div style="${base}font-size:0.52rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Race Physiology — avg ${srcLabel}</div>
+             <div style="${base}font-size:0.6rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Race Physiology — avg ${srcLabel}</div>
              ${physioBlocks}
            </div>`
         : '';
@@ -5773,7 +5773,7 @@ function _profileRenderHeader(name, id, races) {
       const scoutText = _profileGenerateScoutReport(rm, _profileRaceSource);
       const bioHTML = scoutText
         ? `<div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--border)">
-             <div style="${base}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
+             <div style="${base}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>
              <div style="${base}font-size:0.68rem;color:var(--text-dim);line-height:1.8">${scoutText}</div>
            </div>`
         : '';
@@ -6014,7 +6014,7 @@ function _profileGenerateCrossComparison() {
 
   const narrativeHTML = paras.length
     ? `<div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border)">
-         <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px">Analysis</div>
+         <div style="${B}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:12px">Analysis</div>
          ${paras.map(p => `<div style="${B}font-size:0.65rem;color:var(--text-dim);line-height:1.9;margin-bottom:10px">${p}</div>`).join('')}
        </div>`
     : '';
@@ -6111,55 +6111,55 @@ function _profileGenerateCrossComparison() {
 
     pacingHTML = `
       <div style="margin-top:28px;padding-top:20px;border-top:2px solid var(--border)">
-        <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Pacing &amp; Intensity by Race Type</div>
+        <div style="${B}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Pacing &amp; Intensity by Race Type</div>
         <div style="overflow-x:auto;margin-bottom:20px">
           <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border);white-space:nowrap">
             <thead>
               <tr style="border-bottom:2px solid var(--border)">
-                <th style="padding:8px 10px;text-align:left;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AP</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">NP</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Variability Index = NP/AP · &lt;1.05 even · &gt;1.10 explosive">VI</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Intensity Factor = NP/FTP">IF</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Training Stress Score = time × IF² / 3600 × 100">TSS</th>
-                <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Avg HR</th>
+                <th style="padding:8px 10px;text-align:left;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AP</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">NP</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Variability Index = NP/AP · &lt;1.05 even · &gt;1.10 explosive">VI</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Intensity Factor = NP/FTP">IF</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400" title="Training Stress Score = time × IF² / 3600 × 100">TSS</th>
+                <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Avg HR</th>
               </tr>
             </thead>
             <tbody>${pacingRows}</tbody>
           </table>
         </div>
-        <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg IF by Race Type</div>
+        <div style="${B}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg IF by Race Type</div>
         ${ifBars}
         ${pacNarrHTML}
-        <div style="${B}font-size:0.52rem;color:var(--text-dim);margin-top:14px;opacity:0.45">VI: &lt;1.05 even · 1.05–1.10 moderate · &gt;1.10 explosive &nbsp;·&nbsp; IF: &lt;0.75 easy · 0.75–0.85 hard · &gt;0.85 very hard &nbsp;·&nbsp; TSS per race · Min 2 races with AP+NP+FTP data</div>
+        <div style="${B}font-size:0.6rem;color:var(--text-dim);margin-top:14px;opacity:0.45">VI: &lt;1.05 even · 1.05–1.10 moderate · &gt;1.10 explosive &nbsp;·&nbsp; IF: &lt;0.75 easy · 0.75–0.85 hard · &gt;0.85 very hard &nbsp;·&nbsp; TSS per race · Min 2 races with AP+NP+FTP data</div>
       </div>`;
   }
 
   return `
-    <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Performance by Race Type</div>
+    <div style="${B}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:14px">Performance by Race Type</div>
     <div style="overflow-x:auto;margin-bottom:20px">
       <table style="width:100%;border-collapse:collapse;background:var(--surface2);border:1px solid var(--border);white-space:nowrap">
         <thead>
           <tr style="border-bottom:2px solid var(--border)">
-            <th style="padding:8px 10px;text-align:left;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AVG W/kg</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5s</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">1min</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5min</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">20min</th>
-            <th style="padding:8px 10px;text-align:center;${B}font-size:0.55rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Consistency</th>
+            <th style="padding:8px 10px;text-align:left;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Type</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">N</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">AVG W/kg</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5s</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">1min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">5min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">20min</th>
+            <th style="padding:8px 10px;text-align:center;${B}font-size:0.65rem;letter-spacing:1.5px;color:var(--text-dim);text-transform:uppercase;font-weight:400">Consistency</th>
           </tr>
         </thead>
         <tbody>${tableRows}</tbody>
       </table>
     </div>
-    <div style="${B}font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg 20min W/kg</div>
+    <div style="${B}font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:10px">Avg 20min W/kg</div>
     ${barRows}
     ${narrativeHTML}
     ${pacingHTML}
-    <div style="${B}font-size:0.52rem;color:var(--text-dim);margin-top:14px;opacity:0.45">Highlighted = best across race types · Consistency CV%: lower = more uniform output · Min 2 races per type</div>
+    <div style="${B}font-size:0.6rem;color:var(--text-dim);margin-top:14px;opacity:0.45">Highlighted = best across race types · Consistency CV%: lower = more uniform output · Min 2 races per type</div>
   `;
 }
 
@@ -6427,7 +6427,7 @@ function _profileGenerateAnalysis(races) {
   const sectionTitle = (t) => `<div style="${B}font-size:0.7rem;font-weight:700;color:var(--text);letter-spacing:1px;margin:14px 0 6px">${t}</div>`;
   const dimText = `color:var(--text-dim);${B}font-size:0.65rem;line-height:1.7`;
   const tableStyle = `width:100%;border-collapse:collapse;${B}font-size:0.62rem;margin-bottom:8px`;
-  const thStyle = `padding:5px 10px;text-align:left;border-bottom:2px solid var(--border);color:var(--text-dim);font-size:0.58rem;letter-spacing:1px`;
+  const thStyle = `padding:5px 10px;text-align:left;border-bottom:2px solid var(--border);color:var(--text-dim);font-size:0.65rem;letter-spacing:1px`;
 
   let html = `<div style="${B}font-size:0.60rem;color:${n<5?'#ff9f43':n<10?'var(--accent)':'var(--accent3)'};margin-bottom:12px">
     ${n} races analysed · Weight: ${weightStr} · Period: ${fmtDate(firstTs)} – ${fmtDate(lastTs)}
@@ -6787,7 +6787,7 @@ function _renderFixturesList(fixtures) {
       <col>
       <col style="width:15%">
     </colgroup>
-    <tr style="font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;color:var(--text-dim)">
+    <tr style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">TIME UTC</th>
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">HOME</th>
       <th style="border-bottom:1px solid var(--border)"></th>
