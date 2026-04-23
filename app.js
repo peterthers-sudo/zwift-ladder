@@ -302,7 +302,8 @@ const ZWIFT_ROUTES = [
 
 // Give each route an id and initialize as selected
 let courses = ZWIFT_ROUTES.map((r, i) => ({ ...r, id: i + 1, selected: true, custom: false }));
-let opponentTeam = null; 
+let opponentTeam = null;
+let matchupOppMode = 'selected'; // 'selected' | 'predicted'
 
 function setOpponent(type) {
   const wkg = parseFloat(document.getElementById(`opp-wkg-${type}`).value);
@@ -798,13 +799,16 @@ function scoreOppRiderForCourse(r, fp, oppRiderWattsFn) {
   );
 }
 
-function getBestOppLineupForCourse(course, teamSize) {
+function getBestOppLineupForCourse(course, teamSize, riderPool) {
   if (!opponentTeam || !opponentTeam.riders) return null;
   const fp = getCourseFingerprint(course);
   const fn = getRiderWatts;
 
-  const scored = opponentTeam.riders
-    .filter(r => r.active !== false && (r.wkg > 0 || r.watt > 0))   // exclude inactive and no-data riders
+  const pool = riderPool
+    ? riderPool.filter(r => r.wkg > 0 || r.watt > 0)
+    : opponentTeam.riders.filter(r => r.active !== false && (r.wkg > 0 || r.watt > 0));
+
+  const scored = pool
     .map(r => ({
       rider: r,
       score: scoreOppRiderForCourse(r, fp, fn)
@@ -1924,7 +1928,7 @@ function runMatch() {
 
       if (opponentTeam) {
         // Pick opponent's best N for THIS course
-        const oppBest = getBestOppLineupForCourse(c, teamSize);
+        const oppBest = getBestOppLineupForCourse(c, teamSize, oppRiderPool);
         const oppProfile = oppBest ? oppBest.profile : null;
 
         if (oppProfile) {
@@ -2163,7 +2167,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.162'; // bump this on every update
+const APP_VERSION = 'v1.3.163'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2980,6 +2984,11 @@ function buildComparisonTable(selectedRiders, oppRiders, fn, myName, oppName) {
   return html;
 }
 
+function setMatchupOppMode(mode) {
+  matchupOppMode = mode;
+  renderMatchupAnalysis();
+}
+
 function renderMatchupAnalysis() {
   const content = document.getElementById('matchup-panel-content');
   const laps = Math.max(1, parseInt(document.getElementById('matchup-laps')?.value) || 1);
@@ -3005,19 +3014,23 @@ function renderMatchupAnalysis() {
   const oppStatsUrl = oppStatsId ? `https://ladder.cycleracing.club/teamStats/${oppStatsId}` : null;
   const myStatsUrl  = myStatsId  ? `https://ladder.cycleracing.club/teamStats/${myStatsId}`  : null;
 
-  // Predicted lineup: opponent riders sorted by recent activity (most active first), inactive excluded
+  // Predicted pool: all active+recently-raced opponent riders, sorted by activity (no slice — full pool for course analysis)
   const oppActKey = opponentTeam.libraryKey || null;
-  const predictedLineup = (() => {
+  const predictedPool = (() => {
     if (!oppActKey || typeof TEAM_ACTIVITY === 'undefined' || !TEAM_ACTIVITY[oppActKey]) return null;
     return opponentTeam.riders
       .map(r => ({ r, act: getRiderActivity(oppActKey, r.id) }))
       .filter(x => x.r.active !== false && x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
-      .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''))
-      .slice(0, teamSize);
+      .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''));
   })();
+  const predictedLineup = predictedPool ? predictedPool.slice(0, teamSize) : null;
 
-  // Get active opp riders
-  const oppRiders = opponentTeam.riders.filter(r => r.active !== false);
+  // Opponent rider pool for all analyses — switches based on mode toggle
+  const usePredicted = matchupOppMode === 'predicted' && predictedPool && predictedPool.length;
+  const oppRiders = usePredicted
+    ? predictedPool.map(x => x.r)
+    : opponentTeam.riders.filter(r => r.active !== false);
+  const oppRiderPool = usePredicted ? oppRiders : null; // passed to getBestOppLineupForCourse
   const fn = getRiderWatts;
 
   // Helper to get avg for my team
@@ -3349,6 +3362,11 @@ function renderMatchupAnalysis() {
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
         <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
         <div style="display:flex;gap:8px;align-items:center;">
+          <div style="display:flex;align-items:center;gap:0;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;border:1px solid var(--border);border-radius:2px;overflow:hidden;" title="Switch opponent lineup source for all charts and tables">
+            <span style="padding:4px 7px;color:var(--text-dim);border-right:1px solid var(--border);white-space:nowrap">OPP:</span>
+            <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')" style="padding:4px 8px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};color:${matchupOppMode==='selected'?'#000':'var(--text-dim)'};">SELECTED</button>
+            <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:4px 8px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--text-dim)'};">PREDICTED</button>
+          </div>
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
           <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
           <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
