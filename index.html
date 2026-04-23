@@ -871,7 +871,7 @@
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
           <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);cursor:pointer;margin:0">
             <input type="checkbox" id="opp-select-all" checked onchange="toggleAllOppRiders(this.checked)" style="cursor:pointer;accent-color:var(--accent2)">
-            All
+            All <span style="opacity:0.45;font-size:0.55rem">excl. inactive</span>
           </label>
         </div>
         <div id="opp-rider-list" style="display:flex; flex-direction:column; gap:6px;"></div>
@@ -887,7 +887,7 @@
   <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">
     <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;cursor:pointer;color:var(--text-dim)">
       <input type="checkbox" id="select-all-riders" onchange="toggleSelectAll(this.checked)" style="cursor:pointer;accent-color:var(--accent2)">
-      ALL
+      ALL <span style="opacity:0.45;font-size:0.55rem">excl. inactive</span>
     </label>
   </div>
 

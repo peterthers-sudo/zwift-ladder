@@ -914,7 +914,7 @@ function renderActivityBadge(act) {
     ? `0/${act.totalRaces}`
     : `${act.races}/${act.totalRaces}`;
   return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
-    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>
+    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span><span style="opacity:0.5;font-size:0.55rem;font-weight:600;letter-spacing:0.5px">2mo</span>
   </span>`;
 }
 
@@ -1044,7 +1044,16 @@ function toggleOppExpand(detailId, arrowId) {
 
 function toggleAllOppRiders(checked) {
   if (!opponentTeam || !opponentTeam.riders) return;
-  opponentTeam.riders.forEach(function(r) { r.active = checked; });
+  const teamKey = opponentTeam.libraryKey || null;
+  opponentTeam.riders.forEach(function(r) {
+    if (checked) {
+      // Don't select riders with 0 races in the last 60 days
+      const act = getRiderActivity(teamKey, r.id);
+      r.active = act.level !== 'inactive';
+    } else {
+      r.active = false;
+    }
+  });
   renderOppRoster();
   updateContextBar();
   runMatch();
@@ -1170,7 +1179,16 @@ function deleteRider(id) {
 }
 
 function toggleSelectAll(checked) {
-  riders.forEach(r => r.selected = checked);
+  const myTeamKey = (typeof activeMyTeamKey !== 'undefined') ? activeMyTeamKey : null;
+  riders.forEach(r => {
+    if (checked) {
+      // Don't select riders with 0 races in the last 60 days
+      const act = getRiderActivity(myTeamKey, r.zwift_id);
+      r.selected = act.level !== 'inactive';
+    } else {
+      r.selected = false;
+    }
+  });
   saveToStorage();
   renderRiders();
   runMatch();
@@ -2140,7 +2158,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.158'; // bump this on every update
+const APP_VERSION = 'v1.3.159'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2947,6 +2965,14 @@ function renderMatchupAnalysis() {
   const teamSize = parseInt(document.getElementById('team-size').value) || 5;
   const myName = (document.getElementById('my-team-select')?.selectedOptions[0]?.text || 'My Team').replace('● ','');
 
+  // Team page URLs for ladder.cycleracing.club
+  const oppStatsId = (typeof TEAM_ACTIVITY !== 'undefined' && opponentTeam.libraryKey)
+    ? TEAM_ACTIVITY[opponentTeam.libraryKey]?.team_stats_id : null;
+  const myStatsId  = (typeof TEAM_ACTIVITY !== 'undefined' && typeof activeMyTeamKey !== 'undefined')
+    ? TEAM_ACTIVITY[activeMyTeamKey]?.team_stats_id : null;
+  const oppStatsUrl = oppStatsId ? `https://ladder.cycleracing.club/teamStats/${oppStatsId}` : null;
+  const myStatsUrl  = myStatsId  ? `https://ladder.cycleracing.club/teamStats/${myStatsId}`  : null;
+
   // Get active opp riders
   const oppRiders = opponentTeam.riders.filter(r => r.active !== false);
   const fn = getRiderWatts;
@@ -3292,10 +3318,14 @@ function renderMatchupAnalysis() {
 
     <div class="matchup-section">
       <div class="matchup-vs-header">
-        <div class="matchup-team-name" style="color:var(--accent)">${myName}</div>
+        <div class="matchup-team-name" style="color:var(--accent)">${myStatsUrl ? `<a href="${myStatsUrl}" target="_blank" style="color:inherit;text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:1px;" title="Open ${myName} on ladder.cycleracing.club">${myName}</a>` : myName}</div>
         <div class="matchup-vs-badge">VS</div>
-        <div class="matchup-team-name" style="color:var(--accent2)">${opponentTeam.name}</div>
+        <div class="matchup-team-name" style="color:var(--accent2)">${oppStatsUrl ? `<a href="${oppStatsUrl}" target="_blank" style="color:inherit;text-decoration:none;border-bottom:2px solid var(--accent2);padding-bottom:1px;" title="Open ${opponentTeam.name} on ladder.cycleracing.club">${opponentTeam.name}</a>` : opponentTeam.name}</div>
       </div>
+      ${oppStatsUrl ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-left:2px solid var(--accent2);margin-bottom:12px;line-height:1.7;">
+        💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Predict their lineup by checking who raced recently —
+        <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
+      </div>` : ''}
       ${buildComparisonTable(selectedRiders, oppRiders, fn, myName, opponentTeam.name)}
     </div>
 
