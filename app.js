@@ -2158,7 +2158,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.159'; // bump this on every update
+const APP_VERSION = 'v1.3.160'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2194,6 +2194,13 @@ function loadFromStorage() {
   } else {
     localStorage.removeItem('zwift_riders');
     localStorage.setItem('zwift_riders_version', RIDERS_VERSION);
+    // Fresh load — apply activity filter so inactive riders start deselected
+    if (activeMyTeamKey) {
+      riders.forEach(r => {
+        const act = getRiderActivity(activeMyTeamKey, r.zwift_id);
+        r.selected = act.level !== 'inactive';
+      });
+    }
   }
   // Restore course selection state (version-gated — new routes always appear selected)
   const savedCoursesVersion = localStorage.getItem('zwift_courses_version');
@@ -3318,12 +3325,12 @@ function renderMatchupAnalysis() {
 
     <div class="matchup-section">
       <div class="matchup-vs-header">
-        <div class="matchup-team-name" style="color:var(--accent)">${myStatsUrl ? `<a href="${myStatsUrl}" target="_blank" style="color:inherit;text-decoration:none;border-bottom:2px solid var(--accent);padding-bottom:1px;" title="Open ${myName} on ladder.cycleracing.club">${myName}</a>` : myName}</div>
+        <div class="matchup-team-name" style="color:var(--accent)">${myName}</div>
         <div class="matchup-vs-badge">VS</div>
-        <div class="matchup-team-name" style="color:var(--accent2)">${oppStatsUrl ? `<a href="${oppStatsUrl}" target="_blank" style="color:inherit;text-decoration:none;border-bottom:2px solid var(--accent2);padding-bottom:1px;" title="Open ${opponentTeam.name} on ladder.cycleracing.club">${opponentTeam.name}</a>` : opponentTeam.name}</div>
+        <div class="matchup-team-name" style="color:var(--accent2)">${opponentTeam.name}</div>
       </div>
       ${oppStatsUrl ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-left:2px solid var(--accent2);margin-bottom:12px;line-height:1.7;">
-        💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Predict their lineup by checking who raced recently —
+        💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Go to team page to view their recent races and rider stats —
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
       </div>` : ''}
       ${buildComparisonTable(selectedRiders, oppRiders, fn, myName, opponentTeam.name)}
@@ -4644,15 +4651,20 @@ function loadOpponentFromLibrary() {
       libraryKey: teamKey,
       name: teamData.name,
       riders: teamData.riders.map(r => ({
-        id: r.zwift_id, // tag zwift_id med så TEAM_ACTIVITY-lookup virker
+        id: r.zwift_id,
         name: r.name, weight: r.weight, watt: r.watt || Math.round((r.twentyMin||0)*(r.weight||70)),
         sprint: r.sprint, oneMin: r.oneMin, fiveMin: r.fiveMin, twentyMin: r.twentyMin,
         w5s: r.w5s, w10s: r.w10s, w15s: r.w15s, w30s: r.w30s,
         w1min: r.w1min, w2min: r.w2min, w5min: r.w5min, w10min: r.w10min,
-        w20min: r.w20min, w30min: r.w30min, active: true
+        w20min: r.w20min, w30min: r.w30min
       })),
       getRiderWatts: oppRiderWatts
     };
+    // Apply activity filter: inactive riders start deselected
+    opponentTeam.riders.forEach(r => {
+      const act = getRiderActivity(teamKey, r.id);
+      r.active = act.level !== 'inactive';
+    });
     renderOppRoster();
     updateContextBar();
     runMatch();
@@ -4696,12 +4708,17 @@ function loadOpponentFromLibrary() {
 
   // Store full rider list so runMatch() can pick best N per course
   opponentTeam = {
-    libraryKey: key,            // gem nøglen så TEAM_ACTIVITY-lookup virker
+    libraryKey: key,
     name:    teamData.name,
-    riders:  teamData.riders,   // raw riders — best lineup computed per course in runMatch
-    getRiderWatts: oppRiderWatts  // attach the helper so runMatch can use it
+    riders:  teamData.riders,
+    getRiderWatts: oppRiderWatts
   };
-  
+  // Apply activity filter: inactive riders start deselected
+  opponentTeam.riders.forEach(r => {
+    const act = getRiderActivity(key, r.id);
+    r.active = act.level !== 'inactive';
+  });
+
   localStorage.setItem('zwift_opponent_data', JSON.stringify(teamData)); 
 
   // Show summary stats (all riders) for the sidebar
