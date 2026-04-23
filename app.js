@@ -1150,6 +1150,12 @@ function switchTab(tab) {
     if (teamSizeBlock) teamSizeBlock.style.display = 'none';
     if (raceRouteBlock) raceRouteBlock.style.display = 'flex';
     populateMatchupRoutes();
+    // Auto-preselect: if nothing is currently selected and exactly 1 route is in the pool, select it
+    const _mSel = document.getElementById('matchup-route-select');
+    if (_mSel && !_mSel.value) {
+      const _pool = courses.filter(c => c.selected);
+      if (_pool.length === 1) _mSel.value = _pool[0].name;
+    }
     onMatchupRouteChange();
   } else {
     if (routesBlock) routesBlock.style.display = 'flex';
@@ -2200,7 +2206,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.171'; // bump this on every update
+const APP_VERSION = 'v1.3.172'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2561,16 +2567,7 @@ function populateMatchupRoutes() {
   if (search && !matchFound && sel.options.length > 1) {
     sel.selectedIndex = 1;
   } else if (!search && !matchFound) {
-    // Pre-select if exactly one route is selected on the Routes page
-    const selectedRoutes = courses.filter(c => c.selected);
-    if (selectedRoutes.length === 1) {
-      const autoName = selectedRoutes[0].name;
-      const autoOpt = Array.from(sel.options).find(o => o.value === autoName);
-      if (autoOpt) { autoOpt.selected = true; sel.value = autoName; }
-      else sel.selectedIndex = 0;
-    } else {
-      sel.selectedIndex = 0;
-    }
+    sel.selectedIndex = 0;
   }
 }
 
