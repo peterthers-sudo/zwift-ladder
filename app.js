@@ -989,6 +989,9 @@ function renderOppRoster() {
     const badgeHTML = renderActivityBadge(act);
     const actDaysAgo   = act && act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
     const actPtsPerRace = act && act.races > 0 ? (act.points / act.races).toFixed(1) : null;
+    const oppHotBadge = actPtsPerRace !== null && parseFloat(actPtsPerRace) >= 7.5
+      ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.8px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;flex-shrink:0;">🔥 HOT</span>`
+      : '';
     const wFtp    = getRiderWatts(r, 'ftp');
     const wSprint = getRiderWatts(r, 'sprint');
     const w5min   = getRiderWatts(r, 'w5min');
@@ -1040,7 +1043,7 @@ function renderOppRoster() {
               <div style="font-family:'JetBrains Mono',monospace; font-size:0.75rem; font-weight:600; color:${isActive ? 'var(--text)' : 'var(--text-dim)'}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; flex:1; min-width:0;">
                 ${r.name}
               </div>
-              ${badgeHTML}
+              ${badgeHTML}${oppHotBadge}
             </div>
             <div style="font-family:'JetBrains Mono',monospace; font-size:0.62rem; color:var(--text-dim); display:flex; gap:8px; margin-top:2px; flex-wrap:wrap;">
               <span>${(r.wkg || r.twentyMin || 0).toFixed(2)} W/kg</span>
@@ -1385,6 +1388,11 @@ function renderRiders() {
     const hasCurve = hasCurveData(r);
     const myAct    = getRiderActivity(myTeamKey, r.zwift_id);
     const myBadge  = renderActivityBadge(myAct);
+    const myActDaysAgo    = myAct && myAct.lastRace ? Math.floor((Date.now() - new Date(myAct.lastRace)) / 86400000) : null;
+    const myActPtsPerRace = myAct && myAct.races > 0 ? (myAct.points / myAct.races).toFixed(1) : null;
+    const myHotBadge = myActPtsPerRace !== null && parseFloat(myActPtsPerRace) >= 7.5
+      ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:0.8px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;flex-shrink:0;">🔥 HOT</span>`
+      : '';
 
     // Full curve rows — only shown if data exists
     const curveRows = [
@@ -1431,7 +1439,7 @@ function renderRiders() {
           <div style="flex:1;min-width:0">
             <div style="display:flex;align-items:center;gap:6px;min-width:0">
               <div style="font-weight:700;color:var(--text);font-size:0.88rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;flex:1;min-width:0">${r.name}</div>
-              ${myBadge}
+              ${myBadge}${myHotBadge}
             </div>
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;color:var(--text-dim);display:flex;gap:8px;flex-wrap:wrap;margin-top:2px">
               <span style="color:var(--text)">${(r.twentyMin||0).toFixed(2)} W/kg</span>
@@ -1439,6 +1447,7 @@ function renderRiders() {
               <span style="color:var(--accent2)">🔥 ${r.w5s || Math.round((r.sprint||0)*(r.weight||70))}W spr</span>
               <span style="color:var(--accent3)">⛰ ${r.w5min || Math.round((r.fiveMin||0)*(r.weight||70))}W 5min</span>
             </div>
+            ${myAct && myAct.level !== 'none' ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-dim);margin-top:3px;opacity:0.8;">Last 2mo: <span style="color:var(--text)">${myAct.races}/${myAct.totalRaces} races</span>${myActDaysAgo !== null ? ` &nbsp;·&nbsp; <span style="color:var(--text)">${myActDaysAgo}d since last</span>` : ''}${myActPtsPerRace ? ` &nbsp;·&nbsp; <span style="color:var(--text)">${myActPtsPerRace} pts/race</span>` : ''}</div>` : ''}
           </div>
           <span id="rider-arrow-${r.id}" style="color:var(--text-dim);font-size:0.65rem;flex-shrink:0">▶</span>
         </div>
@@ -2206,7 +2215,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.178'; // bump this on every update
+const APP_VERSION = 'v1.3.179'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
