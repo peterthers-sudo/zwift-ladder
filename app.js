@@ -949,15 +949,7 @@ function renderActivityBadge(act) {
   const tip = act.lastRace
     ? `Last ${act.cutoffDays} days: ${act.races} of ${act.totalRaces} team races · last: ${daysAgo}d ago${act.wins ? ' · ' + act.wins + ' win' + (act.wins>1?'s':'') : ''}${ptsPerRace ? ' · ' + ptsPerRace + ' pts/race' : ''}`
     : `No races in the last ${act.cutoffDays} days (${act.totalRaces} team races)`;
-  const count = act.level === 'inactive'
-    ? `0/${act.totalRaces}`
-    : `${act.races}/${act.totalRaces}`;
-  const daysBadge = daysAgo !== null && act.level !== 'inactive'
-    ? `<span style="opacity:0.6;font-size:0.65rem;font-weight:600;letter-spacing:0.5px">${daysAgo}d</span>`
-    : '';
-  return `<span title="${tip}" style="display:inline-flex;align-items:center;gap:5px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;font-weight:800;letter-spacing:1px;padding:4px 9px;background:${c.bg};color:${c.color};border-radius:4px;white-space:nowrap;flex-shrink:0;box-shadow:0 1px 2px rgba(0,0,0,0.15);text-transform:uppercase;">
-    <span>${c.label}</span><span style="opacity:0.85;font-weight:700">${count}</span>${daysBadge}<span style="opacity:0.5;font-size:0.65rem;font-weight:600;letter-spacing:0.5px">2mo</span>
-  </span>`;
+  return `<span title="${tip}" style="display:inline-flex;align-items:center;font-family:'JetBrains Mono',monospace;font-size:0.6rem;font-weight:800;letter-spacing:1px;padding:2px 7px;background:${c.bg};color:${c.color};border-radius:3px;white-space:nowrap;flex-shrink:0;text-transform:uppercase;">${c.label}</span>`;
 }
 
 function getTeamWinStats(actData) {
@@ -995,6 +987,8 @@ function renderOppRoster() {
     const isActive = r.active !== false;
     const act      = getRiderActivity(teamKey, r.id);
     const badgeHTML = renderActivityBadge(act);
+    const actDaysAgo   = act && act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
+    const actPtsPerRace = act && act.races > 0 ? (act.points / act.races).toFixed(1) : null;
     const wFtp    = getRiderWatts(r, 'ftp');
     const wSprint = getRiderWatts(r, 'sprint');
     const w5min   = getRiderWatts(r, 'w5min');
@@ -1054,6 +1048,9 @@ function renderOppRoster() {
               <span style="color:var(--accent2)">${wSprint}W spr</span>
               <span style="color:var(--accent3)">${w5min}W 5m</span>
             </div>
+            ${act && act.level !== 'none' ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--text-dim);margin-top:3px;opacity:0.8;">
+              Last 2mo: <span style="color:var(--text)">${act.races}/${act.totalRaces} races</span>${actDaysAgo !== null ? ` &nbsp;·&nbsp; <span style="color:var(--text)">${actDaysAgo}d since last</span>` : ''}${actPtsPerRace ? ` &nbsp;·&nbsp; <span style="color:var(--text)">${actPtsPerRace} pts/race</span>` : ''}
+            </div>` : ''}
           </div>
           <span id="opp-arrow-${i}" style="color:var(--text-dim);font-size:0.65rem;flex-shrink:0">▶</span>
         </div>
@@ -2209,7 +2206,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.177'; // bump this on every update
+const APP_VERSION = 'v1.3.178'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3476,9 +3473,9 @@ function renderMatchupAnalysis() {
               <span style="font-size:0.6rem;color:var(--text-dim);width:16px;text-align:right">${i+1}</span>
               <span style="font-size:0.72rem;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.name}</span>
               <span style="font-size:0.6rem;color:var(--text-dim)">${wkg} W/kg</span>
-              <span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} løb</span>
-              ${daysAgo !== null ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${daysAgo}d siden</span>` : ''}
-              ${ptsPerRace ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/løb</span>` : ''}
+              <span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} races</span>
+              ${daysAgo !== null ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${daysAgo}d ago</span>` : ''}
+              ${ptsPerRace ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/race</span>` : ''}
             </div>`;
           }).join('')}
         </div>
