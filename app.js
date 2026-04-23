@@ -2209,7 +2209,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.176'; // bump this on every update
+const APP_VERSION = 'v1.3.177'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2429,10 +2429,7 @@ function renderRungOverview() {
     } else {
       var barPct = Math.min(100, Math.round((teamRaces / 8) * 100)); // fixed scale: 8 races = full bar
       var actColor = teamRaces === 0 ? 'var(--red)' : teamRaces >= 5 ? 'var(--accent3)' : 'var(--text-dim)';
-      actHtml = '<div style="display:flex;flex-direction:column;align-items:center;gap:3px">'
-        + '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>'
-        + '<div style="width:52px;height:4px;background:var(--border);border-radius:2px"><div style="width:' + barPct + '%;height:100%;background:' + actColor + ';border-radius:2px"></div></div>'
-        + '</div>';
+      actHtml = '<span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + actColor + '">' + teamRaces + '</span>';
     }
 
     var winStats = getTeamWinStats(actData);
@@ -2455,7 +2452,7 @@ function renderRungOverview() {
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;color:' + rankColor + ';line-height:1">' + rank + '</div>';
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
-    html += '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);margin-top:1px">';
+    html += '<div style="' + base + 'font-size:0.7rem;color:var(--text-dim);margin-top:1px">';
     if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
     if (team.positionInRung) html += ' \u00b7 #' + team.positionInRung + ' in rung';
     html += '</div></div>';
