@@ -304,18 +304,29 @@ const ZWIFT_ROUTES = [
 let courses = ZWIFT_ROUTES.map((r, i) => ({ ...r, id: i + 1, selected: true, custom: false }));
 let opponentTeam = null;
 let matchupOppMode = 'selected';    // 'selected' | 'predicted'
-let currentPredictedPool = null;    // cached predicted rider pool for current opponent
+let currentPredictedPool = null;    // true-ish flag — use getPredictedPool(teamSize) for actual array
+let _predActive   = null;           // very_active (ACTIVE badge) riders sorted by activity
+let _predFallback = null;           // rare+inactive riders sorted, for supplementing
 
 function updatePredictedPool() {
-  currentPredictedPool = null;
+  currentPredictedPool = _predActive = _predFallback = null;
   if (!opponentTeam || !opponentTeam.libraryKey || typeof TEAM_ACTIVITY === 'undefined') return;
   const key = resolveTeamActivityKey(opponentTeam.libraryKey);
   if (!key) return;
-  currentPredictedPool = opponentTeam.riders
-    .map(r => ({ r, act: getRiderActivity(key, r.id) }))
-    .filter(x => x.act && x.act.level !== 'none' && x.act.level !== 'inactive')
-    .sort((a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||''))
-    .map(x => x.r);
+  const sortFn = (a, b) => b.act.races - a.act.races || (b.act.lastRace||'').localeCompare(a.act.lastRace||'');
+  const withAct = opponentTeam.riders.map(r => ({ r, act: getRiderActivity(key, r.id) }));
+  _predActive   = withAct.filter(x => x.act && x.act.level === 'very_active').sort(sortFn).map(x => x.r);
+  _predFallback = withAct.filter(x => x.act && x.act.level !== 'very_active' && x.act.level !== 'none').sort(sortFn).map(x => x.r);
+  currentPredictedPool = (_predActive.length || _predFallback.length) ? true : null;
+}
+
+// Returns the predicted pool: all ACTIVE riders + enough RARE/INACTIVE to reach teamSize minimum.
+// Can return MORE than teamSize if there are many ACTIVE riders.
+function getPredictedPool(teamSize) {
+  if (!_predActive) return null;
+  const pool = [..._predActive];
+  if (pool.length < teamSize) pool.push(..._predFallback.slice(0, teamSize - pool.length));
+  return pool.length ? pool : null;
 }
 
 function setOpponent(type) {
@@ -817,9 +828,9 @@ function getBestOppLineupForCourse(course, teamSize) {
   const fp = getCourseFingerprint(course);
   const fn = getRiderWatts;
 
-  const usePred = matchupOppMode === 'predicted' && currentPredictedPool && currentPredictedPool.length;
-  const pool = usePred
-    ? currentPredictedPool.filter(r => r.wkg > 0 || r.watt > 0)
+  const _predPool = matchupOppMode === 'predicted' ? getPredictedPool(teamSize) : null;
+  const pool = _predPool
+    ? _predPool.filter(r => r.wkg > 0 || r.watt > 0)
     : opponentTeam.riders.filter(r => r.active !== false && (r.wkg > 0 || r.watt > 0));
 
   const scored = pool
@@ -2229,7 +2240,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.185'; // bump this on every update
+const APP_VERSION = 'v1.3.186'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3091,16 +3102,18 @@ function renderMatchupAnalysis() {
   const oppStatsUrl = oppStatsId ? `https://ladder.cycleracing.club/teamStats/${oppStatsId}` : null;
   const myStatsUrl  = myStatsId  ? `https://ladder.cycleracing.club/teamStats/${myStatsId}`  : null;
 
-  // Predicted lineup display (top N by activity) — uses the global currentPredictedPool
+  // Predicted lineup: all ACTIVE riders + supplements up to teamSize minimum.
+  // More than teamSize shown if opponent has many ACTIVE riders.
   const oppActKey = opponentTeam.libraryKey || null;
-  const predictedLineup = currentPredictedPool ? currentPredictedPool.slice(0, teamSize).map(r => ({
+  const _predPool = getPredictedPool(teamSize);
+  const predictedLineup = _predPool ? _predPool.map(r => ({
     r, act: getRiderActivity(oppActKey, r.id)
   })) : null;
 
   // Opponent rider pool for all analyses — switches based on mode toggle
-  const usePredicted = matchupOppMode === 'predicted' && currentPredictedPool && currentPredictedPool.length;
+  const usePredicted = matchupOppMode === 'predicted' && !!_predPool;
   const oppRiders = usePredicted
-    ? currentPredictedPool.slice(0, teamSize)
+    ? _predPool
     : opponentTeam.riders.filter(r => r.active !== false);
   const fn = getRiderWatts;
 
