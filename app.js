@@ -830,8 +830,8 @@ function getBestOppLineupForCourse(course, teamSize) {
         if (!entry || !entry.races) return 0;
         const positions = entry.races.map(x => x.pos).filter(p => p > 0);
         if (positions.length < 3) return 0;
-        const avg = positions.reduce((a, b) => a + b, 0) / positions.length;
-        return Math.max(-6, Math.min(6, (7 - avg) * 0.8));
+        const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
+        return Math.max(-6, Math.min(6, (avgPts - 5.5) * 1.0));
       })() : 0)
     })).sort((a,b) => b.score - a.score);
 
@@ -2222,7 +2222,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.181'; // bump this on every update
+const APP_VERSION = 'v1.3.182'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4213,9 +4213,8 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     return Math.max(-5, Math.min(5, mod));
   }
 
-  // Avg finishing position modifier: uses actual race results to correct power-only predictions.
-  // Lower pos = better (pos 1 = first place). Reference: pos 7 = neutral.
-  // Riders who consistently finish ahead of pos 7 get a bonus; those who finish behind get a penalty.
+  // Avg points modifier: scoring is 1st=10pts, 2nd=9pts, ..., 10th=1pt, 11th+=0pt.
+  // Higher avg pts = better results = positive modifier. Reference: 5.5pts = neutral (~5th-6th place).
   // Requires min 3 races. Cap ±6 so it can't overwhelm route-specific power scores.
   function avgPosModifier(riderId) {
     if (typeof LADDER_RACES === 'undefined' || !riderId) return 0;
@@ -4223,8 +4222,9 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     if (!entry || !entry.races) return 0;
     const positions = entry.races.map(x => x.pos).filter(p => p > 0);
     if (positions.length < 3) return 0;
-    const avg = positions.reduce((a, b) => a + b, 0) / positions.length;
-    return Math.max(-6, Math.min(6, (7 - avg) * 0.8));
+    const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
+    // Reference 5.5 pts = neutral. Scale 1.0. Cap ±6.
+    return Math.max(-6, Math.min(6, (avgPts - 5.5) * 1.0));
   }
 
   function getAvgPosLabel(riderId) {
@@ -4233,7 +4233,8 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     if (!entry || !entry.races) return null;
     const positions = entry.races.map(x => x.pos).filter(p => p > 0);
     if (!positions.length) return null;
-    return (positions.reduce((a, b) => a + b, 0) / positions.length).toFixed(1);
+    const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
+    return avgPts.toFixed(1) + 'pts';
   }
 
   function scoreMyRider(r)  {
