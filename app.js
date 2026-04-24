@@ -886,10 +886,13 @@ function getBestOppLineupForCourse(course, teamSize) {
 // OPPONENT_LIBRARY keys use TEAMSTATS_<id> format, TEAM_ACTIVITY uses TEAMVIEW_<name> format.
 // This function resolves a library key to the correct TEAM_ACTIVITY key.
 const _teamActivityKeyCache = {};
+// Normalize a key: replace all non-alphanumeric (except _) with _, uppercase.
+// Matches the convention in get_data.py: re.sub(r'[^A-Z0-9]', '_', name.upper())
+const _normKey = k => k.replace(/[^A-Z0-9_]/g, '_').toUpperCase();
 function resolveTeamActivityKey(libraryKey) {
   if (!libraryKey || typeof TEAM_ACTIVITY === 'undefined') return null;
   if (_teamActivityKeyCache[libraryKey] !== undefined) return _teamActivityKeyCache[libraryKey];
-  // Direct match (MY_TEAMS used as opponent, or already a TEAMVIEW key)
+  // Direct match
   if (TEAM_ACTIVITY[libraryKey]) return (_teamActivityKeyCache[libraryKey] = libraryKey);
   // Match via team_stats_id embedded in TEAMSTATS_<id> key
   const m = libraryKey.match(/TEAMSTATS_(\d+)/i);
@@ -898,7 +901,11 @@ function resolveTeamActivityKey(libraryKey) {
     const found = Object.keys(TEAM_ACTIVITY).find(k => TEAM_ACTIVITY[k].team_stats_id === statsId);
     return (_teamActivityKeyCache[libraryKey] = found || null);
   }
-  return (_teamActivityKeyCache[libraryKey] = null);
+  // Normalized match: handles special chars like & and URL-encoded chars (%C3%B6)
+  // that may differ between team_activity.js (old keys) and opponents.js (normalized keys)
+  const normLib = _normKey(libraryKey);
+  const found = Object.keys(TEAM_ACTIVITY).find(k => _normKey(k) === normLib);
+  return (_teamActivityKeyCache[libraryKey] = found || null);
 }
 // Niveauer:
 //   very_active (grøn) : ratio >= 0.5 (kørte i halvdelen+ af holdets løb)
@@ -2240,7 +2247,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.186'; // bump this on every update
+const APP_VERSION = 'v1.3.187'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {

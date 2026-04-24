@@ -70,10 +70,10 @@ def build_id_to_key_map(source_dir):
         mm = re.search(r'<title[^>]*>([^<]+)</title>', head)
         team_name = clean_name(mm.group(1)) if mm else name.replace(TEAMVIEW_PREFIX, "").replace(".html", "")
 
-        # Nøgle: samme som index.html/opponents.js-konventionen
-        # (bindestreg i "view-source" bliver til underscore)
+        # Nøgle: samme som index.html/opponents.js-konventionen.
+        # Erstat alle ikke-alfanumeriske tegn (inkl. &, %, ö m.fl.) med _.
         stem = name.replace(".html", "")
-        key = stem.replace("-", "_").upper()   # VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET
+        key = re.sub(r'[^A-Z0-9_]', '_', stem.replace("-", "_").upper())
 
         mapping[team_id] = {
             "opponent_key": key,
