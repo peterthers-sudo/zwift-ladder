@@ -829,9 +829,11 @@ function getBestOppLineupForCourse(course, teamSize) {
         const entry = LADDER_RACES[String(r.id)] || LADDER_RACES[parseInt(r.id)];
         if (!entry || !entry.races) return 0;
         const positions = entry.races.map(x => x.pos).filter(p => p > 0);
-        if (positions.length < 3) return 0;
+        if (!positions.length) return 0;
         const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
-        return Math.max(-6, Math.min(6, (avgPts - 5.5) * 1.0));
+        const n = positions.length;
+        const cap = n === 1 ? 2 : n === 2 ? 4 : 6;
+        return Math.max(-cap, Math.min(cap, (avgPts - 5.5) * 1.0));
       })() : 0)
     })).sort((a,b) => b.score - a.score);
 
@@ -2222,7 +2224,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.182'; // bump this on every update
+const APP_VERSION = 'v1.3.183'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4215,16 +4217,19 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
 
   // Avg points modifier: scoring is 1st=10pts, 2nd=9pts, ..., 10th=1pt, 11th+=0pt.
   // Higher avg pts = better results = positive modifier. Reference: 5.5pts = neutral (~5th-6th place).
-  // Requires min 3 races. Cap ±6 so it can't overwhelm route-specific power scores.
+  // Cap scales with confidence: 1 race=±2, 2 races=±4, 3+ races=±6.
   function avgPosModifier(riderId) {
     if (typeof LADDER_RACES === 'undefined' || !riderId) return 0;
     const entry = LADDER_RACES[String(riderId)] || LADDER_RACES[parseInt(riderId)];
     if (!entry || !entry.races) return 0;
     const positions = entry.races.map(x => x.pos).filter(p => p > 0);
-    if (positions.length < 3) return 0;
+    if (!positions.length) return 0;
     const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
-    // Reference 5.5 pts = neutral. Scale 1.0. Cap ±6.
-    return Math.max(-6, Math.min(6, (avgPts - 5.5) * 1.0));
+    // Reference 5.5 pts = neutral. Scale 1.0.
+    // Cap scales with race count: 1 race = ±2, 2 races = ±4, 3+ races = ±6
+    const n = positions.length;
+    const cap = n === 1 ? 2 : n === 2 ? 4 : 6;
+    return Math.max(-cap, Math.min(cap, (avgPts - 5.5) * 1.0));
   }
 
   function getAvgPosLabel(riderId) {
