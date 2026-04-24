@@ -2247,7 +2247,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.187'; // bump this on every update
+const APP_VERSION = 'v1.3.188'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3505,7 +3505,7 @@ function renderMatchupAnalysis() {
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
       </div>` : ''}
       ${predictedLineup && predictedLineup.length ? `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
-        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">PREDICTED LINEUP — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
+        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">MOST LIKELY RIDERS — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
         <div style="display:flex;flex-direction:column;gap:4px;">
           ${predictedLineup.map(({r, act}, i) => {
             const wkg = r.wkg ? r.wkg.toFixed(2) : (r.watt && r.weight ? (r.watt/r.weight).toFixed(2) : '—');
