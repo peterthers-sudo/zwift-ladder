@@ -825,7 +825,14 @@ function getBestOppLineupForCourse(course, teamSize) {
   const scored = pool
     .map(r => ({
       rider: r,
-      score: scoreOppRiderForCourse(r, fp, fn)
+      score: scoreOppRiderForCourse(r, fp, fn) + (typeof LADDER_RACES !== 'undefined' ? (() => {
+        const entry = LADDER_RACES[String(r.id)] || LADDER_RACES[parseInt(r.id)];
+        if (!entry || !entry.races) return 0;
+        const positions = entry.races.map(x => x.pos).filter(p => p > 0);
+        if (positions.length < 3) return 0;
+        const avg = positions.reduce((a, b) => a + b, 0) / positions.length;
+        return Math.max(-6, Math.min(6, (7 - avg) * 0.8));
+      })() : 0)
     })).sort((a,b) => b.score - a.score);
 
   const best = scored.slice(0, teamSize);
@@ -2215,7 +2222,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.180'; // bump this on every update
+const APP_VERSION = 'v1.3.181'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4206,10 +4213,38 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     return Math.max(-5, Math.min(5, mod));
   }
 
-  function scoreMyRider(r)  { return scoreRiderForCourse(r, fp) + raceMetricsModifier(r.raceMetrics, fp); }
+  // Avg finishing position modifier: uses actual race results to correct power-only predictions.
+  // Lower pos = better (pos 1 = first place). Reference: pos 7 = neutral.
+  // Riders who consistently finish ahead of pos 7 get a bonus; those who finish behind get a penalty.
+  // Requires min 3 races. Cap ±6 so it can't overwhelm route-specific power scores.
+  function avgPosModifier(riderId) {
+    if (typeof LADDER_RACES === 'undefined' || !riderId) return 0;
+    const entry = LADDER_RACES[String(riderId)] || LADDER_RACES[parseInt(riderId)];
+    if (!entry || !entry.races) return 0;
+    const positions = entry.races.map(x => x.pos).filter(p => p > 0);
+    if (positions.length < 3) return 0;
+    const avg = positions.reduce((a, b) => a + b, 0) / positions.length;
+    return Math.max(-6, Math.min(6, (7 - avg) * 0.8));
+  }
+
+  function getAvgPosLabel(riderId) {
+    if (typeof LADDER_RACES === 'undefined' || !riderId) return null;
+    const entry = LADDER_RACES[String(riderId)] || LADDER_RACES[parseInt(riderId)];
+    if (!entry || !entry.races) return null;
+    const positions = entry.races.map(x => x.pos).filter(p => p > 0);
+    if (!positions.length) return null;
+    return (positions.reduce((a, b) => a + b, 0) / positions.length).toFixed(1);
+  }
+
+  function scoreMyRider(r)  {
+    return scoreRiderForCourse(r, fp) + raceMetricsModifier(r.raceMetrics, fp) + avgPosModifier(r.zwift_id || r.id);
+  }
   // my-team-style opponents (LEQP teams) have twentyMin/fiveMin/sprint — same structure as my riders
   // library opponents only have wkg/watt — use the dedicated opp scorer
-  function scoreOppRider(r) { return r.twentyMin != null ? scoreRiderForCourse(r, fp) : scoreOppRiderForCourse(r, fp, fn); }
+  function scoreOppRider(r) {
+    const base = r.twentyMin != null ? scoreRiderForCourse(r, fp) : scoreOppRiderForCourse(r, fp, fn);
+    return base + avgPosModifier(r.id || r.zwift_id);
+  }
 
   const mySorted  = [...myRiders].map(r => ({ rider:r, score:scoreMyRider(r),  team:'my'  }))
                                   .sort((a,b) => b.score - a.score).slice(0, MAX);
@@ -4342,10 +4377,13 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     const nameColor = isMe ? 'var(--accent3)' : 'var(--accent2)';
     const teamLabel = isMe ? myName : oppName;
     const medal     = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}.`;
+    const riderId   = isMe ? (entry.rider.zwift_id || entry.rider.id) : (entry.rider.id || entry.rider.zwift_id);
+    const avgPos    = getAvgPosLabel(riderId);
+    const avgPosTag = avgPos ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;opacity:0.45;margin-left:6px;">avg ${avgPos}</span>` : '';
     return `<div style="display:grid;grid-template-columns:26px 1fr auto 32px;align-items:center;padding:7px 10px;
                 background:${i % 2 === 0 ? 'var(--surface2)' : 'transparent'};">
       <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;color:var(--text-dim);text-align:center">${medal}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${nameColor};font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName(entry.rider)}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${nameColor};font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName(entry.rider)}${avgPosTag}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);text-align:right;padding-right:8px;white-space:nowrap">${teamLabel}</span>
       <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:${nameColor};text-align:right">${pts}</span>
     </div>`;
@@ -4386,7 +4424,7 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
       <div style="font-size:0.82rem;line-height:1.7;color:var(--text)">${getStrategistAdvice()}</div>
       <div style="margin-top:10px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);
                   border-top:1px solid var(--border);padding-top:8px">
-        ⚠ Power numbers only — race dynamics, tactics and form on the day can change this result.
+        ⚠ Based on route-specific power, avg finishing position (last 60 days) and behavioural race data where available. Race dynamics and tactics on the day can still change this result.
       </div>
     </div>
 
