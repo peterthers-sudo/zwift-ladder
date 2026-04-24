@@ -825,16 +825,21 @@ function getBestOppLineupForCourse(course, teamSize) {
   const scored = pool
     .map(r => ({
       rider: r,
-      score: scoreOppRiderForCourse(r, fp, fn) + (typeof LADDER_RACES !== 'undefined' ? (() => {
-        const entry = LADDER_RACES[String(r.id)] || LADDER_RACES[parseInt(r.id)];
-        if (!entry || !entry.races) return 0;
-        const positions = entry.races.map(x => x.pos).filter(p => p > 0);
-        if (!positions.length) return 0;
-        const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
-        const n = positions.length;
-        const cap = n === 1 ? 2 : n === 2 ? 4 : 6;
-        return Math.max(-cap, Math.min(cap, (avgPts - 5.5) * 1.0));
-      })() : 0)
+      score: scoreOppRiderForCourse(r, fp, fn) + (() => {
+        if (typeof TEAM_ACTIVITY === 'undefined') return 0;
+        const zid = String(r.id || r.zwift_id || '');
+        if (!zid) return 0;
+        for (const teamData of Object.values(TEAM_ACTIVITY)) {
+          const rd = teamData.riders && teamData.riders[zid];
+          if (rd && rd.races) {
+            const avgPts = (rd.points || 0) / rd.races;
+            const n = rd.races;
+            const cap = n === 1 ? 2 : n === 2 ? 4 : 6;
+            return Math.max(-cap, Math.min(cap, (avgPts - 5.5) * 1.0));
+          }
+        }
+        return 0;
+      })()
     })).sort((a,b) => b.score - a.score);
 
   const best = scored.slice(0, teamSize);
@@ -2224,7 +2229,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.183'; // bump this on every update
+const APP_VERSION = 'v1.3.184'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4215,31 +4220,46 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     return Math.max(-5, Math.min(5, mod));
   }
 
-  // Avg points modifier: scoring is 1st=10pts, 2nd=9pts, ..., 10th=1pt, 11th+=0pt.
-  // Higher avg pts = better results = positive modifier. Reference: 5.5pts = neutral (~5th-6th place).
-  // Cap scales with confidence: 1 race=±2, 2 races=±4, 3+ races=±6.
+  // Build a flat rider lookup from TEAM_ACTIVITY: zwift_id -> {pts, races}.
+  // TEAM_ACTIVITY uses actual ladder points from the teamStats page (.riderPts),
+  // which are the true ladder-specific points (based on position among ladder riders),
+  // whereas LADDER_RACES.pos is the overall ZwiftPower finish position among all Zwift
+  // participants — a different (and misleading) number for ladder scoring purposes.
+  const _riderActIdx = (() => {
+    if (typeof TEAM_ACTIVITY === 'undefined') return {};
+    const idx = {};
+    for (const teamData of Object.values(TEAM_ACTIVITY)) {
+      if (!teamData.riders) continue;
+      for (const [zid, rd] of Object.entries(teamData.riders)) {
+        const races = rd.races || 0;
+        if (!races) continue;
+        // If rider appears in multiple teams, keep the entry with most races
+        if (!idx[zid] || races > idx[zid].races) {
+          idx[zid] = { pts: rd.points || 0, races };
+        }
+      }
+    }
+    return idx;
+  })();
+
+  // Avg points modifier: uses actual ladder pts/race from TEAM_ACTIVITY.
+  // Reference: 5.5pts = neutral (~5th-6th ladder place). Cap scales with race count.
   function avgPosModifier(riderId) {
-    if (typeof LADDER_RACES === 'undefined' || !riderId) return 0;
-    const entry = LADDER_RACES[String(riderId)] || LADDER_RACES[parseInt(riderId)];
-    if (!entry || !entry.races) return 0;
-    const positions = entry.races.map(x => x.pos).filter(p => p > 0);
-    if (!positions.length) return 0;
-    const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
-    // Reference 5.5 pts = neutral. Scale 1.0.
-    // Cap scales with race count: 1 race = ±2, 2 races = ±4, 3+ races = ±6
-    const n = positions.length;
+    if (!riderId) return 0;
+    const key = String(riderId);
+    const rd = _riderActIdx[key];
+    if (!rd || !rd.races) return 0;
+    const avgPts = rd.pts / rd.races;
+    const n = rd.races;
     const cap = n === 1 ? 2 : n === 2 ? 4 : 6;
     return Math.max(-cap, Math.min(cap, (avgPts - 5.5) * 1.0));
   }
 
   function getAvgPosLabel(riderId) {
-    if (typeof LADDER_RACES === 'undefined' || !riderId) return null;
-    const entry = LADDER_RACES[String(riderId)] || LADDER_RACES[parseInt(riderId)];
-    if (!entry || !entry.races) return null;
-    const positions = entry.races.map(x => x.pos).filter(p => p > 0);
-    if (!positions.length) return null;
-    const avgPts = positions.reduce((s, pos) => s + Math.max(0, 11 - pos), 0) / positions.length;
-    return avgPts.toFixed(1) + 'pts';
+    if (!riderId) return null;
+    const rd = _riderActIdx[String(riderId)];
+    if (!rd || !rd.races) return null;
+    return (rd.pts / rd.races).toFixed(1) + 'pts';
   }
 
   function scoreMyRider(r)  {
