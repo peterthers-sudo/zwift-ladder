@@ -2229,7 +2229,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.184'; // bump this on every update
+const APP_VERSION = 'v1.3.185'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4404,12 +4404,10 @@ function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) 
     const teamLabel = isMe ? myName : oppName;
     const medal     = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}.`;
     const riderId   = isMe ? (entry.rider.zwift_id || entry.rider.id) : (entry.rider.id || entry.rider.zwift_id);
-    const avgPos    = getAvgPosLabel(riderId);
-    const avgPosTag = avgPos ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;opacity:0.45;margin-left:6px;">avg ${avgPos}</span>` : '';
     return `<div style="display:grid;grid-template-columns:26px 1fr auto 32px;align-items:center;padding:7px 10px;
                 background:${i % 2 === 0 ? 'var(--surface2)' : 'transparent'};">
       <span style="font-family:'Bebas Neue',sans-serif;font-size:0.95rem;color:var(--text-dim);text-align:center">${medal}</span>
-      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${nameColor};font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName(entry.rider)}${avgPosTag}</span>
+      <span style="font-family:'JetBrains Mono',monospace;font-size:0.72rem;color:${nameColor};font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${shortName(entry.rider)}</span>
       <span style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);text-align:right;padding-right:8px;white-space:nowrap">${teamLabel}</span>
       <span style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:${nameColor};text-align:right">${pts}</span>
     </div>`;
