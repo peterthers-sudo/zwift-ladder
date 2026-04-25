@@ -92,7 +92,7 @@
 }
 .tab-icon { font-size: 1.1rem; line-height: 1; }
 .tab-main { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
-.tab-sub  { font-family: 'JetBrains Mono', monospace; font-size: 0.52rem; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.6; }
+.tab-sub  { font-family: 'JetBrains Mono', monospace; font-size: 0.52rem; letter-spacing: 1.5px; text-transform: uppercase; opacity: 0.55; color: var(--accent2); }
 .tab.active { background: var(--accent); color: var(--bg); }
 .tab.active .tab-sub { opacity: 0.8; }
 .tab:hover:not(.active) { background: var(--border); color: var(--text); }
@@ -562,23 +562,23 @@
     </button>
     <button class="tab tab-planner" onclick="switchTab('results')">
       <span class="tab-icon">⚡</span>
+      <span class="tab-sub">LADDER</span>
       <span class="tab-main">Race Planner</span>
-      <span class="tab-sub">Best route for your squad</span>
     </button>
     <button class="tab tab-analyze" onclick="switchTab('analyze')" id="analyze-tab">
       <span class="tab-icon">🔍</span>
+      <span class="tab-sub">LADDER</span>
       <span class="tab-main">Matchup</span>
-      <span class="tab-sub">Analyse an opponent</span>
     </button>
     <button class="tab tab-rung" onclick="switchTab('rung')">
       <span class="tab-icon">📊</span>
+      <span class="tab-sub">LADDER</span>
       <span class="tab-main">Standings</span>
-      <span class="tab-sub">Rung &amp; ladder positions</span>
     </button>
     <button class="tab tab-fixtures" onclick="switchTab('fixtures')" id="fixtures-tab">
       <span class="tab-icon">📅</span>
+      <span class="tab-sub">LADDER</span>
       <span class="tab-main">Fixtures</span>
-      <span class="tab-sub">Upcoming races</span>
     </button>
   </div>
 
