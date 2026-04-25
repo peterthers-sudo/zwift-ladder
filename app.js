@@ -303,7 +303,7 @@ const ZWIFT_ROUTES = [
 // Give each route an id and initialize as selected
 let courses = ZWIFT_ROUTES.map((r, i) => ({ ...r, id: i + 1, selected: true, custom: false }));
 let opponentTeam = null;
-let matchupOppMode = 'selected';    // 'selected' | 'predicted'
+let matchupOppMode = 'selected';    // 'selected' | 'predicted' | 'strongest'
 let currentPredictedPool = null;    // true-ish flag — use getPredictedPool(teamSize) for actual array
 let _predActive   = null;           // very_active (ACTIVE badge) riders sorted by activity
 let _predFallback = null;           // rare+inactive riders sorted, for supplementing
@@ -2309,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.209'; // bump this on every update
+const APP_VERSION = 'v1.3.210'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3183,9 +3183,16 @@ function renderMatchupAnalysis() {
 
   // Opponent rider pool for all analyses — switches based on mode toggle
   const usePredicted = matchupOppMode === 'predicted' && !!_predPool;
-  const oppRiders = usePredicted
-    ? _predPool
-    : opponentTeam.riders.filter(r => r.active !== false);
+  const useStrongest = matchupOppMode === 'strongest' && !!course;
+  let oppRiders;
+  if (useStrongest) {
+    const best = getBestOppLineupForCourse(course, teamSize);
+    oppRiders = best ? best.lineup.map(x => x.rider) : opponentTeam.riders.filter(r => r.active !== false);
+  } else if (usePredicted) {
+    oppRiders = _predPool;
+  } else {
+    oppRiders = opponentTeam.riders.filter(r => r.active !== false);
+  }
   const fn = getRiderWatts;
 
   // Helper to get avg for my team
@@ -3571,17 +3578,25 @@ function renderMatchupAnalysis() {
            title="Switch which opponent riders are used in all charts, tables and analysis">
         <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">OPPONENT LINEUP SOURCE — who should the analysis use?</div>
         <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;width:fit-content;">
-          <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')"
+          <button onclick="setMatchupOppMode('selected')"
             style="padding:9px 18px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
             background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};
             color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED RIDERS</button>
-          <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')"
+          <button onclick="setMatchupOppMode('predicted')"
             style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
             background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};
             color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">MOST LIKELY RIDERS</button>
+          <button onclick="${course ? "setMatchupOppMode('strongest')" : ''}"
+            title="${course ? 'Best '+teamSize+' riders for this route' : 'Select a route first'}"
+            style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+            cursor:${course ? 'pointer' : 'not-allowed'};opacity:${course ? '1' : '0.4'};
+            background:${matchupOppMode==='strongest'?'var(--accent2)':'transparent'};
+            color:${matchupOppMode==='strongest'?'#000':'var(--accent2)'};">STRONGEST RIDERS</button>
         </div>
         <div style="font-size:0.6rem;color:var(--text-dim);margin-top:8px;opacity:0.7;">
-          ${matchupOppMode==='predicted'
+          ${matchupOppMode==='strongest'
+            ? `⚡ Best ${teamSize} riders for ${course ? course.name : 'this route'} — scored by route fit + recent form`
+            : matchupOppMode==='predicted'
             ? '🔮 Using riders most likely to race — based on last 60 days activity'
             : '✏️ Using manually selected riders from opponent roster'}
         </div>
@@ -3590,7 +3605,9 @@ function renderMatchupAnalysis() {
         const listRiders = oppRiders;
         if (!listRiders || !listRiders.length) return '';
         const isPredicted = matchupOppMode === 'predicted';
-        const listLabel = isPredicted
+        const listLabel = matchupOppMode === 'strongest'
+          ? `STRONGEST RIDERS — ${opponentTeam.name.toUpperCase()} · BEST ${teamSize} FOR THIS ROUTE`
+          : isPredicted
           ? `MOST LIKELY RIDERS — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY`
           : `SELECTED RIDERS — ${opponentTeam.name.toUpperCase()}`;
         const rows = listRiders.map((r, i) => {
