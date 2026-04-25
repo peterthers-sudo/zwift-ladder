@@ -2309,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.212'; // bump this on every update
+const APP_VERSION = 'v1.3.213'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3183,6 +3183,11 @@ function renderMatchupAnalysis() {
 
   // Resolve course early so useStrongest can reference it
   const course = getSelectedMatchupCourse();
+
+  // Auto-fallback: if selected mode but no active riders, switch to predicted
+  if (matchupOppMode === 'selected' && opponentTeam.riders.filter(r => r.active !== false).length === 0) {
+    matchupOppMode = 'predicted';
+  }
 
   // Opponent rider pool for all analyses — switches based on mode toggle
   const usePredicted = matchupOppMode === 'predicted' && !!_predPool;
