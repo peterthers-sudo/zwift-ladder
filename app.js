@@ -2261,7 +2261,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.194'; // bump this on every update
+const APP_VERSION = 'v1.3.195'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3538,25 +3538,34 @@ function renderMatchupAnalysis() {
             : '✏️ Using manually selected riders from opponent roster'}
         </div>
       </div>
-      ${predictedLineup && predictedLineup.length ? `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
-        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">MOST LIKELY RIDERS — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
-        <div style="display:flex;flex-direction:column;gap:4px;">
-          ${predictedLineup.map(({r, act}, i) => {
-            const wkg = r.wkg ? r.wkg.toFixed(2) : (r.watt && r.weight ? (r.watt/r.weight).toFixed(2) : '—');
-            const ptsPerRace = act.races > 0 ? (act.points / act.races).toFixed(1) : null;
-            const daysAgo = act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
-            const dotColor = act.level === 'very_active' ? '#16a34a' : '#f59e0b';
-            return `<div style="display:flex;align-items:center;gap:10px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${dotColor}">
-              <span style="font-size:0.6rem;color:var(--text-dim);width:16px;text-align:right">${i+1}</span>
-              <span style="font-size:0.72rem;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.name}</span>
-              <span style="font-size:0.6rem;color:var(--text-dim)">${wkg} W/kg</span>
-              <span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} races</span>
-              ${daysAgo !== null ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${daysAgo}d ago</span>` : ''}
-              ${ptsPerRace ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/race</span>` : ''}
-            </div>`;
-          }).join('')}
-        </div>
-      </div>` : ''}
+      ${(() => {
+        const listRiders = oppRiders;
+        if (!listRiders || !listRiders.length) return '';
+        const isPredicted = matchupOppMode === 'predicted';
+        const listLabel = isPredicted
+          ? `MOST LIKELY RIDERS — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY`
+          : `SELECTED RIDERS — ${opponentTeam.name.toUpperCase()}`;
+        const rows = listRiders.map((r, i) => {
+          const act = getRiderActivity(oppActKey, r.id);
+          const wkg = r.wkg ? r.wkg.toFixed(2) : (r.watt && r.weight ? (r.watt/r.weight).toFixed(2) : '—');
+          const ptsPerRace = act && act.races > 0 ? (act.points / act.races).toFixed(1) : null;
+          const daysAgo = act && act.lastRace ? Math.floor((Date.now() - new Date(act.lastRace)) / 86400000) : null;
+          const dotColor = !act || act.level === 'inactive' || act.level === 'none' ? 'var(--border)'
+                         : act.level === 'very_active' ? '#16a34a' : '#f59e0b';
+          return `<div style="display:flex;align-items:center;gap:10px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${dotColor}">
+            <span style="font-size:0.6rem;color:var(--text-dim);width:16px;text-align:right">${i+1}</span>
+            <span style="font-size:0.72rem;color:var(--text);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${r.name}</span>
+            <span style="font-size:0.6rem;color:var(--text-dim)">${wkg} W/kg</span>
+            ${act && act.totalRaces > 0 ? `<span style="font-size:0.6rem;color:${dotColor};font-weight:700">${act.races}/${act.totalRaces} races</span>` : ''}
+            ${daysAgo !== null ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${daysAgo}d ago</span>` : ''}
+            ${ptsPerRace ? `<span style="font-size:0.65rem;color:var(--text-dim);opacity:0.7">${ptsPerRace} pts/race</span>` : ''}
+          </div>`;
+        }).join('');
+        return `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
+          <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">${listLabel}</div>
+          <div style="display:flex;flex-direction:column;gap:4px;">${rows}</div>
+        </div>`;
+      })()}
       ${buildComparisonTable(selectedRiders, oppRiders, fn, myName, opponentTeam.name)}
     </div>
 
