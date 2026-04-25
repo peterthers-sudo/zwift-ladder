@@ -1156,6 +1156,11 @@ function toggleAllOppRiders(checked) {
   runMatch();
 }
 
+// Re-render matchup analysis if currently on the analyze tab
+function _maybeRefreshMatchup() {
+  if (document.getElementById('panel-analyze')?.classList.contains('active')) renderMatchupAnalysis();
+}
+
 function toggleOppRider(index) {
   if (!opponentTeam || !opponentTeam.riders[index]) return;
   const r = opponentTeam.riders[index];
@@ -1164,6 +1169,7 @@ function toggleOppRider(index) {
   updateContextBar();
   runMatch();
   saveToStorage();
+  _maybeRefreshMatchup();
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1328,6 +1334,7 @@ function toggleSelectAll(checked) {
   saveToStorage();
   renderRiders();
   runMatch();
+  _maybeRefreshMatchup();
 }
 
 function updateMyTeamRung(key) {
@@ -1653,14 +1660,14 @@ function toggleRiderSelection(id) {
     // Also sync into MY_TEAMS so openDSSheet always sees current selection
     const myTeamRider = MY_TEAMS[activeMyTeamKey]?.riders.find(r => r.id === id);
     if (myTeamRider) myTeamRider.selected = rider.selected;
-    
+
     // Save and update list locally
     saveToStorage();
-    renderRiders(); 
-    
+    renderRiders();
+
     // Run calculation in background so numbers are ready
-    // men uden at kalde showPanel('results')
-    runMatch(); 
+    runMatch();
+    _maybeRefreshMatchup();
   }
 }
 
@@ -2300,7 +2307,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.204'; // bump this on every update
+const APP_VERSION = 'v1.3.205'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
