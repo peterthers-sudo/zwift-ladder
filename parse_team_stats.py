@@ -113,6 +113,7 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
 
     riders = {}
     total_races_in_window = 0
+    results = []  # "W" or "L" per race, newest first (HTML table order)
 
     if race_section:
         for tr in race_section.select("tbody tr"):
@@ -126,9 +127,9 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
             if date_ms < cutoff_ms:
                 continue  # for gammel
 
-            # Den sejr/L/D celle — den har ingen data-open
             total_races_in_window += 1
             race_date = datetime.fromtimestamp(date_ms / 1000, tz=timezone.utc).date().isoformat()
+            race_won = False  # True if any team rider finished 1st
 
             # Alle openRider-celler i denne række
             for rtd in tr.find_all("td"):
@@ -159,6 +160,9 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
                 except ValueError:
                     pts_num = 0  # DQ viser "-"
 
+                if pos_num == 1:
+                    race_won = True
+
                 r = riders.setdefault(zid, {
                     "name": rname,
                     "races": 0,
@@ -179,10 +183,13 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
                 if rname and len(rname) > len(r["name"]):
                     r["name"] = rname
 
+            results.append("W" if race_won else "L")
+
     result = {
         "team_name": team_name,
         "season_label": season_label,
         "total_races_in_window": total_races_in_window,
+        "results": results,
         "riders": riders,
     }
 
