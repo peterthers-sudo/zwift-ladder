@@ -1154,6 +1154,7 @@ function toggleAllOppRiders(checked) {
   renderOppRoster();
   updateContextBar();
   runMatch();
+  _maybeRefreshMatchup();
 }
 
 // Re-render matchup analysis if currently on the analyze tab
@@ -1318,6 +1319,7 @@ function deleteRider(id) {
   saveToStorage();
   renderRiders();
   runMatch();
+  _maybeRefreshMatchup();
 }
 
 function toggleSelectAll(checked) {
@@ -2307,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.207'; // bump this on every update
+const APP_VERSION = 'v1.3.208'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
