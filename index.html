@@ -97,16 +97,16 @@
 .tab.active .tab-sub { opacity: 0.8; }
 .tab:hover:not(.active) { background: var(--border); color: var(--text); }
 
-.embed-section { border: 1px solid var(--border); margin-bottom: 16px; border-radius: 2px; }
+.embed-section { border: 2px solid var(--border); margin-bottom: 16px; border-radius: 2px; }
 .embed-toggle {
-  width: 100%; text-align: left; padding: 11px 16px; background: var(--surface2);
-  border: none; cursor: pointer; display: flex; align-items: center; gap: 10px;
-  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 1.5px;
-  text-transform: uppercase; color: var(--text-dim);
+  width: 100%; text-align: left; padding: 16px 20px; background: var(--surface2);
+  border: none; cursor: pointer; display: flex; align-items: center; gap: 12px;
+  font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 3px;
+  text-transform: uppercase; color: var(--text);
 }
-.embed-toggle:hover { color: var(--text); background: var(--border); }
-.embed-arrow { font-size: 0.65rem; transition: transform 0.15s; }
-.embed-content { display: none; padding: 16px; border-top: 1px solid var(--border); }
+.embed-toggle:hover { color: var(--accent); background: var(--border); border-color: var(--accent); }
+.embed-arrow { font-size: 0.9rem; transition: transform 0.15s; color: var(--accent); }
+.embed-content { display: none; padding: 16px; border-top: 2px solid var(--border); }
 
   .panel { display: none; }
   .panel.active { display: block; }
@@ -884,13 +884,7 @@
 
   </div><!-- end two-col -->
 
-  <!-- CTA bar — shown when opponent is selected -->
-  <div class="analyze-cta-bar" id="analyze-cta-bar">
-    <div class="analyze-cta-text">
-      Opponent selected · <strong id="cta-opp-name">—</strong> · Click to see advantages, disadvantages and route recommendations
-    </div>
-    <button class="btn-analyze-big" onclick="openMatchupAnalysis()">🔍 ANALYZE MATCHUP →</button>
-  </div>
+
 
   </div><!-- end panel-riders -->
 
