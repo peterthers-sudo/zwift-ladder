@@ -2309,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.208'; // bump this on every update
+const APP_VERSION = 'v1.3.209'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3768,6 +3768,12 @@ function renderMatchupAnalysis() {
       const lrEntry = (typeof LADDER_RACES !== 'undefined') && (LADDER_RACES[r.zwift_id] || LADDER_RACES[parseInt(r.zwift_id)]);
       const positions = lrEntry ? lrEntry.races.map(x => x.pos).filter(p => p > 0) : [];
       const avgPos = positions.length ? (positions.reduce((a,b)=>a+b,0)/positions.length).toFixed(1) : null;
+      // TEAM_ACTIVITY 60-day form
+      const _taKey = typeof activeMyTeamKey !== 'undefined' ? activeMyTeamKey : null;
+      const _taRider = _taKey && typeof TEAM_ACTIVITY !== 'undefined' ? TEAM_ACTIVITY[_taKey]?.riders?.[String(r.zwift_id)] : null;
+      const actRaces = _taRider?.races || 0;
+      const actPtsPerRace = actRaces > 0 ? (_taRider.points / actRaces).toFixed(1) : null;
+      const actAvgPos = actPtsPerRace ? (11 - parseFloat(actPtsPerRace)).toFixed(1) : null;
       const _ac = arr => arr.length ? arr.reduce((s,x)=>s+x,0)/arr.length : null;
       const lrRaces = lrEntry ? lrEntry.races : [];
       const _apR  = lrRaces.filter(x=>(x.avg_watts||0)>0);
@@ -3789,6 +3795,7 @@ function renderMatchupAnalysis() {
         score: _fp0 ? Math.round(scoreRiderForCourse(r, _fp0)) : null,
         avgPos: avgPos ? +avgPos : null,
         races:  positions.length,
+        actRaces, actPtsPerRace: actPtsPerRace ? +actPtsPerRace : null, actAvgPos: actAvgPos ? +actAvgPos : null,
         raceMetrics: calcRaceMetrics(lrRaces),
         pacingAP:  _apR.length  ? Math.round(_ac(_apR.map(x=>x.avg_watts))) : null,
         pacingNP:  _npR.length  ? Math.round(_ac(_npR.map(x=>x.np)))        : null,
@@ -3798,14 +3805,21 @@ function renderMatchupAnalysis() {
         pacingHR:  _hrR.length  ? Math.round(_ac(_hrR.map(x=>x.avg_hr)))    : null,
       };
     }),
-    oppRiders: oppRiders.map(r => ({
-      name: r.name,
-      profile: classifyOppRider(r).join('/'),
-      weight: r.weight || 70,
-      wkg20: +(r.wkg || r.wkg20min || fn(r,'ftp')/(r.weight||70) || 0).toFixed(2),
-      ftp:   Math.round(fn(r, 'ftp')),
-      score: _fp0 ? Math.round(scoreOppRiderForCourse(r, _fp0, fn)) : null
-    })),
+    oppRiders: oppRiders.map(r => {
+      const _taOppRider = oppActKey && typeof TEAM_ACTIVITY !== 'undefined' ? TEAM_ACTIVITY[oppActKey]?.riders?.[String(r.id)] : null;
+      const oppActRaces = _taOppRider?.races || 0;
+      const oppActPts   = oppActRaces > 0 ? (_taOppRider.points / oppActRaces).toFixed(1) : null;
+      const oppActPos   = oppActPts ? (11 - parseFloat(oppActPts)).toFixed(1) : null;
+      return {
+        name: r.name,
+        profile: classifyOppRider(r).join('/'),
+        weight: r.weight || 70,
+        wkg20: +(r.wkg || r.wkg20min || fn(r,'ftp')/(r.weight||70) || 0).toFixed(2),
+        ftp:   Math.round(fn(r, 'ftp')),
+        score: _fp0 ? Math.round(scoreOppRiderForCourse(r, _fp0, fn)) : null,
+        actRaces: oppActRaces, actPtsPerRace: oppActPts ? +oppActPts : null, actAvgPos: oppActPos ? +oppActPos : null,
+      };
+    }),
     wattDeltas,
     wkgDeltas
   };
@@ -3848,9 +3862,12 @@ async function generateMatchupStrategy() {
 
   const myRiderLines = (d.myRiders || []).map(r => {
     let raceRating = '';
-    if (r.avgPos != null) {
+    if (r.actPtsPerRace != null) {
+      const label = r.actAvgPos <= 2.5 ? 'MATCH WINNER' : r.actAvgPos <= 4.5 ? 'RELIABLE' : r.actAvgPos <= 6.5 ? 'VARIABLE' : 'STRUGGLES';
+      raceRating = ` · Recent form (60d): ${label} — ${r.actPtsPerRace} pts/race, avg ~${r.actAvgPos} over ${r.actRaces} races`;
+    } else if (r.avgPos != null) {
       const label = r.avgPos <= 2 ? 'MATCH WINNER' : r.avgPos <= 4 ? 'RELIABLE' : r.avgPos <= 6 ? 'VARIABLE' : 'STRUGGLES';
-      raceRating = ` · Race rating: ${label} (avg #${r.avgPos} over ${r.races} races)`;
+      raceRating = ` · Race rating: ${label} (avg #${r.avgPos} over ${r.races} races, all-time)`;
     } else {
       raceRating = ' · Race rating: NO DATA';
     }
@@ -3897,7 +3914,10 @@ async function generateMatchupStrategy() {
     const sprintLabel = r.wkg15s ? '15s' : '5s';
     const sprintStr = sprintWkg ? ` · ${sprintLabel}=${sprintWkg}W/kg (${Math.round(sprintWkg * r.weight)}W)` : '';
     const w1min = r.wkg1 ? ` · 1min=${r.wkg1}W/kg (${Math.round(r.wkg1 * r.weight)}W)` : '';
-    return `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg${w1min}${sprintStr} · FTP=${r.ftp}W${r.score != null ? ' · Route score='+r.score : ''}`;
+    const oppForm = r.actPtsPerRace != null
+      ? ` · Recent form (60d): ${r.actPtsPerRace} pts/race, avg ~${r.actAvgPos} over ${r.actRaces} races`
+      : '';
+    return `  - ${r.name} [${r.profile}] ${r.weight}kg · 20min=${r.wkg20}W/kg${w1min}${sprintStr} · FTP=${r.ftp}W${r.score != null ? ' · Route score='+r.score : ''}${oppForm}`;
   }).join('\n');
 
   const deltaLines = (d.wkgDeltas || []).map(iv => {
