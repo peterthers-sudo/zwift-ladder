@@ -399,22 +399,6 @@
           <button class="privacy-btn" onclick="openRouteAudit()" style="letter-spacing:1px;">&#128202; Route Diagnosis</button>
         </div>
 
-        <div style="display:flex; align-items:center; gap:6px;">
-        <select id="my-team-select" class="status-badge"
-          onchange="switchMyTeam(this.value)"
-          style="cursor:pointer;border:none;outline:none;appearance:none;-webkit-appearance:none;width:auto;max-width:fit-content;padding-right:20px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%228%22 viewBox=%220 0 8 8%22><path fill=%22%237fffbf%22 d=%22M0 2l4 4 4-4z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_AUBISQUE">● LEQP Aubisque</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_COLOMBIERE">● LEQP Colombiere</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_GALIBIER">● LEQP Galibier</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_HAUTACAM">● LEQP Hautacam</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE">● LEQP Madeleine</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET">● LEQP Tourmalet</option>
-          <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_VENTOUX">● LEQP Ventoux</option>
-        </select>
-
-        <span id="my-team-rung" class="status-badge" style="display:none; padding:6px 10px; cursor:default;" title="Ladder Rung"></span>
-        <span id="my-team-pos" class="status-badge" style="display:none; padding:6px 10px; cursor:default;" title="Ladder Position"></span>
-        </div>
       </div>
     </div>
   </header>
@@ -859,6 +843,21 @@
     </div>
 
 <div class="card">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+    <select id="my-team-select" class="status-badge"
+      onchange="switchMyTeam(this.value)"
+      style="cursor:pointer;border:none;outline:none;appearance:none;-webkit-appearance:none;width:auto;max-width:fit-content;padding-right:20px;background-image:url('data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%228%22 height=%228%22 viewBox=%220 0 8 8%22><path fill=%22%237fffbf%22 d=%22M0 2l4 4 4-4z%22/></svg>');background-repeat:no-repeat;background-position:right 6px center">
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_AUBISQUE">● LEQP Aubisque</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_COLOMBIERE">● LEQP Colombiere</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_GALIBIER">● LEQP Galibier</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_HAUTACAM">● LEQP Hautacam</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE">● LEQP Madeleine</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET">● LEQP Tourmalet</option>
+      <option value="VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_VENTOUX">● LEQP Ventoux</option>
+    </select>
+    <span id="my-team-rung" class="status-badge" style="display:none;padding:6px 10px;cursor:default;" title="Ladder Rung"></span>
+    <span id="my-team-pos" class="status-badge" style="display:none;padding:6px 10px;cursor:default;" title="Ladder Position"></span>
+  </div>
   <div class="card-title">
     TEAM ROSTER
     <span id="roster-count">0 RIDERS</span>
