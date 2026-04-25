@@ -2309,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.210'; // bump this on every update
+const APP_VERSION = 'v1.3.211'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3181,6 +3181,9 @@ function renderMatchupAnalysis() {
     r, act: getRiderActivity(oppActKey, r.id)
   })) : null;
 
+  // Resolve course early so useStrongest can reference it
+  const course = getSelectedMatchupCourse();
+
   // Opponent rider pool for all analyses — switches based on mode toggle
   const usePredicted = matchupOppMode === 'predicted' && !!_predPool;
   const useStrongest = matchupOppMode === 'strongest' && !!course;
@@ -3307,7 +3310,6 @@ function renderMatchupAnalysis() {
   const wattAdvIntervals = wattDeltas.filter(d => d.delta > 5);
   const wattDisadvIntervals = wattDeltas.filter(d => d.delta < -5);
 
-  const course    = getSelectedMatchupCourse();
   const flatAdv   = wattDeltas.find(d => d.label==='20 min')?.delta || 0;
   const climbAdv5 = wkgDeltas.find(d => d.label==='5 min')?.delta  || 0;
   const climbAdv20= wkgDeltas.find(d => d.label==='20 min')?.delta || 0;
