@@ -2300,7 +2300,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.198'; // bump this on every update
+const APP_VERSION = 'v1.3.199'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -4952,6 +4952,10 @@ function updateAnalyzeBtn() {
     if (tab)  { tab.style.opacity = '1'; tab.title = ''; }
     if (cta)  { cta.classList.add('visible'); }
     if (name) { name.textContent = opponentTeam.name; }
+    // Auto-render matchup if already on the analyze tab
+    if (document.getElementById('panel-analyze')?.classList.contains('active')) {
+      renderMatchupAnalysis();
+    }
   } else {
     if (btn)  { btn.style.opacity = '0.5'; btn.title = 'Select an opponent to enable'; }
     if (tab)  { tab.style.opacity = '0.5'; tab.title = 'Select an opponent to enable'; }
