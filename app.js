@@ -2247,7 +2247,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.189'; // bump this on every update
+const APP_VERSION = 'v1.3.190'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2428,6 +2428,8 @@ function renderRungOverview() {
   if (lastUpdated) html += '<span style="opacity:0.5">\u00b7 ' + lastUpdated + '</span>';
   html += '</div>';
 
+  html += '<div style="overflow-x:auto">';
+  html += '<div style="min-width:520px">';
   html += '<div style="display:grid;grid-template-columns:32px 1fr 90px 90px 90px 76px 64px;gap:4px;align-items:center;' + base + 'font-size:0.65rem;font-weight:700;color:var(--text-dim);letter-spacing:1.2px;padding:0 6px;margin-bottom:4px">';
   html += '<div></div><div>TEAM</div>';
   html += '<div style="text-align:center;line-height:1.4">FTP W/KG<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">vs you</span></div>';
@@ -2500,6 +2502,7 @@ function renderRungOverview() {
     html += '<div style="text-align:center">' + winHtml + '</div>';
     html += '</div>';
   });
+  html += '</div></div>'; // close min-width + overflow-x wrappers
 
   contentEl.innerHTML = html;
 }
