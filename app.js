@@ -1213,11 +1213,50 @@ function switchTab(tab) {
   }
 
   if (tab === 'results') { updateMatchMode(); populateCourseSelect(); showResultsReady(); }
-  if (tab === 'courses') { filterCourses(); }
   if (tab === 'rung') { autoSelectOwnRung(); renderRungOverview(); }
   if (tab === 'profile') { const w = document.getElementById('leqp-rider-btns'); if (w && !w.children.length) _profileBuildLeqpBtns(); }
   if (tab === 'fixtures') { _renderFixturesList((typeof LEQP_FIXTURES !== 'undefined' ? LEQP_FIXTURES : []).filter(f => new Date(f.date) >= new Date(new Date().setHours(0,0,0,0))).sort((a,b) => new Date(a.date+' '+a.time) - new Date(b.date+' '+b.time))); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ── EMBED SECTIONS (Riders / Routes transplanted into Race Planner & Matchup) ──
+function toggleEmbedSection(panelId, tabId) {
+  const storage      = document.getElementById('panels-storage');
+  const embedContent = document.getElementById(`embed-${panelId}-in-${tabId}`);
+  const panel        = document.getElementById(`panel-${panelId}`);
+  if (!embedContent || !panel || !storage) return;
+
+  const arrow  = embedContent.closest('.embed-section')?.querySelector('.embed-arrow');
+  const isOpen = embedContent.style.display === 'block';
+
+  if (isOpen) {
+    // Collapse: return panel to storage
+    embedContent.style.display = 'none';
+    panel.classList.add('panel');   // restore CSS control
+    storage.appendChild(panel);
+    if (arrow) arrow.textContent = '▶';
+  } else {
+    // If panel is currently open in another embed, collapse that first
+    const curParent = panel.parentElement;
+    if (curParent && curParent.classList.contains('embed-content')) {
+      curParent.style.display = 'none';
+      const otherArrow = curParent.closest('.embed-section')?.querySelector('.embed-arrow');
+      if (otherArrow) otherArrow.textContent = '▶';
+    }
+    // Transplant into this embed
+    panel.classList.remove('panel');  // prevent .panel{display:none} from hiding it
+    embedContent.appendChild(panel);
+    embedContent.style.display = 'block';
+    if (arrow) arrow.textContent = '▼';
+    // Trigger re-render if needed
+    if (panelId === 'courses' && typeof filterCourses === 'function') filterCourses();
+  }
+}
+
+function expandEmbedSection(panelId, tabId) {
+  const embedContent = document.getElementById(`embed-${panelId}-in-${tabId}`);
+  if (!embedContent) return;
+  if (embedContent.style.display !== 'block') toggleEmbedSection(panelId, tabId);
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2261,7 +2300,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.195'; // bump this on every update
+const APP_VERSION = 'v1.3.196'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {

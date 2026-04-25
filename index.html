@@ -78,48 +78,35 @@
 
   .tabs {
   display: flex;
-  align-items: stretch;
-  gap: 0;
+  gap: 4px;
   margin-bottom: 32px;
   flex-wrap: wrap;
-}
-.tab-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-.tab-group-label {
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.5rem;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--text-dim);
-  text-align: center;
-  padding: 3px 8px 2px;
   background: var(--surface);
+  padding: 6px;
 }
-.tab-group-buttons {
-  display: flex;
-  gap: 2px;
-  background: var(--surface);
-  padding: 4px;
+.tab {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px;
+  flex: 1; min-width: 120px;
+  padding: 12px 16px; cursor: pointer; border: none; background: transparent;
+  transition: all 0.2s; color: var(--text-dim);
 }
-.tab-group-divider {
-  display: flex;
-  align-items: center;
-  padding: 0 8px;
-  background: var(--surface);
+.tab-icon { font-size: 1.1rem; line-height: 1; }
+.tab-main { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+.tab-sub  { font-family: 'JetBrains Mono', monospace; font-size: 0.52rem; letter-spacing: 0.8px; text-transform: uppercase; opacity: 0.6; }
+.tab.active { background: var(--accent); color: var(--bg); }
+.tab.active .tab-sub { opacity: 0.8; }
+.tab:hover:not(.active) { background: var(--border); color: var(--text); }
+
+.embed-section { border: 1px solid var(--border); margin-bottom: 16px; border-radius: 2px; }
+.embed-toggle {
+  width: 100%; text-align: left; padding: 11px 16px; background: var(--surface2);
+  border: none; cursor: pointer; display: flex; align-items: center; gap: 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; letter-spacing: 1.5px;
+  text-transform: uppercase; color: var(--text-dim);
 }
-.tab-group-divider-line {
-  display: block;
-  width: 1px;
-  height: 60%;
-  background: var(--border);
-  opacity: 0.6;
-}
-  .tab { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 2px; text-transform: uppercase; padding: 10px 20px; cursor: pointer; color: var(--text-dim); border: none; background: transparent; transition: all 0.2s; }
-  .tab.active { background: var(--accent); color: var(--bg); font-weight: 600; }
-  .tab:hover:not(.active) { color: var(--text); background: var(--border); }
+.embed-toggle:hover { color: var(--text); background: var(--border); }
+.embed-arrow { font-size: 0.65rem; transition: transform 0.15s; }
+.embed-content { display: none; padding: 16px; border-top: 1px solid var(--border); }
 
   .panel { display: none; }
   .panel.active { display: block; }
@@ -325,8 +312,10 @@
     .tabs { flex-wrap: nowrap; overflow-x: auto; -webkit-overflow-scrolling: touch;
             margin-bottom: 16px; padding-bottom: 2px; scrollbar-width: none; }
     .tabs::-webkit-scrollbar { display: none; }
-    .tab { padding: 10px 14px; font-size: 0.65rem; letter-spacing: 1px; white-space: nowrap; }
-    .tab-group-label { font-size: 0.55rem; letter-spacing: 1px; }
+    .tab { padding: 9px 10px; min-width: 80px; }
+    .tab-main { font-size: 0.62rem; letter-spacing: 1px; }
+    .tab-sub { display: none; }
+    .tab-icon { font-size: 1rem; }
 
     /* Cards */
     .card { padding: 16px; }
@@ -582,42 +571,31 @@
   </div>
 
   <div class="tabs">
-    <div class="tab-group">
-      <div class="tab-group-label">Team</div>
-      <div class="tab-group-buttons">
-        <button class="tab tab-profile active" onclick="switchTab('profile')">👤 LEQP Riders</button>
-      </div>
-    </div>
-    <div class="tab-group-divider">
-      <span class="tab-group-divider-line"></span>
-    </div>
-    <div class="tab-group">
-      <div class="tab-group-label">Ladder Setup</div>
-      <div class="tab-group-buttons">
-        <button class="tab" onclick="switchTab('riders')">Riders</button>
-        <button class="tab tab-routes" onclick="switchTab('courses')">Routes</button>
-      </div>
-    </div>
-    <div class="tab-group-divider">
-      <span class="tab-group-divider-line"></span>
-    </div>
-    <div class="tab-group">
-      <div class="tab-group-label">Ladder Analysis</div>
-      <div class="tab-group-buttons">
-        <button class="tab tab-planner" onclick="switchTab('results')">⚡ Race Planner</button>
-        <button class="tab tab-analyze" onclick="switchTab('analyze')" id="analyze-tab" title="Select an opponent to enable">🔍 Matchup</button>
-      </div>
-    </div>
-    <div class="tab-group-divider">
-      <span class="tab-group-divider-line"></span>
-    </div>
-    <div class="tab-group">
-      <div class="tab-group-label">Ladder Intel</div>
-      <div class="tab-group-buttons">
-        <button class="tab tab-rung" onclick="switchTab('rung')">📊 Standings</button>
-        <button class="tab tab-fixtures" onclick="switchTab('fixtures')" id="fixtures-tab">📅 Fixtures</button>
-      </div>
-    </div>
+    <button class="tab tab-profile active" onclick="switchTab('profile')">
+      <span class="tab-icon">👤</span>
+      <span class="tab-main">LEQP Members</span>
+      <span class="tab-sub">Club riders &amp; stats</span>
+    </button>
+    <button class="tab tab-planner" onclick="switchTab('results')">
+      <span class="tab-icon">⚡</span>
+      <span class="tab-main">Race Planner</span>
+      <span class="tab-sub">Best route for your squad</span>
+    </button>
+    <button class="tab tab-analyze" onclick="switchTab('analyze')" id="analyze-tab">
+      <span class="tab-icon">🔍</span>
+      <span class="tab-main">Matchup</span>
+      <span class="tab-sub">Analyse an opponent</span>
+    </button>
+    <button class="tab tab-rung" onclick="switchTab('rung')">
+      <span class="tab-icon">📊</span>
+      <span class="tab-main">Standings</span>
+      <span class="tab-sub">Rung &amp; ladder positions</span>
+    </button>
+    <button class="tab tab-fixtures" onclick="switchTab('fixtures')" id="fixtures-tab">
+      <span class="tab-icon">📅</span>
+      <span class="tab-main">Fixtures</span>
+      <span class="tab-sub">Upcoming races</span>
+    </button>
   </div>
 
 <style>
@@ -825,6 +803,7 @@
     </div>
   </div>
 
+  <div id="panels-storage" style="display:none">
   <div class="panel" id="panel-riders">
   <div class="two-col">
     <div style="display:flex; flex-direction:column; gap:16px;">
@@ -915,7 +894,6 @@
 
   </div><!-- end panel-riders -->
 
-  <!-- ═══════════ COURSES TAB ═══════════ -->
   <!-- ═══════════ ROUTES TAB ═══════════ -->
   <div class="panel" id="panel-courses">
     <div class="info-banner">
@@ -953,7 +931,8 @@
         <div class="course-list" id="course-list"></div>
       </div>
     </div>
-  </div>
+  </div><!-- end panel-courses -->
+  </div><!-- end panels-storage -->
 
  <!-- ═══════════ RIDER PROFILE TAB ═══════════ -->
   <div class="panel" id="panel-fixtures">
@@ -1182,19 +1161,42 @@
       <button class="btn btn-primary" onclick="runMatch()" style="font-size:0.9rem;padding:10px 24px;letter-spacing:2px">⚡ RUN MATCH</button>
       <div class="run-info" id="run-info" style="flex:1;align-self:center"></div>
     </div>
-    <div id="rp-no-routes-banner" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:rgba(255,107,53,0.1);border:1px solid var(--accent2);color:var(--accent2);padding:10px 16px;margin-bottom:12px;cursor:pointer" onclick="switchTab('courses')">
-      ⚠ No routes selected — go to <strong>Routes</strong> tab to select routes for Race Planner
+    <div id="rp-no-routes-banner" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.7rem;background:rgba(255,107,53,0.1);border:1px solid var(--accent2);color:var(--accent2);padding:10px 16px;margin-bottom:12px;cursor:pointer" onclick="expandEmbedSection('courses','results')">
+      ⚠ No routes selected — expand <strong>Routes</strong> below to select routes for Race Planner
     </div>
     <div class="alert" id="match-alert"></div>
     <div class="results-grid" id="results-grid">
       <div class="empty">Select riders and routes, then click ⚡ Run Match</div>
+    </div>
+
+    <div class="embed-section">
+      <button class="embed-toggle" onclick="toggleEmbedSection('riders','results')">
+        <span class="embed-arrow">▶</span>
+        <span>Riders</span>
+      </button>
+      <div class="embed-content" id="embed-riders-in-results" style="display:none;padding:0"></div>
+    </div>
+    <div class="embed-section">
+      <button class="embed-toggle" onclick="toggleEmbedSection('courses','results')">
+        <span class="embed-arrow">▶</span>
+        <span>Routes</span>
+      </button>
+      <div class="embed-content" id="embed-courses-in-results" style="display:none;padding:0"></div>
     </div>
   </div>
 
 <!-- ═══════════ ANALYZE MATCHUP PANEL ═══════════ -->
   <div class="panel" id="panel-analyze">
     <div id="matchup-panel-content">
-      <div class="empty" style="padding:60px">Select an opponent team in the Riders tab, then click 🔍 Matchup</div>
+      <div class="empty" style="padding:60px">Expand the Riders section below to select an opponent team, then click 🔍 Matchup</div>
+    </div>
+
+    <div class="embed-section" style="margin-top:24px">
+      <button class="embed-toggle" onclick="toggleEmbedSection('riders','analyze')">
+        <span class="embed-arrow">▶</span>
+        <span>Riders</span>
+      </button>
+      <div class="embed-content" id="embed-riders-in-analyze" style="display:none;padding:0"></div>
     </div>
   </div>
 
