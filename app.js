@@ -2261,7 +2261,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.193'; // bump this on every update
+const APP_VERSION = 'v1.3.194'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3485,25 +3485,6 @@ function renderMatchupAnalysis() {
         <div class="matchup-vs-badge">VS</div>
         <div class="matchup-team-name" style="color:var(--accent2)">${opponentTeam.name}</div>
       </div>
-      <div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);" class="no-print-hide"
-           title="Switch which opponent riders are used in all charts, tables and analysis">
-        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">OPPONENT LINEUP SOURCE — who should the analysis use?</div>
-        <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;width:fit-content;">
-          <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')"
-            style="padding:9px 18px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
-            background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};
-            color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED RIDERS</button>
-          <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')"
-            style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
-            background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};
-            color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">MOST LIKELY RIDERS</button>
-        </div>
-        <div style="font-size:0.6rem;color:var(--text-dim);margin-top:8px;opacity:0.7;">
-          ${matchupOppMode==='predicted'
-            ? '🔮 Using riders most likely to race — based on last 60 days activity'
-            : '✏️ Using manually selected riders from opponent roster'}
-        </div>
-      </div>
       ${(() => {
         if (typeof TEAM_ACTIVITY === 'undefined') return '';
         const oppActKey = resolveTeamActivityKey(opponentTeam.libraryKey);
@@ -3538,6 +3519,25 @@ function renderMatchupAnalysis() {
         💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Go to team page to view their recent races and rider stats —
         <a href="${oppStatsUrl}" target="_blank" style="color:var(--accent2);text-decoration:underline;">${opponentTeam.name} race history →</a>${myStatsUrl ? ` &nbsp;<span style="opacity:0.4">·</span>&nbsp; <a href="${myStatsUrl}" target="_blank" style="color:var(--accent);text-decoration:underline;">${myName} race history →</a>` : ''}
       </div>` : ''}
+      <div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);" class="no-print-hide"
+           title="Switch which opponent riders are used in all charts, tables and analysis">
+        <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">OPPONENT LINEUP SOURCE — who should the analysis use?</div>
+        <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;width:fit-content;">
+          <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')"
+            style="padding:9px 18px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+            background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};
+            color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED RIDERS</button>
+          <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')"
+            style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+            background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};
+            color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">MOST LIKELY RIDERS</button>
+        </div>
+        <div style="font-size:0.6rem;color:var(--text-dim);margin-top:8px;opacity:0.7;">
+          ${matchupOppMode==='predicted'
+            ? '🔮 Using riders most likely to race — based on last 60 days activity'
+            : '✏️ Using manually selected riders from opponent roster'}
+        </div>
+      </div>
       ${predictedLineup && predictedLineup.length ? `<div style="font-family:'JetBrains Mono',monospace;margin-bottom:16px;">
         <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:8px;">MOST LIKELY RIDERS — ${opponentTeam.name.toUpperCase()} · BASED ON LAST 60 DAYS ACTIVITY</div>
         <div style="display:flex;flex-direction:column;gap:4px;">
