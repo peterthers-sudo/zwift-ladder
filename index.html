@@ -1208,7 +1208,7 @@
   margin-bottom:6px;
 }
 .delta-label {
-  font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem; color:var(--text-dim);
   text-align:right; letter-spacing:1px;
 }
 .delta-bar-wrap {
@@ -1229,20 +1229,20 @@
   display:flex; align-items:center; padding-left:4px;
 }
 .delta-val {
-  font-family:'JetBrains Mono',monospace; font-size:0.6rem; font-weight:700;
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem; font-weight:700;
   color:var(--text); white-space:nowrap; text-shadow:0 1px 3px rgba(0,0,0,0.3);
 }
 .delta-number {
-  font-family:'JetBrains Mono',monospace; font-size:0.65rem;
+  font-family:'JetBrains Mono',monospace; font-size:0.75rem;
   text-align:left; min-width:60px; letter-spacing:0;
 }
 .delta-sub-header {
-  font-family:'JetBrains Mono',monospace; font-size:0.6rem; color:var(--text-dim);
+  font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--text-dim);
   letter-spacing:2px; text-transform:uppercase; margin-bottom:8px; margin-top:16px;
   display:flex; gap:12px;
 }
 .profile-chip {
-  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:0.6rem;
+  display:inline-block; font-family:'JetBrains Mono',monospace; font-size:0.72rem;
   letter-spacing:1px; padding:3px 8px; border:1px solid; margin:2px;
 }
 .chip-sprinter { color:var(--accent2); border-color:rgba(255,107,53,0.4); background:rgba(255,107,53,0.08); }
@@ -1273,6 +1273,12 @@
 .matchup-vs-badge {
   font-family:'Bebas Neue',sans-serif; font-size:2rem; color:var(--accent2);
 }
+
+/* ── MATCHUP FONT FLOOR: lift all small inline text up to 0.75rem minimum ── */
+#matchup-panel-content [style*="font-size:0.5"],
+#matchup-panel-content [style*="font-size: 0.5"],
+#matchup-panel-content [style*="font-size:0.6"],
+#matchup-panel-content [style*="font-size: 0.6"] { font-size: 0.75rem !important; }
 
 @media print {
   /* Force color printing */
