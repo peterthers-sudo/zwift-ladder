@@ -2261,7 +2261,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.191'; // bump this on every update
+const APP_VERSION = 'v1.3.192'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3465,19 +3465,10 @@ function renderMatchupAnalysis() {
   }
 
   content.innerHTML = `
-    <div style="display:flex; flex-direction:column; gap:8px; margin-top:24px; margin-bottom:32px; border-bottom:1px solid var(--border); padding-bottom:16px;" class="no-print-hide">
+    <div style="display:flex; flex-direction:column; gap:8px; margin-top:24px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:16px;" class="no-print-hide">
       <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
-        <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
-          <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
-          <div style="display:flex;flex-direction:column;gap:3px;" title="Switch which opponent riders are used in all charts, tables and analysis">
-            <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase;">Analyse opponent as:</span>
-            <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;">
-              <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')" style="padding:6px 12px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED</button>
-              <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')" style="padding:6px 12px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;font-weight:700;background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">PREDICTED</button>
-            </div>
-          </div>
-        </div>
-        <div style="display:flex;gap:8px;align-items:flex-end">
+        <h1 style="font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:4px; color:var(--accent); margin:0; line-height:1;">Matchup Analysis</h1>
+        <div style="display:flex;gap:8px;align-items:center">
           <button onclick="openDSSheet()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px; border-color:var(--accent2); color:var(--accent2);">📋 DS Sheet</button>
           <button onclick="generateMatchupStrategy()" class="btn btn-sm btn-ai no-print-hide" style="margin:0;border-radius:2px;">🤖 AI-Strategi</button>
           <button id="pdf-download-btn" onclick="printMatchup()" class="btn btn-secondary btn-sm" style="margin:0; border-radius:2px;">⬇ Download PDF</button>
@@ -3485,6 +3476,26 @@ function renderMatchupAnalysis() {
       </div>
       <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; letter-spacing:1.5px; color:var(--text-dim);">
         DIRECT POWER COMPARISON · AVG OF SELECTED RIDERS · DELTA = MY TEAM MINUS OPPONENT
+      </div>
+    </div>
+
+    <div style="font-family:'JetBrains Mono',monospace;margin-bottom:20px;padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid var(--accent2);" class="no-print-hide"
+         title="Switch which opponent riders are used in all charts, tables and analysis">
+      <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">OPPONENT LINEUP SOURCE — who should the analysis use?</div>
+      <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;width:fit-content;">
+        <button id="opp-mode-selected" onclick="setMatchupOppMode('selected')"
+          style="padding:9px 18px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+          background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};
+          color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED</button>
+        <button id="opp-mode-predicted" onclick="setMatchupOppMode('predicted')"
+          style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+          background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};
+          color:${matchupOppMode==='predicted'?'#000':'var(--accent2)'};">MOST LIKELY RIDERS</button>
+      </div>
+      <div style="font-size:0.6rem;color:var(--text-dim);margin-top:8px;opacity:0.7;">
+        ${matchupOppMode==='predicted'
+          ? '🔮 Using riders most likely to race — based on last 60 days activity'
+          : '✏️ Using manually selected riders from opponent roster'}
       </div>
     </div>
 
