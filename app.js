@@ -1202,7 +1202,7 @@ function switchTab(tab) {
 
   if (tab === 'analyze') {
     if (routesBlock) routesBlock.style.display = 'none';
-    if (teamSizeBlock) teamSizeBlock.style.display = 'none';
+    if (teamSizeBlock) teamSizeBlock.style.display = 'flex';
     if (raceRouteBlock) raceRouteBlock.style.display = 'flex';
     populateMatchupRoutes();
     onMatchupRouteChange();
@@ -2300,7 +2300,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.196'; // bump this on every update
+const APP_VERSION = 'v1.3.197'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
