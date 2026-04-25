@@ -2300,7 +2300,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.197'; // bump this on every update
+const APP_VERSION = 'v1.3.198'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3145,7 +3145,7 @@ function renderMatchupAnalysis() {
   
   const selectedRiders = riders.filter(r => r.selected);
   if (!opponentTeam) {
-    content.innerHTML = '<div class="empty" style="padding:60px">Select an opponent team in the Riders tab, then click 🔍 Matchup</div>';
+    content.innerHTML = '<div class="empty" style="padding:60px">Expand Riders below to select an opponent</div>';
     return;
   }
   if (selectedRiders.length < 2) {
