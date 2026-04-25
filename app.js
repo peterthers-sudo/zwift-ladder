@@ -2309,7 +2309,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.211'; // bump this on every update
+const APP_VERSION = 'v1.3.212'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3580,10 +3580,12 @@ function renderMatchupAnalysis() {
            title="Switch which opponent riders are used in all charts, tables and analysis">
         <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:10px;">OPPONENT LINEUP SOURCE — who should the analysis use?</div>
         <div style="display:flex;gap:0;border:1px solid var(--accent2);border-radius:3px;overflow:hidden;width:fit-content;">
-          <button onclick="setMatchupOppMode('selected')"
-            style="padding:9px 18px;border:none;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+          ${(() => { const hasSelected = opponentTeam.riders.filter(r => r.active !== false).length > 0; return `<button onclick="${hasSelected ? "setMatchupOppMode('selected')" : ''}"
+            title="${hasSelected ? 'Use manually selected riders' : 'No riders selected on opponent roster'}"
+            style="padding:9px 18px;border:none;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
+            cursor:${hasSelected ? 'pointer' : 'not-allowed'};opacity:${hasSelected ? '1' : '0.4'};
             background:${matchupOppMode==='selected'?'var(--accent2)':'transparent'};
-            color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED RIDERS</button>
+            color:${matchupOppMode==='selected'?'#000':'var(--accent2)'};">SELECTED RIDERS</button>`; })()}
           <button onclick="setMatchupOppMode('predicted')"
             style="padding:9px 18px;border:none;border-left:1px solid var(--accent2);cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:0.7rem;letter-spacing:1px;font-weight:700;
             background:${matchupOppMode==='predicted'?'var(--accent2)':'transparent'};
