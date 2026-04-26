@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.215'; // bump this on every update
+const APP_VERSION = 'v1.3.216'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2638,10 +2638,11 @@ window.onload = function() {
   // Populate my-team dropdown from MY_TEAMS
   const myTeamSel = document.getElementById('my-team-select');
   if (myTeamSel) {
-    myTeamSel.innerHTML = Object.entries(MY_TEAMS).map(([key, team]) =>
-      `<option value="${key}">● ${team.name}</option>`
-    ).join('');
-    myTeamSel.value = activeMyTeamKey;
+    myTeamSel.innerHTML = '<option value="">— Select your team —</option>' +
+      Object.entries(MY_TEAMS).map(([key, team]) =>
+        `<option value="${key}">● ${team.name}</option>`
+      ).join('');
+    myTeamSel.value = activeMyTeamKey || '';
   }
   rebuildOppOwnTeams(); // Add own teams to opponent dropdown
 
@@ -2650,7 +2651,7 @@ window.onload = function() {
   updateMyTeamRung(activeMyTeamKey); // <--- NY LINJE TILFØJET HER
 
   // Safety: if riders is empty after loadFromStorage, reload from MY_TEAMS
-  if (!riders || riders.length === 0) {
+  if ((!riders || riders.length === 0) && activeMyTeamKey && MY_TEAMS[activeMyTeamKey]) {
     riders = MY_TEAMS[activeMyTeamKey].riders;
   }
 
