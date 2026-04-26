@@ -103,6 +103,72 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   }
 
+  /* ── SLATE THEME — RACING AESTHETICS ── */
+
+  /* 1. Carbon-fiber whisper texture */
+  body.slate-mode::before, html.slate-mode body::before {
+    background-image:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='6'%3E%3Cpath d='M-1 1l2-2M0 6l6-6M5 7l2-2' stroke='%23ffffff' stroke-width='0.7' opacity='0.07'/%3E%3C/svg%3E"),
+      linear-gradient(rgba(255,255,255,0.012) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.012) 1px, transparent 1px);
+    background-size: 6px 6px, 40px 40px, 40px 40px;
+  }
+
+  /* 2. Tab bar — glass effect + orange underline */
+  body.slate-mode .tabs, html.slate-mode body .tabs {
+    background: rgba(26,31,43,0.88) !important;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 6px;
+    border-bottom: 2px solid rgba(255,93,0,0.55);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 1px 0 rgba(255,93,0,0.2);
+  }
+
+  /* 3. Tabs rounded + active neon glow */
+  body.slate-mode .tab, html.slate-mode body .tab { border-radius: 4px; }
+  body.slate-mode .tab.active, html.slate-mode body .tab.active {
+    background: var(--accent2);
+    color: #fff;
+    box-shadow: 0 0 16px rgba(255,93,0,0.35), 0 2px 6px rgba(255,93,0,0.2);
+  }
+
+  /* 4. Cards — deeper rounding + float */
+  body.slate-mode .card,       html.slate-mode body .card,
+  body.slate-mode .section-card, html.slate-mode body .section-card {
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 1px 0 rgba(255,255,255,0.04);
+  }
+  body.slate-mode .context-bar, html.slate-mode body .context-bar {
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  /* 5. Rider row — faint left-to-right gradient */
+  body.slate-mode .rider-item, html.slate-mode body .rider-item {
+    background: linear-gradient(90deg, rgba(255,255,255,0.04) 0%, var(--surface2) 60%);
+    border-radius: 4px;
+  }
+
+  /* 6. Profile bars — visible track + LED glow on fills */
+  body.slate-mode .breakdown-bar-wrap, html.slate-mode body .breakdown-bar-wrap {
+    background: rgba(255,255,255,0.06) !important;
+    border-radius: 3px;
+  }
+  body.slate-mode .breakdown-bar, html.slate-mode body .breakdown-bar {
+    border-radius: 3px;
+    filter: drop-shadow(0 0 4px currentColor);
+  }
+
+  /* 7. Score bar track */
+  body.slate-mode .score-bar, html.slate-mode body .score-bar {
+    background: rgba(255,255,255,0.06);
+    border-radius: 3px;
+  }
+  body.slate-mode .score-bar-fill, html.slate-mode body .score-bar-fill {
+    border-radius: 3px;
+    box-shadow: 0 0 8px rgba(0,229,255,0.4);
+  }
+
   /* Theme toggle button */
   #theme-toggle {
     font-family: 'JetBrains Mono', monospace;
