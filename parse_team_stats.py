@@ -304,6 +304,7 @@ def main():
             "cutoff_days": args.days,
             "scraped_at": scraped_at,
             "total_races_in_window": data["total_races_in_window"],
+            "results": data["results"],
             "riders": data["riders"],
             **({"season_totals": data["season_totals"]} if args.also_season else {}),
         }

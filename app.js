@@ -907,6 +907,26 @@ function resolveTeamActivityKey(libraryKey) {
   const found = Object.keys(TEAM_ACTIVITY).find(k => _normKey(k) === normLib);
   return (_teamActivityKeyCache[libraryKey] = found || null);
 }
+// ── Team win stats + W/L sequence ────────────────────────────────────────────
+function getTeamWinStats(actData) {
+  if (!actData || !actData.results || !actData.results.length) return null;
+  const results = actData.results;
+  const wins  = results.filter(r => r === 'W').length;
+  const races = results.length;
+  return { wins, races, rate: Math.round(wins / races * 100) };
+}
+
+function renderWLSequence(actData) {
+  if (!actData || !actData.results || !actData.results.length) return '';
+  const results = actData.results.slice(0, 10);
+  const boxes = results.map(r => {
+    const bg   = r === 'W' ? '#22c55e' : '#ef4444';
+    const col  = '#000';
+    return `<span style="display:inline-flex;align-items:center;justify-content:center;width:18px;height:16px;background:${bg};border-radius:2px;font-size:0.55rem;font-weight:700;color:${col};">${r}</span>`;
+  }).join('');
+  return `<div style="display:flex;gap:3px;margin-top:6px;flex-wrap:wrap;">${boxes}</div>`;
+}
+
 // Niveauer:
 //   very_active (grøn) : ratio >= 0.5 (kørte i halvdelen+ af holdets løb)
 //   active      (gul)  : ratio >  0   og < 0.5
@@ -1373,7 +1393,7 @@ function updateMyTeamRung(key) {
 }
 
 function switchMyTeam(key) {
-  if (!MY_TEAMS[key]) return;
+  if (!key || !MY_TEAMS[key]) return;
   // Save current selection state before switching
   activeMyTeamKey = key;
   riders = MY_TEAMS[key].riders;
@@ -2309,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.214'; // bump this on every update
+const APP_VERSION = 'v1.3.215'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3557,25 +3577,30 @@ function renderMatchupAnalysis() {
         if (!oppWs && !myWs) return '';
 
         function formBox(actData, ws, label, accentColor) {
-          if (!ws) return '';
-          const wColor = ws.rate >= 65 ? 'var(--accent3)' : ws.rate >= 40 ? 'var(--text-dim)' : 'var(--red)';
+          if (!ws) return `<div style="flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${accentColor};color:var(--text-dim);">
+            <div style="font-size:0.6rem;letter-spacing:1.5px;margin-bottom:4px;">${label} · LAST 60 DAYS</div>
+            <div style="opacity:0.5;">No data</div>
+          </div>`;
+          const wColor = ws.rate >= 65 ? '#22c55e' : ws.rate >= 40 ? 'var(--text-dim)' : '#ef4444';
           const hotTag = ws.rate >= 65 && ws.races >= 3
-            ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:1px;padding:2px 6px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;margin-left:8px;">🔥 HOT FORM</span>`
+            ? `<span style="font-family:'JetBrains Mono',monospace;font-size:0.55rem;letter-spacing:1px;padding:1px 5px;background:rgba(245,158,11,0.18);color:#f59e0b;border:1px solid rgba(245,158,11,0.4);border-radius:2px;margin-left:6px;">🔥 HOT</span>`
             : '';
           const wlHTML = renderWLSequence(actData);
-          return `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${accentColor};margin-bottom:8px;">
+          return `<div style="flex:1;min-width:0;font-family:'JetBrains Mono',monospace;font-size:0.6rem;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-left:3px solid ${accentColor};">
             <div style="font-size:0.6rem;letter-spacing:1.5px;color:var(--text-dim);margin-bottom:4px;">${label} · LAST 60 DAYS</div>
-            <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-              <span style="color:${wColor};font-size:0.85rem;font-weight:700;">${ws.rate}%</span>
-              <span style="color:var(--text-dim);">Won ${ws.wins} of ${ws.races} races${hotTag}</span>
+            <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+              <span style="color:${wColor};font-size:0.82rem;font-weight:700;">${ws.rate}%</span>
+              <span style="color:var(--text-dim);">${ws.wins}/${ws.races} races${hotTag}</span>
             </div>
-            <div style="margin-top:6px;width:160px;height:4px;background:var(--border);border-radius:2px;"><div style="width:${ws.rate}%;height:100%;background:${wColor};border-radius:2px;"></div></div>
+            <div style="margin-top:5px;width:100%;height:3px;background:var(--border);border-radius:2px;"><div style="width:${ws.rate}%;height:100%;background:${wColor};border-radius:2px;"></div></div>
             ${wlHTML}
           </div>`;
         }
 
-        return formBox(myActData,  myWs,  'MY TEAM RECENT FORM',       'var(--accent)')
-             + formBox(oppActData, oppWs, 'OPPONENT RECENT FORM', 'var(--accent2)');
+        return `<div style="display:flex;gap:8px;margin-bottom:8px;align-items:stretch;">
+          ${formBox(myActData,  myWs,  'MY TEAM',  'var(--accent)')}
+          ${formBox(oppActData, oppWs, 'OPPONENT', 'var(--accent2)')}
+        </div>`;
       })()}
       ${oppStatsUrl ? `<div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim);padding:8px 12px;background:var(--surface2);border-left:2px solid var(--accent2);margin-bottom:12px;line-height:1.7;">
         💡 <span style="color:var(--text);opacity:0.85">Pro tip:</span> Go to team page to view their recent races and rider stats —
