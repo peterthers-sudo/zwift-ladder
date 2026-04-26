@@ -754,11 +754,11 @@
       <span class="ctx-label">Routes in pool</span>
       <span class="ctx-value" id="ctx-routes">0 routes</span>
     </div>
-    <div class="ctx-block" id="ctx-teamsize-block" style="cursor:pointer">
-      <span class="ctx-label">Team size</span>
+    <div class="ctx-block" id="ctx-teamsize-block" style="cursor:pointer; flex:0 0 auto; min-width:0; padding:8px 12px;">
+      <span class="ctx-label" style="font-size:0.5rem;">Size</span>
       <select id="team-size" onchange="updateContextBar();runMatch()"
         style="background:transparent;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;
-               font-size:0.78rem;font-weight:600;cursor:pointer;outline:none;padding:0;width:100%">
+               font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;padding:0;width:100%">
         <option value="5" selected>5 vs 5</option>
         <option value="4">4 vs 4</option>
         <option value="3">3 vs 3</option>
@@ -766,21 +766,21 @@
     </div>
 
     <!-- Vis KUN på Matchup (Analyze) -->
-    <div class="ctx-block" id="ctx-raceroute-block" style="display:none; flex:2; border-right:none; background:var(--surface2); align-items: stretch; justify-content: center;">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:2px;">
-        <span class="ctx-label" style="margin:0">🗺 Race Route</span>
-        <label style="font-size:0.6rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
+    <div class="ctx-block" id="ctx-raceroute-block" style="display:none; flex:3; border-right:none; background:rgba(255,107,53,0.07); border-left:2px solid var(--accent2); align-items:stretch; justify-content:center;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+        <span class="ctx-label" style="margin:0;color:var(--accent2);letter-spacing:1.5px;">🗺 RACE ROUTE</span>
+        <label style="font-size:0.55rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
         <input type="text" id="matchup-route-search" placeholder="Search..." oninput="filterMatchupRoutes()"
-          style="width:80px; font-family:'JetBrains Mono',monospace; font-size:0.7rem; padding:4px 8px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
+          style="width:72px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; padding:4px 7px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
         <select id="matchup-route-select" onchange="onMatchupRouteChange()"
-          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.72rem; padding:4px 6px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none;">
+          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.82rem; font-weight:600; padding:4px 6px; background:var(--bg); border:1px solid var(--accent2); color:var(--text); outline:none;">
           <option value="">— No specific route selected —</option>
         </select>
         <input id="matchup-laps" type="number" min="1" max="10" value="1"
               onblur="clampMatchupLaps(this)" oninput="clampMatchupLaps(this)"
-              style="width:44px;padding:3px 4px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
+              style="width:40px;padding:3px 4px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
                      background:var(--bg);border:1px solid var(--border);color:var(--text);
                      border-radius:3px;text-align:center;flex-shrink:0;">
         <span id="matchup-route-tag" style="font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:1px; padding:3px 8px; border-radius:2px; display:none;"></span>
