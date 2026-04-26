@@ -2275,12 +2275,12 @@ function updateContextBar() {
   const myTeamEl = document.getElementById('ctx-myteam');
   if (myTeamEl) {
     const teamName = (document.getElementById('my-team-select')?.selectedOptions[0]?.text || '').replace('● ','').replace('LEQP ','');
-    if (selectedRiders.length === 0) {
-      myTeamEl.textContent = teamName || 'No riders selected';
-      myTeamEl.className = 'ctx-value warning';
-    } else {
+    if (teamName && teamName !== '— Select your team —') {
       myTeamEl.textContent = `${teamName} · ${selectedRiders.length} riders`;
-      myTeamEl.className = 'ctx-value has-data';
+      myTeamEl.className = selectedRiders.length > 0 ? 'ctx-value has-data' : 'ctx-value warning';
+    } else {
+      myTeamEl.textContent = 'No team selected';
+      myTeamEl.className = 'ctx-value warning';
     }
   }
 
@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.217'; // bump this on every update
+const APP_VERSION = 'v1.3.218'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
