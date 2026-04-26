@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.221'; // bump this on every update
+const APP_VERSION = 'v1.3.222'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2597,26 +2597,6 @@ function autoSelectOwnRung() {
   sel.value = String(team.rung);
 }
 
-function toggleTheme() {
-  const cur = localStorage.getItem('leqp_theme') || 'dark';
-  const next = cur === 'dark' ? 'slate' : cur === 'slate' ? 'light' : 'dark';
-  _applyTheme(next);
-  localStorage.setItem('leqp_theme', next);
-}
-
-function _applyTheme(t) {
-  document.body.classList.remove('light-mode', 'slate-mode');
-  document.documentElement.className = '';
-  if (t === 'light')      { document.body.classList.add('light-mode'); document.documentElement.className = 'light-mode'; }
-  else if (t === 'slate') { document.body.classList.add('slate-mode'); document.documentElement.className = 'slate-mode'; }
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = t === 'dark' ? '🪨 Slate' : t === 'slate' ? '☀ Light' : '🌙 Dark';
-}
-
-function applyStoredTheme() {
-  const t = localStorage.getItem('leqp_theme') || 'dark';
-  _applyTheme(t);
-}
 
 window.addEventListener('resize', _updateTabScrollHint);
 
@@ -5186,7 +5166,7 @@ function openDSSheet() {
   const oppMax = maxVals(oppRiders);
 
   // Course info
-  const isLight = localStorage.getItem('leqp_theme') === 'light';
+  const isLight = false; // Slate is the only theme (dark background)
   let courseHTML = '';
   if (course) {
     const fp = getCourseFingerprint(course);
