@@ -46,6 +46,63 @@
   body.light-mode .btn { box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
   body.light-mode .tab:hover:not(.active) { background: var(--border); color: var(--text); }
 
+  /* ── SLATE THEME ── */
+  body.slate-mode, html.slate-mode body {
+    --bg:       #1a1f2b;
+    --surface:  #242a38;
+    --surface2: #2d3447;
+    --border:   rgba(255,255,255,0.09);
+    --accent:   #00e5ff;
+    --accent2:  #ff5d00;
+    --accent3:  #7fff6b;
+    --text:     #e2e8f0;
+    --text-dim: #94a3b8;
+    --red:      #ff4455;
+    --purple:   #cc88ff;
+  }
+  /* Grid whisper */
+  body.slate-mode::before, html.slate-mode body::before {
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+  /* Cards float */
+  body.slate-mode .card,
+  html.slate-mode body .card,
+  body.slate-mode .section-card,
+  html.slate-mode body .section-card {
+    border-radius: 6px;
+    border-color: var(--border);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.25);
+  }
+  /* Tabs */
+  body.slate-mode .tabs, html.slate-mode body .tabs {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  body.slate-mode .tab.active, html.slate-mode body .tab.active {
+    background: var(--accent2);
+    color: #fff;
+    box-shadow: 0 0 12px rgba(255,93,0,0.35);
+  }
+  body.slate-mode .tab:hover:not(.active), html.slate-mode body .tab:hover:not(.active) {
+    background: rgba(255,255,255,0.05);
+    color: var(--text);
+  }
+  /* Inputs */
+  body.slate-mode input, html.slate-mode body input,
+  body.slate-mode select, html.slate-mode body select {
+    background: #141820;
+    border-color: var(--border);
+    color: var(--text);
+  }
+  /* Context bar */
+  body.slate-mode .context-bar, html.slate-mode body .context-bar {
+    border-radius: 6px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+
   /* Theme toggle button */
   #theme-toggle {
     font-family: 'JetBrains Mono', monospace;
@@ -375,7 +432,8 @@
   <script>
     (function() {
       var t = localStorage.getItem('leqp_theme');
-      if (t !== 'dark') document.documentElement.className = 'light-mode';
+      if (t === 'slate') document.documentElement.className = 'slate-mode';
+      else if (t !== 'dark') document.documentElement.className = 'light-mode';
     })();
   </script>
   <style>body { visibility: hidden; }</style>

@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.219'; // bump this on every update
+const APP_VERSION = 'v1.3.220'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2598,19 +2598,24 @@ function autoSelectOwnRung() {
 }
 
 function toggleTheme() {
-  const isLight = document.body.classList.toggle('light-mode');
+  const cur = localStorage.getItem('leqp_theme') || 'dark';
+  const next = cur === 'dark' ? 'slate' : cur === 'slate' ? 'light' : 'dark';
+  _applyTheme(next);
+  localStorage.setItem('leqp_theme', next);
+}
+
+function _applyTheme(t) {
+  document.body.classList.remove('light-mode', 'slate-mode');
+  document.documentElement.className = '';
+  if (t === 'light')      { document.body.classList.add('light-mode'); document.documentElement.className = 'light-mode'; }
+  else if (t === 'slate') { document.body.classList.add('slate-mode'); document.documentElement.className = 'slate-mode'; }
   const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = isLight ? '🌙 Dark' : '☀ Light';
-  localStorage.setItem('leqp_theme', isLight ? 'light' : 'dark');
-  document.documentElement.className = isLight ? 'light-mode' : '';
+  if (btn) btn.textContent = t === 'dark' ? '🪨 Slate' : t === 'slate' ? '☀ Light' : '🌙 Dark';
 }
 
 function applyStoredTheme() {
-  const isLight = localStorage.getItem('leqp_theme') !== 'dark';
-  document.body.classList.toggle('light-mode', isLight);
-  document.documentElement.className = isLight ? 'light-mode' : '';
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = isLight ? '🌙 Dark' : '☀ Light';
+  const t = localStorage.getItem('leqp_theme') || 'dark';
+  _applyTheme(t);
 }
 
 window.addEventListener('resize', _updateTabScrollHint);
