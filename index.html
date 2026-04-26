@@ -1081,7 +1081,7 @@
         <option value="10">Rung 10</option>
       </select>
       <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);cursor:pointer;user-select:none">
-        <input type="checkbox" id="rung-challenge-filter" onchange="renderRungOverview()"
+        <input type="checkbox" id="rung-challenge-filter" onchange="renderRungOverview();document.getElementById('rung-overview-select').disabled=this.checked;document.getElementById('rung-overview-select').style.opacity=this.checked?'0.4':'1';"
           style="accent-color:var(--accent2);cursor:pointer">
         Show challenge range only <span style="color:var(--accent2)">(±7 places)</span>
       </label>
