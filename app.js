@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.227'; // bump this on every update
+const APP_VERSION = 'v1.3.230'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2504,10 +2504,22 @@ function renderRungOverview() {
   var ownInList = teams.find(function(t){ return t.isOwn && t.key === activeMyTeamKey; });
   var ownRank = ownInList ? (teams.indexOf(ownInList) + 1) : null;
 
-  var html = '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">';
+  var ownDisplayName = activeMyTeamKey && MY_TEAMS[activeMyTeamKey] ? MY_TEAMS[activeMyTeamKey].name : null;
+
+  var html = '<div style="margin-bottom:16px">';
+  if (ownDisplayName) {
+    html += '<div style="' + base + 'font-size:0.7rem;letter-spacing:1px;margin-bottom:8px;padding:6px 10px;background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.25);border-radius:6px;display:flex;align-items:center;gap:10px">';
+    html += '<span style="color:var(--text-dim)">YOUR TEAM</span>';
+    html += '<span style="color:var(--accent);font-weight:700">' + ownDisplayName + '</span>';
+    var ownLadderPos = ownInList ? (ownInList.ladderPosition || ownInList.globalPos) : null;
+    if (ownLadderPos) html += '<span style="color:var(--text-dim)">· #' + ownLadderPos + ' on the ladder</span>';
+    html += '</div>';
+  }
+  html += '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">';
   html += '<span>' + teams.length + ' TEAMS</span>';
-  if (ownRank) html += '<span style="color:var(--accent)">You: #' + ownRank + ' of ' + teams.length + '</span>';
+  if (!ownDisplayName && ownRank) html += '<span style="color:var(--accent)">You: #' + ownRank + ' of ' + teams.length + '</span>';
   if (lastUpdated) html += '<span style="opacity:0.5">\u00b7 ' + lastUpdated + '</span>';
+  html += '</div>';
   html += '</div>';
 
   html += '<div style="overflow-x:auto">';
@@ -2520,6 +2532,12 @@ function renderRungOverview() {
   html += '<div style="text-align:center;line-height:1.4">RACES<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '<div style="text-align:center;line-height:1.4">WIN RATE<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '</div>';
+
+  // Detect duplicate ladderPosition values (stale data) — fall back to globalPos for those teams
+  var ladderPosCounts = {};
+  teams.forEach(function(t) {
+    if (t.ladderPosition) ladderPosCounts[t.ladderPosition] = (ladderPosCounts[t.ladderPosition] || 0) + 1;
+  });
 
   teams.forEach(function(team, i) {
     var rank = i + 1;
@@ -2575,7 +2593,9 @@ function renderRungOverview() {
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
     html += '<div style="' + base + 'font-size:0.7rem;color:var(--text-dim);margin-top:1px">';
-    if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
+    var dispPos = (team.ladderPosition && ladderPosCounts[team.ladderPosition] === 1) ? team.ladderPosition : null;
+    if (dispPos) html += '#' + dispPos + ' ladder';
+    else if (team.globalPos) html += '#' + team.globalPos;
     html += '</div></div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.ftpWkg,   ownFtpWkg))   + '</div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.medWkg,   ownMedWkg))   + '</div>';

@@ -3,6 +3,10 @@ Zwift Ladder — Auto Download Team Source Pages
 Kræver: pip install selenium webdriver-manager
 """
 
+import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='replace')
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -96,9 +100,33 @@ def get_team_urls_on_page(driver):
     return urls or []
 
 def build_driver():
-    log("Bygger Chrome driver (ingen profil — direkte login)...")
-    options = webdriver.ChromeOptions()
+    import shutil, tempfile
 
+    # Lav en midlertidig kopi af Chrome-profilen — undgår låsekonflikter
+    tmp_dir = os.path.join(tempfile.gettempdir(), "zwift_ladder_chrome")
+    src_profile = os.path.join(CHROME_PROFILE_DIR, CHROME_PROFILE)
+    tmp_profile  = os.path.join(tmp_dir, CHROME_PROFILE)
+
+    if os.path.exists(tmp_dir):
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+    os.makedirs(tmp_profile, exist_ok=True)
+
+    # Kopiér kun session-relevante filer (Cookies, Local State, Preferences)
+    for fname in ["Cookies", "Local State", "Preferences", "Secure Preferences"]:
+        src = os.path.join(src_profile, fname)
+        if os.path.isfile(src):
+            shutil.copy2(src, os.path.join(tmp_profile, fname))
+    # Local State ligger i roden (ikke inde i profil-mappen)
+    local_state_src = os.path.join(CHROME_PROFILE_DIR, "Local State")
+    if os.path.isfile(local_state_src):
+        shutil.copy2(local_state_src, os.path.join(tmp_dir, "Local State"))
+
+    log(f"Temp Chrome-profil klar: {tmp_dir}")
+
+    options = webdriver.ChromeOptions()
+    options.add_argument(f"--user-data-dir={tmp_dir}")
+    options.add_argument(f"--profile-directory={CHROME_PROFILE}")
+    options.add_argument("--remote-debugging-port=9222")
     options.add_argument("--start-maximized")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--disable-infobars")
@@ -106,6 +134,7 @@ def build_driver():
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--no-first-run")
     options.add_argument("--no-default-browser-check")
+    options.add_argument("--disable-extensions")
     options.add_experimental_option("excludeSwitches", ["enable-automation"])
     options.add_experimental_option("useAutomationExtension", False)
 
@@ -134,7 +163,16 @@ def build_driver():
 def kill_chrome():
     log("Lukker eventuelle Chrome-processer så profilen er fri...")
     subprocess.call("taskkill /f /im chrome.exe /t", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-    time.sleep(2)
+    time.sleep(3)
+    # Slet profil-låsefiler som Chrome efterlader
+    for lock_name in ["SingletonLock", "SingletonCookie", "SingletonSocket", "lockfile"]:
+        lock_path = os.path.join(CHROME_PROFILE_DIR, lock_name)
+        if os.path.exists(lock_path):
+            try:
+                os.remove(lock_path)
+                log(f"Slettede låsefil: {lock_name}", "OK")
+            except Exception as e:
+                log(f"Kunne ikke slette {lock_name}: {e}", "WARN")
 
 def main():
     os.makedirs(OUTPUT_DIR, exist_ok=True)
@@ -147,33 +185,41 @@ def main():
     driver = build_driver()
 
     try:
-        # ── LOGIN med brugernavn/password ──────────────────────
-        log(f"\nLogger ind med brugernavn/password...")
-        driver.get(f"{BASE_URL}/signin")
-        wait_for_page(driver, 3)
-        inputs = driver.find_elements(By.TAG_NAME, "input")
-        email_field = next((i for i in inputs if "email" in (i.get_attribute("type") or "").lower()
-                            or "email" in (i.get_attribute("name") or "").lower()), None)
-        pass_field  = next((i for i in inputs if "password" in (i.get_attribute("type") or "").lower()), None)
-        if email_field and pass_field:
-            email_field.send_keys(USERNAME)
-            pass_field.send_keys(PASSWORD)
-            submit = next((b for b in driver.find_elements(By.TAG_NAME, "button")
-                           if b.get_attribute("type") == "submit"), None)
-            if submit:
-                click_element(driver, submit)
-                wait_for_page(driver, 5)
-        if "signin" in driver.current_url or "login" in driver.current_url:
-            log("Login fejlede! Tjek credentials eller log manuelt ind via Google på siden først.", "ERR")
-            dump_page_state(driver, "LOGIN FEJL")
-            return
-        else:
-            log(f"Login OK — {driver.current_url}", "OK")
-
-                # ── GÅ TIL /rungs ─────────────────────────────────────
-        log(f"\nNavigerer til {BASE_URL}/rungs")
+        # ── TJEK SESSION med gemt Chrome-profil ────────────────
+        log(f"\nTjekker session via gemt Chrome-profil...")
         driver.get(f"{BASE_URL}/rungs")
         wait_for_page(driver, 4)
+
+        if "signin" in driver.current_url or "login" in driver.current_url:
+            # Profil-session er udløbet — forsøg email/password login
+            log("Profil-session ugyldig, forsøger email/password login...", "WARN")
+            driver.get(f"{BASE_URL}/signin")
+            wait_for_page(driver, 3)
+            inputs = driver.find_elements(By.TAG_NAME, "input")
+            email_field = next((i for i in inputs if "email" in (i.get_attribute("type") or "").lower()
+                                or "email" in (i.get_attribute("name") or "").lower()), None)
+            pass_field  = next((i for i in inputs if "password" in (i.get_attribute("type") or "").lower()), None)
+            if email_field and pass_field:
+                email_field.send_keys(USERNAME)
+                pass_field.send_keys(PASSWORD)
+                submit = next((b for b in driver.find_elements(By.TAG_NAME, "button")
+                               if b.get_attribute("type") == "submit"), None)
+                if submit:
+                    click_element(driver, submit)
+                    wait_for_page(driver, 5)
+                # Naviger til rungs igen efter login
+                driver.get(f"{BASE_URL}/rungs")
+                wait_for_page(driver, 4)
+
+            if "signin" in driver.current_url or "login" in driver.current_url:
+                log("Login fejlede! Log manuelt ind på ladder.cycleracing.club i Chrome og prøv igen.", "ERR")
+                dump_page_state(driver, "LOGIN FEJL")
+                return
+            else:
+                log(f"Login OK via email/password — {driver.current_url}", "OK")
+        else:
+            log(f"Session OK via gemt profil — {driver.current_url}", "OK")
+
         dump_page_state(driver, "RUNGS SIDE")
 
         # Klik division
