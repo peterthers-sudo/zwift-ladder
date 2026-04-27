@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.226'; // bump this on every update
+const APP_VERSION = 'v1.3.227'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2575,7 +2575,7 @@ function renderRungOverview() {
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
     html += '<div style="' + base + 'font-size:0.7rem;color:var(--text-dim);margin-top:1px">';
-    if (team.globalPos) html += '#' + team.globalPos + ' ladder';
+    if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
     html += '</div></div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.ftpWkg,   ownFtpWkg))   + '</div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.medWkg,   ownMedWkg))   + '</div>';

@@ -561,24 +561,20 @@ def extract_rung(file_path, filename):
         if not isinstance(positions, dict):
             return 1, None, None  # Ladder.positions was not an object (e.g. = 1)
 
-        # Find the first region where the team has a valid position (> 0)
+        # Find the first region where the team has a valid position (>= 0)
+        # positionOne is the 1-indexed display rank (matches "r63rd" on the site)
+        # position is 0-indexed (belt holder = 0), so always prefer positionOne
         region_id = None
         position = None
         for rid, data in positions.items():
             if not isinstance(data, dict):
                 continue
             pos = data.get('position', -1)
-            if pos > 0:
+            if pos >= 0:
                 region_id = rid
-                position = pos
-                break
-            elif pos == 0:
-                # Belt holder: position=0 means rank #1, use positionOne
                 pos_one = data.get('positionOne', -1)
-                if pos_one > 0:
-                    region_id = rid
-                    position = pos_one
-                    break
+                position = pos_one if pos_one > 0 else pos + 1
+                break
 
         if region_id is None or position is None:
             return 1, None, None  # team is not on any regional ladder
