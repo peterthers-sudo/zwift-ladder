@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.230'; // bump this on every update
+const APP_VERSION = 'v1.3.231'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2433,8 +2433,19 @@ function calcTeamPowerIndex(teamRiders) {
 function renderRungOverview() {
   var rungNum = parseInt(document.getElementById('rung-overview-select').value);
   var contentEl = document.getElementById('rung-overview-content');
-  var challengeOnly = document.getElementById('rung-challenge-filter') && document.getElementById('rung-challenge-filter').checked;
+  var challengeFilterEl = document.getElementById('rung-challenge-filter');
   var challengeInfo = document.getElementById('rung-challenge-info');
+
+  // Disable challenge range filter if no team is selected
+  var hasOwnTeam = !!(activeMyTeamKey && MY_TEAMS[activeMyTeamKey]);
+  if (challengeFilterEl) {
+    challengeFilterEl.disabled = !hasOwnTeam;
+    challengeFilterEl.style.opacity = hasOwnTeam ? '1' : '0.35';
+    challengeFilterEl.style.cursor = hasOwnTeam ? 'pointer' : 'not-allowed';
+    if (!hasOwnTeam) challengeFilterEl.checked = false;
+  }
+
+  var challengeOnly = challengeFilterEl && challengeFilterEl.checked;
   if (!rungNum) return;
 
   var allTeams = [];
