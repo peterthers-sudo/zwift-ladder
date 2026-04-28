@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.231'; // bump this on every update
+const APP_VERSION = 'v1.3.232'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2544,11 +2544,6 @@ function renderRungOverview() {
   html += '<div style="text-align:center;line-height:1.4">WIN RATE<br><span style="opacity:0.55;font-size:0.65rem;font-weight:400;letter-spacing:0.5px">last 2mo</span></div>';
   html += '</div>';
 
-  // Detect duplicate ladderPosition values (stale data) — fall back to globalPos for those teams
-  var ladderPosCounts = {};
-  teams.forEach(function(t) {
-    if (t.ladderPosition) ladderPosCounts[t.ladderPosition] = (ladderPosCounts[t.ladderPosition] || 0) + 1;
-  });
 
   teams.forEach(function(team, i) {
     var rank = i + 1;
@@ -2604,8 +2599,7 @@ function renderRungOverview() {
     html += '<div style="min-width:0">';
     html += '<div style="font-family:Bebas Neue,sans-serif;font-size:0.85rem;letter-spacing:1px;color:' + (isOwn ? 'var(--accent)' : 'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + rungBadge + hotBadge + '</div>';
     html += '<div style="' + base + 'font-size:0.7rem;color:var(--text-dim);margin-top:1px">';
-    var dispPos = (team.ladderPosition && ladderPosCounts[team.ladderPosition] === 1) ? team.ladderPosition : null;
-    if (dispPos) html += '#' + dispPos + ' ladder';
+    if (team.ladderPosition) html += '#' + team.ladderPosition + ' ladder';
     else if (team.globalPos) html += '#' + team.globalPos;
     html += '</div></div>';
     html += '<div style="text-align:center;' + base + 'font-size:0.68rem;font-weight:700">' + pctHtml(pct(team.stats.ftpWkg,   ownFtpWkg))   + '</div>';
