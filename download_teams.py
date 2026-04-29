@@ -290,6 +290,8 @@ def main():
         teams_list = list(all_teams.items())
         success, failed = 0, 0
 
+        downloaded_files = set()
+
         for i, (url, name) in enumerate(teams_list, 1):
             try:
                 driver.get(url)
@@ -300,6 +302,7 @@ def main():
                 with open(filepath, 'w', encoding='utf-8') as f:
                     f.write(driver.page_source)
 
+                downloaded_files.add(filename)
                 log(f"[{i}/{len(teams_list)}] {name}", "OK")
                 success += 1
             except Exception as e:
@@ -309,6 +312,24 @@ def main():
         log(f"\n{'='*60}")
         log(f"Færdig! {success} hold gemt, {failed} fejlede.", "OK")
         log(f"Filer gemt i: {OUTPUT_DIR}")
+
+        # ── RYDDE OP: slet teamView-filer for hold der ikke længere er på ladderen ──
+        if success > 0:
+            stale = [
+                f for f in os.listdir(OUTPUT_DIR)
+                if f.startswith("view-source_") and "teamView" in f and f.endswith(".html")
+                and f not in downloaded_files
+            ]
+            if stale:
+                log(f"\nSletter {len(stale)} forældet(e) teamView-fil(er) for hold der ikke er på ladderen:")
+                for fname in stale:
+                    try:
+                        os.remove(os.path.join(OUTPUT_DIR, fname))
+                        log(f"  Slettet: {fname}", "OK")
+                    except Exception as e:
+                        log(f"  Kunne ikke slette {fname}: {e}", "WARN")
+            else:
+                log("Ingen forældede teamView-filer fundet.", "OK")
 
         # ── HE N T FIXTURES SUMMARY ──────────────────────────────
         log("\nHenter fixtures summary...")
