@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.237'; // bump this on every update
+const APP_VERSION = 'v1.3.238'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -7096,8 +7096,10 @@ function initFixtures() {
       const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
       const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
       const dateStr = days[d.getDay()] + ' ' + d.getDate() + ' ' + months[d.getMonth()];
+      const cet = _formatInZone(f.date, f.time, 'Europe/Copenhagen');
+      const timeDisplay = cet ? `${cet.time} ${cet.zone}` : `${f.time} UTC`;
       return `<span class="fixtures-ticker-item">` +
-        `<span class="fx-date">${dateStr} ${f.time} UTC</span> ` +
+        `<span class="fx-date">${dateStr} ${timeDisplay}</span> ` +
         `<span class="fx-teams">${f.home} vs ${f.away}</span> ` +
         `<span class="fx-sep">·</span> ` +
         `<span class="fx-route">${f.route}</span>` +
