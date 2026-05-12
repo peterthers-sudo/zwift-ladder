@@ -2638,6 +2638,13 @@ function switchRungTab(tab) {
   }
 }
 
+var _mostActiveWindow = 60;
+
+function setMostActiveWindow(days) {
+  _mostActiveWindow = days;
+  renderMostActiveTeams();
+}
+
 function renderMostActiveTeams() {
   var el = document.getElementById('most-active-content');
   if (!el) return;
@@ -2646,20 +2653,37 @@ function renderMostActiveTeams() {
   var leqpKeys = new Set(Object.keys(MY_TEAMS || {}));
   var base = "font-family:'JetBrains Mono',monospace;";
 
+  // Compute cutoff date string for filtering all_results
+  var now = new Date();
+  var cutoffStr, periodLabel;
+  if (_mostActiveWindow === 0) {
+    cutoffStr = String(now.getFullYear()) + '-01-01';
+    periodLabel = 'THIS YEAR';
+  } else {
+    var cd = new Date(now.getTime() - _mostActiveWindow * 86400000);
+    cutoffStr = cd.toISOString().slice(0, 10);
+    periodLabel = _mostActiveWindow === 60 ? 'LAST 2 MONTHS' :
+                  _mostActiveWindow === 180 ? 'LAST 6 MONTHS' : 'LAST 12 MONTHS';
+  }
+
   var allTeams = [];
   Object.entries(actData).forEach(function([key, act]) {
     var opp = oppData[key] || {};
-    var races = act.total_races_in_window || 0;
+    var filtered;
+    if (act.all_results) {
+      filtered = act.all_results.filter(function(x) { return x.d >= cutoffStr; });
+    } else {
+      filtered = (act.results || []).map(function(r) { return { r: r }; });
+    }
+    var races = filtered.length;
     if (!races) return;
-    var results = act.results || [];
-    var wins = results.filter(function(r){ return r === 'W'; }).length;
-    var winRate = results.length ? Math.round(wins / results.length * 100) : 0;
+    var wins = filtered.filter(function(x) { return x.r === 'W'; }).length;
+    var winRate = Math.round(wins / races * 100);
     allTeams.push({
       key: key,
       name: opp.name || key,
       races: races,
       wins: wins,
-      matchesTotal: results.length,
       winRate: winRate,
       isLeqp: leqpKeys.has(key),
       ladderPosition: opp.ladderPosition || null
@@ -2687,14 +2711,24 @@ function renderMostActiveTeams() {
       h += '</div>';
       h += '<div style="text-align:center;' + base + 'font-size:0.85rem;font-weight:700;color:var(--accent)">' + team.races + '</div>';
       h += '<div style="text-align:center;' + base + 'font-size:0.85rem;font-weight:700;color:var(--text-dim)">' + team.wins + '</div>';
-      h += '<div style="text-align:center"><span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + wColor + '">' + team.winRate + '%</span><br><span style="' + base + 'font-size:0.58rem;color:var(--text-dim)">' + team.wins + '/' + team.matchesTotal + '</span></div>';
+      h += '<div style="text-align:center"><span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + wColor + '">' + team.winRate + '%</span><br><span style="' + base + 'font-size:0.58rem;color:var(--text-dim)">' + team.wins + '/' + team.races + '</span></div>';
       h += '</div>';
     });
     return h;
   }
 
-  var cutoff = (actData[Object.keys(actData)[0]] || {}).cutoff_days || 60;
-  var html = '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px">LAST ' + cutoff + ' DAYS · ' + allTeams.length + ' ACTIVE TEAMS</div>';
+  var periods = [{label:'2 MO',days:60},{label:'6 MO',days:180},{label:'12 MO',days:365},{label:'THIS YEAR',days:0}];
+  var btnBase = base + 'font-size:0.6rem;letter-spacing:1.5px;padding:4px 10px;border:1px solid var(--border);cursor:pointer;';
+  var html = '<div style="display:flex;gap:6px;margin-bottom:14px">';
+  periods.forEach(function(p) {
+    var active = p.days === _mostActiveWindow;
+    var s = active
+      ? btnBase + 'border-color:var(--purple);color:var(--purple);background:rgba(155,89,182,0.12);'
+      : btnBase + 'background:var(--surface2);color:var(--text-dim);';
+    html += '<button onclick="setMostActiveWindow(' + p.days + ')" style="' + s + '">' + p.label + '</button>';
+  });
+  html += '</div>';
+  html += '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px">' + periodLabel + ' · ' + allTeams.length + ' ACTIVE TEAMS</div>';
   html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px">';
   html += '<div>' + buildLeaderboard(leqpTeams, 'LEQP TEAMS', 'var(--accent)') + '</div>';
   html += '<div>' + buildLeaderboard(allTeams, 'ALL TEAMS', 'var(--purple)') + '</div>';

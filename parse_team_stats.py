@@ -113,7 +113,8 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
 
     riders = {}
     total_races_in_window = 0
-    results = []  # "W" or "L" per race, newest first (HTML table order)
+    results = []     # "W" or "L" per race within cutoff, newest first
+    all_results = [] # alle races med dato uanset cutoff, nyeste først
 
     if race_section:
         for tr in race_section.select("tbody tr"):
@@ -124,10 +125,8 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
                 date_ms = int(date_td["data-date"])
             except (TypeError, ValueError):
                 continue
-            if date_ms < cutoff_ms:
-                continue  # for gammel
 
-            total_races_in_window += 1
+            within_window = date_ms >= cutoff_ms
             race_date = datetime.fromtimestamp(date_ms / 1000, tz=timezone.utc).date().isoformat()
             race_won = False  # True if any team rider finished 1st
 
@@ -163,33 +162,38 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
                 if pos_num == 1:
                     race_won = True
 
-                r = riders.setdefault(zid, {
-                    "name": rname,
-                    "races": 0,
-                    "points": 0,
-                    "wins": 0,
-                    "last_race": None,
-                    "best_pos": None,
-                })
-                r["races"] += 1
-                r["points"] += pts_num
-                if pos_num == 1:
-                    r["wins"] += 1
-                if pos_num is not None and (r["best_pos"] is None or pos_num < r["best_pos"]):
-                    r["best_pos"] = pos_num
-                if r["last_race"] is None or race_date > r["last_race"]:
-                    r["last_race"] = race_date
-                # Foretrukket navn: det længste rene
-                if rname and len(rname) > len(r["name"]):
-                    r["name"] = rname
+                if within_window:
+                    r = riders.setdefault(zid, {
+                        "name": rname,
+                        "races": 0,
+                        "points": 0,
+                        "wins": 0,
+                        "last_race": None,
+                        "best_pos": None,
+                    })
+                    r["races"] += 1
+                    r["points"] += pts_num
+                    if pos_num == 1:
+                        r["wins"] += 1
+                    if pos_num is not None and (r["best_pos"] is None or pos_num < r["best_pos"]):
+                        r["best_pos"] = pos_num
+                    if r["last_race"] is None or race_date > r["last_race"]:
+                        r["last_race"] = race_date
+                    # Foretrukket navn: det længste rene
+                    if rname and len(rname) > len(r["name"]):
+                        r["name"] = rname
 
-            results.append("W" if race_won else "L")
+            all_results.append({"d": race_date, "r": "W" if race_won else "L"})
+            if within_window:
+                total_races_in_window += 1
+                results.append("W" if race_won else "L")
 
     result = {
         "team_name": team_name,
         "season_label": season_label,
         "total_races_in_window": total_races_in_window,
         "results": results,
+        "all_results": all_results,
         "riders": riders,
     }
 
@@ -305,6 +309,7 @@ def main():
             "scraped_at": scraped_at,
             "total_races_in_window": data["total_races_in_window"],
             "results": data["results"],
+            "all_results": data["all_results"],
             "riders": data["riders"],
             **({"season_totals": data["season_totals"]} if args.also_season else {}),
         }
