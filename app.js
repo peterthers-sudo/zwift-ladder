@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.233'; // bump this on every update
+const APP_VERSION = 'v1.3.234'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -7025,6 +7025,21 @@ function initFixtures() {
   _renderFixturesList(upcoming);
 }
 
+function _utcToCET(dateStr, timeStr) {
+  // Returns { time: "20:00", zone: "CEST" } for a UTC date+time string
+  const dt = new Date(dateStr + 'T' + (timeStr || '00:00') + ':00Z');
+  const fmt = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Copenhagen',
+    hour: '2-digit', minute: '2-digit', hour12: false,
+    timeZoneName: 'short'
+  });
+  const parts = fmt.formatToParts(dt);
+  const h    = parts.find(p => p.type === 'hour')?.value   || '00';
+  const m    = parts.find(p => p.type === 'minute')?.value || '00';
+  const zone = parts.find(p => p.type === 'timeZoneName')?.value || 'CET';
+  return { time: h + ':' + m, zone };
+}
+
 function _renderFixturesList(fixtures) {
   const el = document.getElementById('fixtures-list');
   if (!el) return;
@@ -7049,7 +7064,7 @@ function _renderFixturesList(fixtures) {
       <col style="width:15%">
     </colgroup>
     <tr style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim)">
-      <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">TIME UTC</th>
+      <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">TIME</th>
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">HOME</th>
       <th style="border-bottom:1px solid var(--border)"></th>
       <th style="text-align:left;padding:6px 8px;border-bottom:1px solid var(--border)">AWAY</th>
@@ -7067,7 +7082,7 @@ function _renderFixturesList(fixtures) {
       const homeStyle = isLeqpHome ? 'color:var(--accent);font-weight:600' : 'color:var(--text)';
       const awayStyle = isLeqpAway ? 'color:var(--accent);font-weight:600' : 'color:var(--text)';
       html += `<tr style="border-bottom:1px solid rgba(255,255,255,0.04);font-family:'JetBrains Mono',monospace;font-size:0.72rem">
-        <td style="padding:8px 8px;color:var(--accent2)">${f.time}</td>
+        <td style="padding:8px 8px;color:var(--accent2)">${(() => { const c = _utcToCET(f.date, f.time); return `${c.time} <span style="font-size:0.6rem;opacity:0.7">${c.zone}</span><br><span style="font-size:0.6rem;color:var(--text-dim);opacity:0.6">${f.time} UTC</span>`; })()}</td>
         <td style="padding:8px 8px;${homeStyle};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.home}</td>
         <td style="padding:8px 8px;color:var(--text-dim);text-align:center;font-size:0.6rem">vs</td>
         <td style="padding:8px 8px;${awayStyle};overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${f.away}</td>
