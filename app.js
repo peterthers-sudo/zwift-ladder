@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.239'; // bump this on every update
+const APP_VERSION = 'v1.3.240'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3858,6 +3858,7 @@ function renderMatchupAnalysis() {
           const labels = myClassifications[i];
           return `<div style="margin-bottom:4px;font-family:'JetBrains Mono',monospace;font-size:0.65rem">
             <span style="color:var(--text)">${r.name.split(' ').slice(0,2).join(' ')}</span>
+            ${r.weight ? `<span style="color:var(--text-dim);margin-left:4px">${Math.round(r.weight)}kg</span>` : ''}
             ${labels.map(l=>`<span class="profile-chip ${chipClass[l]}">${l}</span>`).join('')}
           </div>`;
         }).join('')}
@@ -3871,6 +3872,7 @@ function renderMatchupAnalysis() {
           const labels = oppClassifications[i];
           return `<div style="margin-bottom:4px;font-family:'JetBrains Mono',monospace;font-size:0.65rem">
             <span style="color:var(--text)">${r.name.split(' ').slice(0,2).join(' ')}</span>
+            ${r.weight ? `<span style="color:var(--text-dim);margin-left:4px">${Math.round(r.weight)}kg</span>` : ''}
             ${labels.map(l=>`<span class="profile-chip ${chipClass[l]}">${l}</span>`).join('')}
           </div>`;
         }).join('')}
