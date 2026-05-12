@@ -1,4 +1,5 @@
 import os
+import json
 import time
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
@@ -22,6 +23,16 @@ def _load_group_ride_filters():
 def _is_group_ride(title: str, filters: list) -> bool:
     t = title.lower()
     return any(f in t for f in filters)
+
+def _load_ladder_result_map() -> dict:
+    """Returns {str(zwift_event_id): result_id} from race_results.json if it exists."""
+    path = os.path.join(os.path.dirname(__file__), "race_results.json")
+    try:
+        with open(path, encoding="utf-8") as f:
+            data = json.load(f)
+        return {str(r["zwift_event_id"]): r["result_id"] for r in data if r.get("zwift_event_id")}
+    except Exception:
+        return {}
 
 # =========================
 # Environment login setup
@@ -228,6 +239,7 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
 
         gr_filters = _load_group_ride_filters()
 
+        ladder_result_map = _load_ladder_result_map()
         ladder_races = []
         other_races = []
         for race in all_races:
@@ -282,6 +294,8 @@ async def get_ladder_races(zwift_id: int, days: int = 0):
             is_race = "TYPE_RACE" in ft or "TYPE_TIME_TRIAL" in ft or "TYPE_TEAM_TIME_TRIAL" in ft
 
             if "Club Ladder" in title:
+                zid_str = str(entry.get("zid") or "")
+                entry["result_id"] = ladder_result_map.get(zid_str)
                 ladder_races.append(entry)
             elif is_race and not _is_group_ride(title, gr_filters) and (cutoff == 0 or event_date >= cutoff):
                 entry["tname"] = race.get("tname")

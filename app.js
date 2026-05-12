@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.235'; // bump this on every update
+const APP_VERSION = 'v1.3.236'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -6930,7 +6930,10 @@ function _profileRenderTable(races) {
     const title = (r.event_title||'').replace('Club Ladder // ', '');
     const routeDb = typeof ROUTES !== 'undefined' ? ROUTES : {};
     const routeName = r.rt ? (routeDb[String(r.rt)] || '') : '';
-    const zpLink = r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="color:var(--text-dim);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">↗</a>` : '';
+    const linkStyle = `color:var(--text-dim);font-size:0.65rem;text-decoration:none;vertical-align:middle;flex-shrink:0`;
+    const zpLink = r.result_id
+      ? ` <a href="https://ladder.cycleracing.club/result/${r.result_id}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View result on Ladder" style="${linkStyle}" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">↗</a>`
+      : r.zid ? ` <a href="https://zwiftpower.com/events.php?zid=${r.zid}" target="_blank" rel="noopener" onclick="event.stopPropagation()" title="View on ZwiftPower" style="${linkStyle}" onmouseover="this.style.color='var(--accent)'" onmouseout="this.style.color='var(--text-dim)'">↗</a>` : '';
     const p = 'padding:7px 10px';
     const bb = 'border-bottom:1px solid rgba(31,42,64,0.6)';
     const td = (v) => `<td style="${p};${bb};text-align:right;font-family:'JetBrains Mono',monospace;font-weight:600;color:${_wkgColor(v)}">${v!=null&&v>0?v.toFixed(1):'<span style="color:#333d52">—</span>'}</td>`;
