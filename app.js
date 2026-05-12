@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.232'; // bump this on every update
+const APP_VERSION = 'v1.3.233'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -3807,7 +3807,7 @@ function renderMatchupAnalysis() {
     </div>
 
     ${buildRouteAnalysis(getSelectedMatchupCourse(), flatAdv, climbAdv, punchAdv, sprintAdv, laps)}
-    ${buildMatchPrediction(selectedRiders, oppRiders, myName, opponentTeam.name, course, fn)}
+    ${buildMatchPrediction(selectedRiders, oppRiders, myName, opponentTeam.name, course, fn, teamSize)}
     <div id="ai-strategy-output" style="display:none;margin-top:16px;padding:20px 24px;background:var(--surface2);border:1px solid rgba(0,229,255,0.3);font-family:'JetBrains Mono',monospace;font-size:0.72rem;line-height:1.9;color:var(--text);white-space:pre-wrap;border-radius:2px;"></div>`;
 
   // Store chart data on window so renderH2HChart can access it after innerHTML is set
@@ -3996,9 +3996,9 @@ async function generateMatchupStrategy() {
 
   const prompt = `You are race strategist for Zwift ladder team ${d.myName}. Write a sharp tactical race plan — max 450 words.
 
-Race format: team points race. Points: 1st=10, 2nd=9, 3rd=8, 4th=7, 5th=6, 6th=5, 7th=4, 8th=3, 9th=2, 10th=1. Team score = sum of all 5 riders. All tactics are team-first. Individual sacrifice is valid if it helps the team total.
+Race format: team points race. ${(() => { const ts = d.myRiders.length; const fs = ts * 2; const ptsList = Array.from({length:fs}, (_,i) => `${i+1}${['st','nd','rd'][i]||'th'}=${fs-i}`).join(', '); return `Points: ${ptsList}. Team score = sum of all ${ts} riders.`; })()} All tactics are team-first. Individual sacrifice is valid if it helps the team total.
 
-Field size: 10 riders (5 vs 5). Breakaways are rare and hard to sustain. Expect the race to stay together until late splits on climbs, punchy sections, or sprint segments.
+Field size: ${d.myRiders.length * 2} riders (${d.myRiders.length} vs ${d.myRiders.length}). Breakaways are rare and hard to sustain. Expect the race to stay together until late splits on climbs, punchy sections, or sprint segments.
 
 DRAFTING MECHANICS (critical for realistic tactics):
 - Riders in the draft save ~25-30% energy vs the rider pulling at the front
@@ -4359,8 +4359,8 @@ ${detailHTML ? `<div class="section"><div style="font-family:'JetBrains Mono',mo
 }
 
 // ── Match Prediction ──
-function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn) {
-  const MAX = 5;
+function buildMatchPrediction(myRiders, oppRiders, myName, oppName, course, fn, teamSize) {
+  const MAX = teamSize || 5;
 
   // Route is required — prediction without a course context is meaningless
   if (!course) {
