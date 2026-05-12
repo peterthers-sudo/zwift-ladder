@@ -1065,32 +1065,51 @@
 
 <!-- ═══════════ RUNG TAB ═══════════ -->
   <div class="panel" id="panel-rung">
-    <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:var(--purple)">Rung Standing</div>
-      <select id="rung-overview-select" onchange="renderRungOverview()"
-        style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:6px 12px;cursor:pointer">
-        <option value="1">Rung 1</option>
-        <option value="2">Rung 2</option>
-        <option value="3">Rung 3</option>
-        <option value="4">Rung 4</option>
-        <option value="5">Rung 5</option>
-        <option value="6">Rung 6</option>
-        <option value="7">Rung 7</option>
-        <option value="8">Rung 8</option>
-        <option value="9">Rung 9</option>
-        <option value="10">Rung 10</option>
-      </select>
-      <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);cursor:pointer;user-select:none">
-        <input type="checkbox" id="rung-challenge-filter" onchange="renderRungOverview();document.getElementById('rung-overview-select').disabled=this.checked;document.getElementById('rung-overview-select').style.opacity=this.checked?'0.4':'1';"
-          style="accent-color:var(--accent2);cursor:pointer">
-        Show challenge range only <span style="color:var(--accent2)">(±7 places)</span>
-      </label>
+    <!-- Tab navigation -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--border);margin-bottom:20px">
+      <button id="rung-tab-standing" onclick="switchRungTab('standing')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;background:none;border:none;border-bottom:2px solid var(--purple);color:var(--text);padding:6px 20px 8px;cursor:pointer;margin-bottom:-1px;outline:none">
+        RUNG STANDING
+      </button>
+      <button id="rung-tab-active" onclick="switchRungTab('active')"
+        style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;background:none;border:none;border-bottom:2px solid transparent;color:var(--text-dim);padding:6px 20px 8px;cursor:pointer;margin-bottom:-1px;outline:none">
+        MOST ACTIVE TEAMS
+      </button>
     </div>
-    <div id="rung-challenge-info" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.65rem;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.25);color:var(--accent2);padding:8px 14px;margin-bottom:16px">
-      ⚔ Showing teams your team can challenge (up to 7 places above) or that can challenge you (up to 7 places below) — per ladder rules
+
+    <!-- Rung Standing pane -->
+    <div id="rung-pane-standing">
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <select id="rung-overview-select" onchange="renderRungOverview()"
+          style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:6px 12px;cursor:pointer">
+          <option value="1">Rung 1</option>
+          <option value="2">Rung 2</option>
+          <option value="3">Rung 3</option>
+          <option value="4">Rung 4</option>
+          <option value="5">Rung 5</option>
+          <option value="6">Rung 6</option>
+          <option value="7">Rung 7</option>
+          <option value="8">Rung 8</option>
+          <option value="9">Rung 9</option>
+          <option value="10">Rung 10</option>
+        </select>
+        <label style="display:flex;align-items:center;gap:6px;font-family:'JetBrains Mono',monospace;font-size:0.65rem;color:var(--text-dim);cursor:pointer;user-select:none">
+          <input type="checkbox" id="rung-challenge-filter" onchange="renderRungOverview();document.getElementById('rung-overview-select').disabled=this.checked;document.getElementById('rung-overview-select').style.opacity=this.checked?'0.4':'1';"
+            style="accent-color:var(--accent2);cursor:pointer">
+          Show challenge range only <span style="color:var(--accent2)">(±7 places)</span>
+        </label>
+      </div>
+      <div id="rung-challenge-info" style="display:none;font-family:'JetBrains Mono',monospace;font-size:0.65rem;background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.25);color:var(--accent2);padding:8px 14px;margin-bottom:16px">
+        ⚔ Showing teams your team can challenge (up to 7 places above) or that can challenge you (up to 7 places below) — per ladder rules
+      </div>
+      <div id="rung-overview-content">
+        <div class="empty" style="padding:40px">Select a rung to see the strength comparison</div>
+      </div>
     </div>
-    <div id="rung-overview-content">
-      <div class="empty" style="padding:40px">Select a rung to see the strength comparison</div>
+
+    <!-- Most Active Teams pane -->
+    <div id="rung-pane-active" style="display:none">
+      <div id="most-active-content"></div>
     </div>
   </div>
 

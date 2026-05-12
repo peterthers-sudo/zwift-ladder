@@ -2329,7 +2329,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.236'; // bump this on every update
+const APP_VERSION = 'v1.3.237'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2612,6 +2612,94 @@ function renderRungOverview() {
   html += '</div></div>'; // close min-width + overflow-x wrappers
 
   contentEl.innerHTML = html;
+}
+
+function switchRungTab(tab) {
+  var sp = document.getElementById('rung-pane-standing');
+  var ap = document.getElementById('rung-pane-active');
+  var sb = document.getElementById('rung-tab-standing');
+  var ab = document.getElementById('rung-tab-active');
+  if (!sp || !ap || !sb || !ab) return;
+  if (tab === 'standing') {
+    sp.style.display = '';
+    ap.style.display = 'none';
+    sb.style.borderBottom = '2px solid var(--purple)';
+    sb.style.color = 'var(--text)';
+    ab.style.borderBottom = '2px solid transparent';
+    ab.style.color = 'var(--text-dim)';
+  } else {
+    sp.style.display = 'none';
+    ap.style.display = '';
+    sb.style.borderBottom = '2px solid transparent';
+    sb.style.color = 'var(--text-dim)';
+    ab.style.borderBottom = '2px solid var(--purple)';
+    ab.style.color = 'var(--text)';
+    renderMostActiveTeams();
+  }
+}
+
+function renderMostActiveTeams() {
+  var el = document.getElementById('most-active-content');
+  if (!el) return;
+  var actData = typeof TEAM_ACTIVITY !== 'undefined' ? TEAM_ACTIVITY : {};
+  var oppData = typeof OPPONENT_LIBRARY !== 'undefined' ? OPPONENT_LIBRARY : {};
+  var leqpKeys = new Set(Object.keys(MY_TEAMS || {}));
+  var base = "font-family:'JetBrains Mono',monospace;";
+
+  var allTeams = [];
+  Object.entries(actData).forEach(function([key, act]) {
+    var opp = oppData[key] || {};
+    var races = act.total_races_in_window || 0;
+    if (!races) return;
+    var results = act.results || [];
+    var wins = results.filter(function(r){ return r === 'W'; }).length;
+    var winRate = results.length ? Math.round(wins / results.length * 100) : 0;
+    allTeams.push({
+      key: key,
+      name: opp.name || key,
+      races: races,
+      wins: wins,
+      matchesTotal: results.length,
+      winRate: winRate,
+      isLeqp: leqpKeys.has(key),
+      ladderPosition: opp.ladderPosition || null
+    });
+  });
+
+  allTeams.sort(function(a, b) { return b.races - a.races || a.name.localeCompare(b.name); });
+  var leqpTeams = allTeams.filter(function(t) { return t.isLeqp; });
+
+  function buildLeaderboard(teams, title, accentColor) {
+    if (!teams.length) return '<div style="' + base + 'color:var(--text-dim);padding:20px">No data available</div>';
+    var h = '<div style="' + base + 'font-size:0.6rem;font-weight:700;letter-spacing:2px;color:' + accentColor + ';margin-bottom:10px">' + title + '</div>';
+    h += '<div style="display:grid;grid-template-columns:28px 1fr 56px 56px 72px;gap:3px;' + base + 'font-size:0.58rem;color:var(--text-dim);letter-spacing:1px;padding:0 6px;margin-bottom:4px">';
+    h += '<div></div><div>TEAM</div><div style="text-align:center">RACES</div><div style="text-align:center">WINS</div><div style="text-align:center">WIN %</div></div>';
+    teams.forEach(function(team, i) {
+      var rank = i + 1;
+      var rankColor = rank===1?'#ffd700':rank===2?'#c0c0c0':rank===3?'#cd7f32':'var(--text-dim)';
+      var wColor = team.winRate>=65?'var(--accent3)':team.winRate>=40?'var(--text)':'var(--red)';
+      var isActive = team.key === activeMyTeamKey;
+      var rowBg = isActive ? 'background:rgba(0,229,255,0.07);border:1px solid rgba(0,229,255,0.3);' : 'background:var(--surface2);border:1px solid var(--border);';
+      h += '<div style="' + rowBg + 'padding:6px 8px;margin-bottom:3px;display:grid;grid-template-columns:28px 1fr 56px 56px 72px;gap:3px;align-items:center">';
+      h += '<div style="font-family:Bebas Neue,sans-serif;font-size:1rem;color:' + rankColor + '">' + rank + '</div>';
+      h += '<div><div style="font-family:Bebas Neue,sans-serif;font-size:0.82rem;letter-spacing:1px;color:' + (isActive?'var(--accent)':'var(--text)') + ';overflow:hidden;text-overflow:ellipsis;white-space:nowrap">' + team.name + '</div>';
+      if (team.ladderPosition) h += '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim)">#' + team.ladderPosition + ' ladder</div>';
+      h += '</div>';
+      h += '<div style="text-align:center;' + base + 'font-size:0.85rem;font-weight:700;color:var(--accent)">' + team.races + '</div>';
+      h += '<div style="text-align:center;' + base + 'font-size:0.85rem;font-weight:700;color:var(--text-dim)">' + team.wins + '</div>';
+      h += '<div style="text-align:center"><span style="' + base + 'font-size:0.82rem;font-weight:700;color:' + wColor + '">' + team.winRate + '%</span><br><span style="' + base + 'font-size:0.58rem;color:var(--text-dim)">' + team.wins + '/' + team.matchesTotal + '</span></div>';
+      h += '</div>';
+    });
+    return h;
+  }
+
+  var cutoff = (actData[Object.keys(actData)[0]] || {}).cutoff_days || 60;
+  var html = '<div style="' + base + 'font-size:0.6rem;color:var(--text-dim);letter-spacing:1px;margin-bottom:16px">LAST ' + cutoff + ' DAYS · ' + allTeams.length + ' ACTIVE TEAMS</div>';
+  html += '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px">';
+  html += '<div>' + buildLeaderboard(leqpTeams, 'LEQP TEAMS', 'var(--accent)') + '</div>';
+  html += '<div>' + buildLeaderboard(allTeams, 'ALL TEAMS', 'var(--purple)') + '</div>';
+  html += '</div>';
+  el.innerHTML = html;
 }
 
 function autoSelectOwnRung() {
