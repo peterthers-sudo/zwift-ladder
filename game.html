@@ -1,179 +1,269 @@
 <!DOCTYPE html>
-<html lang="da">
+<html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
 <title>Zwift Ladder Tactics</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#1a1f2b;--surface:#242a38;--surface2:#2d3447;--border:rgba(255,255,255,0.09);--accent:#00e5ff;--accent2:#ff5d00;--accent3:#7fff6b;--text:#e2e8f0;--dim:#94a3b8;--red:#ff4455;--purple:#cc88ff;}
+:root{--bg:#1a1f2b;--s1:#242a38;--s2:#2d3447;--bd:rgba(255,255,255,.09);--ac:#00e5ff;--or:#ff5d00;--gr:#7fff6b;--tx:#e2e8f0;--dm:#94a3b8;--rd:#ff4455;--pu:#cc88ff;--go:#ffd700;}
 *{box-sizing:border-box;margin:0;padding:0;}
-body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
-.screen{display:none;max-width:1080px;margin:0 auto;padding:16px 20px;}
-.screen.active{display:block;}
-h1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
-h2{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--accent);margin-bottom:10px;}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;}
-.lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block;}
-select,input[type=text],input[type=number]{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:7px 10px;outline:none;width:100%;border-radius:4px;}
-select:focus,input:focus{border-color:var(--accent);}
-.btn{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:3px;padding:11px 26px;border:none;cursor:pointer;border-radius:4px;transition:all .2s;}
-.btn-primary{background:var(--accent);color:var(--bg);}
-.btn-primary:hover{background:#33eeff;}
-.btn-primary:disabled{background:var(--border);color:var(--dim);cursor:not-allowed;}
-.btn-secondary{background:transparent;border:1px solid var(--accent2);color:var(--accent2);}
-.btn-secondary:hover{background:var(--accent2);color:#fff;}
-.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
-@media(max-width:640px){.setup-grid{grid-template-columns:1fr;}}
-.rider-item{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s;font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
-.rider-item:hover{border-color:rgba(0,229,255,.4);}
-.rider-item.sel{border-color:var(--accent);background:rgba(0,229,255,.07);}
-.badge{font-size:0.55rem;letter-spacing:1px;padding:2px 6px;border:1px solid;border-radius:2px;white-space:nowrap;}
-.route-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s;font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
-.route-item:hover{border-color:rgba(0,229,255,.3);}
-.route-item.sel{border-color:var(--accent);background:rgba(0,229,255,.07);}
-.scrollbox{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
-.scrollbox::-webkit-scrollbar{width:3px;}
-.scrollbox::-webkit-scrollbar-thumb{background:var(--border);}
+body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.screen{display:none;} .screen.on{display:block;}
+.lbl{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);margin-bottom:5px;display:block;}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:16px;}
+.btn{font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:3px;padding:10px 22px;border:none;cursor:pointer;border-radius:4px;transition:all .2s;}
+.bp{background:var(--ac);color:var(--bg);}.bp:hover{background:#33eeff;}.bp:disabled{background:var(--bd);color:var(--dm);cursor:not-allowed;}
+.bs{background:transparent;border:1px solid var(--or);color:var(--or);}.bs:hover{background:var(--or);color:#fff;}
+.badge{font-size:.55rem;letter-spacing:1px;padding:2px 6px;border:1px solid;border-radius:2px;white-space:nowrap;}
+select,input[type=text],input[type=number]{background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:7px 10px;outline:none;width:100%;border-radius:4px;}
+select:focus,input:focus{border-color:var(--ac);}
+.sb{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
+.sb::-webkit-scrollbar{width:3px;}.sb::-webkit-scrollbar-thumb{background:var(--bd);}
+.ri{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
+.ri:hover{border-color:rgba(0,229,255,.4);}.ri.sel{border-color:var(--ac);background:rgba(0,229,255,.07);}
+.ritem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
+.ritem:hover{border-color:rgba(0,229,255,.3);}.ritem.sel{border-color:var(--ac);background:rgba(0,229,255,.07);}
+.mt{margin-top:12px;}.fe{display:flex;justify-content:flex-end;gap:10px;}.fb{display:flex;justify-content:space-between;align-items:center;}
 
-/* Race */
-#race-canvas{width:100%;display:block;border-radius:8px;background:var(--bg);}
-.live-row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;border-bottom:1px solid var(--border);}
-.live-row.leqp{border-left:3px solid var(--accent);}
-.live-row.opp{border-left:3px solid var(--accent2);}
+/* ══ SETUP ══ */
+#setup{max-width:1080px;margin:0 auto;padding:16px 20px;}
+#setup h1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;background:linear-gradient(90deg,var(--ac),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+@media(max-width:640px){.sg{grid-template-columns:1fr;}}
 
-/* Decision */
-#dec-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
-#dec-overlay.open{display:flex;}
-.dec-box{background:var(--surface);border:1px solid var(--accent2);border-radius:10px;padding:28px;max-width:500px;width:100%;box-shadow:0 0 50px rgba(255,93,0,.25);}
-.dec-phase{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:3px;color:var(--accent2);margin-bottom:6px;}
-.dec-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:10px;}
-.dec-text{font-size:0.88rem;line-height:1.6;color:var(--dim);margin-bottom:18px;}
-.dec-option{padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all .2s;margin-bottom:8px;}
-.dec-option:hover{border-color:var(--accent);background:rgba(0,229,255,.07);}
-.dec-option-title{font-size:0.88rem;font-weight:600;margin-bottom:3px;}
-.dec-option-sub{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dim);}
+/* ══ STRATEGY ══ */
+#strategy{max-width:900px;margin:0 auto;padding:20px;}
+#strategy h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;color:var(--or);}
+.role-card{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;margin-bottom:6px;}
+.role-select{background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.75rem;padding:5px 8px;border-radius:4px;cursor:pointer;outline:none;}
+.role-select:focus{border-color:var(--or);}
+.scout-card{background:var(--s2);border-left:3px solid var(--or);border-radius:4px;padding:10px 14px;margin-bottom:6px;font-family:'JetBrains Mono',monospace;font-size:.7rem;}
+.threat-high{color:var(--rd);}.threat-med{color:var(--or);}.threat-low{color:var(--dm);}
 
-/* Results */
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
-.score-box{background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:20px;text-align:center;}
-.score-box.win{border-color:var(--accent3);background:rgba(127,255,107,.05);}
-.score-box.lose{border-color:var(--red);background:rgba(255,68,85,.05);}
-.score-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;}
-.res-row{display:grid;grid-template-columns:32px 1fr auto auto;gap:8px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.75rem;}
-.res-row.leqp{background:rgba(0,229,255,.03);}
-.res-row.opp{background:rgba(255,93,0,.03);}
-.mt{margin-top:14px;}
-.flex-end{display:flex;justify-content:flex-end;gap:10px;}
-.flex-between{display:flex;justify-content:space-between;align-items:center;}
+/* ══ RACE ══ */
+#race{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+#race.on{display:flex;}
+#race-hdr{background:var(--s1);border-bottom:2px solid var(--bd);padding:7px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
+.rh-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);}
+.rh-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dm);}
+.rh-sec{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,93,0,.4);border-radius:10px;}
+.rh-pct{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ac);margin-left:auto;}
+.spd-btn{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:3px 9px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
+.spd-btn.act{border-color:var(--ac);color:var(--ac);}
+.pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:2px;padding:4px 14px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
+.pause-btn.paused{background:var(--or);color:#fff;}
+
+#race-body{display:flex;flex:1;min-height:0;}
+.tpanel{width:228px;flex-shrink:0;background:var(--s1);display:flex;flex-direction:column;overflow-y:auto;}
+.tpanel.right{border-left:1px solid var(--bd);}
+.tpanel.left{border-right:1px solid var(--bd);}
+.tpanel::-webkit-scrollbar{width:3px;}.tpanel::-webkit-scrollbar-thumb{background:var(--bd);}
+.phdr{padding:7px 10px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);flex-shrink:0;display:flex;justify-content:space-between;}
+.phdr span{color:var(--tx);}
+
+/* My rider card */
+.rc{padding:9px 10px 7px;border-bottom:1px solid var(--bd);}
+.rc.attacking{background:rgba(255,93,0,.07);border-left:2px solid var(--or);}
+.rc.protecting{background:rgba(0,229,255,.05);border-left:2px solid var(--ac);}
+.rc-top{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
+.rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1;color:var(--dm);width:20px;text-align:center;}
+.rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#c0c0c0;}.rc-pos.bronze{color:#cd7f32;}
+.rc-name{font-family:'JetBrains Mono',monospace;font-size:.67rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.you-tag{font-size:.48rem;background:rgba(0,229,255,.15);color:var(--ac);border:1px solid rgba(0,229,255,.3);padding:1px 4px;border-radius:2px;}
+.rc-state{font-size:.6rem;white-space:nowrap;}
+.sw{height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:5px;overflow:hidden;}
+.sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
+.rc-meta{display:flex;justify-content:space-between;margin-bottom:5px;}
+.rc-meta span{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--dm);}
+.eff-row{display:flex;gap:2px;margin-bottom:4px;}
+.eb{flex:1;padding:3px 0;font-size:.58rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;text-align:center;transition:all .12s;}
+.eb:hover{border-color:var(--ac);}
+.eb.act{color:var(--bg);border-color:transparent;}
+.eb[data-e="1"].act{background:#26c6da;}.eb[data-e="2"].act{background:var(--gr);}.eb[data-e="3"].act{background:var(--ac);}.eb[data-e="4"].act{background:var(--or);}.eb[data-e="5"].act{background:var(--rd);}
+.tac-row{display:flex;gap:3px;margin-bottom:4px;}
+.tb{flex:1;padding:3px 0;font-size:.55rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;text-align:center;transition:all .12s;}
+.tb:hover{border-color:var(--pu);color:var(--pu);}
+.tb.act{background:var(--pu);color:var(--bg);border-color:var(--pu);}
+.tb.atk.act{background:var(--or);border-color:var(--or);}
+.tb.prot.act{background:var(--ac);border-color:var(--ac);}
+.tb:disabled{opacity:.3;cursor:not-allowed;}
+.ask-btn{width:100%;font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:4px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;transition:all .15s;margin-top:2px;}
+.ask-btn:hover:not(:disabled){border-color:var(--pu);color:var(--pu);}
+.ask-btn:disabled{opacity:.35;cursor:not-allowed;}
+
+/* Opp card */
+.oc{padding:8px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:7px;}
+.oc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;line-height:1;color:var(--dm);width:19px;text-align:center;}
+.oc-pos.gold{color:var(--go);}.oc-pos.silver{color:#c0c0c0;}.oc-pos.bronze{color:#cd7f32;}
+.oc-info{flex:1;min-width:0;}
+.oc-name{font-family:'JetBrains Mono',monospace;font-size:.66rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.oc-sub{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--dm);margin-top:1px;}
+
+/* Center */
+#race-center{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg);}
+#race-canvas{width:100%;display:block;}
+.seg-bar{display:flex;height:16px;flex-shrink:0;}
+.seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.5px;overflow:hidden;transition:background .3s;}
+.seg.flat{background:rgba(0,229,255,.08);color:var(--ac);}
+.seg.climb{background:rgba(127,255,107,.1);color:var(--gr);}
+.seg.punch{background:rgba(204,136,255,.1);color:var(--pu);}
+.seg.sprint{background:rgba(255,93,0,.1);color:var(--or);}
+.seg.active{outline:1px solid currentColor;font-weight:700;}
+
+/* Situation panel */
+#situation{flex-shrink:0;background:var(--s1);border-top:1px solid var(--bd);padding:5px 14px;min-height:46px;}
+.sit-group{font-family:'JetBrains Mono',monospace;font-size:.65rem;line-height:1.7;}
+.sit-g1{color:var(--ac);}.sit-g2{color:var(--tx);}.sit-gn{color:var(--dm);}
+.sit-gap{color:var(--or);font-size:.6rem;margin:0 4px;}
+.sit-warn{color:var(--rd);}
+
+/* Comms */
+#comms{flex-shrink:0;border-top:1px solid var(--bd);background:var(--s1);display:flex;flex-direction:column;max-height:130px;}
+.comms-hdr{padding:5px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--dm);text-transform:uppercase;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+#comms-log{flex:1;overflow-y:auto;padding:4px 12px;display:flex;flex-direction:column;gap:2px;}
+#comms-log::-webkit-scrollbar{width:3px;}.#comms-log::-webkit-scrollbar-thumb{background:var(--bd);}
+.msg{font-family:'JetBrains Mono',monospace;font-size:.66rem;line-height:1.4;}
+.msg-t{color:var(--dm);margin-right:5px;}
+.msg-w{font-weight:600;margin-right:3px;}
+.msg-w.cap{color:var(--ac);}.msg-w.rider{color:var(--gr);}.msg-w.evt{color:var(--or);}.msg-w.warn{color:var(--rd);}
+.comms-btns{padding:4px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid var(--bd);flex-shrink:0;}
+.aq{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:3px 9px;border:1px solid var(--pu);color:var(--pu);background:transparent;border-radius:3px;cursor:pointer;white-space:nowrap;}
+.aq:hover{background:rgba(204,136,255,.1);}
+.aq:disabled{opacity:.3;cursor:not-allowed;}
+
+/* ══ RESULTS ══ */
+#results{max-width:900px;margin:0 auto;padding:20px;}
+#results h1{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:4px;background:linear-gradient(90deg,var(--ac),var(--or));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.sc-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:12px 0;}
+.sc-box{background:var(--s2);border:2px solid var(--bd);border-radius:8px;padding:16px;text-align:center;}
+.sc-box.win{border-color:var(--gr);background:rgba(127,255,107,.05);}
+.sc-box.lose{border-color:var(--rd);background:rgba(255,68,85,.05);}
+.sc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;}
+.rr{display:grid;grid-template-columns:28px 1fr auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.73rem;}
+.rr.leqp{background:rgba(0,229,255,.03);}.rr.opp{background:rgba(255,93,0,.03);}
 </style>
 </head>
 <body>
 
-<!-- SETUP -->
-<div class="screen active" id="s-setup">
-  <div style="padding:20px 0 14px">
-    <h1>ZWIFT LADDER TACTICS</h1>
-    <span class="lbl" style="margin:0">5 vs 5 · Ladder Race Strategy Simulator</span>
-  </div>
-
-  <div class="setup-grid">
-    <!-- My team -->
+<!-- ══════════ SETUP ══════════ -->
+<div class="screen on" id="setup">
+<div style="max-width:1080px;margin:0 auto;padding:16px 20px">
+  <div style="padding:16px 0 12px"><h1>ZWIFT LADDER TACTICS</h1><span class="lbl" style="margin:0">Ladder Race Strategy Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span></div>
+  <div class="sg">
     <div class="card">
-      <div class="flex-between" style="margin-bottom:12px">
-        <h2 style="margin:0">Dit Hold</h2>
-        <span id="my-count" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--dim)">0/5</span>
-      </div>
-      <span class="lbl">LEQP Hold</span>
-      <select id="my-team-sel" onchange="loadMyTeam()" style="margin-bottom:12px"><option value="">— Vælg hold —</option></select>
-      <div class="scrollbox" id="my-riders"></div>
+      <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">My Team</h2><span id="my-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
+      <span class="lbl">LEQP Team</span><select id="my-sel" onchange="loadMyTeam()" style="margin-bottom:10px"><option value="">— Select team —</option></select>
+      <div class="sb" id="my-list"></div>
     </div>
-
-    <!-- Opponent -->
     <div class="card">
-      <div class="flex-between" style="margin-bottom:12px">
-        <h2 style="margin:0">Modstander</h2>
-        <span id="opp-count" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--dim)">0/5</span>
-      </div>
-      <span class="lbl">Rung</span>
-      <select id="opp-rung" onchange="loadRung()" style="margin-bottom:8px"><option value="">— Vælg rung —</option></select>
-      <span class="lbl">Hold</span>
-      <select id="opp-team-sel" onchange="loadOppTeam()" style="margin-bottom:12px" disabled><option value="">— Vælg rung først —</option></select>
-      <div class="scrollbox" id="opp-riders"></div>
+      <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">Opponent</h2><span id="opp-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
+      <span class="lbl">Rung</span><select id="opp-rung" onchange="loadRung()" style="margin-bottom:8px"><option value="">— Select rung —</option></select>
+      <span class="lbl">Team</span><select id="opp-team" onchange="loadOppTeam()" style="margin-bottom:10px" disabled><option value="">— Select rung first —</option></select>
+      <div class="sb" id="opp-list"></div>
     </div>
   </div>
-
-  <!-- Route -->
   <div class="card mt">
-    <h2>Rute</h2>
-    <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:12px">
-      <div><span class="lbl">Søg</span><input type="text" id="route-q" placeholder="Navn eller verden…" oninput="filterRoutes()"/></div>
-      <div><span class="lbl">Max km</span>
-        <select id="route-dist" onchange="filterRoutes()">
-          <option value="15">≤ 15</option>
-          <option value="25" selected>≤ 25</option>
-          <option value="40">≤ 40</option>
-          <option value="999">Alle</option>
-        </select>
-      </div>
-      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:64px"/></div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Route</h2>
+    <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:10px">
+      <div><span class="lbl">Search</span><input type="text" id="rq" placeholder="Name or world…" oninput="filterRoutes()"/></div>
+      <div><span class="lbl">Max km</span><select id="rdist" onchange="filterRoutes()"><option value="15">≤15</option><option value="25" selected>≤25</option><option value="40">≤40</option><option value="999">All</option></select></div>
+      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:60px"/></div>
     </div>
-    <div class="scrollbox" style="max-height:260px" id="route-list"></div>
-    <canvas id="profile-cv" height="56" style="width:100%;margin-top:10px;border-radius:4px;background:var(--surface2);display:none"></canvas>
+    <div class="sb" style="max-height:200px" id="rlist"></div>
+    <canvas id="pcv" height="48" style="width:100%;margin-top:8px;border-radius:4px;background:var(--s2);display:none"></canvas>
   </div>
-
-  <div class="flex-end mt" style="margin-bottom:20px">
-    <button class="btn btn-primary" id="start-btn" onclick="startRace()" disabled>Start Løb ▶</button>
-  </div>
+  <div class="fe mt" style="margin-bottom:20px"><button class="btn bp" id="go-btn" onclick="goStrategy()" disabled>Next: Strategy ▶</button></div>
+</div>
 </div>
 
 
-<!-- RACE -->
-<div class="screen" id="s-race">
-  <div class="flex-between" style="padding:16px 0 10px;flex-wrap:wrap;gap:8px">
+<!-- ══════════ STRATEGY ══════════ -->
+<div class="screen" id="strategy">
+<div style="max-width:900px;margin:0 auto;padding:20px">
+  <div style="margin-bottom:16px"><h1>PRE-RACE STRATEGY</h1><span class="lbl" style="margin:0;color:var(--or)" id="str-route-lbl"></span></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
     <div>
-      <h1 style="font-size:1.8rem">LØBET KØRER</h1>
-      <span class="lbl" id="race-info" style="margin:0"></span>
+      <div class="card" style="margin-bottom:12px">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:12px">Your Riders</h2>
+        <div id="str-riders"></div>
+        <div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--bd)">
+          <span class="lbl">You ride as</span>
+          <select id="you-sel"><option value="">— Select your rider —</option></select>
+        </div>
+      </div>
     </div>
-    <span id="race-pct" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent)"></span>
+    <div>
+      <div class="card" style="margin-bottom:12px">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--or);margin-bottom:10px">Opponent Scout</h2>
+        <div id="str-scout"></div>
+      </div>
+      <div class="card" id="str-tip-card">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--gr);margin-bottom:8px">Route Analysis</h2>
+        <div id="str-tip" style="font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dm);line-height:1.7"></div>
+      </div>
+    </div>
   </div>
-  <canvas id="race-canvas" height="290"></canvas>
-  <div class="card mt" style="padding:0;overflow:hidden" id="live-order"></div>
+  <div class="fe mt" style="margin-bottom:20px">
+    <button class="btn bs" onclick="show('setup')">← Back</button>
+    <button class="btn bp" onclick="beginRace()">Start Race ▶</button>
+  </div>
+</div>
 </div>
 
 
-<!-- RESULTS -->
-<div class="screen" id="s-results">
-  <div style="padding:20px 0 10px"><h1 id="res-headline">RESULTAT</h1></div>
-  <div class="score-grid">
-    <div class="score-box" id="my-box">
-      <span class="lbl" id="my-name-res">Mit hold</span>
-      <div class="score-num" id="my-score">–</div>
-      <span class="lbl">point (lavest vinder)</span>
+<!-- ══════════ RACE ══════════ -->
+<div class="screen" id="race">
+  <div id="race-hdr">
+    <span class="rh-title" id="rh-name">—</span>
+    <span class="rh-info" id="rh-dist"></span>
+    <span class="rh-sec" id="rh-sec">—</span>
+    <div style="display:flex;gap:3px">
+      <button class="spd-btn act" data-sp="1" onclick="setSpeed(1)">1×</button>
+      <button class="spd-btn" data-sp="2" onclick="setSpeed(2)">2×</button>
+      <button class="spd-btn" data-sp="3" onclick="setSpeed(3)">3×</button>
     </div>
-    <div class="score-box" id="opp-box">
-      <span class="lbl" id="opp-name-res">Modstander</span>
-      <div class="score-num" id="opp-score">–</div>
-      <span class="lbl">point</span>
+    <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
+    <span class="rh-pct" id="rh-pct">0%</span>
+  </div>
+  <div id="race-body">
+    <div class="tpanel left" id="my-panel">
+      <div class="phdr">MY TEAM <span id="my-pts-live">—</span></div>
+      <div id="my-cards"></div>
+    </div>
+    <div id="race-center">
+      <canvas id="race-canvas"></canvas>
+      <div class="seg-bar" id="seg-bar"></div>
+      <div id="situation"></div>
+    </div>
+    <div class="tpanel right" id="opp-panel">
+      <div class="phdr">OPPONENT <span id="opp-pts-live">—</span></div>
+      <div id="opp-cards"></div>
     </div>
   </div>
-  <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px" id="res-class"></div>
-  <div class="card mt" id="dec-review"></div>
-  <div class="flex-end mt" style="margin-bottom:24px">
-    <button class="btn btn-secondary" onclick="goSetup()">Skift hold/rute</button>
-    <button class="btn btn-primary" onclick="rerun()">Prøv igen</button>
+  <div id="comms">
+    <div class="comms-hdr">💬 TEAM RADIO <span id="comms-hint" style="color:var(--pu)">· Pause (Space) to communicate</span></div>
+    <div id="comms-log"></div>
+    <div class="comms-btns" id="comms-btns"></div>
   </div>
 </div>
 
 
-<!-- DECISION OVERLAY -->
-<div id="dec-overlay">
-  <div class="dec-box">
-    <div class="dec-phase" id="dec-phase"></div>
-    <div class="dec-title" id="dec-title"></div>
-    <div class="dec-text" id="dec-text"></div>
-    <div id="dec-opts"></div>
+<!-- ══════════ RESULTS ══════════ -->
+<div class="screen" id="results">
+<div style="max-width:900px;margin:0 auto;padding:20px">
+  <h1 id="res-hl">RESULT</h1>
+  <div class="sc-grid">
+    <div class="sc-box" id="my-scb"><span class="lbl" id="my-scn"></span><div class="sc-num" id="my-sc">–</div><span class="lbl">points (lowest wins)</span></div>
+    <div class="sc-box" id="op-scb"><span class="lbl" id="op-scn"></span><div class="sc-num" id="op-sc">–</div><span class="lbl">points</span></div>
   </div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px" id="res-cls"></div>
+  <div class="card mt" id="res-debrief"></div>
+  <div class="fe mt" style="margin-bottom:24px">
+    <button class="btn bs" onclick="show('setup')">Change team/route</button>
+    <button class="btn bp" onclick="rerun()">Try again</button>
+  </div>
+</div>
 </div>
 
 
@@ -181,509 +271,1000 @@ select:focus,input:focus{border-color:var(--accent);}
 <script src="data/opponents.js"></script>
 <script src="zwift_routes_new.js"></script>
 <script>
-// ── STATE ─────────────────────────────────────────────────────────────────────
-const G = {
-  myKey:null, myData:null, myPick:[],
-  oppKey:null, oppData:null, oppPick:[],
-  route:null, laps:1,
-  racers:[], decisions:[], decIdx:0, decHistory:[],
-  raf:null,
+// ══════════════════════════════════════════════════════
+// VERSION
+// ══════════════════════════════════════════════════════
+const VERSION='v0.3.0';
+
+// ══════════════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════════════
+const TICK_BASE=1000, TOTAL_TICKS=130, GAP_GROUP=0.018;
+
+const EFF_LBL=['Rest','Easy','Tempo','Hard','Attack'];
+const EFF_IC =['🌊','🚴','⏱','🔥','⚡'];
+const EFF_SPD=[0.75,0.88,1.00,1.12,1.26];
+const EFF_DRN=[2.0,-0.5,-2.0,-4.5,-11.0]; // stamina Δ/tick (+= recovery)
+
+const ROLES={
+  leader:    {l:'Leader ⭐',     desc:'Team works for you. Race for the best finish position.'},
+  sprinter:  {l:'Sprinter ⚡',  desc:'Save energy. Your moment is the final 200m sprint.'},
+  domestique:{l:'Domestique 🛡', desc:'Sacrifice yourself — protect the leader and set the pace.'},
+  climber:   {l:'Climber ⛰',   desc:'Push hard on ascents. Can create decisive gaps on climbs.'},
+  wild:      {l:'Wild Card 🦅',  desc:'Attack when you see your chance. All or nothing.'},
 };
 
-// ── DATA HELPERS ──────────────────────────────────────────────────────────────
-function wkg(r, k) {
-  if (k==='20') return r.twentyMin||r.wkg20min||r.wkg||0;
-  if (k==='5')  return r.fiveMin ||r.wkg5min ||0;
-  if (k==='1')  return r.oneMin  ||r.wkg1min ||0;
-  if (k==='15') return r.sprint  ||r.wkg15s  ||0;
+const STATUS=[
+  {min:75,l:'Fresh 🟢',   c:'var(--gr)'},
+  {min:50,l:'Good 🟡',    c:'#f59e0b'},
+  {min:25,l:'Tired 🟠',   c:'#fb923c'},
+  {min:8, l:'Cracked 🔴', c:'var(--rd)'},
+  {min:0, l:'Blown up 💀',c:'#6b7280'},
+];
+
+const RESP={
+  fresh:   ['Fresh here 💪','Riding well — ready to attack','No problems','Plenty left in the legs'],
+  good:    ['Good, feeling it a bit','Fine — can hold the pace','All good here','Okay, staying with the group'],
+  tired:   ['Getting heavy...','Hanging on but can\'t attack','Not 100% — holding position','Feeling it now'],
+  cracked: ['Pretty cooked 😬','At the limit','Almost nothing left','Just surviving'],
+  blownup: ['I\'m done 💀','Can\'t follow','Ride on without me','Completely blown'],
+};
+
+const POWERUPS=[
+  {id:'aero',   icon:'💨',name:'Aero Boost',   desc:'+20% speed on flat — 10 ticks',
+   apply(r){r.powerupActive={type:'aero',   ticks:10};}},
+  {id:'feather',icon:'☁', name:'Featherweight',desc:'+30% speed on climbs — 10 ticks',
+   apply(r){r.powerupActive={type:'feather',ticks:10};}},
+  {id:'steam',  icon:'⚡',name:'Steamroller',  desc:'+15% speed everywhere — 10 ticks',
+   apply(r){r.powerupActive={type:'steam',  ticks:10};}},
+  {id:'gel',    icon:'🍬',name:'Energy Gel',   desc:'Restore 40 stamina instantly',
+   apply(r){r.stamina=Math.min(100,r.stamina+40);}},
+];
+
+// ══════════════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════════════
+const G={
+  myKey:null,myData:null,myPick:[],
+  oppKey:null,oppData:null,oppPick:[],
+  route:null,laps:1,youId:null,
+  racers:[],sections:[],groups:[],
+  tick:0,paused:false,speed:1,
+  tickTimer:null,rafId:null,
+  leaderRole:null,
+  pendingEvts:[],
+};
+
+// ══════════════════════════════════════════════════════
+// DATA HELPERS
+// ══════════════════════════════════════════════════════
+function wkg(r,k){
+  if(k==='20')return r.twentyMin||r.wkg20min||r.wkg||0;
+  if(k==='5') return r.fiveMin||r.wkg5min||0;
+  if(k==='1') return r.oneMin||r.wkg1min||0;
+  if(k==='15')return r.sprint||r.wkg15s||0;
   return 0;
 }
-
-function score(r, route) {
-  const w20=wkg(r,'20'), w5=wkg(r,'5'), w1=wkg(r,'1'), w15=wkg(r,'15');
-  const nTT     = Math.min(100,(w20/5.5)*100);
-  const nClimb  = nTT;
-  const nPunch  = Math.min(100,(w1/8)*100)*.6 + Math.min(100,(w5/6)*100)*.4;
-  const nSprint = Math.min(100,(w15/18)*100);
-  const nEnd    = Math.min(100,(w20/5)*100)*.7 + nTT*.3;
-  const rt=route, tot=(rt.sprint+rt.punch+rt.climb+rt.pursuit+rt.endurance)||1;
-  return rt.sprint/tot*nSprint + rt.punch/tot*nPunch + rt.climb/tot*nClimb
-       + rt.pursuit/tot*nTT  + rt.endurance/tot*nEnd;
+function scoreR(r,rt){
+  const w20=wkg(r,'20'),w5=wkg(r,'5'),w1=wkg(r,'1'),w15=wkg(r,'15');
+  const nTT=Math.min(100,(w20/5.5)*100);
+  const nP=Math.min(100,(w1/8)*100)*.6+Math.min(100,(w5/6)*100)*.4;
+  const nS=Math.min(100,(w15/18)*100);
+  const nE=Math.min(100,(w20/5)*100)*.7+nTT*.3;
+  const tot=(rt.sprint+rt.punch+rt.climb+rt.pursuit+rt.endurance)||1;
+  return rt.sprint/tot*nS+rt.punch/tot*nP+rt.climb/tot*nTT+rt.pursuit/tot*nTT+rt.endurance/tot*nE;
 }
-
-function classify(r) {
-  const w15=wkg(r,'15'), w1=wkg(r,'1'), w5=wkg(r,'5'), w20=wkg(r,'20');
-  if (w15/(w5||1)>2.8)          return {t:'Sprinter', c:'#ff5d00', b:'rgba(255,93,0,.12)',  br:'rgba(255,93,0,.4)'};
-  if (w20>4.2 && w5>4.8)        return {t:'Klatrer',  c:'#7fff6b', b:'rgba(127,255,107,.1)',br:'rgba(127,255,107,.4)'};
-  if (w1/(w20||1)>1.6)          return {t:'Puncheur', c:'#cc88ff', b:'rgba(204,136,255,.1)',br:'rgba(204,136,255,.4)'};
-  return                                {t:'Diesel',   c:'#00e5ff', b:'rgba(0,229,255,.08)', br:'rgba(0,229,255,.3)'};
+function classify(r){
+  const w15=wkg(r,'15'),w1=wkg(r,'1'),w5=wkg(r,'5'),w20=wkg(r,'20');
+  if(w15/(w5||1)>2.8)        return{t:'Sprinter',c:'#ff5d00',b:'rgba(255,93,0,.1)',br:'rgba(255,93,0,.35)'};
+  if(w20>4.2&&w5>4.8)        return{t:'Klatrer', c:'#7fff6b',b:'rgba(127,255,107,.08)',br:'rgba(127,255,107,.35)'};
+  if(w1/(w20||1)>1.6)        return{t:'Puncheur',c:'#cc88ff',b:'rgba(204,136,255,.08)',br:'rgba(204,136,255,.35)'};
+  return                            {t:'Diesel',  c:'#00e5ff',b:'rgba(0,229,255,.06)',br:'rgba(0,229,255,.3)'};
 }
-
-function sname(n) {
-  const s=n.replace(/&[^;]+;/g,'').replace(/\|.*$/,'').replace(/\(.*$/,'').trim();
+function sname(n){
+  const s=n.replace(/&[^;]+;/g,'').replace(/\|.*$/,'').replace(/\(.*$/,'').replace(/[^\x00-\x7F]/g,'').trim();
   const p=s.split(/\s+/).filter(Boolean);
-  return p.length<2 ? p[0]?.slice(0,14)||'?' : p[0]+' '+p[1][0]+'.';
+  return p.length<2?p[0]?.slice(0,13)||'?':p[0]+' '+p[1][0]+'.';
 }
-function inits(n) {
+function inits(n){
   const s=n.replace(/&[^;]+;/g,'').replace(/[^a-zA-Z\s]/g,'').trim().split(/\s+/).filter(Boolean);
-  return s.length>=2 ? (s[0][0]+s[1][0]).toUpperCase() : (s[0]||'?').slice(0,2).toUpperCase();
+  return s.length>=2?(s[0][0]+s[1][0]).toUpperCase():(s[0]||'?').slice(0,2).toUpperCase();
+}
+function stSt(s){return STATUS.find(t=>s>=t.min)||STATUS[STATUS.length-1];}
+function stCol(s){if(s>55)return'var(--gr)';if(s>28)return'#f59e0b';return'var(--rd)';}
+function pick(a){return a[Math.floor(Math.random()*a.length)];}
+function getFlatPower(r){
+  // Use w20min watts directly; fall back to w/kg × weight
+  const w=r.watt||r.w20min||0;
+  if(w>50)return w;
+  return Math.max(wkg(r,'20'),0.5)*(r.weight||75);
+}
+function stIcon(s){
+  if(s>75)return'🟢';if(s>50)return'🟡';if(s>25)return'🟠';if(s>8)return'🔴';return'💀';
+}
+function sectionFit(r,sec){
+  if(sec.t==='climb')  return r.cl.t==='Klatrer'?1.10:r.cl.t==='Diesel'?0.97:1.0;
+  if(sec.t==='punch')  return r.cl.t==='Puncheur'?1.09:1.0;
+  if(sec.t==='sprint') return r.cl.t==='Sprinter'?1.12:1.0;
+  if(sec.t==='flat')   return r.cl.t==='Diesel'?1.05:r.cl.t==='Klatrer'?0.97:1.0;
+  return 1.0;
 }
 
-// ── SETUP ─────────────────────────────────────────────────────────────────────
-function init() {
-  const ms = document.getElementById('my-team-sel');
-  Object.entries(MY_TEAMS).forEach(([k,t])=>{
-    ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`);
-  });
-  const rungs=[...new Set(Object.values(OPPONENT_LIBRARY).map(t=>t.rung))].sort((a,b)=>a-b);
+// ══════════════════════════════════════════════════════
+// SETUP SCREEN
+// ══════════════════════════════════════════════════════
+function init(){
+  document.getElementById('ver-lbl').textContent=VERSION;
+  const ms=document.getElementById('my-sel');
+  Object.entries(MY_TEAMS).forEach(([k,t])=>ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
   const rs=document.getElementById('opp-rung');
-  rungs.forEach(r=>rs.insertAdjacentHTML('beforeend',`<option value="${r}">Rung ${r}</option>`));
+  [...new Set(Object.values(OPPONENT_LIBRARY).map(t=>t.rung))].sort((a,b)=>a-b)
+    .forEach(r=>rs.insertAdjacentHTML('beforeend',`<option value="${r}">Rung ${r}</option>`));
   filterRoutes();
 }
 
-function loadMyTeam() {
-  const k=document.getElementById('my-team-sel').value; if(!k) return;
-  G.myKey=k; G.myData=MY_TEAMS[k]; G.myPick=[];
-  const box=document.getElementById('my-riders'); box.innerHTML='';
+function riderRow(r,team){
+  const cl=classify(r);
+  const watts=getFlatPower(r).toFixed(0);
+  return`<div style="flex:1;min-width:0">
+    <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
+    <div style="color:var(--dm);font-size:.6rem;margin-top:2px">
+      <span style="color:var(--ac)">${wkg(r,'20').toFixed(1)}</span> w/kg ·
+      <span style="color:var(--tx)">${watts}W</span> ·
+      <span style="color:var(--or)">${wkg(r,'15').toFixed(1)}</span> 15s</div></div>
+    <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
+}
+
+function loadMyTeam(){
+  const k=document.getElementById('my-sel').value;if(!k)return;
+  G.myKey=k;G.myData=MY_TEAMS[k];G.myPick=[];
+  const box=document.getElementById('my-list');box.innerHTML='';
   G.myData.riders.forEach(r=>{
-    const cl=classify(r);
-    const el=document.createElement('div');
-    el.className='rider-item'; el.dataset.rid=r.id;
-    el.innerHTML=`<div style="flex:1;min-width:0">
-      <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
-      <div style="color:var(--dim);font-size:.6rem;margin-top:2px">
-        <span style="color:var(--accent)">${wkg(r,'20').toFixed(1)}</span> FTP ·
-        <span style="color:var(--purple)">${wkg(r,'1').toFixed(1)}</span> 1min ·
-        <span style="color:var(--accent2)">${wkg(r,'15').toFixed(1)}</span> 15s W/kg
-      </div></div>
-      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
-    el.onclick=()=>toggleMy(r,el);
-    box.appendChild(el);
-  });
-  checkReady();
+    const el=document.createElement('div');el.className='ri';el.dataset.rid=r.id;
+    el.innerHTML=riderRow(r,'my');el.onclick=()=>toggleMy(r,el);box.appendChild(el);
+  });checkReady();
 }
-
-function toggleMy(r,el) {
+function toggleMy(r,el){
   const i=G.myPick.findIndex(x=>x.id===r.id);
-  if(i>=0){ G.myPick.splice(i,1); el.classList.remove('sel'); }
-  else {
-    if(G.myPick.length>=5){
-      const old=G.myPick.shift();
-      document.querySelector(`#my-riders [data-rid="${old.id}"]`)?.classList.remove('sel');
-    }
-    G.myPick.push(r); el.classList.add('sel');
-  }
-  document.getElementById('my-count').textContent=`${G.myPick.length}/5`;
-  checkReady();
+  if(i>=0){G.myPick.splice(i,1);el.classList.remove('sel');}
+  else{if(G.myPick.length>=5){const o=G.myPick.shift();document.querySelector(`#my-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.myPick.push(r);el.classList.add('sel');}
+  document.getElementById('my-cnt').textContent=`${G.myPick.length}/5`;checkReady();
 }
-
-function loadRung() {
+function loadRung(){
   const rung=+document.getElementById('opp-rung').value;
-  const ts=document.getElementById('opp-team-sel');
-  ts.innerHTML='<option value="">— Vælg hold —</option>';
-  ts.disabled=false;
-  Object.entries(OPPONENT_LIBRARY)
-    .filter(([,t])=>t.rung===rung)
-    .sort((a,b)=>a[1].name.localeCompare(b[1].name))
+  const ts=document.getElementById('opp-team');ts.innerHTML='<option value="">— Select team —</option>';ts.disabled=false;
+  Object.entries(OPPONENT_LIBRARY).filter(([,t])=>t.rung===rung).sort((a,b)=>a[1].name.localeCompare(b[1].name))
     .forEach(([k,t])=>ts.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
 }
-
-function loadOppTeam() {
-  const k=document.getElementById('opp-team-sel').value; if(!k) return;
-  G.oppKey=k; G.oppData=OPPONENT_LIBRARY[k];
+function loadOppTeam(){
+  const k=document.getElementById('opp-team').value;if(!k)return;
+  G.oppKey=k;G.oppData=OPPONENT_LIBRARY[k];
   G.oppPick=[...G.oppData.riders].filter(r=>wkg(r,'20')>0).sort((a,b)=>wkg(b,'20')-wkg(a,'20')).slice(0,5);
-  const box=document.getElementById('opp-riders'); box.innerHTML='';
+  const box=document.getElementById('opp-list');box.innerHTML='';
   G.oppData.riders.forEach(r=>{
-    const cl=classify(r); const sel=G.oppPick.includes(r);
-    const el=document.createElement('div');
-    el.className='rider-item'+(sel?' sel':''); el.dataset.rid=r.id;
-    el.innerHTML=`<div style="flex:1;min-width:0">
-      <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
-      <div style="color:var(--dim);font-size:.6rem;margin-top:2px">
-        <span style="color:var(--accent)">${wkg(r,'20').toFixed(1)}</span> FTP ·
-        <span style="color:var(--purple)">${wkg(r,'1').toFixed(1)}</span> 1min ·
-        <span style="color:var(--accent2)">${wkg(r,'15').toFixed(1)}</span> 15s W/kg
-      </div></div>
-      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
-    el.onclick=()=>toggleOpp(r,el);
-    box.appendChild(el);
+    const sel=G.oppPick.includes(r);
+    const el=document.createElement('div');el.className='ri'+(sel?' sel':'');el.dataset.rid=r.id;
+    el.innerHTML=riderRow(r,'opp');el.onclick=()=>toggleOpp(r,el);box.appendChild(el);
   });
-  document.getElementById('opp-count').textContent=`${G.oppPick.length}/5`;
-  checkReady();
+  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();
 }
-
-function toggleOpp(r,el) {
+function toggleOpp(r,el){
   const i=G.oppPick.findIndex(x=>x.id===r.id);
-  if(i>=0){ G.oppPick.splice(i,1); el.classList.remove('sel'); }
-  else {
-    if(G.oppPick.length>=5){
-      const old=G.oppPick.shift();
-      document.querySelector(`#opp-riders [data-rid="${old.id}"]`)?.classList.remove('sel');
-    }
-    G.oppPick.push(r); el.classList.add('sel');
-  }
-  document.getElementById('opp-count').textContent=`${G.oppPick.length}/5`;
-  checkReady();
+  if(i>=0){G.oppPick.splice(i,1);el.classList.remove('sel');}
+  else{if(G.oppPick.length>=5){const o=G.oppPick.shift();document.querySelector(`#opp-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.oppPick.push(r);el.classList.add('sel');}
+  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();
 }
 
-// ── ROUTES ────────────────────────────────────────────────────────────────────
-function routeType(rt) {
-  const s={sprint:rt.sprint,punch:rt.punch,climb:rt.climb,pursuit:rt.pursuit,endurance:rt.endurance};
-  const [best]=Object.entries(s).sort((a,b)=>b[1]-a[1]);
-  return {
-    sprint:   {lbl:'Sprint',   style:'color:#ff5d00;background:rgba(255,93,0,.1);border:1px solid rgba(255,93,0,.3)'},
-    punch:    {lbl:'Punch',    style:'color:#cc88ff;background:rgba(204,136,255,.1);border:1px solid rgba(204,136,255,.3)'},
-    climb:    {lbl:'Klatring', style:'color:#7fff6b;background:rgba(127,255,107,.1);border:1px solid rgba(127,255,107,.3)'},
-    pursuit:  {lbl:'TT',       style:'color:#00e5ff;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3)'},
-    endurance:{lbl:'Udholdenhed',style:'color:#f59e0b;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3)'},
-  }[best[0]]||{lbl:rt.profile||'?',style:''};
+function routeTag(rt){
+  const m=Math.max(rt.sprint,rt.punch,rt.climb,rt.pursuit,rt.endurance);
+  if(m===rt.climb)  return{l:'Climb',    s:'color:#7fff6b;border:1px solid rgba(127,255,107,.3);background:rgba(127,255,107,.08)'};
+  if(m===rt.punch)  return{l:'Punch',    s:'color:#cc88ff;border:1px solid rgba(204,136,255,.3);background:rgba(204,136,255,.08)'};
+  if(m===rt.sprint) return{l:'Sprint',   s:'color:#ff5d00;border:1px solid rgba(255,93,0,.3);background:rgba(255,93,0,.08)'};
+  if(m===rt.pursuit)return{l:'TT',       s:'color:#00e5ff;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08)'};
+  return{l:'Endurance',s:'color:#f59e0b;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08)'};
 }
+function filterRoutes(){
+  const q=(document.getElementById('rq').value||'').toLowerCase();
+  const mx=+document.getElementById('rdist').value;
+  const box=document.getElementById('rlist');box.innerHTML='';
+  ZWIFT_ROUTES.filter(r=>r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
+    .slice(0,60).forEach(rt=>{
+      const tg=routeTag(rt);
+      const el=document.createElement('div');el.className='ritem';
+      el.innerHTML=`<div><div style="font-weight:600">${rt.name}</div><div style="color:var(--dm);font-size:.6rem">${rt.world} · ${rt.distance}km · ${rt.elevation}m</div></div>
+        <span style="font-size:.55rem;padding:2px 7px;border-radius:10px;${tg.s}">${tg.l}</span>`;
+      el.onclick=()=>{document.querySelectorAll('#rlist .ritem').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');G.route=rt;drawPrev(rt);checkReady();};
+      box.appendChild(el);
+    });
+}
+function drawPrev(rt){
+  const cv=document.getElementById('pcv');cv.style.display='block';cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d'),W=cv.width,H=cv.height;ctx.clearRect(0,0,W,H);
+  const pts=profPts(rt,W,H);
+  const g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'rgba(0,229,255,.3)');g.addColorStop(1,'rgba(0,229,255,.02)');
+  ctx.beginPath();ctx.moveTo(0,H);pts.forEach(([x,y])=>ctx.lineTo(x,y));ctx.lineTo(W,H);ctx.closePath();ctx.fillStyle=g;ctx.fill();
+  ctx.beginPath();pts.forEach(([x,y],i)=>i?ctx.lineTo(x,y):ctx.moveTo(x,y));ctx.strokeStyle='#00e5ff';ctx.lineWidth=1.5;ctx.stroke();
+}
+function checkReady(){document.getElementById('go-btn').disabled=!(G.myPick.length===5&&G.oppPick.length>=3&&G.route);}
 
-function filterRoutes() {
-  const q=(document.getElementById('route-q').value||'').toLowerCase();
-  const maxD=+document.getElementById('route-dist').value;
-  const list=ZWIFT_ROUTES.filter(r=>r.distance>=2&&r.distance<=maxD&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)));
-  const box=document.getElementById('route-list'); box.innerHTML='';
-  list.slice(0,60).forEach(rt=>{
-    const tp=routeType(rt);
-    const el=document.createElement('div');
-    el.className='route-item';
-    el.innerHTML=`<div>
-      <div style="font-weight:600">${rt.name}</div>
-      <div style="color:var(--dim);font-size:.6rem">${rt.world} · ${rt.distance} km · ${rt.elevation} m</div>
+// ══════════════════════════════════════════════════════
+// STRATEGY SCREEN
+// ══════════════════════════════════════════════════════
+function goStrategy(){
+  const rt=G.route;
+  document.getElementById('str-route-lbl').textContent=`${rt.name} · ${rt.distance}km · ${rt.elevation}m · ${routeTag(rt).l}`;
+
+  // Rider role cards
+  const box=document.getElementById('str-riders');box.innerHTML='';
+  const youSel=document.getElementById('you-sel');youSel.innerHTML='';
+  G.myPick.forEach((r,i)=>{
+    const cl=classify(r);
+    const suggestRole=suggestRiderRole(r,rt);
+    const div=document.createElement('div');div.className='role-card';
+    div.innerHTML=`<div style="min-width:0">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
+      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b};margin-top:3px;display:inline-block">${cl.t}</span>
     </div>
-    <span style="font-size:.55rem;padding:2px 7px;border-radius:10px;${tp.style}">${tp.lbl}</span>`;
-    el.onclick=()=>{
-      document.querySelectorAll('#route-list .route-item').forEach(e=>e.classList.remove('sel'));
-      el.classList.add('sel');
-      G.route=rt; drawProfile(rt); checkReady();
-    };
-    box.appendChild(el);
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dm);max-width:100px;line-height:1.4">${ROLES[suggestRole].desc.split('.')[0]}</div>
+    <select class="role-select" data-idx="${i}">
+      ${Object.entries(ROLES).map(([k,v])=>`<option value="${k}"${k===suggestRole?' selected':''}>${v.l}</option>`).join('')}
+    </select>`;
+    box.appendChild(div);
+    youSel.insertAdjacentHTML('beforeend',`<option value="${r.id}">${sname(r.name)}</option>`);
+  });
+
+  // Scout report
+  const scoutBox=document.getElementById('str-scout');scoutBox.innerHTML='';
+  const oppSorted=[...G.oppPick].sort((a,b)=>scoreR(b,rt)-scoreR(a,rt));
+  oppSorted.forEach((r,i)=>{
+    const cl=classify(r);const sc=scoreR(r,rt);
+    const level=sc>60?'threat-high':sc>45?'threat-med':'threat-low';
+    const icon=i===0?'🎯':i<2?'⚠️':'ℹ️';
+    scoutBox.insertAdjacentHTML('beforeend',`<div class="scout-card">
+      <div class="${level}" style="font-weight:600;margin-bottom:2px">${icon} ${sname(r.name)} <span style="font-weight:400">(${cl.t})</span></div>
+      <div style="color:var(--dm)">FTP ${wkg(r,'20').toFixed(1)} w/kg · ${getFlatPower(r).toFixed(0)}W · 15s ${wkg(r,'15').toFixed(1)}</div>
+    </div>`);
+  });
+
+  // Route tip
+  buildRouteTip(rt);
+  show('strategy');
+}
+
+function suggestRiderRole(r,rt){
+  const cl=classify(r);
+  if(cl.t==='Sprinter')return'sprinter';
+  if(cl.t==='Klatrer'&&rt.climb>30)return'leader';
+  if(cl.t==='Klatrer')return'climber';
+  if(cl.t==='Puncheur'&&rt.punch>30)return'wild';
+  return'domestique';
+}
+
+function buildRouteTip(rt){
+  const tips=[];
+  if(rt.climb>35)tips.push('Climbers decide this race. Attack early on the ascent and hold tempo to the top.');
+  if(rt.sprint>25)tips.push('Sprint finish likely. Save your sprinter for the final 200m and build a lead-out.');
+  if(rt.punch>30)tips.push('Puncheur route — short punchy climbs are critical. Attack at the top, not the bottom.');
+  if(rt.endurance>40)tips.push('Endurance is the key. Ride steady and save stamina for the final.');
+  if(rt.pursuit>35)tips.push('TT profile — FTP and watts decide. Diesel riders thrive here.');
+  tips.push('Remember: this is a points race. All 5 positions count — don\'t sacrifice 3 riders for one win.');
+  document.getElementById('str-tip').innerHTML=tips.map(t=>`<div style="margin-bottom:6px">▸ ${t}</div>`).join('');
+}
+
+// ══════════════════════════════════════════════════════
+// RACE ENGINE
+// ══════════════════════════════════════════════════════
+function buildSections(rt){
+  const mx=Math.max(rt.sprint,rt.punch,rt.climb,rt.pursuit,rt.endurance);
+  if(mx===rt.climb&&rt.climb>25)return[
+    {l:'Approach',t:'flat',s:0,e:.15},{l:'Ascent',t:'climb',s:.15,e:.76},
+    {l:'Summit',t:'climb',s:.76,e:.90},{l:'Sprint',t:'sprint',s:.90,e:1}];
+  if(mx===rt.punch&&rt.punch>25)return[
+    {l:'Start',t:'flat',s:0,e:.20},{l:'1st Climb',t:'punch',s:.20,e:.40},
+    {l:'Flat',t:'flat',s:.40,e:.58},{l:'2nd Climb',t:'punch',s:.58,e:.77},{l:'Finale',t:'sprint',s:.77,e:1}];
+  if(mx===rt.sprint&&rt.sprint>20)return[
+    {l:'Peloton',t:'flat',s:0,e:.72},{l:'Build-up',t:'flat',s:.72,e:.88},{l:'Sprint!',t:'sprint',s:.88,e:1}];
+  return[{l:'Endurance',t:'flat',s:0,e:.56},{l:'Hard section',t:'climb',s:.56,e:.83},{l:'Finale',t:'sprint',s:.83,e:1}];
+}
+function curSec(t){return G.sections.find(s=>t>=s.s&&t<s.e)||G.sections[G.sections.length-1];}
+
+function normScores(){
+  const rt=G.route;
+  const tot=rt.climb+rt.punch+rt.sprint+rt.endurance+rt.pursuit||1;
+  const climbFrac=Math.min(0.88,Math.max(0,(rt.climb+rt.punch*0.4)/tot));
+  const flatFrac=1-climbFrac;
+
+  G.racers.forEach(r=>{
+    const w20=Math.max(wkg(r,'20'),0.5);
+    const watts=Math.max(getFlatPower(r),60);
+    // Flat: cube-root (aerodynamic physics — speed ∝ power^⅓ at same drag/weight)
+    // Climb: LINEAR w/kg — no dampening. 4.4 w/kg IS 26% faster than 3.5 w/kg on a col.
+    // Reference: 270W flat, 3.5 w/kg climb = norm 1.0 → race finishes ~130 ticks
+    r.norm=flatFrac*Math.pow(watts/270,1/3)+climbFrac*(w20/3.5);
+    // No global normalization — if you race a stronger team, you simply lose
   });
 }
 
-function drawProfile(rt) {
-  const cv=document.getElementById('profile-cv');
-  cv.style.display='block'; cv.width=cv.offsetWidth||800;
-  const ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
-  ctx.clearRect(0,0,W,H);
+function getRoles(){
+  const roles={};
+  document.querySelectorAll('#str-riders .role-card select').forEach((sel,i)=>{roles[G.myPick[i].id]=sel.value;});
+  return roles;
+}
+
+function beginRace(){
+  G.laps=+document.getElementById('laps').value||1;
+  G.youId=+document.getElementById('you-sel').value||G.myPick[0]?.id;
+  const roles=getRoles();
+  G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
+  G.tick=0;G.paused=false;G.racers=[];G.groups=[];
+
+  const mkRacer=(r,team,teamName,role)=>({
+    ...r,team,teamName,display:sname(r.name),init:inits(r.name),
+    cl:classify(r),base:scoreR(r,G.route),norm:1,
+    role:role||'normal',
+    stamina:100,effort:3,progress:0,position:0,inGroup:true,
+    personality:.68+Math.random()*.32,
+    attackTicks:0,attackCooldown:0,forcedEasy:0,
+    protecting:false,protectTarget:null,
+    askCooldown:0,aiRole:null,
+    // Event fields
+    maxEffort:5,absent:false,lateStart:0,dropped:false,dropoutTick:0,
+    // Powerup (own team gets one; opponents don't)
+    powerup:team==='leqp'?pick(POWERUPS):null,
+    powerupUsed:false,powerupActive:null,bubble:null,
+  });
+
+  G.myPick.forEach(r=>G.racers.push(mkRacer(r,'leqp',G.myData.name,roles[r.id]||'domestique')));
+  G.oppPick.forEach(r=>{
+    const sc=scoreR(r,G.route);
+    const oppRole=sc===Math.max(...G.oppPick.map(x=>scoreR(x,G.route)))?'leader':'normal';
+    G.racers.push(mkRacer(r,'opp',G.oppData.name,oppRole));
+  });
+  normScores();
+  G.racers.filter(r=>r.team==='leqp').forEach((r,i)=>r.lane=i);
+  G.racers.filter(r=>r.team==='opp').forEach((r,i)=>r.lane=5+i);
+
+  // ── Random pre-race events ──────────────────────────
+  G.pendingEvts=[];
+  const opps=G.racers.filter(r=>r.team==='opp');
+  // 1. Opponents trained hard yesterday → tired
+  if(Math.random()<.28){
+    opps.forEach(r=>{r.stamina=58;r.maxEffort=3;});
+    G.pendingEvts.push('😴 Intel: Opponents trained hard yesterday — they start with 58% stamina and max Hard effort!');
+  }
+  // 2. One opponent rider late to start
+  if(Math.random()<.22&&opps.length>0){
+    const late=pick(opps);late.lateStart=12+Math.floor(Math.random()*10);
+    G.pendingEvts.push(`⏰ ${late.display} (${G.oppData.name}) is delayed — starts ${late.lateStart} ticks into the race!`);
+  }
+  // 3. One opponent rider drops out mid-race (connection)
+  if(Math.random()<.15&&opps.length>0){
+    const out=pick(opps.filter(r=>!r.lateStart));
+    if(out){out.dropoutTick=30+Math.floor(Math.random()*65);
+      G.pendingEvts.push(`📡 ${out.display} reported network issues before the race.`);}
+  }
+  // 4. Own team short (rare) — one rider can't make it
+  if(Math.random()<.09){
+    const mine=G.racers.filter(r=>r.team==='leqp');
+    const absent=mine[Math.floor(Math.random()*mine.length)];
+    absent.absent=true;
+    G.pendingEvts.push(`❌ ${absent.display} can't make it! You race with ${mine.length-1} riders.`);
+  }
+
+  G.sections=buildSections(G.route);
+  buildSegBar();buildCommsBtns();
+  document.getElementById('rh-name').textContent=G.route.name;
+  document.getElementById('rh-dist').textContent=`${(G.route.distance*G.laps).toFixed(1)} km · ${G.route.elevation*G.laps} m`;
+
+  show('race');
+  commsEvt(`Race is on! ${G.route.name} — ${routeTag(G.route).l}. Keep the team together at the start.`);
+  G.pendingEvts.forEach(msg=>commsEvt(msg,'warn'));
+  G.pendingEvts=[];
+  startTick();startRender();
+}
+
+function startTick(){
+  clearInterval(G.tickTimer);
+  G.tickTimer=setInterval(()=>{if(!G.paused)doTick();},TICK_BASE/G.speed);
+}
+function setSpeed(sp){
+  G.speed=sp;
+  document.querySelectorAll('.spd-btn').forEach(b=>b.classList.toggle('act',+b.dataset.sp===sp));
+  startTick();
+}
+function togglePause(){
+  G.paused=!G.paused;
+  const btn=document.getElementById('pause-btn');
+  btn.textContent=G.paused?'▶ Resume':'⏸ Pause';
+  btn.classList.toggle('paused',G.paused);
+  document.getElementById('comms-hint').textContent=G.paused?'· Click rider to ask status':'· Pause (Space) to communicate';
+  document.querySelectorAll('.aq,.ask-btn').forEach(b=>b.disabled=!G.paused);
+}
+
+// ── TICK ──────────────────────────────────────────────
+function doTick(){
+  if(G.tick>=TOTAL_TICKS){finishRace();return;}
+  G.tick++;
+  const t=G.tick/TOTAL_TICKS;
+  const sec=curSec(t);
+  const prevSec=curSec(Math.max(0,(G.tick-1)/TOTAL_TICKS));
+
+  G.racers.forEach(r=>{
+    // Skip absent riders entirely
+    if(r.absent)return;
+
+    // Late start: rider hasn't entered the race yet
+    if(r.lateStart>0&&G.tick<r.lateStart)return;
+    if(r.lateStart>0&&G.tick===r.lateStart)commsEvt(`${r.display} has now entered the race!`);
+
+    // Dropout (lost connection)
+    if(r.dropoutTick>0&&G.tick>=r.dropoutTick&&!r.dropped){
+      r.dropped=true;
+      commsEvt(`📡 ${r.display} has lost connection and is out of the race!`,'warn');
+    }
+    if(r.dropped)return;
+
+    // Cap effort by event-imposed max (tired riders)
+    if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
+
+    // Attack burst management
+    if(r.attackTicks>0){r.attackTicks--;r.effort=Math.min(5,r.maxEffort||5);
+      if(r.attackTicks===0){r.forcedEasy=6;r.effort=2;commsEvt(`${r.display} is done attacking — recovering.`);}}
+    if(r.forcedEasy>0){r.forcedEasy--;r.effort=Math.min(r.effort,2);}
+    if(r.attackCooldown>0)r.attackCooldown--;
+    if(r.askCooldown>0)r.askCooldown--;
+
+    // AI for opp + domestique logic
+    if(r.team==='opp')aiEffort(r,t,sec);
+    else aiDomestique(r,t,sec);
+    if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort; // re-cap after AI
+
+    // Stamina drain
+    let drain=EFF_DRN[r.effort-1];
+    if(drain<0){
+      if(sec.t==='climb') drain*=r.cl.t==='Klatrer'?.65:1.55;
+      if(sec.t==='punch') drain*=r.cl.t==='Puncheur'?.7:1.3;
+      if(sec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
+      if(r.inGroup)drain*=.65;
+    }
+    r.stamina=Math.max(0,Math.min(100,r.stamina+drain));
+
+    // Protection
+    if(r.protecting&&r.protectTarget){
+      const leader=G.racers.find(x=>x.id==r.protectTarget);
+      if(leader)leader._protectBonus=(leader._protectBonus||0)+0.004;
+    }
+    r._protectBonus=r._protectBonus||0;
+
+    // Powerup effect on speed this tick
+    let pMult=1;
+    if(r.powerupActive){
+      r.powerupActive.ticks--;
+      if(r.powerupActive.ticks<=0){r.powerupActive=null;}
+      else{
+        if(r.powerupActive.type==='aero'&&sec.t==='flat')    pMult=1.20;
+        if(r.powerupActive.type==='feather'&&(sec.t==='climb'||sec.t==='punch'))pMult=1.30;
+        if(r.powerupActive.type==='steam')                   pMult=1.15;
+      }
+    }
+
+    // Speed — stamMod uses steeper curve: empty tank = 55% speed (hard blow-up)
+    const effSpd=EFF_SPD[r.effort-1];
+    const stamMod=0.55+(r.stamina/100)*0.45;
+    const fit=sectionFit(r,sec);
+    const speed=r.norm*effSpd*stamMod*fit*pMult;
+    r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/TOTAL_TICKS));
+    r._protectBonus=0;
+  });
+
+  updateDraft();
+  const active=G.racers.filter(r=>!r.absent);
+  const sorted=[...active].sort((a,b)=>b.progress-a.progress);
+  sorted.forEach((r,i)=>r.position=i+1);
+  G.groups=formGroups(sorted);
+
+  // Events
+  if(prevSec!==sec)commsEvt(`📍 New section: ${sec.l}`);
+  checkEvents(t,sec);
+
+  if(sorted[0].progress>=1)finishRace();
+}
+
+function updateDraft(){
+  const active=G.racers.filter(r=>!r.absent&&!r.dropped);
+  active.forEach(r=>{r.inGroup=active.some(o=>o!==r&&Math.abs(o.progress-r.progress)<GAP_GROUP);});
+}
+
+function formGroups(sorted){
+  const grps=[];let cur=[sorted[0]];
+  for(let i=1;i<sorted.length;i++){
+    if(sorted[i-1].progress-sorted[i].progress<GAP_GROUP)cur.push(sorted[i]);
+    else{grps.push([...cur]);cur=[sorted[i]];}
+  }
+  grps.push(cur);return grps;
+}
+
+function gapSecs(g1,g2){
+  const diff=g1[g1.length-1].progress-g2[0].progress;
+  const totalSec=G.route.distance*G.laps/40*3600; // est at 40 km/h
+  return Math.round(diff*totalSec);
+}
+
+// ── AI ────────────────────────────────────────────────
+function aiEffort(r,t,sec){
+  if(r.attackTicks>0||r.forcedEasy>0)return;
+  if(r.stamina<8){r.effort=1;return;}
+  if(r.stamina<22){r.effort=2;return;}
+  const tp=r.cl.t;
+
+  // Leader attacks on key sections
+  if(r.role==='leader'){
+    if(sec.t==='climb'||sec.t==='punch'){r.effort=4;}
+    else if(t>.85){r.effort=4;}
+    else{r.effort=3;}
+    // Occasional attack
+    if(r.stamina>55&&Math.random()<.03&&r.attackCooldown===0){triggerAttack(r,true);}
+  } else if(tp==='Sprinter'){
+    r.effort=t<.82?2:t<.90?3:5;
+  } else if(tp==='Klatrer'){
+    r.effort=sec.t==='climb'?4:2;
+  } else if(tp==='Puncheur'){
+    r.effort=(sec.t==='punch'||sec.t==='climb')?4:3;
+  } else {
+    r.effort=t>.85?4:3;
+  }
+  if(Math.random()<.06)r.effort=Math.max(1,Math.min(5,r.effort+(Math.random()>.5?1:-1)));
+}
+
+function aiDomestique(r,t,sec){
+  if(r.role!=='domestique'||r.attackTicks>0||r.forcedEasy>0)return;
+  const leader=G.racers.find(x=>x.id==G.leaderRole);
+  if(!leader)return;
+  // Domestique: ride slightly harder to stay with leader, protect them
+  r.protecting=true;r.protectTarget=leader.id;
+  if(r.stamina<25){r.protecting=false;return;}
+  // Match leader effort +1 on climbs
+  if(sec.t==='climb'||sec.t==='punch')r.effort=Math.min(4,leader.effort+1);
+  else r.effort=leader.effort;
+}
+
+// ── TACTICS ───────────────────────────────────────────
+function triggerAttack(r, silent){
+  if(r.stamina<30){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} doesn't have the stamina for an attack!`,'cap');return;}
+  if(r.attackCooldown>0){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} is still recovering from the last attack.`,'cap');return;}
+  r.attackTicks=7;r.attackCooldown=20;r.effort=5;
+  commsEvt(`⚡ ${r.display} attacks!`,'warn');
+}
+function setEffort(id,e){
+  const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
+  if(!r||r.attackTicks>0||r.forcedEasy>0)return;
+  r.effort=e;renderMyCard(r);
+}
+function setProtect(id){
+  const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
+  if(!r)return;
+  r.protecting=!r.protecting;
+  if(r.protecting)r.protectTarget=G.leaderRole;
+  renderMyCard(r);
+}
+function usePowerup(id){
+  if(!G.paused)return;
+  const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
+  if(!r||r.powerupUsed||!r.powerup)return;
+  r.powerup.apply(r);r.powerupUsed=true;
+  commsMsg('Captain',`${r.display.split(' ')[0]} activates ${r.powerup.name}! ${r.powerup.icon}`,'cap');
+  renderMyCard(r);
+}
+
+// ── EVENTS ────────────────────────────────────────────
+let _lastWarnTick={};
+function checkEvents(t,sec){
+  const mine=G.racers.filter(r=>r.team==='leqp');
+  const opps=G.racers.filter(r=>r.team==='opp');
+
+  // Cracking warning (own team, once per rider)
+  mine.forEach(r=>{
+    if(r.stamina<18&&r.stamina>15&&!_lastWarnTick[r.id]){
+      _lastWarnTick[r.id]=true;
+      commsEvt(`⚠️ ${r.display} is cracking! Set to Easy or Rest!`,'warn');
+    }
+  });
+
+  // Opponent attacks
+  const oppAtk=opps.find(r=>r.effort===5&&r.stamina>50&&Math.random()<.035);
+  if(oppAtk)commsEvt(`⚡ ${oppAtk.display} (${G.oppData.name}) attacks!`,'warn');
+
+  // Gap alerts
+  if(G.groups.length>1){
+    const myTopGrp=G.groups.findIndex(g=>g.some(r=>r.team==='leqp'));
+    if(myTopGrp>0&&Math.random()<.15){
+      const gap=gapSecs(G.groups[0],G.groups[myTopGrp]);
+      commsEvt(`📊 The breakaway is ${gap}s ahead — increase effort?`);
+    }
+  }
+
+  // Section tips
+  if(sec.t==='sprint'&&t<.92&&Math.random()<.08)
+    commsEvt(`🏁 Sprint approaching — save your sprinter for 200m!`);
+}
+
+// ── COMMS ─────────────────────────────────────────────
+function buildCommsBtns(){
+  const box=document.getElementById('comms-btns');box.innerHTML='';
+  G.racers.filter(r=>r.team==='leqp').forEach(r=>{
+    const btn=document.createElement('button');btn.className='aq';
+    btn.textContent=`Ask ${r.display.split(' ')[0]}`;btn.disabled=!G.paused;
+    btn.onclick=()=>askRider(r);box.appendChild(btn);
+  });
+}
+function askRider(r){
+  if(!G.paused)return;
+  if((r.askCooldown||0)>0){commsMsg('Captain',`Wait — ${r.display.split(' ')[0]} just responded.`,'cap');return;}
+  commsMsg('Captain',`${r.display.split(' ')[0]}, what's your status?`,'cap');
+  r.askCooldown=10;
+  setTimeout(()=>{
+    const resp=genResp(r);
+    commsMsg(r.display.split(' ')[0],resp,'rider');
+    r.bubble={text:resp,born:Date.now()};
+  },1100+Math.random()*600);
+}
+function genResp(r){
+  const p=r.stamina+(1-r.personality)*14;
+  if(p>72)return pick(RESP.fresh);
+  if(p>50)return pick(RESP.good);
+  if(p>28)return pick(RESP.tired);
+  if(p>10)return pick(RESP.cracked);
+  return pick(RESP.blownup);
+}
+function commsMsg(who,text,type){
+  const log=document.getElementById('comms-log');
+  const ts=raceTime();
+  log.insertAdjacentHTML('beforeend',`<div class="msg"><span class="msg-t">${ts}</span><span class="msg-w ${type}">${who}:</span> <span>${text}</span></div>`);
+  log.scrollTop=log.scrollHeight;
+}
+function commsEvt(text,type='evt'){
+  const log=document.getElementById('comms-log');
+  const ts=raceTime();
+  log.insertAdjacentHTML('beforeend',`<div class="msg"><span class="msg-t">${ts}</span><span class="msg-w ${type}">●</span> <span style="color:var(--dm)">${text}</span></div>`);
+  log.scrollTop=log.scrollHeight;
+}
+function raceTime(){
+  const m=String(Math.floor(G.tick/6)).padStart(2,'0');
+  const s=String((G.tick%6)*10).padStart(2,'0');
+  return`${m}:${s}`;
+}
+
+// ══════════════════════════════════════════════════════
+// RENDER
+// ══════════════════════════════════════════════════════
+function startRender(){
+  cancelAnimationFrame(G.rafId);
+  function frame(){
+    updatePanels();drawCanvas();
+    G.rafId=requestAnimationFrame(frame);
+  }
+  G.rafId=requestAnimationFrame(frame);
+}
+
+function updatePanels(){
+  const t=G.tick/TOTAL_TICKS;
+  const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
+  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.position,0);
+  const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+r.position,0);
+
+  document.getElementById('my-pts-live').textContent=`${myPts} pt`;
+  document.getElementById('opp-pts-live').textContent=`${opPts} pt`;
+  document.getElementById('rh-pct').textContent=`${Math.round(t*100)}% · ${((G.route.distance*G.laps)*(1-t)).toFixed(1)} km`;
+  const sec=curSec(t);
+  document.getElementById('rh-sec').textContent=sec.l;
+  document.querySelectorAll('.seg').forEach(s=>s.classList.toggle('active',s.dataset.sl===sec.l));
+
+  // My cards
+  G.racers.filter(r=>r.team==='leqp').forEach(r=>renderMyCard(r));
+
+  // Opp cards
+  document.getElementById('opp-cards').innerHTML=
+    sorted.filter(r=>r.team==='opp').map(r=>{
+      const leader=sorted[0];
+      const gapS=((leader.progress-r.progress)*G.route.distance*G.laps/40*3600).toFixed(0);
+      const pc=posClass(r.position);
+      return`<div class="oc">
+        <div class="oc-pos ${pc}">${r.position}</div>
+        <div class="oc-info">
+          <div class="oc-name">${r.display}</div>
+          <div class="oc-sub" style="display:flex;gap:6px;align-items:center">
+            <span class="badge" style="color:${r.cl.c};border-color:${r.cl.br};background:${r.cl.b}">${r.cl.t}</span>
+            <span style="color:var(--or)">${r.progress>0.01?'+'+gapS+'s':''}</span>
+            <span style="color:var(--dm)">${EFF_IC[r.effort-1]}</span>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+
+  // Situation text
+  updateSituation();
+}
+
+function posClass(p){return p===1?'gold':p===2?'silver':p===3?'bronze':'';}
+
+function renderMyCard(r){
+  const st=stSt(r.stamina);
+  const isYou=r.id==G.youId;
+  const pc=posClass(r.position);
+  const locked=r.attackTicks>0||r.forcedEasy>0;
+  const html=`
+    <div class="rc-top">
+      <div class="rc-pos ${pc}">${r.position}</div>
+      <div class="rc-name">${r.display}${isYou?'<span class="you-tag">YOU</span>':''}</div>
+      <div class="rc-state" style="color:${st.c}">${st.l}</div>
+    </div>
+    <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
+    <div class="rc-meta">
+      <span>${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''}</span>
+      <span>${ROLES[r.role]?.l||''}</span>
+    </div>
+    <div class="eff-row">
+      ${[1,2,3,4,5].map(e=>`<button class="eb${r.effort===e?' act':''}" data-e="${e}" onclick="setEffort(${r.id},${e})" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}</button>`).join('')}
+    </div>
+    <div class="tac-row">
+      <button class="tb atk" onclick="triggerAttack(G.racers.find(x=>x.id==${r.id}),false)" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''} title="Limited-duration attack that costs stamina">⚡ Attack</button>
+      <button class="tb prot ${r.protecting?'act':''}" onclick="setProtect(${r.id})" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Protect the leader — costs extra stamina">🛡 Protect</button>
+    </div>
+    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="width:100%;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" onclick="usePowerup(${r.id})" ${!G.paused||r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
+    <button class="ask-btn" onclick="askRider(G.racers.find(x=>x.id==${r.id}))" ${!G.paused||(r.askCooldown>0)?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
+  `;
+  let el=document.getElementById(`rc-${r.id}`);
+  if(el){el.innerHTML=html;el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;}
+  else{el=document.createElement('div');el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;el.id=`rc-${r.id}`;el.innerHTML=html;document.getElementById('my-cards').appendChild(el);}
+}
+
+function updateSituation(){
+  if(!G.groups||G.groups.length===0)return;
+  const leader=G.groups[0][0];
+  let html='<div class="sit-group">';
+  G.groups.forEach((grp,gi)=>{
+    const myRiders=grp.filter(r=>r.team==='leqp');
+    const oppRiders=grp.filter(r=>r.team==='opp');
+    const cls=gi===0?'sit-g1':gi<G.groups.length-1?'sit-g2':'sit-gn';
+    const label=gi===0?(grp.length>=5?'Peloton':'Breakaway'):gi===G.groups.length-1&&G.groups.length>2?'Grupetto':'Group';
+    let names=[...myRiders.map(r=>`<span style="color:var(--ac)">${r.display.split(' ')[0]}</span>`),
+               ...oppRiders.map(r=>`<span style="color:var(--or)">${r.display.split(' ')[0]}</span>`)].join(', ');
+    if(gi>0){
+      const gap=gapSecs(G.groups[gi-1],grp);
+      html+=`<span class="sit-gap">+${gap}s</span>`;
+    }
+    html+=`<span class="${cls}">${label} (${grp.length}): ${names}</span>`;
+    // Warn if my riders are being dropped
+    const cracking=myRiders.filter(r=>r.stamina<15);
+    if(cracking.length)html+=` <span class="sit-warn">⚠️ ${cracking.map(r=>r.display.split(' ')[0]).join(', ')} cracking!</span>`;
+  });
+  html+='</div>';
+  document.getElementById('situation').innerHTML=html;
+}
+
+// ── CANVAS ────────────────────────────────────────────
+function buildSegBar(){
+  const bar=document.getElementById('seg-bar');bar.innerHTML='';
+  G.sections.forEach(s=>{
+    const d=document.createElement('div');d.className=`seg ${s.t}`;d.dataset.sl=s.l;
+    d.style.flex=(s.e-s.s)+'';d.textContent=s.l;bar.appendChild(d);
+  });
+}
+function profPts(rt,W,H){
   const pts=[];
   for(let i=0;i<=80;i++){
-    const t=i/80;
-    let y=0;
-    y+=rt.climb/100*.7*Math.sin(t*Math.PI);
+    const t=i/80;let y=0;
+    y+=rt.climb/100*.65*Math.sin(t*Math.PI);
     y+=rt.punch/100*.4*Math.sin(t*Math.PI*6)*Math.abs(Math.sin(t*Math.PI));
-    y+=rt.sprint/100*.05*Math.sin(t*Math.PI*2);
     y+=.03*Math.sin(t*Math.PI*15+1.2);
-    pts.push([t*W, H-4-y*(H-10)]);
-  }
-  const g=ctx.createLinearGradient(0,0,0,H);
-  g.addColorStop(0,'rgba(0,229,255,.35)'); g.addColorStop(1,'rgba(0,229,255,.02)');
-  ctx.beginPath(); ctx.moveTo(0,H);
-  pts.forEach(([x,y])=>ctx.lineTo(x,Math.max(4,Math.min(H-2,y))));
-  ctx.lineTo(W,H); ctx.closePath(); ctx.fillStyle=g; ctx.fill();
-  ctx.beginPath();
-  pts.forEach(([x,y],i)=>i?ctx.lineTo(x,Math.max(4,Math.min(H-2,y))):ctx.moveTo(x,Math.max(4,Math.min(H-2,y))));
-  ctx.strokeStyle='#00e5ff'; ctx.lineWidth=1.5; ctx.stroke();
+    pts.push([t*W,H-4-Math.max(0,Math.min(1,y))*(H-10)]);
+  }return pts;
 }
 
-function checkReady() {
-  document.getElementById('start-btn').disabled=!(G.myPick.length===5&&G.oppPick.length>=3&&G.route);
-}
-
-// ── RACE ──────────────────────────────────────────────────────────────────────
-const RACE_MS=26000, DEC_AT=[.32,.62,.83];
-
-function startRace() {
-  G.laps=+document.getElementById('laps').value||1;
-  G.racers=[];
-  G.decIdx=0; G.decHistory=[];
-
-  const build=(riders,team,teamName)=>riders.forEach(r=>{
-    const cl=classify(r), sc=score(r,G.route);
-    G.racers.push({...r, team, teamName,
-      display:sname(r.name), init:inits(r.name), cl, base:sc,
-      noise:(Math.random()-.5)*10, bonus:0, progress:0});
-  });
-  build(G.myPick,'leqp',G.myData.name);
-  build(G.oppPick,'opp',G.oppData.name);
-
-  G.decisions=buildDecisions();
-
-  show('s-race');
-  document.getElementById('race-info').textContent=
-    `${G.route.name} · ${(G.route.distance*G.laps).toFixed(1)} km · ${G.route.elevation*G.laps} m`;
-
-  const t0=performance.now();
-  let lastDec=-1;
-
-  function frame(now) {
-    const t=Math.min(1,(now-t0)/RACE_MS);
-
-    // Trigger decisions
-    if(G.decIdx<G.decisions.length && t>=DEC_AT[G.decIdx] && lastDec<G.decIdx) {
-      lastDec=G.decIdx;
-      showDecision(G.decisions[G.decIdx]);
-    }
-
-    // Update positions
-    const sep=Math.pow(t,1.8); // slow group start, spreads later
-    G.racers.forEach(r=>{
-      const eff=r.base+r.noise+r.bonus;
-      const spd=0.82+(eff/100)*0.18; // 0.82–1.0 range
-      r.progress=Math.min(1, t*(1-sep) + spd*t*sep);
-    });
-
-    drawRace(t);
-    updateLiveOrder();
-    if(t<1) G.raf=requestAnimationFrame(frame);
-    else setTimeout(finishRace,600);
-  }
-  G.raf=requestAnimationFrame(frame);
-}
-
-// ── DECISIONS ────────────────────────────────────────────────────────────────
-function buildDecisions() {
-  const rt=G.route;
-  const mine=G.racers.filter(r=>r.team==='leqp');
-  const topClimber=[...mine].sort((a,b)=>wkg(b,'20')-wkg(a,'20'))[0];
-  const topSprint =[...mine].sort((a,b)=>wkg(b,'15')-wkg(a,'15'))[0];
-  const topPunch  =[...mine].sort((a,b)=>wkg(b,'1') -wkg(a,'1') )[0];
-  const isClimb=rt.climb>30, isSprint=rt.sprint>25, isPunch=rt.punch>30;
-
-  // Decision 1
-  const d1 = isClimb||isPunch ? {
-    phase:'FASE 1 — OPBYGNING', title:'Første stigning',
-    text:`${topClimber.display} (${topClimber.cl.t}) sidder godt. Hvad er planen?`,
-    opts:[
-      {title:`Angrib med ${topClimber.display}`,sub:'Aggressivt · høj risiko / høj gevinst',
-       fx:()=>{ topClimber.bonus+=9; mine.filter(r=>wkg(r,'20')>3.8&&r!==topClimber).forEach(r=>r.bonus+=3); }},
-      {title:'Hold samling — spar kræfter',sub:'Konservativt · god til sprint',
-       fx:()=>{ topSprint.bonus+=7; mine.forEach(r=>r.bonus+=2); }},
-    ]
-  } : {
-    phase:'FASE 1 — OPBYGNING', title:'Tempo i peloton',
-    text:`Skal du sætte hårdt tempo tidligt for at slide modstanderne af?`,
-    opts:[
-      {title:'Hårdt tempo — slid dem nu',sub:'Risikabelt for egne ryttere også',
-       fx:()=>{ mine.filter(r=>r.cl.t==='Diesel').forEach(r=>r.bonus+=7); mine.filter(r=>r.cl.t==='Sprinter').forEach(r=>r.bonus-=2); }},
-      {title:'Bliv i peloton',sub:'Trygt · sprinter frisk til finish',
-       fx:()=>{ topSprint.bonus+=9; }},
-    ]
-  };
-
-  // Decision 2
-  const d2={
-    phase:'FASE 2 — MIDTVEJS', title:'Feltet bryder op',
-    text:`En modstander angriber. Svarer du med dine bedste ryttere?`,
-    opts:[
-      {title:`Følg med — send de to stærkeste`,sub:'Offensivt · kan isolere resten',
-       fx:()=>{
-         [...mine].sort((a,b)=>(b.base+b.bonus)-(a.base+a.bonus)).slice(0,2).forEach(r=>r.bonus+=8);
-       }},
-      {title:'Bevar samling — alle med op',sub:'Trygt · undgår store tidsforskelle',
-       fx:()=>{ mine.forEach(r=>r.bonus+=4); }},
-    ]
-  };
-
-  // Decision 3
-  const d3 = isSprint ? {
-    phase:'FASE 3 — FINALE', title:'Sprinten åbner!',
-    text:`${topSprint.display} er perfekt placeret. Hvornår lancer du?`,
-    opts:[
-      {title:`Fuld gas NU — send ${topSprint.display}`,sub:'Tidlig sprint · risiko for at komme for tidligt',
-       fx:()=>{ topSprint.bonus+=13; mine.filter(r=>r.cl.t!=='Sprinter').forEach(r=>r.bonus-=2); }},
-      {title:'Vent til 200m — kontrolleret sprint',sub:'Klassisk · bedste chance for top 3',
-       fx:()=>{ topSprint.bonus+=9; mine.filter(r=>r.cl.t!=='Sprinter').forEach(r=>r.bonus+=3); }},
-    ]
-  } : isClimb ? {
-    phase:'FASE 3 — FINALE', title:'Slutstigning!',
-    text:`${topClimber.display} har energi tilbage. Alt ud eller kontrolleret?`,
-    opts:[
-      {title:`${topClimber.display} — alt ud!`,sub:'Angrib nu og hold til toppen',
-       fx:()=>{ topClimber.bonus+=12; }},
-      {title:'Kontrolleret tempo op ad',sub:'Sikker placering — ingen kollaps',
-       fx:()=>{ mine.forEach(r=>r.bonus+=5); }},
-    ]
-  } : {
-    phase:'FASE 3 — FINALE', title:'De sidste km',
-    text:`${topPunch.display} rider stærkt. Angrib eller hold for sikkert resultat?`,
-    opts:[
-      {title:`Angrib med ${topPunch.display}`,sub:'Aggressivt · alt eller intet',
-       fx:()=>{ topPunch.bonus+=11; mine.filter(r=>r!==topPunch).forEach(r=>r.bonus+=Math.random()>0.5?3:-2); }},
-      {title:'Hold position — sikker slutning',sub:'Forudsigelig · godt teamresultat',
-       fx:()=>{ mine.forEach(r=>r.bonus+=5); }},
-    ]
-  };
-
-  return [d1,d2,d3];
-}
-
-function showDecision(dec) {
-  document.getElementById('dec-phase').textContent=dec.phase;
-  document.getElementById('dec-title').textContent=dec.title;
-  document.getElementById('dec-text').textContent=dec.text;
-  const box=document.getElementById('dec-opts'); box.innerHTML='';
-  dec.opts.forEach((opt,i)=>{
-    const el=document.createElement('div');
-    el.className='dec-option';
-    el.innerHTML=`<div class="dec-option-title">${opt.title}</div><div class="dec-option-sub">${opt.sub}</div>`;
-    el.onclick=()=>{
-      opt.fx();
-      G.decHistory.push({dec,opt,i});
-      G.decIdx++;
-      document.getElementById('dec-overlay').classList.remove('open');
-    };
-    box.appendChild(el);
-  });
-  document.getElementById('dec-overlay').classList.add('open');
-}
-
-// ── DRAW ──────────────────────────────────────────────────────────────────────
-function drawRace(t) {
+function drawCanvas(){
   const cv=document.getElementById('race-canvas');
-  const W=cv.offsetWidth||900, H=290;
-  cv.width=W; cv.height=H;
+  const LANES=10,LANE_H=42,ML=96,MR=12;
+  const W=cv.offsetWidth||900,H=LANES*LANE_H;
+  if(cv.width!==W)cv.width=W;
+  if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
   const ctx=cv.getContext('2d');
+  const TW=W-ML-MR;
 
-  // Background
-  ctx.fillStyle='#111620'; ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#111620';ctx.fillRect(0,0,W,H);
 
-  // Elevation bg
-  const ept=profilePts(G.route,W,H);
-  ctx.beginPath(); ctx.moveTo(0,H);
-  ept.forEach(([x,y])=>ctx.lineTo(x,H*.35+y*.55));
-  ctx.lineTo(W,H); ctx.closePath();
-  ctx.fillStyle='rgba(0,229,255,.03)'; ctx.fill();
-  ctx.beginPath();
-  ept.forEach(([x,y],i)=>i?ctx.lineTo(x,H*.35+y*.55):ctx.moveTo(x,H*.35+y*.55));
-  ctx.strokeStyle='rgba(0,229,255,.12)'; ctx.lineWidth=1.5; ctx.stroke();
+  // Lane backgrounds
+  for(let i=0;i<LANES;i++){
+    const y0=i*LANE_H;
+    ctx.fillStyle=i%2===0?'rgba(0,0,0,.18)':'rgba(0,0,0,.08)';
+    ctx.fillRect(0,y0,W,LANE_H);
+    ctx.fillStyle=i<5?'rgba(0,229,255,.05)':'rgba(255,93,0,.05)';
+    ctx.fillRect(0,y0,ML,LANE_H);
+  }
 
-  // Track
-  const TY=H*.54;
-  ctx.beginPath(); ctx.moveTo(50,TY); ctx.lineTo(W-50,TY);
-  ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=2; ctx.stroke();
+  // Lane dividers
+  for(let i=1;i<LANES;i++){
+    ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
+    ctx.strokeStyle=i===5?'rgba(255,255,255,.22)':'rgba(255,255,255,.05)';
+    ctx.lineWidth=i===5?1.5:1;ctx.stroke();
+  }
+
+  // Left margin separator
+  ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
+  ctx.strokeStyle='rgba(255,255,255,.1)';ctx.lineWidth=1;ctx.stroke();
+
+  const t=G.tick/TOTAL_TICKS;const sec=curSec(t);
+
+  // Section highlight
+  ctx.fillStyle='rgba(255,93,0,.035)';
+  ctx.fillRect(ML+sec.s*TW,0,(sec.e-sec.s)*TW,H);
 
   // Finish line
-  ctx.beginPath(); ctx.moveTo(W-50,H*.18); ctx.lineTo(W-50,H*.9);
-  ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=2;
-  ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
-  ctx.fillStyle='rgba(255,255,255,.4)'; ctx.font='9px JetBrains Mono,monospace';
-  ctx.fillText('FINISH',W-46,H*.15);
-
-  // Decision markers
-  DEC_AT.forEach((dp,i)=>{
-    const x=50+dp*(W-100);
-    ctx.beginPath(); ctx.moveTo(x,H*.35); ctx.lineTo(x,H*.72);
-    ctx.strokeStyle=G.decHistory.length>i?'rgba(255,93,0,.5)':'rgba(255,93,0,.2)';
-    ctx.lineWidth=1.5; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
-  });
-
-  // Riders — sorted by progress for Z-order
-  const sorted=[...G.racers].sort((a,b)=>a.progress-b.progress);
-  sorted.forEach(r=>{
-    const x=50+r.progress*(W-100);
-    const rank=G.racers.filter(o=>o.progress>r.progress).length;
-    const jitter=(rank%3-1)*15;
-    const y=TY+jitter;
-    const col=r.team==='leqp'?'#00e5ff':'#ff5d00';
-    const R=15;
-
-    ctx.beginPath(); ctx.arc(x,y+2,R,0,Math.PI*2);
-    ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fill();
-
-    ctx.beginPath(); ctx.arc(x,y,R,0,Math.PI*2);
-    ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.18)':'rgba(255,93,0,.18)'; ctx.fill();
-    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.stroke();
-
-    ctx.fillStyle=col; ctx.font='bold 9px JetBrains Mono,monospace';
-    ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(r.init,x,y);
-  });
+  ctx.save();ctx.beginPath();ctx.moveTo(ML+TW,0);ctx.lineTo(ML+TW,H);
+  ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.5;
+  ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);ctx.restore();
 
   // Progress cursor
-  const cx=50+t*(W-100);
-  ctx.beginPath(); ctx.moveTo(cx,H*.35); ctx.lineTo(cx,H*.42);
-  ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1.5; ctx.stroke();
+  const cx=ML+t*TW;
+  ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);
+  ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=1;ctx.stroke();
 
-  document.getElementById('race-pct').textContent=
-    `${Math.round(t*100)}% · ${((G.route.distance*G.laps)*(1-t)).toFixed(1)} km tilbage`;
+  // Team labels in margin
+  ctx.save();ctx.font='bold 7px monospace';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillStyle='rgba(0,229,255,.55)';ctx.fillText('MY TEAM',3,2);
+  ctx.fillStyle='rgba(255,93,0,.55)';ctx.fillText('OPPONENT',3,5*LANE_H+2);ctx.restore();
+
+  // Riders
+  const R=15;
+  G.racers.forEach(r=>{
+    const cy=r.lane*LANE_H+LANE_H/2;
+    const col=r.team==='leqp'?'#00e5ff':'#ff5d00';
+    const isYou=r.id==G.youId;
+
+    // Name label in margin
+    const firstName=r.display.split(' ')[0].slice(0,10);
+    ctx.save();
+    ctx.fillStyle=isYou?'#ffffff':r.team==='leqp'?'rgba(0,229,255,.95)':'rgba(255,93,0,.9)';
+    ctx.font=(isYou?'bold ':'')+`11px "JetBrains Mono",monospace`;
+    ctx.textAlign='left';ctx.textBaseline='middle';
+    ctx.fillText(firstName,3,cy);
+
+    // Position number right-aligned in margin
+    const p=r.position;
+    ctx.fillStyle=p===1?'#ffd700':p===2?'#c0c0c0':p===3?'#cd7f32':col;
+    ctx.font='bold 10px monospace';ctx.textAlign='right';
+    ctx.fillText(p,ML-5,cy);ctx.restore();
+
+    // Rider circle on track
+    const rx=ML+r.progress*TW;
+
+    ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
+    ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.13)':'rgba(255,93,0,.13)';ctx.fill();
+    ctx.strokeStyle=r.attackTicks>0?'#ffd700':col;
+    ctx.lineWidth=isYou?3:r.attackTicks>0?2.5:1.8;ctx.stroke();
+
+    // Stamina arc (own team only)
+    if(r.team==='leqp'){
+      ctx.beginPath();
+      ctx.arc(rx,cy,R+4,-Math.PI/2,-Math.PI/2+2*Math.PI*(r.stamina/100));
+      ctx.strokeStyle=stCol(r.stamina);ctx.lineWidth=3;ctx.stroke();
+    }
+
+    // State icon inside circle
+    ctx.save();
+    ctx.font=`${R}px serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(r.attackTicks>0?'⚡':stIcon(r.stamina),rx,cy+1);
+    ctx.restore();
+
+    // Powerup active: icon floating above circle
+    if(r.powerupActive&&r.powerup){
+      ctx.save();
+      ctx.font=`${R-1}px serif`;
+      ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ctx.fillText(r.powerup.icon,rx,cy-R-1);
+      ctx.restore();
+    }
+
+    // Speech bubble (shown when rider responds to status question)
+    if(r.bubble){
+      const age=Date.now()-r.bubble.born;
+      if(age<6000){
+        const alpha=age>4000?1-(age-4000)/2000:1;
+        const txt=r.bubble.text.slice(0,34);
+        ctx.save();ctx.globalAlpha=alpha;
+        ctx.font='8.5px monospace';
+        const bw=ctx.measureText(txt).width+14,bh=20;
+        const goRight=rx+R+8+bw+4<=W-MR;
+        const bx=goRight?rx+R+8:rx-R-8-bw;
+        const by=cy-bh/2;
+        // Bubble body
+        drawRoundRect(ctx,bx,by,bw,bh,4);
+        ctx.fillStyle='rgba(18,26,44,.95)';ctx.fill();
+        ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke();
+        // Tail
+        ctx.beginPath();
+        if(goRight){ctx.moveTo(bx,cy-4);ctx.lineTo(bx-7,cy);ctx.lineTo(bx,cy+4);}
+        else{ctx.moveTo(bx+bw,cy-4);ctx.lineTo(bx+bw+7,cy);ctx.lineTo(bx+bw,cy+4);}
+        ctx.fillStyle='rgba(18,26,44,.95)';ctx.fill();
+        ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke();
+        // Text
+        ctx.fillStyle='#e2e8f0';ctx.textAlign='left';ctx.textBaseline='middle';
+        ctx.fillText(txt,bx+7,cy);
+        ctx.restore();
+      } else {
+        r.bubble=null;
+      }
+    }
+  });
 }
 
-function profilePts(rt,W,H) {
-  const pts=[];
-  for(let i=0;i<=80;i++){
-    const t=i/80; let y=0;
-    y+=rt.climb/100*.7*Math.sin(t*Math.PI);
-    y+=rt.punch/100*.4*Math.sin(t*Math.PI*6)*Math.abs(Math.sin(t*Math.PI));
-    y+=.03*Math.sin(t*Math.PI*15+1.2);
-    pts.push([t*W,H-8-Math.max(0,Math.min(1,y))*(H-14)]);
-  }
-  return pts;
+function drawRoundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
 }
 
-let liveThrottle=0;
-function updateLiveOrder() {
-  const now=Date.now();
-  if(now-liveThrottle<500) return;
-  liveThrottle=now;
-  const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
-  document.getElementById('live-order').innerHTML=sorted.map((r,i)=>`
-    <div class="live-row ${r.team}">
-      <span style="font-weight:700;color:${r.team==='leqp'?'var(--accent)':'var(--accent2)'}">${i+1}</span>
-      <span>${r.display}</span>
-      <span style="color:var(--dim);font-size:.65rem">${r.teamName}</span>
-    </div>`).join('');
-}
-
-// ── RESULTS ───────────────────────────────────────────────────────────────────
-function finishRace() {
-  cancelAnimationFrame(G.raf);
-  const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
-  sorted.forEach((r,i)=>r.pos=i+1);
-
-  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.pos,0);
-  const opPts=sorted.filter(r=>r.team==='opp' ).reduce((s,r)=>s+r.pos,0);
+// ══════════════════════════════════════════════════════
+// RESULTS
+// ══════════════════════════════════════════════════════
+function finishRace(){
+  clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
+  const sorted=[...G.racers].filter(r=>!r.absent).sort((a,b)=>b.progress-a.progress);
+  sorted.forEach((r,i)=>r.finalPos=i+1);
+  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.finalPos,0);
+  const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+r.finalPos,0);
   const won=myPts<opPts;
 
   setTimeout(()=>{
-    show('s-results');
-    document.getElementById('res-headline').textContent=won?'SEJR! 🏆':'NÆSTE GANG!';
-    document.getElementById('my-name-res').textContent=G.myData.name;
-    document.getElementById('opp-name-res').textContent=G.oppData.name;
-    document.getElementById('my-score').textContent=myPts;
-    document.getElementById('opp-score').textContent=opPts;
-    document.getElementById('my-box').className='score-box '+(won?'win':'lose');
-    document.getElementById('opp-box').className='score-box '+(won?'lose':'win');
+    show('results');
+    document.getElementById('res-hl').textContent=won?'VICTORY! 🏆':'BETTER LUCK NEXT TIME...';
+    document.getElementById('my-scn').textContent=G.myData.name;
+    document.getElementById('op-scn').textContent=G.oppData.name;
+    document.getElementById('my-sc').textContent=myPts;
+    document.getElementById('op-sc').textContent=opPts;
+    document.getElementById('my-scb').className='sc-box '+(won?'win':'lose');
+    document.getElementById('op-scb').className='sc-box '+(won?'lose':'win');
 
-    document.getElementById('res-class').innerHTML=sorted.map(r=>`
-      <div class="res-row ${r.team}">
-        <span style="font-weight:700;font-size:.95rem;color:${r.pos<=3?'#ffd700':r.team==='leqp'?'var(--accent)':'var(--accent2)'}">${r.pos}</span>
+    document.getElementById('res-cls').innerHTML=sorted.map(r=>`
+      <div class="rr ${r.team}">
+        <span style="font-weight:700;font-size:.9rem;color:${r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)'}">${r.finalPos}</span>
         <span>${r.display}</span>
         <span style="color:${r.cl.c};font-size:.65rem">${r.cl.t}</span>
-        <span style="color:var(--dim);font-size:.65rem">${r.teamName}</span>
+        <span style="color:var(--dm);font-size:.65rem">${r.teamName}</span>
       </div>`).join('');
 
-    document.getElementById('dec-review').innerHTML=`<h2 style="margin-bottom:12px">Dine Valg</h2>`+
-      (G.decHistory.length
-        ? G.decHistory.map(({dec,opt})=>`
-          <div style="margin-bottom:10px;padding:11px 14px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent2)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--accent2);letter-spacing:2px;margin-bottom:4px">${dec.phase}</div>
-            <div style="font-size:.85rem;font-weight:600">${opt.title}</div>
-            <div style="font-size:.72rem;color:var(--dim);margin-top:2px">${opt.sub}</div>
-          </div>`).join('')
-        : '<div style="color:var(--dim);font-size:.82rem">Ingen beslutninger truffet endnu.</div>');
-  }, 700);
+    document.getElementById('res-debrief').innerHTML=`
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Rider Final Form</h2>`+
+      G.racers.filter(r=>r.team==='leqp').map(r=>{
+        const st=stSt(r.stamina);
+        return`<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.7rem">
+          <span style="color:var(--ac);width:16px;text-align:center">${r.finalPos}</span>
+          <span style="flex:1">${r.display}</span>
+          <div style="width:70px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div style="width:${r.stamina.toFixed(0)}%;height:100%;background:${stCol(r.stamina)};border-radius:2px"></div></div>
+          <span style="color:${st.c};min-width:100px">${st.l}</span>
+          <span style="color:var(--dm)">${ROLES[r.role]?.l||''}</span>
+        </div>`;
+      }).join('');
+  },600);
 }
 
-// ── UTILS ─────────────────────────────────────────────────────────────────────
-function show(id) {
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+// ══════════════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════════════
+function show(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
 }
-function goSetup() { show('s-setup'); }
-function rerun()   { G.racers=[]; G.decIdx=0; G.decHistory=[]; startRace(); }
+function goSetup(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);show('setup');}
+function rerun(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);beginRace();}
+
+// Keyboard shortcuts
+document.addEventListener('keydown',e=>{
+  if(e.code==='Space'&&document.getElementById('race').classList.contains('on')){e.preventDefault();togglePause();}
+});
 
 window.addEventListener('load',init);
 </script>
