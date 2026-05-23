@@ -1080,6 +1080,10 @@
     <!-- Rung Standing pane -->
     <div id="rung-pane-standing">
       <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap">
+        <select id="standings-team-select" onchange="switchStandingsTeam(this.value)"
+          style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:6px 12px;cursor:pointer">
+          <option value="">— Select LEQP team —</option>
+        </select>
         <select id="rung-overview-select" onchange="renderRungOverview()"
           style="background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.75rem;padding:6px 12px;cursor:pointer">
           <option value="1">Rung 1</option>

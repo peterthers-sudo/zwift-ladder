@@ -47,7 +47,7 @@ echo.
 echo [1b/6] Henter teamStats-sider (fetch_team_stats.py)...
 echo        Dette tager ca. 5-10 minutter...
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[1b/6] Henter teamStats...\n')"
-python fetch_team_stats.py --skip-existing >> "%LOG_FILE%" 2>&1
+python fetch_team_stats.py >> "%LOG_FILE%" 2>&1
 if errorlevel 1 (
     echo ADVARSEL: fetch_team_stats.py fejlede - fortsætter med eksisterende teamStats-filer
     python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('ADVARSEL: fetch_team_stats fejlede.\n')"

@@ -126,7 +126,6 @@ def build_driver():
     options = webdriver.ChromeOptions()
     options.add_argument(f"--user-data-dir={tmp_dir}")
     options.add_argument(f"--profile-directory={CHROME_PROFILE}")
-    options.add_argument("--remote-debugging-port=9222")
     options.add_argument("--start-maximized")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--disable-infobars")

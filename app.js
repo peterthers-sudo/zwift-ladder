@@ -1240,7 +1240,12 @@ function switchTab(tab) {
   }
 
   if (tab === 'results') { updateMatchMode(); populateCourseSelect(); showResultsReady(); }
-  if (tab === 'rung') { autoSelectOwnRung(); renderRungOverview(); }
+  if (tab === 'rung') {
+    var stdSel = document.getElementById('standings-team-select');
+    if (stdSel) stdSel.value = activeMyTeamKey || '';
+    autoSelectOwnRung();
+    renderRungOverview();
+  }
   if (tab === 'profile') { const w = document.getElementById('leqp-rider-btns'); if (w && !w.children.length) _profileBuildLeqpBtns(); }
   if (tab === 'fixtures') { _renderFixturesList((typeof LEQP_FIXTURES !== 'undefined' ? LEQP_FIXTURES : []).filter(f => new Date(f.date) >= new Date(new Date().setHours(0,0,0,0))).sort((a,b) => new Date(a.date+' '+a.time) - new Date(b.date+' '+b.time))); }
   window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -2329,7 +2334,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.240'; // bump this on every update
+const APP_VERSION = 'v1.3.241'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2737,11 +2742,24 @@ function renderMostActiveTeams() {
 }
 
 function autoSelectOwnRung() {
-  var team = MY_TEAMS[activeMyTeamKey];
-  if (!team || !team.rung) return;
+  var key = activeMyTeamKey;
+  var rung = (MY_TEAMS[key] && MY_TEAMS[key].rung) ||
+             (OPPONENT_LIBRARY[key] && OPPONENT_LIBRARY[key].rung);
+  if (!rung) return;
   var sel = document.getElementById('rung-overview-select');
-  if (!sel) return;
-  sel.value = String(team.rung);
+  if (sel) sel.value = String(rung);
+}
+
+function switchStandingsTeam(key) {
+  if (!key) return;
+  switchMyTeam(key);
+  var rung = (OPPONENT_LIBRARY[key] && OPPONENT_LIBRARY[key].rung) ||
+             (MY_TEAMS[key] && MY_TEAMS[key].rung);
+  if (rung) {
+    var sel = document.getElementById('rung-overview-select');
+    if (sel) sel.value = String(rung);
+  }
+  renderRungOverview();
 }
 
 
@@ -2774,6 +2792,15 @@ window.onload = function() {
         `<option value="${key}">● ${team.name}</option>`
       ).join('');
     myTeamSel.value = activeMyTeamKey || '';
+  }
+  // Populate standings team dropdown
+  const standingsSel = document.getElementById('standings-team-select');
+  if (standingsSel) {
+    standingsSel.innerHTML = '<option value="">— Select LEQP team —</option>' +
+      Object.entries(MY_TEAMS).map(([key, team]) =>
+        `<option value="${key}">● ${team.name}</option>`
+      ).join('');
+    standingsSel.value = activeMyTeamKey || '';
   }
   rebuildOppOwnTeams(); // Add own teams to opponent dropdown
 
