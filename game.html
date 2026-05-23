@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no"/>
+<title>Zwift Ladder Tactics</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{--bg:#1a1f2b;--surface:#242a38;--surface2:#2d3447;--border:rgba(255,255,255,0.09);--accent:#00e5ff;--accent2:#ff5d00;--accent3:#7fff6b;--text:#e2e8f0;--dim:#94a3b8;--red:#ff4455;--purple:#cc88ff;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;min-height:100vh;}
+.screen{display:none;max-width:1080px;margin:0 auto;padding:16px 20px;}
+.screen.active{display:block;}
+h1{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;letter-spacing:4px;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+h2{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--accent);margin-bottom:10px;}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:18px;}
+.lbl{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim);margin-bottom:5px;display:block;}
+select,input[type=text],input[type=number]{background:var(--bg);border:1px solid var(--border);color:var(--text);font-family:'JetBrains Mono',monospace;font-size:0.82rem;padding:7px 10px;outline:none;width:100%;border-radius:4px;}
+select:focus,input:focus{border-color:var(--accent);}
+.btn{font-family:'Bebas Neue',sans-serif;font-size:0.95rem;letter-spacing:3px;padding:11px 26px;border:none;cursor:pointer;border-radius:4px;transition:all .2s;}
+.btn-primary{background:var(--accent);color:var(--bg);}
+.btn-primary:hover{background:#33eeff;}
+.btn-primary:disabled{background:var(--border);color:var(--dim);cursor:not-allowed;}
+.btn-secondary{background:transparent;border:1px solid var(--accent2);color:var(--accent2);}
+.btn-secondary:hover{background:var(--accent2);color:#fff;}
+.setup-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px;}
+@media(max-width:640px){.setup-grid{grid-template-columns:1fr;}}
+.rider-item{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s;font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
+.rider-item:hover{border-color:rgba(0,229,255,.4);}
+.rider-item.sel{border-color:var(--accent);background:rgba(0,229,255,.07);}
+.badge{font-size:0.55rem;letter-spacing:1px;padding:2px 6px;border:1px solid;border-radius:2px;white-space:nowrap;}
+.route-item{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;cursor:pointer;transition:border-color .15s;font-family:'JetBrains Mono',monospace;font-size:0.72rem;}
+.route-item:hover{border-color:rgba(0,229,255,.3);}
+.route-item.sel{border-color:var(--accent);background:rgba(0,229,255,.07);}
+.scrollbox{max-height:340px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
+.scrollbox::-webkit-scrollbar{width:3px;}
+.scrollbox::-webkit-scrollbar-thumb{background:var(--border);}
+
+/* Race */
+#race-canvas{width:100%;display:block;border-radius:8px;background:var(--bg);}
+.live-row{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:6px 12px;font-family:'JetBrains Mono',monospace;font-size:0.72rem;border-bottom:1px solid var(--border);}
+.live-row.leqp{border-left:3px solid var(--accent);}
+.live-row.opp{border-left:3px solid var(--accent2);}
+
+/* Decision */
+#dec-overlay{position:fixed;inset:0;background:rgba(0,0,0,.82);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+#dec-overlay.open{display:flex;}
+.dec-box{background:var(--surface);border:1px solid var(--accent2);border-radius:10px;padding:28px;max-width:500px;width:100%;box-shadow:0 0 50px rgba(255,93,0,.25);}
+.dec-phase{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:3px;color:var(--accent2);margin-bottom:6px;}
+.dec-title{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:2px;margin-bottom:10px;}
+.dec-text{font-size:0.88rem;line-height:1.6;color:var(--dim);margin-bottom:18px;}
+.dec-option{padding:12px 16px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;cursor:pointer;transition:all .2s;margin-bottom:8px;}
+.dec-option:hover{border-color:var(--accent);background:rgba(0,229,255,.07);}
+.dec-option-title{font-size:0.88rem;font-weight:600;margin-bottom:3px;}
+.dec-option-sub{font-family:'JetBrains Mono',monospace;font-size:0.62rem;color:var(--dim);}
+
+/* Results */
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:16px 0;}
+.score-box{background:var(--surface2);border:2px solid var(--border);border-radius:8px;padding:20px;text-align:center;}
+.score-box.win{border-color:var(--accent3);background:rgba(127,255,107,.05);}
+.score-box.lose{border-color:var(--red);background:rgba(255,68,85,.05);}
+.score-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;}
+.res-row{display:grid;grid-template-columns:32px 1fr auto auto;gap:8px;align-items:center;padding:8px 14px;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.75rem;}
+.res-row.leqp{background:rgba(0,229,255,.03);}
+.res-row.opp{background:rgba(255,93,0,.03);}
+.mt{margin-top:14px;}
+.flex-end{display:flex;justify-content:flex-end;gap:10px;}
+.flex-between{display:flex;justify-content:space-between;align-items:center;}
+</style>
+</head>
+<body>
+
+<!-- SETUP -->
+<div class="screen active" id="s-setup">
+  <div style="padding:20px 0 14px">
+    <h1>ZWIFT LADDER TACTICS</h1>
+    <span class="lbl" style="margin:0">5 vs 5 · Ladder Race Strategy Simulator</span>
+  </div>
+
+  <div class="setup-grid">
+    <!-- My team -->
+    <div class="card">
+      <div class="flex-between" style="margin-bottom:12px">
+        <h2 style="margin:0">Dit Hold</h2>
+        <span id="my-count" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--dim)">0/5</span>
+      </div>
+      <span class="lbl">LEQP Hold</span>
+      <select id="my-team-sel" onchange="loadMyTeam()" style="margin-bottom:12px"><option value="">— Vælg hold —</option></select>
+      <div class="scrollbox" id="my-riders"></div>
+    </div>
+
+    <!-- Opponent -->
+    <div class="card">
+      <div class="flex-between" style="margin-bottom:12px">
+        <h2 style="margin:0">Modstander</h2>
+        <span id="opp-count" style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--dim)">0/5</span>
+      </div>
+      <span class="lbl">Rung</span>
+      <select id="opp-rung" onchange="loadRung()" style="margin-bottom:8px"><option value="">— Vælg rung —</option></select>
+      <span class="lbl">Hold</span>
+      <select id="opp-team-sel" onchange="loadOppTeam()" style="margin-bottom:12px" disabled><option value="">— Vælg rung først —</option></select>
+      <div class="scrollbox" id="opp-riders"></div>
+    </div>
+  </div>
+
+  <!-- Route -->
+  <div class="card mt">
+    <h2>Rute</h2>
+    <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:12px">
+      <div><span class="lbl">Søg</span><input type="text" id="route-q" placeholder="Navn eller verden…" oninput="filterRoutes()"/></div>
+      <div><span class="lbl">Max km</span>
+        <select id="route-dist" onchange="filterRoutes()">
+          <option value="15">≤ 15</option>
+          <option value="25" selected>≤ 25</option>
+          <option value="40">≤ 40</option>
+          <option value="999">Alle</option>
+        </select>
+      </div>
+      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:64px"/></div>
+    </div>
+    <div class="scrollbox" style="max-height:260px" id="route-list"></div>
+    <canvas id="profile-cv" height="56" style="width:100%;margin-top:10px;border-radius:4px;background:var(--surface2);display:none"></canvas>
+  </div>
+
+  <div class="flex-end mt" style="margin-bottom:20px">
+    <button class="btn btn-primary" id="start-btn" onclick="startRace()" disabled>Start Løb ▶</button>
+  </div>
+</div>
+
+
+<!-- RACE -->
+<div class="screen" id="s-race">
+  <div class="flex-between" style="padding:16px 0 10px;flex-wrap:wrap;gap:8px">
+    <div>
+      <h1 style="font-size:1.8rem">LØBET KØRER</h1>
+      <span class="lbl" id="race-info" style="margin:0"></span>
+    </div>
+    <span id="race-pct" style="font-family:'JetBrains Mono',monospace;font-size:0.82rem;color:var(--accent)"></span>
+  </div>
+  <canvas id="race-canvas" height="290"></canvas>
+  <div class="card mt" style="padding:0;overflow:hidden" id="live-order"></div>
+</div>
+
+
+<!-- RESULTS -->
+<div class="screen" id="s-results">
+  <div style="padding:20px 0 10px"><h1 id="res-headline">RESULTAT</h1></div>
+  <div class="score-grid">
+    <div class="score-box" id="my-box">
+      <span class="lbl" id="my-name-res">Mit hold</span>
+      <div class="score-num" id="my-score">–</div>
+      <span class="lbl">point (lavest vinder)</span>
+    </div>
+    <div class="score-box" id="opp-box">
+      <span class="lbl" id="opp-name-res">Modstander</span>
+      <div class="score-num" id="opp-score">–</div>
+      <span class="lbl">point</span>
+    </div>
+  </div>
+  <div class="card" style="padding:0;overflow:hidden;margin-bottom:14px" id="res-class"></div>
+  <div class="card mt" id="dec-review"></div>
+  <div class="flex-end mt" style="margin-bottom:24px">
+    <button class="btn btn-secondary" onclick="goSetup()">Skift hold/rute</button>
+    <button class="btn btn-primary" onclick="rerun()">Prøv igen</button>
+  </div>
+</div>
+
+
+<!-- DECISION OVERLAY -->
+<div id="dec-overlay">
+  <div class="dec-box">
+    <div class="dec-phase" id="dec-phase"></div>
+    <div class="dec-title" id="dec-title"></div>
+    <div class="dec-text" id="dec-text"></div>
+    <div id="dec-opts"></div>
+  </div>
+</div>
+
+
+<script src="data/my_teams.js"></script>
+<script src="data/opponents.js"></script>
+<script src="zwift_routes_new.js"></script>
+<script>
+// ── STATE ─────────────────────────────────────────────────────────────────────
+const G = {
+  myKey:null, myData:null, myPick:[],
+  oppKey:null, oppData:null, oppPick:[],
+  route:null, laps:1,
+  racers:[], decisions:[], decIdx:0, decHistory:[],
+  raf:null,
+};
+
+// ── DATA HELPERS ──────────────────────────────────────────────────────────────
+function wkg(r, k) {
+  if (k==='20') return r.twentyMin||r.wkg20min||r.wkg||0;
+  if (k==='5')  return r.fiveMin ||r.wkg5min ||0;
+  if (k==='1')  return r.oneMin  ||r.wkg1min ||0;
+  if (k==='15') return r.sprint  ||r.wkg15s  ||0;
+  return 0;
+}
+
+function score(r, route) {
+  const w20=wkg(r,'20'), w5=wkg(r,'5'), w1=wkg(r,'1'), w15=wkg(r,'15');
+  const nTT     = Math.min(100,(w20/5.5)*100);
+  const nClimb  = nTT;
+  const nPunch  = Math.min(100,(w1/8)*100)*.6 + Math.min(100,(w5/6)*100)*.4;
+  const nSprint = Math.min(100,(w15/18)*100);
+  const nEnd    = Math.min(100,(w20/5)*100)*.7 + nTT*.3;
+  const rt=route, tot=(rt.sprint+rt.punch+rt.climb+rt.pursuit+rt.endurance)||1;
+  return rt.sprint/tot*nSprint + rt.punch/tot*nPunch + rt.climb/tot*nClimb
+       + rt.pursuit/tot*nTT  + rt.endurance/tot*nEnd;
+}
+
+function classify(r) {
+  const w15=wkg(r,'15'), w1=wkg(r,'1'), w5=wkg(r,'5'), w20=wkg(r,'20');
+  if (w15/(w5||1)>2.8)          return {t:'Sprinter', c:'#ff5d00', b:'rgba(255,93,0,.12)',  br:'rgba(255,93,0,.4)'};
+  if (w20>4.2 && w5>4.8)        return {t:'Klatrer',  c:'#7fff6b', b:'rgba(127,255,107,.1)',br:'rgba(127,255,107,.4)'};
+  if (w1/(w20||1)>1.6)          return {t:'Puncheur', c:'#cc88ff', b:'rgba(204,136,255,.1)',br:'rgba(204,136,255,.4)'};
+  return                                {t:'Diesel',   c:'#00e5ff', b:'rgba(0,229,255,.08)', br:'rgba(0,229,255,.3)'};
+}
+
+function sname(n) {
+  const s=n.replace(/&[^;]+;/g,'').replace(/\|.*$/,'').replace(/\(.*$/,'').trim();
+  const p=s.split(/\s+/).filter(Boolean);
+  return p.length<2 ? p[0]?.slice(0,14)||'?' : p[0]+' '+p[1][0]+'.';
+}
+function inits(n) {
+  const s=n.replace(/&[^;]+;/g,'').replace(/[^a-zA-Z\s]/g,'').trim().split(/\s+/).filter(Boolean);
+  return s.length>=2 ? (s[0][0]+s[1][0]).toUpperCase() : (s[0]||'?').slice(0,2).toUpperCase();
+}
+
+// ── SETUP ─────────────────────────────────────────────────────────────────────
+function init() {
+  const ms = document.getElementById('my-team-sel');
+  Object.entries(MY_TEAMS).forEach(([k,t])=>{
+    ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`);
+  });
+  const rungs=[...new Set(Object.values(OPPONENT_LIBRARY).map(t=>t.rung))].sort((a,b)=>a-b);
+  const rs=document.getElementById('opp-rung');
+  rungs.forEach(r=>rs.insertAdjacentHTML('beforeend',`<option value="${r}">Rung ${r}</option>`));
+  filterRoutes();
+}
+
+function loadMyTeam() {
+  const k=document.getElementById('my-team-sel').value; if(!k) return;
+  G.myKey=k; G.myData=MY_TEAMS[k]; G.myPick=[];
+  const box=document.getElementById('my-riders'); box.innerHTML='';
+  G.myData.riders.forEach(r=>{
+    const cl=classify(r);
+    const el=document.createElement('div');
+    el.className='rider-item'; el.dataset.rid=r.id;
+    el.innerHTML=`<div style="flex:1;min-width:0">
+      <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
+      <div style="color:var(--dim);font-size:.6rem;margin-top:2px">
+        <span style="color:var(--accent)">${wkg(r,'20').toFixed(1)}</span> FTP ·
+        <span style="color:var(--purple)">${wkg(r,'1').toFixed(1)}</span> 1min ·
+        <span style="color:var(--accent2)">${wkg(r,'15').toFixed(1)}</span> 15s W/kg
+      </div></div>
+      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
+    el.onclick=()=>toggleMy(r,el);
+    box.appendChild(el);
+  });
+  checkReady();
+}
+
+function toggleMy(r,el) {
+  const i=G.myPick.findIndex(x=>x.id===r.id);
+  if(i>=0){ G.myPick.splice(i,1); el.classList.remove('sel'); }
+  else {
+    if(G.myPick.length>=5){
+      const old=G.myPick.shift();
+      document.querySelector(`#my-riders [data-rid="${old.id}"]`)?.classList.remove('sel');
+    }
+    G.myPick.push(r); el.classList.add('sel');
+  }
+  document.getElementById('my-count').textContent=`${G.myPick.length}/5`;
+  checkReady();
+}
+
+function loadRung() {
+  const rung=+document.getElementById('opp-rung').value;
+  const ts=document.getElementById('opp-team-sel');
+  ts.innerHTML='<option value="">— Vælg hold —</option>';
+  ts.disabled=false;
+  Object.entries(OPPONENT_LIBRARY)
+    .filter(([,t])=>t.rung===rung)
+    .sort((a,b)=>a[1].name.localeCompare(b[1].name))
+    .forEach(([k,t])=>ts.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
+}
+
+function loadOppTeam() {
+  const k=document.getElementById('opp-team-sel').value; if(!k) return;
+  G.oppKey=k; G.oppData=OPPONENT_LIBRARY[k];
+  G.oppPick=[...G.oppData.riders].filter(r=>wkg(r,'20')>0).sort((a,b)=>wkg(b,'20')-wkg(a,'20')).slice(0,5);
+  const box=document.getElementById('opp-riders'); box.innerHTML='';
+  G.oppData.riders.forEach(r=>{
+    const cl=classify(r); const sel=G.oppPick.includes(r);
+    const el=document.createElement('div');
+    el.className='rider-item'+(sel?' sel':''); el.dataset.rid=r.id;
+    el.innerHTML=`<div style="flex:1;min-width:0">
+      <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
+      <div style="color:var(--dim);font-size:.6rem;margin-top:2px">
+        <span style="color:var(--accent)">${wkg(r,'20').toFixed(1)}</span> FTP ·
+        <span style="color:var(--purple)">${wkg(r,'1').toFixed(1)}</span> 1min ·
+        <span style="color:var(--accent2)">${wkg(r,'15').toFixed(1)}</span> 15s W/kg
+      </div></div>
+      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
+    el.onclick=()=>toggleOpp(r,el);
+    box.appendChild(el);
+  });
+  document.getElementById('opp-count').textContent=`${G.oppPick.length}/5`;
+  checkReady();
+}
+
+function toggleOpp(r,el) {
+  const i=G.oppPick.findIndex(x=>x.id===r.id);
+  if(i>=0){ G.oppPick.splice(i,1); el.classList.remove('sel'); }
+  else {
+    if(G.oppPick.length>=5){
+      const old=G.oppPick.shift();
+      document.querySelector(`#opp-riders [data-rid="${old.id}"]`)?.classList.remove('sel');
+    }
+    G.oppPick.push(r); el.classList.add('sel');
+  }
+  document.getElementById('opp-count').textContent=`${G.oppPick.length}/5`;
+  checkReady();
+}
+
+// ── ROUTES ────────────────────────────────────────────────────────────────────
+function routeType(rt) {
+  const s={sprint:rt.sprint,punch:rt.punch,climb:rt.climb,pursuit:rt.pursuit,endurance:rt.endurance};
+  const [best]=Object.entries(s).sort((a,b)=>b[1]-a[1]);
+  return {
+    sprint:   {lbl:'Sprint',   style:'color:#ff5d00;background:rgba(255,93,0,.1);border:1px solid rgba(255,93,0,.3)'},
+    punch:    {lbl:'Punch',    style:'color:#cc88ff;background:rgba(204,136,255,.1);border:1px solid rgba(204,136,255,.3)'},
+    climb:    {lbl:'Klatring', style:'color:#7fff6b;background:rgba(127,255,107,.1);border:1px solid rgba(127,255,107,.3)'},
+    pursuit:  {lbl:'TT',       style:'color:#00e5ff;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3)'},
+    endurance:{lbl:'Udholdenhed',style:'color:#f59e0b;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3)'},
+  }[best[0]]||{lbl:rt.profile||'?',style:''};
+}
+
+function filterRoutes() {
+  const q=(document.getElementById('route-q').value||'').toLowerCase();
+  const maxD=+document.getElementById('route-dist').value;
+  const list=ZWIFT_ROUTES.filter(r=>r.distance>=2&&r.distance<=maxD&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)));
+  const box=document.getElementById('route-list'); box.innerHTML='';
+  list.slice(0,60).forEach(rt=>{
+    const tp=routeType(rt);
+    const el=document.createElement('div');
+    el.className='route-item';
+    el.innerHTML=`<div>
+      <div style="font-weight:600">${rt.name}</div>
+      <div style="color:var(--dim);font-size:.6rem">${rt.world} · ${rt.distance} km · ${rt.elevation} m</div>
+    </div>
+    <span style="font-size:.55rem;padding:2px 7px;border-radius:10px;${tp.style}">${tp.lbl}</span>`;
+    el.onclick=()=>{
+      document.querySelectorAll('#route-list .route-item').forEach(e=>e.classList.remove('sel'));
+      el.classList.add('sel');
+      G.route=rt; drawProfile(rt); checkReady();
+    };
+    box.appendChild(el);
+  });
+}
+
+function drawProfile(rt) {
+  const cv=document.getElementById('profile-cv');
+  cv.style.display='block'; cv.width=cv.offsetWidth||800;
+  const ctx=cv.getContext('2d'), W=cv.width, H=cv.height;
+  ctx.clearRect(0,0,W,H);
+  const pts=[];
+  for(let i=0;i<=80;i++){
+    const t=i/80;
+    let y=0;
+    y+=rt.climb/100*.7*Math.sin(t*Math.PI);
+    y+=rt.punch/100*.4*Math.sin(t*Math.PI*6)*Math.abs(Math.sin(t*Math.PI));
+    y+=rt.sprint/100*.05*Math.sin(t*Math.PI*2);
+    y+=.03*Math.sin(t*Math.PI*15+1.2);
+    pts.push([t*W, H-4-y*(H-10)]);
+  }
+  const g=ctx.createLinearGradient(0,0,0,H);
+  g.addColorStop(0,'rgba(0,229,255,.35)'); g.addColorStop(1,'rgba(0,229,255,.02)');
+  ctx.beginPath(); ctx.moveTo(0,H);
+  pts.forEach(([x,y])=>ctx.lineTo(x,Math.max(4,Math.min(H-2,y))));
+  ctx.lineTo(W,H); ctx.closePath(); ctx.fillStyle=g; ctx.fill();
+  ctx.beginPath();
+  pts.forEach(([x,y],i)=>i?ctx.lineTo(x,Math.max(4,Math.min(H-2,y))):ctx.moveTo(x,Math.max(4,Math.min(H-2,y))));
+  ctx.strokeStyle='#00e5ff'; ctx.lineWidth=1.5; ctx.stroke();
+}
+
+function checkReady() {
+  document.getElementById('start-btn').disabled=!(G.myPick.length===5&&G.oppPick.length>=3&&G.route);
+}
+
+// ── RACE ──────────────────────────────────────────────────────────────────────
+const RACE_MS=26000, DEC_AT=[.32,.62,.83];
+
+function startRace() {
+  G.laps=+document.getElementById('laps').value||1;
+  G.racers=[];
+  G.decIdx=0; G.decHistory=[];
+
+  const build=(riders,team,teamName)=>riders.forEach(r=>{
+    const cl=classify(r), sc=score(r,G.route);
+    G.racers.push({...r, team, teamName,
+      display:sname(r.name), init:inits(r.name), cl, base:sc,
+      noise:(Math.random()-.5)*10, bonus:0, progress:0});
+  });
+  build(G.myPick,'leqp',G.myData.name);
+  build(G.oppPick,'opp',G.oppData.name);
+
+  G.decisions=buildDecisions();
+
+  show('s-race');
+  document.getElementById('race-info').textContent=
+    `${G.route.name} · ${(G.route.distance*G.laps).toFixed(1)} km · ${G.route.elevation*G.laps} m`;
+
+  const t0=performance.now();
+  let lastDec=-1;
+
+  function frame(now) {
+    const t=Math.min(1,(now-t0)/RACE_MS);
+
+    // Trigger decisions
+    if(G.decIdx<G.decisions.length && t>=DEC_AT[G.decIdx] && lastDec<G.decIdx) {
+      lastDec=G.decIdx;
+      showDecision(G.decisions[G.decIdx]);
+    }
+
+    // Update positions
+    const sep=Math.pow(t,1.8); // slow group start, spreads later
+    G.racers.forEach(r=>{
+      const eff=r.base+r.noise+r.bonus;
+      const spd=0.82+(eff/100)*0.18; // 0.82–1.0 range
+      r.progress=Math.min(1, t*(1-sep) + spd*t*sep);
+    });
+
+    drawRace(t);
+    updateLiveOrder();
+    if(t<1) G.raf=requestAnimationFrame(frame);
+    else setTimeout(finishRace,600);
+  }
+  G.raf=requestAnimationFrame(frame);
+}
+
+// ── DECISIONS ────────────────────────────────────────────────────────────────
+function buildDecisions() {
+  const rt=G.route;
+  const mine=G.racers.filter(r=>r.team==='leqp');
+  const topClimber=[...mine].sort((a,b)=>wkg(b,'20')-wkg(a,'20'))[0];
+  const topSprint =[...mine].sort((a,b)=>wkg(b,'15')-wkg(a,'15'))[0];
+  const topPunch  =[...mine].sort((a,b)=>wkg(b,'1') -wkg(a,'1') )[0];
+  const isClimb=rt.climb>30, isSprint=rt.sprint>25, isPunch=rt.punch>30;
+
+  // Decision 1
+  const d1 = isClimb||isPunch ? {
+    phase:'FASE 1 — OPBYGNING', title:'Første stigning',
+    text:`${topClimber.display} (${topClimber.cl.t}) sidder godt. Hvad er planen?`,
+    opts:[
+      {title:`Angrib med ${topClimber.display}`,sub:'Aggressivt · høj risiko / høj gevinst',
+       fx:()=>{ topClimber.bonus+=9; mine.filter(r=>wkg(r,'20')>3.8&&r!==topClimber).forEach(r=>r.bonus+=3); }},
+      {title:'Hold samling — spar kræfter',sub:'Konservativt · god til sprint',
+       fx:()=>{ topSprint.bonus+=7; mine.forEach(r=>r.bonus+=2); }},
+    ]
+  } : {
+    phase:'FASE 1 — OPBYGNING', title:'Tempo i peloton',
+    text:`Skal du sætte hårdt tempo tidligt for at slide modstanderne af?`,
+    opts:[
+      {title:'Hårdt tempo — slid dem nu',sub:'Risikabelt for egne ryttere også',
+       fx:()=>{ mine.filter(r=>r.cl.t==='Diesel').forEach(r=>r.bonus+=7); mine.filter(r=>r.cl.t==='Sprinter').forEach(r=>r.bonus-=2); }},
+      {title:'Bliv i peloton',sub:'Trygt · sprinter frisk til finish',
+       fx:()=>{ topSprint.bonus+=9; }},
+    ]
+  };
+
+  // Decision 2
+  const d2={
+    phase:'FASE 2 — MIDTVEJS', title:'Feltet bryder op',
+    text:`En modstander angriber. Svarer du med dine bedste ryttere?`,
+    opts:[
+      {title:`Følg med — send de to stærkeste`,sub:'Offensivt · kan isolere resten',
+       fx:()=>{
+         [...mine].sort((a,b)=>(b.base+b.bonus)-(a.base+a.bonus)).slice(0,2).forEach(r=>r.bonus+=8);
+       }},
+      {title:'Bevar samling — alle med op',sub:'Trygt · undgår store tidsforskelle',
+       fx:()=>{ mine.forEach(r=>r.bonus+=4); }},
+    ]
+  };
+
+  // Decision 3
+  const d3 = isSprint ? {
+    phase:'FASE 3 — FINALE', title:'Sprinten åbner!',
+    text:`${topSprint.display} er perfekt placeret. Hvornår lancer du?`,
+    opts:[
+      {title:`Fuld gas NU — send ${topSprint.display}`,sub:'Tidlig sprint · risiko for at komme for tidligt',
+       fx:()=>{ topSprint.bonus+=13; mine.filter(r=>r.cl.t!=='Sprinter').forEach(r=>r.bonus-=2); }},
+      {title:'Vent til 200m — kontrolleret sprint',sub:'Klassisk · bedste chance for top 3',
+       fx:()=>{ topSprint.bonus+=9; mine.filter(r=>r.cl.t!=='Sprinter').forEach(r=>r.bonus+=3); }},
+    ]
+  } : isClimb ? {
+    phase:'FASE 3 — FINALE', title:'Slutstigning!',
+    text:`${topClimber.display} har energi tilbage. Alt ud eller kontrolleret?`,
+    opts:[
+      {title:`${topClimber.display} — alt ud!`,sub:'Angrib nu og hold til toppen',
+       fx:()=>{ topClimber.bonus+=12; }},
+      {title:'Kontrolleret tempo op ad',sub:'Sikker placering — ingen kollaps',
+       fx:()=>{ mine.forEach(r=>r.bonus+=5); }},
+    ]
+  } : {
+    phase:'FASE 3 — FINALE', title:'De sidste km',
+    text:`${topPunch.display} rider stærkt. Angrib eller hold for sikkert resultat?`,
+    opts:[
+      {title:`Angrib med ${topPunch.display}`,sub:'Aggressivt · alt eller intet',
+       fx:()=>{ topPunch.bonus+=11; mine.filter(r=>r!==topPunch).forEach(r=>r.bonus+=Math.random()>0.5?3:-2); }},
+      {title:'Hold position — sikker slutning',sub:'Forudsigelig · godt teamresultat',
+       fx:()=>{ mine.forEach(r=>r.bonus+=5); }},
+    ]
+  };
+
+  return [d1,d2,d3];
+}
+
+function showDecision(dec) {
+  document.getElementById('dec-phase').textContent=dec.phase;
+  document.getElementById('dec-title').textContent=dec.title;
+  document.getElementById('dec-text').textContent=dec.text;
+  const box=document.getElementById('dec-opts'); box.innerHTML='';
+  dec.opts.forEach((opt,i)=>{
+    const el=document.createElement('div');
+    el.className='dec-option';
+    el.innerHTML=`<div class="dec-option-title">${opt.title}</div><div class="dec-option-sub">${opt.sub}</div>`;
+    el.onclick=()=>{
+      opt.fx();
+      G.decHistory.push({dec,opt,i});
+      G.decIdx++;
+      document.getElementById('dec-overlay').classList.remove('open');
+    };
+    box.appendChild(el);
+  });
+  document.getElementById('dec-overlay').classList.add('open');
+}
+
+// ── DRAW ──────────────────────────────────────────────────────────────────────
+function drawRace(t) {
+  const cv=document.getElementById('race-canvas');
+  const W=cv.offsetWidth||900, H=290;
+  cv.width=W; cv.height=H;
+  const ctx=cv.getContext('2d');
+
+  // Background
+  ctx.fillStyle='#111620'; ctx.fillRect(0,0,W,H);
+
+  // Elevation bg
+  const ept=profilePts(G.route,W,H);
+  ctx.beginPath(); ctx.moveTo(0,H);
+  ept.forEach(([x,y])=>ctx.lineTo(x,H*.35+y*.55));
+  ctx.lineTo(W,H); ctx.closePath();
+  ctx.fillStyle='rgba(0,229,255,.03)'; ctx.fill();
+  ctx.beginPath();
+  ept.forEach(([x,y],i)=>i?ctx.lineTo(x,H*.35+y*.55):ctx.moveTo(x,H*.35+y*.55));
+  ctx.strokeStyle='rgba(0,229,255,.12)'; ctx.lineWidth=1.5; ctx.stroke();
+
+  // Track
+  const TY=H*.54;
+  ctx.beginPath(); ctx.moveTo(50,TY); ctx.lineTo(W-50,TY);
+  ctx.strokeStyle='rgba(255,255,255,.08)'; ctx.lineWidth=2; ctx.stroke();
+
+  // Finish line
+  ctx.beginPath(); ctx.moveTo(W-50,H*.18); ctx.lineTo(W-50,H*.9);
+  ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=2;
+  ctx.setLineDash([4,4]); ctx.stroke(); ctx.setLineDash([]);
+  ctx.fillStyle='rgba(255,255,255,.4)'; ctx.font='9px JetBrains Mono,monospace';
+  ctx.fillText('FINISH',W-46,H*.15);
+
+  // Decision markers
+  DEC_AT.forEach((dp,i)=>{
+    const x=50+dp*(W-100);
+    ctx.beginPath(); ctx.moveTo(x,H*.35); ctx.lineTo(x,H*.72);
+    ctx.strokeStyle=G.decHistory.length>i?'rgba(255,93,0,.5)':'rgba(255,93,0,.2)';
+    ctx.lineWidth=1.5; ctx.setLineDash([3,3]); ctx.stroke(); ctx.setLineDash([]);
+  });
+
+  // Riders — sorted by progress for Z-order
+  const sorted=[...G.racers].sort((a,b)=>a.progress-b.progress);
+  sorted.forEach(r=>{
+    const x=50+r.progress*(W-100);
+    const rank=G.racers.filter(o=>o.progress>r.progress).length;
+    const jitter=(rank%3-1)*15;
+    const y=TY+jitter;
+    const col=r.team==='leqp'?'#00e5ff':'#ff5d00';
+    const R=15;
+
+    ctx.beginPath(); ctx.arc(x,y+2,R,0,Math.PI*2);
+    ctx.fillStyle='rgba(0,0,0,.35)'; ctx.fill();
+
+    ctx.beginPath(); ctx.arc(x,y,R,0,Math.PI*2);
+    ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.18)':'rgba(255,93,0,.18)'; ctx.fill();
+    ctx.strokeStyle=col; ctx.lineWidth=2; ctx.stroke();
+
+    ctx.fillStyle=col; ctx.font='bold 9px JetBrains Mono,monospace';
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText(r.init,x,y);
+  });
+
+  // Progress cursor
+  const cx=50+t*(W-100);
+  ctx.beginPath(); ctx.moveTo(cx,H*.35); ctx.lineTo(cx,H*.42);
+  ctx.strokeStyle='rgba(255,255,255,.6)'; ctx.lineWidth=1.5; ctx.stroke();
+
+  document.getElementById('race-pct').textContent=
+    `${Math.round(t*100)}% · ${((G.route.distance*G.laps)*(1-t)).toFixed(1)} km tilbage`;
+}
+
+function profilePts(rt,W,H) {
+  const pts=[];
+  for(let i=0;i<=80;i++){
+    const t=i/80; let y=0;
+    y+=rt.climb/100*.7*Math.sin(t*Math.PI);
+    y+=rt.punch/100*.4*Math.sin(t*Math.PI*6)*Math.abs(Math.sin(t*Math.PI));
+    y+=.03*Math.sin(t*Math.PI*15+1.2);
+    pts.push([t*W,H-8-Math.max(0,Math.min(1,y))*(H-14)]);
+  }
+  return pts;
+}
+
+let liveThrottle=0;
+function updateLiveOrder() {
+  const now=Date.now();
+  if(now-liveThrottle<500) return;
+  liveThrottle=now;
+  const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
+  document.getElementById('live-order').innerHTML=sorted.map((r,i)=>`
+    <div class="live-row ${r.team}">
+      <span style="font-weight:700;color:${r.team==='leqp'?'var(--accent)':'var(--accent2)'}">${i+1}</span>
+      <span>${r.display}</span>
+      <span style="color:var(--dim);font-size:.65rem">${r.teamName}</span>
+    </div>`).join('');
+}
+
+// ── RESULTS ───────────────────────────────────────────────────────────────────
+function finishRace() {
+  cancelAnimationFrame(G.raf);
+  const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
+  sorted.forEach((r,i)=>r.pos=i+1);
+
+  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.pos,0);
+  const opPts=sorted.filter(r=>r.team==='opp' ).reduce((s,r)=>s+r.pos,0);
+  const won=myPts<opPts;
+
+  setTimeout(()=>{
+    show('s-results');
+    document.getElementById('res-headline').textContent=won?'SEJR! 🏆':'NÆSTE GANG!';
+    document.getElementById('my-name-res').textContent=G.myData.name;
+    document.getElementById('opp-name-res').textContent=G.oppData.name;
+    document.getElementById('my-score').textContent=myPts;
+    document.getElementById('opp-score').textContent=opPts;
+    document.getElementById('my-box').className='score-box '+(won?'win':'lose');
+    document.getElementById('opp-box').className='score-box '+(won?'lose':'win');
+
+    document.getElementById('res-class').innerHTML=sorted.map(r=>`
+      <div class="res-row ${r.team}">
+        <span style="font-weight:700;font-size:.95rem;color:${r.pos<=3?'#ffd700':r.team==='leqp'?'var(--accent)':'var(--accent2)'}">${r.pos}</span>
+        <span>${r.display}</span>
+        <span style="color:${r.cl.c};font-size:.65rem">${r.cl.t}</span>
+        <span style="color:var(--dim);font-size:.65rem">${r.teamName}</span>
+      </div>`).join('');
+
+    document.getElementById('dec-review').innerHTML=`<h2 style="margin-bottom:12px">Dine Valg</h2>`+
+      (G.decHistory.length
+        ? G.decHistory.map(({dec,opt})=>`
+          <div style="margin-bottom:10px;padding:11px 14px;background:var(--surface2);border-radius:6px;border-left:3px solid var(--accent2)">
+            <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--accent2);letter-spacing:2px;margin-bottom:4px">${dec.phase}</div>
+            <div style="font-size:.85rem;font-weight:600">${opt.title}</div>
+            <div style="font-size:.72rem;color:var(--dim);margin-top:2px">${opt.sub}</div>
+          </div>`).join('')
+        : '<div style="color:var(--dim);font-size:.82rem">Ingen beslutninger truffet endnu.</div>');
+  }, 700);
+}
+
+// ── UTILS ─────────────────────────────────────────────────────────────────────
+function show(id) {
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+}
+function goSetup() { show('s-setup'); }
+function rerun()   { G.racers=[]; G.decIdx=0; G.decHistory=[]; startRace(); }
+
+window.addEventListener('load',init);
+</script>
+</body>
+</html>
