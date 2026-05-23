@@ -274,7 +274,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.3.0';
+const VERSION='v0.3.1';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -395,6 +395,21 @@ function sectionFit(r,sec){
 // ══════════════════════════════════════════════════════
 function init(){
   document.getElementById('ver-lbl').textContent=VERSION;
+
+  // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
+  document.getElementById('my-cards').addEventListener('pointerdown',e=>{
+    const btn=e.target.closest('[data-action]');
+    if(!btn||btn.disabled)return;
+    e.preventDefault();
+    const id=+btn.dataset.id;
+    const action=btn.dataset.action;
+    if(action==='effort')setEffort(id,+btn.dataset.e);
+    else if(action==='attack'){const r=G.racers.find(x=>x.id===id);if(r)triggerAttack(r,false);}
+    else if(action==='protect')setProtect(id);
+    else if(action==='powerup')usePowerup(id);
+    else if(action==='ask'){const r=G.racers.find(x=>x.id===id);if(r)askRider(r);}
+  });
+
   const ms=document.getElementById('my-sel');
   Object.entries(MY_TEAMS).forEach(([k,t])=>ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
   const rs=document.getElementById('opp-rung');
@@ -1004,14 +1019,14 @@ function renderMyCard(r){
       <span>${ROLES[r.role]?.l||''}</span>
     </div>
     <div class="eff-row">
-      ${[1,2,3,4,5].map(e=>`<button class="eb${r.effort===e?' act':''}" data-e="${e}" onclick="setEffort(${r.id},${e})" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}</button>`).join('')}
+      ${[1,2,3,4,5].map(e=>`<button class="eb${r.effort===e?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}</button>`).join('')}
     </div>
     <div class="tac-row">
-      <button class="tb atk" onclick="triggerAttack(G.racers.find(x=>x.id==${r.id}),false)" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''} title="Limited-duration attack that costs stamina">⚡ Attack</button>
-      <button class="tb prot ${r.protecting?'act':''}" onclick="setProtect(${r.id})" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Protect the leader — costs extra stamina">🛡 Protect</button>
+      <button class="tb atk" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''} title="Limited-duration attack that costs stamina">⚡ Attack</button>
+      <button class="tb prot ${r.protecting?'act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Protect the leader — costs extra stamina">🛡 Protect</button>
     </div>
-    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="width:100%;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" onclick="usePowerup(${r.id})" ${!G.paused||r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
-    <button class="ask-btn" onclick="askRider(G.racers.find(x=>x.id==${r.id}))" ${!G.paused||(r.askCooldown>0)?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
+    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="width:100%;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${!G.paused||r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
+    <button class="ask-btn" data-action="ask" data-id="${r.id}" ${!G.paused||(r.askCooldown>0)?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
   `;
   let el=document.getElementById(`rc-${r.id}`);
   if(el){el.innerHTML=html;el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;}
