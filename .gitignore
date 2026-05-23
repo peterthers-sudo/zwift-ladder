@@ -4,4 +4,3 @@ __pycache__/
 *.json
 .env
 *.log
-zwift_routes_new.js
