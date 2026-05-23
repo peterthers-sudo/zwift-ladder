@@ -168,7 +168,7 @@ select:focus,input:focus{border-color:var(--ac);}
     <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:10px">
       <div><span class="lbl">Search</span><input type="text" id="rq" placeholder="Name or world…" oninput="filterRoutes()"/></div>
       <div><span class="lbl">Max km</span><select id="rdist" onchange="filterRoutes()"><option value="15">≤15</option><option value="25" selected>≤25</option><option value="40">≤40</option><option value="999">All</option></select></div>
-      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:60px"/></div>
+      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:60px" oninput="saveSelections()"/></div>
     </div>
     <div class="sb" style="max-height:200px" id="rlist"></div>
     <canvas id="pcv" height="48" style="width:100%;margin-top:8px;border-radius:4px;background:var(--s2);display:none"></canvas>
@@ -191,6 +191,11 @@ select:focus,input:focus{border-color:var(--ac);}
           <span class="lbl">You ride as</span>
           <select id="you-sel"><option value="">— Select your rider —</option></select>
         </div>
+      </div>
+      <div class="card">
+        <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--pu);margin-bottom:10px">Team Strategy</h2>
+        <select id="strat-sel" style="width:100%;margin-bottom:8px" onchange="updateStratDesc()"></select>
+        <div id="strat-desc" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--dm);line-height:1.6"></div>
       </div>
     </div>
     <div>
@@ -274,7 +279,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.3.1';
+const VERSION='v0.4.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -321,6 +326,13 @@ const POWERUPS=[
    apply(r){r.stamina=Math.min(100,r.stamina+40);}},
 ];
 
+const STRATEGIES={
+  control:     {l:'Control',            desc:'Steady team pace — normal AI. Let the race develop.'},
+  blitz:       {l:'Blitz Start',        desc:'Full gas for the first 20 ticks. Gap the field early — you\'ll pay in stamina.'},
+  climbhard:   {l:'Go Hard on Climbs',  desc:'Every ascent is an attack. Team pushes effort 4+ on all climb and punch sections.'},
+  sprintfinish:{l:'Sprint Finish',      desc:'Team controls the tempo; your sprinter saves energy and goes full gas in the final sprint.'},
+};
+
 // ══════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════
@@ -332,6 +344,7 @@ const G={
   tick:0,paused:false,speed:1,
   tickTimer:null,rafId:null,
   leaderRole:null,
+  strategy:'control',
   pendingEvts:[],
 };
 
@@ -391,6 +404,74 @@ function sectionFit(r,sec){
 }
 
 // ══════════════════════════════════════════════════════
+// PERSISTENCE
+// ══════════════════════════════════════════════════════
+const LS_KEY='zwift_tactics_v1';
+
+function saveSelections(){
+  localStorage.setItem(LS_KEY,JSON.stringify({
+    myKey:G.myKey,
+    myPick:G.myPick.map(r=>r.id),
+    oppRung:document.getElementById('opp-rung').value,
+    oppKey:G.oppKey,
+    oppPick:G.oppPick.map(r=>r.id),
+    routeName:G.route?.name,
+    laps:document.getElementById('laps').value,
+    strategy:document.getElementById('strat-sel')?.value,
+  }));
+}
+
+function restoreSelections(){
+  let d;try{d=JSON.parse(localStorage.getItem(LS_KEY)||'null');}catch(e){}
+  if(!d)return;
+
+  if(d.myKey&&MY_TEAMS[d.myKey]){
+    document.getElementById('my-sel').value=d.myKey;
+    loadMyTeam();
+    if(d.myPick?.length){
+      G.myPick=[];
+      document.querySelectorAll('#my-list [data-rid]').forEach(el=>el.classList.remove('sel'));
+      d.myPick.forEach(id=>{
+        const el=document.querySelector(`#my-list [data-rid="${id}"]`);
+        const r=G.myData?.riders.find(x=>x.id==id);
+        if(el&&r){G.myPick.push(r);el.classList.add('sel');}
+      });
+      document.getElementById('my-cnt').textContent=`${G.myPick.length}/5`;
+    }
+  }
+
+  if(d.oppRung&&d.oppKey&&OPPONENT_LIBRARY[d.oppKey]){
+    document.getElementById('opp-rung').value=d.oppRung;
+    loadRung();
+    document.getElementById('opp-team').value=d.oppKey;
+    loadOppTeam();
+    if(d.oppPick?.length){
+      G.oppPick=[];
+      document.querySelectorAll('#opp-list [data-rid]').forEach(el=>el.classList.remove('sel'));
+      d.oppPick.forEach(id=>{
+        const el=document.querySelector(`#opp-list [data-rid="${id}"]`);
+        const r=G.oppData?.riders.find(x=>x.id==id);
+        if(el&&r){G.oppPick.push(r);el.classList.add('sel');}
+      });
+      document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;
+    }
+  }
+
+  if(d.routeName){
+    const rt=ZWIFT_ROUTES.find(r=>r.name===d.routeName);
+    if(rt){
+      G.route=rt;drawPrev(rt);
+      const el=document.querySelector(`#rlist [data-rname="${d.routeName}"]`);
+      if(el)el.classList.add('sel');
+    }
+  }
+
+  if(d.laps)document.getElementById('laps').value=d.laps;
+  G._savedStrategy=d.strategy;
+  checkReady();
+}
+
+// ══════════════════════════════════════════════════════
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
@@ -416,6 +497,7 @@ function init(){
   [...new Set(Object.values(OPPONENT_LIBRARY).map(t=>t.rung))].sort((a,b)=>a-b)
     .forEach(r=>rs.insertAdjacentHTML('beforeend',`<option value="${r}">Rung ${r}</option>`));
   filterRoutes();
+  restoreSelections();
 }
 
 function riderRow(r,team){
@@ -443,7 +525,7 @@ function toggleMy(r,el){
   const i=G.myPick.findIndex(x=>x.id===r.id);
   if(i>=0){G.myPick.splice(i,1);el.classList.remove('sel');}
   else{if(G.myPick.length>=5){const o=G.myPick.shift();document.querySelector(`#my-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.myPick.push(r);el.classList.add('sel');}
-  document.getElementById('my-cnt').textContent=`${G.myPick.length}/5`;checkReady();
+  document.getElementById('my-cnt').textContent=`${G.myPick.length}/5`;checkReady();saveSelections();
 }
 function loadRung(){
   const rung=+document.getElementById('opp-rung').value;
@@ -461,13 +543,13 @@ function loadOppTeam(){
     const el=document.createElement('div');el.className='ri'+(sel?' sel':'');el.dataset.rid=r.id;
     el.innerHTML=riderRow(r,'opp');el.onclick=()=>toggleOpp(r,el);box.appendChild(el);
   });
-  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();
+  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();saveSelections();
 }
 function toggleOpp(r,el){
   const i=G.oppPick.findIndex(x=>x.id===r.id);
   if(i>=0){G.oppPick.splice(i,1);el.classList.remove('sel');}
   else{if(G.oppPick.length>=5){const o=G.oppPick.shift();document.querySelector(`#opp-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.oppPick.push(r);el.classList.add('sel');}
-  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();
+  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();saveSelections();
 }
 
 function routeTag(rt){
@@ -485,10 +567,10 @@ function filterRoutes(){
   ZWIFT_ROUTES.filter(r=>r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
     .slice(0,60).forEach(rt=>{
       const tg=routeTag(rt);
-      const el=document.createElement('div');el.className='ritem';
+      const el=document.createElement('div');el.className='ritem';el.dataset.rname=rt.name;
       el.innerHTML=`<div><div style="font-weight:600">${rt.name}</div><div style="color:var(--dm);font-size:.6rem">${rt.world} · ${rt.distance}km · ${rt.elevation}m</div></div>
         <span style="font-size:.55rem;padding:2px 7px;border-radius:10px;${tg.s}">${tg.l}</span>`;
-      el.onclick=()=>{document.querySelectorAll('#rlist .ritem').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');G.route=rt;drawPrev(rt);checkReady();};
+      el.onclick=()=>{document.querySelectorAll('#rlist .ritem').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');G.route=rt;drawPrev(rt);checkReady();saveSelections();};
       box.appendChild(el);
     });
 }
@@ -505,9 +587,21 @@ function checkReady(){document.getElementById('go-btn').disabled=!(G.myPick.leng
 // ══════════════════════════════════════════════════════
 // STRATEGY SCREEN
 // ══════════════════════════════════════════════════════
+function updateStratDesc(){
+  const k=document.getElementById('strat-sel').value;
+  document.getElementById('strat-desc').textContent='▸ '+(STRATEGIES[k]?.desc||'');
+  saveSelections();
+}
+
 function goStrategy(){
   const rt=G.route;
   document.getElementById('str-route-lbl').textContent=`${rt.name} · ${rt.distance}km · ${rt.elevation}m · ${routeTag(rt).l}`;
+
+  // Populate strategy dropdown
+  const sel=document.getElementById('strat-sel');
+  sel.innerHTML=Object.entries(STRATEGIES).map(([k,v])=>`<option value="${k}">${v.l}</option>`).join('');
+  if(G._savedStrategy&&STRATEGIES[G._savedStrategy])sel.value=G._savedStrategy;
+  updateStratDesc();
 
   // Rider role cards
   const box=document.getElementById('str-riders');box.innerHTML='';
@@ -611,6 +705,7 @@ function beginRace(){
   G.youId=+document.getElementById('you-sel').value||G.myPick[0]?.id;
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
+  G.strategy=document.getElementById('strat-sel')?.value||'control';
   G.tick=0;G.paused=false;G.racers=[];G.groups=[];
 
   const mkRacer=(r,team,teamName,role)=>({
@@ -696,6 +791,20 @@ function togglePause(){
   document.querySelectorAll('.aq,.ask-btn').forEach(b=>b.disabled=!G.paused);
 }
 
+// ── STRATEGY ──────────────────────────────────────────
+function applyStrategy(r,t,sec){
+  if(r.team!=='leqp'||r.attackTicks>0||r.forcedEasy>0)return;
+  if(G.strategy==='blitz'&&G.tick<=20)
+    r.effort=Math.min(4,r.maxEffort||5);
+  else if(G.strategy==='climbhard'&&(sec.t==='climb'||sec.t==='punch'))
+    r.effort=Math.min(4,r.maxEffort||5);
+  else if(G.strategy==='sprintfinish'){
+    if(r.cl.t==='Sprinter')r.effort=t<.85?Math.min(2,r.effort):Math.min(5,r.maxEffort||5);
+    else if(t>.80)r.effort=Math.min(4,r.maxEffort||5);
+  }
+  if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
+}
+
 // ── TICK ──────────────────────────────────────────────
 function doTick(){
   if(G.tick>=TOTAL_TICKS){finishRace();return;}
@@ -732,6 +841,7 @@ function doTick(){
     // AI for opp + domestique logic
     if(r.team==='opp')aiEffort(r,t,sec);
     else aiDomestique(r,t,sec);
+    applyStrategy(r,t,sec);
     if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort; // re-cap after AI
 
     // Stamina drain
