@@ -292,7 +292,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.15';
+const VERSION='v1.0.16';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -951,6 +951,7 @@ function startTick(){
 function togglePause(){
   if(G._countdownInterval){clearInterval(G._countdownInterval);G._countdownInterval=null;}
   G.paused=!G.paused;
+  if(!G.paused&&G.preRaceOverlay){G.preRaceOverlay=null;}
   const btn=document.getElementById('pause-btn');
   btn.textContent=G.paused?'▶ Resume':'⏸ Pause';
   btn.classList.toggle('paused',G.paused);
