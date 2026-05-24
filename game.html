@@ -127,7 +127,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .sc-box.win{border-color:var(--gr);background:rgba(127,255,107,.05);}
 .sc-box.lose{border-color:var(--rd);background:rgba(255,68,85,.05);}
 .sc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;}
-.rr{display:grid;grid-template-columns:28px 1fr auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.73rem;}
+.rr{display:grid;grid-template-columns:28px 1fr auto auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.73rem;}
 .rr.leqp{background:rgba(0,229,255,.03);}.rr.opp{background:rgba(255,93,0,.03);}
 </style>
 </head>
@@ -206,6 +206,11 @@ select:focus,input:focus{border-color:var(--ac);}
 
 <!-- ══════════ RACE ══════════ -->
 <div class="screen" id="race">
+  <div id="finish-bar" style="display:none;align-items:center;gap:14px;flex-shrink:0;padding:8px 14px;border-bottom:2px solid var(--ac);background:rgba(0,229,255,.06)">
+    <span id="finish-verdict" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px"></span>
+    <span id="finish-score" style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm)"></span>
+    <button class="btn bp" style="margin-left:auto;padding:6px 20px;font-size:.8rem" onclick="showResults()">Results →</button>
+  </div>
   <div id="race-hdr">
     <span class="rh-title" id="rh-name">—</span>
     <span class="rh-info" id="rh-dist"></span>
@@ -239,13 +244,14 @@ select:focus,input:focus{border-color:var(--ac);}
 <div style="max-width:900px;margin:0 auto;padding:20px">
   <h1 id="res-hl">RESULT</h1>
   <div class="sc-grid">
-    <div class="sc-box" id="my-scb"><span class="lbl" id="my-scn"></span><div class="sc-num" id="my-sc">–</div><span class="lbl">points (lowest wins)</span></div>
-    <div class="sc-box" id="op-scb"><span class="lbl" id="op-scn"></span><div class="sc-num" id="op-sc">–</div><span class="lbl">points</span></div>
+    <div class="sc-box" id="my-scb"><span class="lbl" id="my-scn"></span><div class="sc-num" id="my-sc">–</div><span class="lbl">ladder points</span></div>
+    <div class="sc-box" id="op-scb"><span class="lbl" id="op-scn"></span><div class="sc-num" id="op-sc">–</div><span class="lbl">ladder points</span></div>
   </div>
   <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px" id="res-cls"></div>
   <div class="card mt" id="res-debrief"></div>
   <div class="fe mt" style="margin-bottom:24px">
     <button class="btn bs" onclick="show('setup')">Change team/route</button>
+    <button class="btn bs" onclick="show('race')">← Back to race</button>
     <button class="btn bp" onclick="rerun()">Try again</button>
   </div>
 </div>
@@ -261,7 +267,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.1';
+const VERSION='v0.8.2';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -788,7 +794,9 @@ function beginRace(){
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;
+  document.getElementById('finish-bar').style.display='none';
+  document.getElementById('pause-btn').disabled=false;
 
   const mkRacer=(r,team,teamName,role)=>({
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
@@ -1615,45 +1623,75 @@ function drawRoundRect(ctx,x,y,w,h,r){
 // ══════════════════════════════════════════════════════
 // RESULTS
 // ══════════════════════════════════════════════════════
+const ladderPts=pos=>Math.max(0,11-pos);
+
 function finishRace(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
-  const sorted=[...G.racers].filter(r=>!r.absent).sort((a,b)=>b.progress-a.progress);
+
+  // Sort: finished riders by crossing order, dropped riders last by progress
+  const active=[...G.racers].filter(r=>!r.absent);
+  const sorted=active.sort((a,b)=>{
+    if(a.dropped&&!b.dropped)return 1;
+    if(b.dropped&&!a.dropped)return -1;
+    if(a.dropped&&b.dropped)return b.progress-a.progress;
+    return a.finishTick-b.finishTick;
+  });
   sorted.forEach((r,i)=>r.finalPos=i+1);
-  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.finalPos,0);
-  const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+r.finalPos,0);
-  const won=myPts<opPts;
 
-  setTimeout(()=>{
-    show('results');
-    document.getElementById('res-hl').textContent=won?'VICTORY! 🏆':'BETTER LUCK NEXT TIME...';
-    document.getElementById('my-scn').textContent=G.myData.name;
-    document.getElementById('op-scn').textContent=G.oppData.name;
-    document.getElementById('my-sc').textContent=myPts;
-    document.getElementById('op-sc').textContent=opPts;
-    document.getElementById('my-scb').className='sc-box '+(won?'win':'lose');
-    document.getElementById('op-scb').className='sc-box '+(won?'lose':'win');
+  const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+ladderPts(r.finalPos),0);
+  const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+ladderPts(r.finalPos),0);
+  const won=myPts>opPts;
+  const draw=myPts===opPts;
 
-    document.getElementById('res-cls').innerHTML=sorted.map(r=>`
-      <div class="rr ${r.team}">
-        <span style="font-weight:700;font-size:.9rem;color:${r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)'}">${r.finalPos}</span>
-        <span>${r.display}</span>
-        <span style="color:${r.cl.c};font-size:.65rem">${r.cl.t}</span>
-        <span style="color:var(--dm);font-size:.65rem">${r.teamName}</span>
-      </div>`).join('');
+  // Store for showResults()
+  G._finishSorted=sorted;
+  G._myPts=myPts;G._opPts=opPts;G._won=won;G._draw=draw;
 
-    document.getElementById('res-debrief').innerHTML=`
-      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Rider Final Form</h2>`+
-      G.racers.filter(r=>r.team==='leqp').map(r=>{
-        const st=stSt(r.stamina);
-        return`<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.7rem">
-          <span style="color:var(--ac);width:16px;text-align:center">${r.finalPos}</span>
-          <span style="flex:1">${r.display}</span>
-          <div style="width:70px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div style="width:${r.stamina.toFixed(0)}%;height:100%;background:${stCol(r.stamina)};border-radius:2px"></div></div>
-          <span style="color:${st.c};min-width:100px">${st.l}</span>
-          <span style="color:var(--dm)">${ROLES[r.role]?.l||''}</span>
-        </div>`;
-      }).join('');
-  },600);
+  // Show finish bar — stay on race screen
+  const verdictText=won?'VICTORY!':draw?'DRAW':'DEFEAT';
+  const verdictCol=won?'var(--gr)':draw?'var(--ac)':'var(--rd)';
+  document.getElementById('finish-verdict').textContent=verdictText;
+  document.getElementById('finish-verdict').style.color=verdictCol;
+  document.getElementById('finish-score').textContent=
+    `${G.myData.name} ${myPts} pts  ·  ${G.oppData.name} ${opPts} pts`;
+  const bar=document.getElementById('finish-bar');
+  bar.style.display='flex';
+  document.getElementById('pause-btn').disabled=true;
+}
+
+function showResults(){
+  const sorted=G._finishSorted||[];
+  const myPts=G._myPts||0,opPts=G._opPts||0,won=G._won,draw=G._draw;
+  show('results');
+  document.getElementById('res-hl').textContent=won?'VICTORY! 🏆':draw?"IT'S A DRAW!":'BETTER LUCK NEXT TIME...';
+  document.getElementById('my-scn').textContent=G.myData.name;
+  document.getElementById('op-scn').textContent=G.oppData.name;
+  document.getElementById('my-sc').textContent=myPts;
+  document.getElementById('op-sc').textContent=opPts;
+  document.getElementById('my-scb').className='sc-box '+(won?'win':draw?'':'lose');
+  document.getElementById('op-scb').className='sc-box '+(won?'lose':draw?'':'win');
+
+  document.getElementById('res-cls').innerHTML=sorted.map(r=>`
+    <div class="rr ${r.team}">
+      <span style="font-weight:700;font-size:.9rem;color:${r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)'}">${r.finalPos}</span>
+      <span>${r.display}</span>
+      <span style="color:${r.cl.c};font-size:.65rem">${r.cl.t}</span>
+      <span style="color:var(--dm);font-size:.65rem">${r.teamName}</span>
+      <span style="color:${r.team==='leqp'?'var(--ac)':'var(--or)'};font-weight:700">${ladderPts(r.finalPos)} pts</span>
+    </div>`).join('');
+
+  document.getElementById('res-debrief').innerHTML=`
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Rider Final Form</h2>`+
+    G.racers.filter(r=>r.team==='leqp').map(r=>{
+      const st=stSt(r.stamina);
+      return`<div style="display:flex;align-items:center;gap:10px;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.7rem">
+        <span style="color:var(--ac);width:16px;text-align:center">${r.finalPos}</span>
+        <span style="flex:1">${r.display}</span>
+        <div style="width:70px;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden"><div style="width:${r.stamina.toFixed(0)}%;height:100%;background:${stCol(r.stamina)};border-radius:2px"></div></div>
+        <span style="color:${st.c};min-width:100px">${st.l}</span>
+        <span style="color:var(--dm)">${ROLES[r.role]?.l||''}</span>
+      </div>`;
+    }).join('');
 }
 
 // ══════════════════════════════════════════════════════
