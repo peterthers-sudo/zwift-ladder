@@ -794,7 +794,7 @@ function beginRace(){
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
     cl:classify(r),base:scoreR(r,G.route),norm:1,
     role:role||'normal',
-    stamina:100,effort:3,manualEffort:null,following:null,progress:0,position:0,inGroup:true,
+    stamina:100,effort:3,manualEffort:null,following:null,progress:0,position:0,inGroup:true,finished:false,finishTick:0,
     personality:.68+Math.random()*.32,
     attackTicks:0,attackCooldown:0,forcedEasy:0,
     protecting:false,protectTarget:null,
@@ -932,25 +932,28 @@ function doTick(){
     if(r.attackCooldown>0)r.attackCooldown--;
     if(r.askCooldown>0)r.askCooldown--;
 
+    // Section based on this rider's actual distance — syncs physics to elevation profile
+    const rSec=curSec(r.progress);
+
     // AI for opp + domestique logic
-    if(r.team==='opp')aiEffort(r,t,sec);
-    else aiDomestique(r,t,sec);
-    applyStrategy(r,t,sec);
+    if(r.team==='opp')aiEffort(r,r.progress,rSec);
+    else aiDomestique(r,r.progress,rSec);
+    applyStrategy(r,r.progress,rSec);
     if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
 
     // Following — match target's effort (overrides AI, respects attack/recovery locks)
     if(r.team==='leqp'&&r.following&&r.attackTicks===0&&r.forcedEasy===0){
       const tgt=G.racers.find(x=>x.id===r.following);
       if(!tgt||tgt.absent||tgt.dropped){r.following=null;}
-      else{r.effort=Math.min(r.maxEffort||5,tgt.effort+(sec.t==='climb'||sec.t==='punch'?1:0));}
+      else{r.effort=Math.min(r.maxEffort||5,tgt.effort+(rSec.t==='climb'||rSec.t==='punch'?1:0));}
     }
 
     // Stamina drain
     let drain=EFF_DRN[r.effort-1];
     if(drain<0){
-      if(sec.t==='climb') drain*=r.cl.t==='Klatrer'?.65:1.55;
-      if(sec.t==='punch') drain*=r.cl.t==='Puncheur'?.7:1.3;
-      if(sec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
+      if(rSec.t==='climb') drain*=r.cl.t==='Klatrer'?.65:1.55;
+      if(rSec.t==='punch') drain*=r.cl.t==='Puncheur'?.7:1.3;
+      if(rSec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
       if(r.inGroup)drain*=.65;
     }
     const prevStam=r.stamina;
@@ -974,8 +977,8 @@ function doTick(){
       r.powerupActive.ticks--;
       if(r.powerupActive.ticks<=0){r.powerupActive=null;}
       else{
-        if(r.powerupActive.type==='aero'&&sec.t==='flat')    pMult=1.20;
-        if(r.powerupActive.type==='feather'&&(sec.t==='climb'||sec.t==='punch'))pMult=1.30;
+        if(r.powerupActive.type==='aero'&&rSec.t==='flat')    pMult=1.20;
+        if(r.powerupActive.type==='feather'&&(rSec.t==='climb'||rSec.t==='punch'))pMult=1.30;
         if(r.powerupActive.type==='steam')                   pMult=1.15;
       }
     }
@@ -983,7 +986,7 @@ function doTick(){
     // Speed — stamMod uses steeper curve: empty tank = 55% speed (hard blow-up)
     const effSpd=EFF_SPD[r.effort-1];
     const stamMod=0.55+(r.stamina/100)*0.45;
-    const fit=sectionFit(r,sec);
+    const fit=sectionFit(r,rSec);
     const speed=r.norm*effSpd*stamMod*fit*pMult;
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/TOTAL_TICKS));
     r._protectBonus=0;
@@ -991,7 +994,17 @@ function doTick(){
 
   updateDraft();
   const active=G.racers.filter(r=>!r.absent);
-  const sorted=[...active].sort((a,b)=>b.progress-a.progress);
+
+  // Lock in finish time for riders who just crossed the line
+  active.forEach(r=>{if(!r.finished&&!r.dropped&&r.progress>=1){r.finished=true;r.finishTick=G.tick;}});
+
+  // Sort: finished riders by crossing order, then unfinished by progress
+  const sorted=[...active].sort((a,b)=>{
+    if(a.finished&&b.finished)return a.finishTick-b.finishTick;
+    if(a.finished)return -1;
+    if(b.finished)return 1;
+    return b.progress-a.progress;
+  });
   sorted.forEach((r,i)=>r.position=i+1);
   G.groups=formGroups(sorted);
 
@@ -999,7 +1012,8 @@ function doTick(){
   if(prevSec!==sec)commsEvt(`📍 New section: ${sec.l}`);
   checkEvents(t,sec);
 
-  if(sorted[0].progress>=1)finishRace();
+  // Race ends when every active rider has finished or dropped
+  if(active.every(r=>r.finished||r.dropped))finishRace();
 }
 
 function updateDraft(){
@@ -1259,8 +1273,8 @@ function renderMyCard(r){
     <div class="eff-row">
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
-    <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect leader</button>
     <div style="display:flex;gap:4px;margin-bottom:4px">
+      <button class="pbt${r.protecting?' act':''}" style="flex:0 0 auto;width:auto;margin-bottom:0;padding:7px 8px;font-size:.82rem" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡</button>
       <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+'t':r.attackCooldown>0?' · cooldown':''}</button>
       ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;width:auto;margin-bottom:0;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+'t':''}</button>`:''}
     </div>
@@ -1322,11 +1336,13 @@ function drawElevStrip(){
   });
   ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();
 
-  // Current position marker
-  const t=G.tick/TOTAL_TICKS;
-  const posX=ML+t*TW;
-  ctx.fillStyle='rgba(0,229,255,.9)';
-  ctx.fillRect(posX-1,0,2,H);
+  // Individual rider position markers — each racer as a 2px tick on the profile
+  G.racers.forEach(r=>{
+    if(r.absent||r.dropped)return;
+    const posX=ML+Math.min(r.progress,1)*TW;
+    ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.9)':'rgba(255,93,0,.75)';
+    ctx.fillRect(posX-1,0,2,H);
+  });
 
   // Min/max alt labels inside the strip
   ctx.fillStyle='rgba(255,255,255,.38)';
@@ -1351,7 +1367,7 @@ function drawCanvas(){
   const W=cv.offsetWidth||900;
   // Fill all space race-center gives us (minus seg-bar)
   const ctr=document.getElementById('race-center');
-  const availH=Math.max(400,ctr.clientHeight-40); // 18 seg-bar + 8 top pad + 14 bottom pad
+  const availH=Math.max(400,ctr.clientHeight-62); // seg-bar(40) + padding top(8) + bottom(14)
   const LANE_H=Math.min(88,Math.max(52,Math.floor(availH/LANES)));
   const H=LANES*LANE_H;
   const R=Math.round(LANE_H*0.33);
