@@ -221,7 +221,7 @@ select:focus,input:focus{border-color:var(--ac);}
   </div>
   <div id="my-panel-top">
     <div class="capt-bar">
-      <span class="capt-lbl">CAPTAIN:</span>
+      <span class="capt-lbl">Captain to team:</span>
       <button class="capt-btn" onclick="captCmd('draft')">🚴 Stay in draft</button>
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
@@ -267,7 +267,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.6';
+const VERSION='v0.8.7';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1004,8 +1004,8 @@ function doTick(){
     const speed=r.norm*effSpd*stamMod*fit*pMult;
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/RACE_TICKS));
     r._protectBonus=0;
-    // Mark finish the moment progress hits 1 (next tick they'll coast past)
-    if(r.progress>=1){r.finished=true;r.finishTick=r.finishTick||G.tick;}
+    // Mark finish the moment progress hits 1 — set to Rest and coast from next tick
+    if(r.progress>=1&&!r.finished){r.finished=true;r.finishTick=G.tick;r.effort=1;if(r.team==='leqp')renderMyCard(r);}
   });
 
   updateDraft();
