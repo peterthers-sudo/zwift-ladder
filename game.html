@@ -58,6 +58,19 @@ select:focus,input:focus{border-color:var(--ac);}
 .ri.locked{cursor:default;border-color:var(--bd);}
 .ri.locked:hover{border-color:var(--bd);}
 .ri-lock{width:15px;height:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;opacity:.45;}
+/* Milestone overlay */
+#milestone-overlay{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;background:rgba(0,0,0,.55);animation:mileIn .35s ease;}
+#milestone-overlay.on{display:flex;}
+@keyframes mileIn{from{opacity:0}to{opacity:1}}
+.mile-box{position:relative;background:#fff;border-radius:18px;padding:36px 48px;text-align:center;box-shadow:0 20px 80px rgba(0,0,0,.25);max-width:500px;width:90%;overflow:hidden;animation:mileZoom .4s cubic-bezier(.34,1.56,.64,1);}
+@keyframes mileZoom{from{transform:scale(.7);opacity:0}to{transform:scale(1);opacity:1}}
+.mile-title{font-family:'Bebas Neue',sans-serif;letter-spacing:4px;line-height:1.05;margin-bottom:10px;}
+.mile-rank{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--dm);margin-bottom:18px;}
+.mile-btn{font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:8px 24px;border:1.5px solid var(--bd);border-radius:6px;background:none;cursor:pointer;color:var(--tx);}
+.mile-btn:hover{border-color:var(--ac);color:var(--ac);}
+/* Confetti pieces */
+.confetti-piece{position:absolute;width:8px;height:10px;opacity:0;animation:confettiFall linear forwards;}
+@keyframes confettiFall{0%{opacity:1;transform:translateY(-20px) rotate(0deg);}100%{opacity:0;transform:translateY(420px) rotate(720deg);}}
 .ritem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
 .ritem:hover{border-color:var(--ac);}.ritem.sel{border-color:var(--ac);background:rgba(0,180,216,.07);}
 .mt{margin-top:12px;}.fe{display:flex;justify-content:flex-end;gap:10px;}.fb{display:flex;justify-content:space-between;align-items:center;}
@@ -300,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.1.3';
+const VERSION='v1.2.0';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -435,10 +448,10 @@ function stSt(s){return STATUS.find(t=>s>=t.min)||STATUS[STATUS.length-1];}
 function stCol(s){if(s>55)return'var(--gr)';if(s>28)return'var(--st-good)';return'var(--rd)';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function getFlatPower(r){
-  // Use w20min watts directly; fall back to w/kg × weight
+  const bw=r.bonusWkg||0;
   const w=r.watt||r.w20min||0;
-  if(w>50)return w;
-  return Math.max(wkg(r,'20'),0.5)*(r.weight||75);
+  if(w>50)return w+bw*(r.weight||75);
+  return Math.max(wkg(r,'20')+bw,0.5)*(r.weight||75);
 }
 function stIcon(s){
   if(s>75)return'🟢';if(s>50)return'🟡';if(s>25)return'🟠';if(s>8)return'🔴';return'💀';
@@ -540,9 +553,11 @@ function init(){
 
 function riderRow(r,team){
   const cl=classify(r);
+  const bw=(team==='my'&&G.campaign?.bonuses?.[r.id])||0;
   const watts=getFlatPower(r).toFixed(0);
+  const bonusTag=bw>=0.005?`<span style="color:var(--gr);font-size:.52rem;font-family:'JetBrains Mono',monospace;opacity:.9"> +${bw.toFixed(2)}</span>`:'';
   return`<div style="flex:1;min-width:0">
-    <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
+    <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}${bonusTag}</div>
     <div style="color:var(--dm);font-size:.6rem;margin-top:2px">
       <span style="color:var(--ac)">${wkg(r,'20').toFixed(1)}</span> w/kg ·
       <span style="color:var(--tx)">${watts}W</span> ·
@@ -552,7 +567,8 @@ function riderRow(r,team){
 
 function loadCampaign(teamKey,startPos){
   let c;try{c=JSON.parse(localStorage.getItem(CAMP_LS_PREFIX+teamKey)||'null');}catch(e){}
-  if(!c||c.startPos!==startPos)c={myPos:startPos,startPos,consecutiveLosses:0,wins:0};
+  if(!c||c.startPos!==startPos)c={myPos:startPos,startPos,consecutiveLosses:0,wins:0,bonuses:{}};
+  if(!c.bonuses)c.bonuses={};
   G.campaign=c;return c;
 }
 function saveCampaign(){
@@ -917,7 +933,9 @@ function beginRace(){
     _lastSec:null,_lastStamBand:3,_saidFinish:false,_saidDone:false,_lastChatTick:0,
   });
 
-  G.myPick.forEach(r=>G.racers.push(mkRacer(r,'leqp',G.myData.name,roles[r.id]||'domestique')));
+  G.myPick.forEach(r=>G.racers.push(mkRacer(
+    {...r,bonusWkg:(G.campaign?.bonuses?.[r.id])||0},
+    'leqp',G.myData.name,roles[r.id]||'domestique')));
   G.oppPick.forEach(r=>{
     const sc=scoreR(r,G.route);
     const oppRole=sc===Math.max(...G.oppPick.map(x=>scoreR(x,G.route)))?'leader':'normal';
@@ -1597,10 +1615,11 @@ function renderMyCard(r){
   const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)'},climb:{l:'Climb',i:'▲',c:'var(--gr)'},punch:{l:'Punch',i:'◆',c:'var(--pu)'},sprint:{l:'Sprint',i:'⚡',c:'var(--or)'}};
   const terrSec=G.sections?curSec(Math.min(r.progress,0.999)):null;
   const terr=terrSec?TERR_MAP[terrSec.t]:null;
+  const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.48rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px">+${r.bonusWkg.toFixed(2)}</span>`:'';
   const html=`
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
-      <div class="rc-name">${r.display}${isYou?'<span class="you-tag">YOU</span>':''}</div>
+      <div class="rc-name">${r.display}${bonusTag}${isYou?'<span class="you-tag">YOU</span>':''}</div>
       <div class="rc-state" style="color:${st.c};text-align:right;line-height:1.3">${st.l}${terr?`<div style="color:${terr.c};font-size:.5rem;letter-spacing:.5px;margin-top:1px">${terr.i} ${terr.l}</div>`:''}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
@@ -2065,16 +2084,26 @@ function finishRace(){
   const draw=myPts===opPts;
 
   // Campaign update
-  let campMsg='',campReset=false;
+  let campMsg='',campReset=false,milestoneShown=false;
   if(G.campaign&&G.oppData?.ladderPosition){
     const oppPos=G.oppData.ladderPosition;
     if(won){
       const oldPos=G.campaign.myPos;
+      const ranksClimbed=oldPos-oppPos;
+      // Win bonus per rider based on finish position
+      const posMult=p=>p===1?1.0:p===2?.8:p===3?.6:p<=5?.40:p<=7?.22:p<=10?.10:0;
+      if(!G.campaign.bonuses)G.campaign.bonuses={};
+      G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped).forEach(r=>{
+        const delta=ranksClimbed*posMult(r.finalPos)*0.008;
+        G.campaign.bonuses[r.id]=+(((G.campaign.bonuses[r.id]||0)+delta).toFixed(3));
+      });
       G.campaign.myPos=oppPos;
       G.campaign.consecutiveLosses=0;
       G.campaign.wins++;
       saveCampaign();
       campMsg=`You advance from <strong>#${oldPos}</strong> to <strong style="color:var(--gr)">#${G.campaign.myPos}</strong>! Next: challenge #${G.campaign.myPos-7}–#${G.campaign.myPos-1}`;
+      // Show milestone splash after a short delay so finish overlay is visible first
+      setTimeout(()=>{milestoneShown=showMilestone(oldPos,G.campaign.myPos);},400);
     } else if(!draw){
       G.campaign.consecutiveLosses++;
       if(G.campaign.consecutiveLosses>=3){
@@ -2105,9 +2134,11 @@ function finishRace(){
   const rows=sorted.map(r=>{
     const pts=ladderPts(r.finalPos);
     const posCol=r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)';
+    const newBw=won&&r.team==='leqp'&&!r.absent&&!r.dropped?(G.campaign?.bonuses?.[r.id]||0):0;
+    const bwTag=newBw>=0.005?`<span style="color:var(--gr);font-size:.6rem;font-family:'JetBrains Mono',monospace"> +${newBw.toFixed(2)}</span>`:'';
     return `<div class="fo-row ${r.team}">
       <span style="font-weight:700;color:${posCol}">${r.finalPos}</span>
-      <span>${r.display}</span>
+      <span>${r.display}${bwTag}</span>
       <span class="${r.cl.cls}" style="opacity:.8">${r.cl.t}</span>
       <span style="color:var(--ac);font-weight:600">${pts} pt</span>
     </div>`;
@@ -2168,6 +2199,44 @@ function show(id){
   window.scrollTo(0,0);
 }
 function goSetup(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);show('setup');}
+const MILESTONES=[
+  {th:1,  title:'CHAMPION!',         sub:'You are #1 in the entire ladder!', col:'#e8a000', fire:true},
+  {th:2,  title:'#2 — RUNNER UP!',   sub:'Silver position. One step from the top.', col:'#8e8e8e'},
+  {th:3,  title:'#3 — PODIUM!',      sub:"You've reached the top 3!", col:'var(--pu)'},
+  {th:10, title:'TOP 10!',           sub:'Elite territory.', col:'var(--gr)'},
+  {th:25, title:'TOP 25!',           sub:'A serious force in the ladder.', col:'var(--ac)'},
+  {th:50, title:'TOP 50!',           sub:'Rising through the ranks.', col:'var(--ac)'},
+];
+function getMilestone(oldPos,newPos){
+  return MILESTONES.find(m=>oldPos>m.th&&newPos<=m.th)||null;
+}
+function hideMilestone(){
+  const ov=document.getElementById('milestone-overlay');
+  ov.classList.remove('on');ov.style.display='none';
+}
+function fireConfetti(){
+  const box=document.querySelector('.mile-box');if(!box)return;
+  const colors=['#00b4d8','#ff6b00','#2bc448','#ffd700','#9d4edd','#ef233c','#ffb703'];
+  for(let i=0;i<60;i++){
+    const c=document.createElement('div');c.className='confetti-piece';
+    c.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[i%colors.length]};border-radius:${Math.random()<.5?'50%':'2px'};animation-duration:${1.4+Math.random()*1.6}s;animation-delay:${Math.random()*.8}s;transform:rotate(${Math.random()*360}deg)`;
+    box.appendChild(c);
+  }
+}
+function showMilestone(oldPos,newPos){
+  const mile=getMilestone(oldPos,newPos);if(!mile)return false;
+  const ov=document.getElementById('milestone-overlay');
+  ov.innerHTML=`<div class="mile-box">
+    <div class="mile-title" style="font-size:${newPos<=3?'3.2':'2.6'}rem;color:${mile.col}">${mile.title}</div>
+    <div class="mile-rank">${mile.sub}</div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--tx);margin-bottom:20px">You are now ranked <strong style="color:${mile.col}">#${newPos}</strong></div>
+    <button class="mile-btn" onclick="event.stopPropagation();hideMilestone()">Continue ▶</button>
+  </div>`;
+  ov.style.display='flex';ov.classList.add('on');
+  if(mile.fire)fireConfetti();
+  setTimeout(hideMilestone,5000);
+  return true;
+}
 function newChallenge(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
   G.oppKey=null;G.oppData=null;G.oppPick=[];
@@ -2186,5 +2255,7 @@ document.addEventListener('keydown',e=>{
 
 window.addEventListener('load',init);
 </script>
+
+<div id="milestone-overlay" onclick="hideMilestone()"></div>
 </body>
 </html>
