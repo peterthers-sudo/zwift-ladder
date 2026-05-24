@@ -245,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.2';
+const VERSION='v0.7.3';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -835,6 +835,9 @@ function doTick(){
     if(prevStam>=10&&r.stamina<10)
       G.explosions.push({progress:r.progress,lane:r.lane,born:Date.now(),col:r.team==='leqp'?'#00e5ff':'#ff5d00'});
 
+    // Blown up — force Rest, override everything (manual, following, strategy)
+    if(r.stamina<10&&r.attackTicks===0){r.effort=1;}
+
     // Protection
     if(r.protecting&&r.protectTarget){
       const leader=G.racers.find(x=>x.id==r.protectTarget);
@@ -1092,7 +1095,8 @@ function renderMyCard(r){
   const st=stSt(r.stamina);
   const isYou=r.id==G.youId;
   const pc=posClass(r.position);
-  const locked=r.attackTicks>0||r.forcedEasy>0;
+  const blownUp=r.stamina<10;
+  const locked=r.attackTicks>0||r.forcedEasy>0||blownUp;
   const html=`
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
@@ -1100,7 +1104,7 @@ function renderMyCard(r){
       <div class="rc-state" style="color:${st.c}">${st.l}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
-    <div class="rc-info">${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
+    <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
