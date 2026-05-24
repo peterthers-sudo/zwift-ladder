@@ -63,6 +63,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .rc{flex:1;min-width:0;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 9px 6px;transition:border-color .15s;overflow:hidden;}
 .rc.attacking{background:rgba(255,93,0,.09);border-color:var(--or);}
 .rc.protecting{background:rgba(0,229,255,.05);border-color:var(--ac);}
+.rc.absent{opacity:.4;pointer-events:none;}
 .rc-top{display:flex;align-items:center;gap:4px;margin-bottom:4px;}
 .rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;color:var(--dm);width:24px;text-align:center;flex-shrink:0;}
 .rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#c0c0c0;}.rc-pos.bronze{color:#cd7f32;}
@@ -1077,6 +1078,13 @@ function updatePanels(){
 function posClass(p){return p===1?'gold':p===2?'silver':p===3?'bronze':'';}
 
 function renderMyCard(r){
+  if(r.absent){
+    let el=document.getElementById(`rc-${r.id}`);
+    const html=`<div class="rc-top"><div class="rc-name" style="opacity:.45">${r.display.split(' ')[0]}</div></div><div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--rd);opacity:.7;margin-top:4px">❌ Did not start</div>`;
+    if(el){el.innerHTML=html;el.className='rc absent';}
+    else{el=document.createElement('div');el.className='rc absent';el.id=`rc-${r.id}`;el.innerHTML=html;document.getElementById('my-cards').appendChild(el);}
+    return;
+  }
   const st=stSt(r.stamina);
   const isYou=r.id==G.youId;
   const pc=posClass(r.position);
