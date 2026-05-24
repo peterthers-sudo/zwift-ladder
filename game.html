@@ -73,20 +73,21 @@ select:focus,input:focus{border-color:var(--ac);}
 .sw{height:5px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:5px;overflow:hidden;}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
 .rc-info{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dm);margin-bottom:5px;}
-.eff-row{display:flex;gap:2px;margin-bottom:4px;}
-.eb{flex:1;padding:5px 1px;font-size:.6rem;font-family:'JetBrains Mono',monospace;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;white-space:nowrap;overflow:hidden;}
-.eb:hover{border-color:var(--ac);}
-.eb.act{color:var(--bg);border-color:transparent;}
+.eff-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
+.eb{padding:10px 2px;font-size:1.4rem;line-height:1.1;border:2px solid var(--bd);background:rgba(255,255,255,.04);color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;}
+.eb:hover{border-color:var(--ac);background:rgba(0,229,255,.08);}
+.eb.act{border-width:2px;border-color:transparent;color:#111;}
 .eb[data-e="1"].act{background:#26c6da;}.eb[data-e="2"].act{background:var(--gr);}.eb[data-e="3"].act{background:var(--ac);}.eb[data-e="4"].act{background:var(--or);}
-.pbt{flex:0 0 auto;padding:5px 8px;font-size:.8rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .12s;}
+.eb:disabled{opacity:.3;cursor:not-allowed;}
+.pbt{width:100%;padding:7px 4px;font-size:.78rem;font-family:'JetBrains Mono',monospace;border:2px solid var(--bd);background:rgba(255,255,255,.04);color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;margin-bottom:4px;}
 .pbt:hover{border-color:var(--ac);color:var(--ac);}
 .pbt.act{background:var(--ac);color:var(--bg);border-color:var(--ac);}
 .pbt:disabled{opacity:.3;cursor:not-allowed;}
-.atk-full{width:100%;padding:6px 4px;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;border:1px solid rgba(255,93,0,.5);background:transparent;color:var(--or);cursor:pointer;border-radius:3px;margin-bottom:4px;transition:all .12s;}
+.atk-full{width:100%;padding:9px 4px;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;border:2px solid rgba(255,93,0,.6);background:transparent;color:var(--or);cursor:pointer;border-radius:5px;margin-bottom:4px;transition:all .12s;}
 .atk-full:hover:not(:disabled){background:var(--or);color:#fff;border-color:var(--or);}
-.atk-full.active{background:rgba(255,215,0,.15);border-color:#ffd700;color:#ffd700;}
+.atk-full.active{background:rgba(255,215,0,.18);border-color:#ffd700;color:#ffd700;}
 .atk-full:disabled{opacity:.25;cursor:not-allowed;}
-.tb{width:100%;padding:5px 4px;font-size:.65rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;margin-bottom:4px;}
+.tb{width:100%;padding:6px 4px;font-size:.65rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;margin-bottom:4px;}
 .tb:hover{border-color:var(--pu);color:var(--pu);}
 .tb:disabled{opacity:.3;cursor:not-allowed;}
 .ask-btn{width:100%;font-family:'JetBrains Mono',monospace;font-size:.64rem;padding:5px 4px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
@@ -244,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.2';
+const VERSION='v0.6.3';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -678,7 +679,7 @@ function beginRace(){
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
     cl:classify(r),base:scoreR(r,G.route),norm:1,
     role:role||'normal',
-    stamina:100,effort:3,progress:0,position:0,inGroup:true,
+    stamina:100,effort:3,manualEffort:null,progress:0,position:0,inGroup:true,
     personality:.68+Math.random()*.32,
     attackTicks:0,attackCooldown:0,forcedEasy:0,
     protecting:false,protectTarget:null,
@@ -908,12 +909,11 @@ function aiEffort(r,t,sec){
 
 function aiDomestique(r,t,sec){
   if(r.role!=='domestique'||r.attackTicks>0||r.forcedEasy>0)return;
+  if(r.manualEffort!==null)return; // player has set this rider manually
   const leader=G.racers.find(x=>x.id==G.leaderRole);
   if(!leader)return;
-  // Domestique: ride slightly harder to stay with leader, protect them
   r.protecting=true;r.protectTarget=leader.id;
   if(r.stamina<25){r.protecting=false;return;}
-  // Match leader effort +1 on climbs
   if(sec.t==='climb'||sec.t==='punch')r.effort=Math.min(4,leader.effort+1);
   else r.effort=leader.effort;
 }
@@ -928,7 +928,7 @@ function triggerAttack(r, silent){
 function setEffort(id,e){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r||r.attackTicks>0||r.forcedEasy>0)return;
-  r.effort=e;renderMyCard(r);
+  r.effort=e;r.manualEffort=e;renderMyCard(r);
 }
 function setProtect(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
@@ -1050,9 +1050,9 @@ function renderMyCard(r){
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
     <div class="rc-info">${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
-      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]} ${EFF_LBL[e-1]}</button>`).join('')}
-      <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡</button>
+      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}<br><span style="font-size:.55rem;font-family:'JetBrains Mono',monospace;opacity:.8">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
+    <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect leader</button>
     <button class="atk-full${r.attackTicks>0?' active':''}" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+' ticks left':r.attackCooldown>0?' · cooling down':''}</button>
     ${r.powerup&&!r.powerupUsed?`<button class="tb" style="background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${!G.paused||r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
     <button class="ask-btn" data-action="ask" data-id="${r.id}" ${!G.paused||(r.askCooldown>0)?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
@@ -1161,11 +1161,13 @@ function drawCanvas(){
 
     // Rider circle on track
     const rx=ML+r.progress*TW;
+    const effFill=['rgba(38,198,218,.55)','rgba(127,255,107,.52)','rgba(0,229,255,.48)','rgba(255,93,0,.65)'];
+    const circleFill=attacking?'rgba(255,215,0,.72)':effFill[Math.max(0,Math.min(3,r.effort-1))];
 
     ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
-    ctx.fillStyle=attacking?'rgba(255,215,0,.15)':r.team==='leqp'?'rgba(0,229,255,.14)':'rgba(255,93,0,.14)';ctx.fill();
+    ctx.fillStyle=circleFill;ctx.fill();
     ctx.strokeStyle=attacking?'#ffd700':col;
-    ctx.lineWidth=isYou?3.5:attacking?3:2;ctx.stroke();
+    ctx.lineWidth=isYou?4:attacking?3.5:2.5;ctx.stroke();
 
     // Stamina arc (all riders — own team full, opponents lighter)
     if(r.team==='leqp'){
@@ -1174,25 +1176,11 @@ function drawCanvas(){
       ctx.strokeStyle=stCol(r.stamina);ctx.lineWidth=4;ctx.stroke();
     }
 
-    // Effort label inside circle (own: text; opp: emoji; attacking: ⚡)
+    // Large emoji inside circle — effort + attack state
     ctx.save();
+    ctx.font=`${Math.round(R*0.9)}px serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
-    if(attacking){
-      ctx.font=`${Math.round(R*0.85)}px serif`;
-      ctx.fillStyle='#ffd700';
-      ctx.fillText('⚡',rx,cy+1);
-    } else if(r.team==='leqp'){
-      const eL=['RST','EZY','TMO','HRD'];
-      const eC=['#26c6da','#7fff6b','#00e5ff','#ff5d00'];
-      const ei=Math.max(0,Math.min(3,r.effort-1));
-      ctx.font=`bold ${Math.max(8,Math.round(R*0.42))}px 'JetBrains Mono',monospace`;
-      ctx.fillStyle=eC[ei];
-      ctx.fillText(eL[ei],rx,cy+1);
-    } else {
-      ctx.font=`${Math.round(R*0.72)}px serif`;
-      ctx.fillStyle='rgba(255,255,255,0.65)';
-      ctx.fillText(EFF_IC[Math.min(4,r.effort)-1],rx,cy+1);
-    }
+    ctx.fillText(attacking?'⚡':EFF_IC[Math.max(0,Math.min(4,r.effort-1))],rx,cy+2);
     ctx.restore();
 
     // Powerup active: icon above circle
