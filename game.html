@@ -267,7 +267,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.5';
+const VERSION='v0.8.6';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1647,6 +1647,9 @@ const ladderPts=pos=>Math.max(0,11-pos);
 
 function finishRace(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
+
+  // Set all riders to Rest and refresh their cards
+  G.racers.filter(r=>r.team==='leqp'&&!r.absent).forEach(r=>{r.effort=1;renderMyCard(r);});
 
   // Sort: finished riders by crossing order, dropped riders last by progress
   const active=[...G.racers].filter(r=>!r.absent);
