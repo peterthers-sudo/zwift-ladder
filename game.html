@@ -441,6 +441,7 @@ function restoreSelections(){
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
+  document.getElementById('ver-lbl').textContent=VERSION;
   // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
   document.getElementById('my-cards').addEventListener('pointerdown',e=>{
     const btn=e.target.closest('[data-action]');
