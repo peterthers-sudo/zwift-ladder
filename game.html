@@ -71,6 +71,8 @@ select:focus,input:focus{border-color:var(--ac);}
 .capt-btn:hover{border-color:var(--ac);color:var(--ac);}
 .capt-btn.capt-atk{border-color:rgba(255,93,0,.4);color:rgba(255,93,0,.85);}
 .capt-btn.capt-atk:hover{background:var(--or);color:#fff;border-color:var(--or);}
+.capt-btn.capt-pu{border-color:rgba(255,215,0,.4);color:rgba(255,215,0,.85);}
+.capt-btn.capt-pu:hover{background:#ffd700;color:#000;border-color:#ffd700;}
 
 /* Rider card — horizontal strip */
 .rc{flex:1;min-width:0;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 9px 6px;transition:border-color .15s;overflow:hidden;}
@@ -229,6 +231,7 @@ select:focus,input:focus{border-color:var(--ac);}
       <button class="capt-btn" onclick="captCmd('protect')">🛡 Protect leader</button>
       <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
       <button class="capt-btn" onclick="captCmd('status')">💬 Give status</button>
+      <button class="capt-btn capt-pu" onclick="useAllPowerups()">💥 Use powerups</button>
     </div>
     <div id="my-cards"></div>
   </div>
@@ -268,7 +271,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.5';
+const VERSION='v1.0.6';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1070,9 +1073,9 @@ function doTick(){
     if(now-rpu.born>10000)return false;
     for(const r of G.racers){
       if(r.absent||r.dropped||r.finished)continue;
-      if(r.powerup&&!r.powerupUsed)continue; // already has unused powerup
+      if((r.powerup&&!r.powerupUsed)||r.powerupActive)continue; // holding one or still running
       if(r.lane===rpu.lane&&Math.abs(r.progress-rpu.progress)<0.016){
-        r.powerup=rpu.pu;r.powerupUsed=false;r.powerupActive=null;
+        r.powerup=rpu.pu;r.powerupUsed=false;
         say(r,`Got ${rpu.pu.name}!`,true);
         if(r.team==='leqp')renderMyCard(r);
         return false;
@@ -1299,10 +1302,21 @@ function setProtect(id){
 }
 function usePowerup(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
-  if(!r||r.powerupUsed||!r.powerup)return;
+  if(!r||r.powerupUsed||!r.powerup||r.powerupActive)return;
   r.powerup.apply(r);r.powerupUsed=true;
   commsMsg('Captain',`${r.display.split(' ')[0]} activates ${r.powerup.name}! ${r.powerup.icon}`);
   renderMyCard(r);
+}
+function useAllPowerups(){
+  const used=[];
+  G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished).forEach(r=>{
+    if(!r.powerup||r.powerupUsed||r.powerupActive)return;
+    r.powerup.apply(r);r.powerupUsed=true;
+    used.push(r.display.split(' ')[0]);
+    renderMyCard(r);
+  });
+  if(used.length)commsEvt(`💥 Captain: Use powerups — ${used.join(', ')} activate!`);
+  else commsEvt('Captain: Nobody has a powerup ready.');
 }
 
 // ── EVENTS ────────────────────────────────────────────
