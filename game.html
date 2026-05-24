@@ -42,69 +42,58 @@ select:focus,input:focus{border-color:var(--ac);}
 .threat-high{color:var(--rd);}.threat-med{color:var(--or);}.threat-low{color:var(--dm);}
 
 /* ══ RACE ══ */
-#race{display:none;flex-direction:column;height:100vh;overflow:hidden;}
+#race{display:none;flex-direction:column;min-height:100vh;}
 #race.on{display:flex;}
 #race-hdr{background:var(--s1);border-bottom:2px solid var(--bd);padding:7px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
 .rh-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);}
 .rh-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dm);}
 .rh-sec{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,93,0,.4);border-radius:10px;}
 .rh-pct{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ac);margin-left:auto;}
-.spd-btn{font-family:'JetBrains Mono',monospace;font-size:.62rem;padding:3px 9px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
+.spd-btn{font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:4px 11px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
 .spd-btn.act{border-color:var(--ac);color:var(--ac);}
-.pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:2px;padding:4px 14px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
+.pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
 
-#race-body{display:flex;flex:1;min-height:0;}
-.tpanel{width:228px;flex-shrink:0;background:var(--s1);display:flex;flex-direction:column;overflow-y:auto;}
-.tpanel.right{border-left:1px solid var(--bd);}
-.tpanel.left{border-right:1px solid var(--bd);}
-.tpanel::-webkit-scrollbar{width:3px;}.tpanel::-webkit-scrollbar-thumb{background:var(--bd);}
-.phdr{padding:7px 10px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);flex-shrink:0;display:flex;justify-content:space-between;}
-.phdr span{color:var(--tx);}
+/* My team panel — above canvas */
+#my-panel-top{background:var(--s1);border-bottom:2px solid var(--bd);flex-shrink:0;padding:5px 8px 6px;overflow-x:auto;}
+#my-panel-top::-webkit-scrollbar{height:3px;}#my-panel-top::-webkit-scrollbar-thumb{background:var(--bd);}
+.phdr-top{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);display:flex;align-items:center;gap:8px;padding-bottom:5px;}
+#my-cards{display:flex;gap:5px;min-width:max-content;width:100%;}
 
-/* My rider card */
-.rc{padding:9px 10px 7px;border-bottom:1px solid var(--bd);}
-.rc.attacking{background:rgba(255,93,0,.07);border-left:2px solid var(--or);}
-.rc.protecting{background:rgba(0,229,255,.05);border-left:2px solid var(--ac);}
-.rc-top{display:flex;align-items:center;gap:5px;margin-bottom:5px;}
-.rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.2rem;line-height:1;color:var(--dm);width:20px;text-align:center;}
+/* Rider card — horizontal strip */
+.rc{flex:1;min-width:160px;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 9px 6px;transition:border-color .15s;}
+.rc.attacking{background:rgba(255,93,0,.09);border-color:var(--or);}
+.rc.protecting{background:rgba(0,229,255,.05);border-color:var(--ac);}
+.rc-top{display:flex;align-items:center;gap:4px;margin-bottom:4px;}
+.rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;color:var(--dm);width:24px;text-align:center;flex-shrink:0;}
 .rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#c0c0c0;}.rc-pos.bronze{color:#cd7f32;}
-.rc-name{font-family:'JetBrains Mono',monospace;font-size:.67rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.you-tag{font-size:.48rem;background:rgba(0,229,255,.15);color:var(--ac);border:1px solid rgba(0,229,255,.3);padding:1px 4px;border-radius:2px;}
-.rc-state{font-size:.6rem;white-space:nowrap;}
-.sw{height:4px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:5px;overflow:hidden;}
+.rc-name{font-family:'JetBrains Mono',monospace;font-size:.74rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.you-tag{font-size:.52rem;background:rgba(0,229,255,.15);color:var(--ac);border:1px solid rgba(0,229,255,.3);padding:1px 5px;border-radius:2px;flex-shrink:0;}
+.rc-state{font-size:.65rem;white-space:nowrap;flex-shrink:0;}
+.sw{height:5px;background:rgba(255,255,255,.07);border-radius:2px;margin-bottom:5px;overflow:hidden;}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
-.rc-meta{display:flex;justify-content:space-between;margin-bottom:5px;}
-.rc-meta span{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--dm);}
+.rc-info{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dm);margin-bottom:5px;}
 .eff-row{display:flex;gap:2px;margin-bottom:4px;}
-.eb{flex:1;padding:3px 0;font-size:.58rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;text-align:center;transition:all .12s;}
+.eb{flex:1;padding:6px 0;font-size:.8rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;}
 .eb:hover{border-color:var(--ac);}
 .eb.act{color:var(--bg);border-color:transparent;}
 .eb[data-e="1"].act{background:#26c6da;}.eb[data-e="2"].act{background:var(--gr);}.eb[data-e="3"].act{background:var(--ac);}.eb[data-e="4"].act{background:var(--or);}.eb[data-e="5"].act{background:var(--rd);}
 .tac-row{display:flex;gap:3px;margin-bottom:4px;}
-.tb{flex:1;padding:3px 0;font-size:.55rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;text-align:center;transition:all .12s;}
+.tb{flex:1;padding:5px 2px;font-size:.65rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;}
 .tb:hover{border-color:var(--pu);color:var(--pu);}
 .tb.act{background:var(--pu);color:var(--bg);border-color:var(--pu);}
 .tb.atk.act{background:var(--or);border-color:var(--or);}
 .tb.prot.act{background:var(--ac);border-color:var(--ac);}
 .tb:disabled{opacity:.3;cursor:not-allowed;}
-.ask-btn{width:100%;font-family:'JetBrains Mono',monospace;font-size:.58rem;padding:4px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:2px;transition:all .15s;margin-top:2px;}
+.ask-btn{width:100%;font-family:'JetBrains Mono',monospace;font-size:.64rem;padding:5px 4px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
 .ask-btn:hover:not(:disabled){border-color:var(--pu);color:var(--pu);}
 .ask-btn:disabled{opacity:.35;cursor:not-allowed;}
 
-/* Opp card */
-.oc{padding:8px 10px;border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:7px;}
-.oc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;line-height:1;color:var(--dm);width:19px;text-align:center;}
-.oc-pos.gold{color:var(--go);}.oc-pos.silver{color:#c0c0c0;}.oc-pos.bronze{color:#cd7f32;}
-.oc-info{flex:1;min-width:0;}
-.oc-name{font-family:'JetBrains Mono',monospace;font-size:.66rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.oc-sub{font-family:'JetBrains Mono',monospace;font-size:.57rem;color:var(--dm);margin-top:1px;}
-
 /* Center */
-#race-center{flex:1;display:flex;flex-direction:column;min-width:0;background:var(--bg);}
+#race-center{display:flex;flex-direction:column;background:var(--bg);}
 #race-canvas{width:100%;display:block;}
-.seg-bar{display:flex;height:16px;flex-shrink:0;}
-.seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.5px;overflow:hidden;transition:background .3s;}
+.seg-bar{display:flex;height:18px;flex-shrink:0;}
+.seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.5px;overflow:hidden;transition:background .3s;}
 .seg.flat{background:rgba(0,229,255,.08);color:var(--ac);}
 .seg.climb{background:rgba(127,255,107,.1);color:var(--gr);}
 .seg.punch{background:rgba(204,136,255,.1);color:var(--pu);}
@@ -112,14 +101,14 @@ select:focus,input:focus{border-color:var(--ac);}
 .seg.active{outline:1px solid currentColor;font-weight:700;}
 
 /* Situation panel */
-#situation{flex-shrink:0;background:var(--s1);border-top:1px solid var(--bd);padding:5px 14px;min-height:46px;}
-.sit-group{font-family:'JetBrains Mono',monospace;font-size:.65rem;line-height:1.7;}
+#situation{flex-shrink:0;background:var(--s1);border-top:1px solid var(--bd);padding:6px 14px;min-height:44px;}
+.sit-group{font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:1.8;}
 .sit-g1{color:var(--ac);}.sit-g2{color:var(--tx);}.sit-gn{color:var(--dm);}
-.sit-gap{color:var(--or);font-size:.6rem;margin:0 4px;}
+.sit-gap{color:var(--or);font-size:.63rem;margin:0 4px;}
 .sit-warn{color:var(--rd);}
 
 /* Comms */
-#comms{flex-shrink:0;border-top:1px solid var(--bd);background:var(--s1);display:flex;flex-direction:column;max-height:130px;}
+#comms{flex-shrink:0;border-top:1px solid var(--bd);background:var(--s1);display:flex;flex-direction:column;max-height:115px;}
 .comms-hdr{padding:5px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--dm);text-transform:uppercase;display:flex;align-items:center;gap:10px;flex-shrink:0;}
 #comms-log{flex:1;overflow-y:auto;padding:4px 12px;display:flex;flex-direction:column;gap:2px;}
 #comms-log::-webkit-scrollbar{width:3px;}.#comms-log::-webkit-scrollbar-thumb{background:var(--bd);}
@@ -231,20 +220,18 @@ select:focus,input:focus{border-color:var(--ac);}
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <span class="rh-pct" id="rh-pct">0%</span>
   </div>
-  <div id="race-body">
-    <div class="tpanel left" id="my-panel">
-      <div class="phdr">MY TEAM <span id="my-pts-live">—</span></div>
-      <div id="my-cards"></div>
+  <div id="my-panel-top">
+    <div class="phdr-top">
+      MY TEAM · <span id="my-pts-live" style="color:var(--ac)">—</span> pts
+      <span style="opacity:.3;margin:0 4px">|</span>
+      OPPONENT · <span id="opp-pts-live" style="color:var(--or)">—</span> pts
     </div>
-    <div id="race-center">
-      <canvas id="race-canvas"></canvas>
-      <div class="seg-bar" id="seg-bar"></div>
-      <div id="situation"></div>
-    </div>
-    <div class="tpanel right" id="opp-panel">
-      <div class="phdr">OPPONENT <span id="opp-pts-live">—</span></div>
-      <div id="opp-cards"></div>
-    </div>
+    <div id="my-cards"></div>
+  </div>
+  <div id="race-center">
+    <canvas id="race-canvas"></canvas>
+    <div class="seg-bar" id="seg-bar"></div>
+    <div id="situation"></div>
   </div>
   <div id="comms">
     <div class="comms-hdr">💬 TEAM RADIO <span id="comms-hint" style="color:var(--pu)">· Pause (Space) to communicate</span></div>
@@ -279,7 +266,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.4.0';
+const VERSION='v0.5.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1087,25 +1074,6 @@ function updatePanels(){
   // My cards
   G.racers.filter(r=>r.team==='leqp').forEach(r=>renderMyCard(r));
 
-  // Opp cards
-  document.getElementById('opp-cards').innerHTML=
-    sorted.filter(r=>r.team==='opp').map(r=>{
-      const leader=sorted[0];
-      const gapS=((leader.progress-r.progress)*G.route.distance*G.laps/40*3600).toFixed(0);
-      const pc=posClass(r.position);
-      return`<div class="oc">
-        <div class="oc-pos ${pc}">${r.position}</div>
-        <div class="oc-info">
-          <div class="oc-name">${r.display}</div>
-          <div class="oc-sub" style="display:flex;gap:6px;align-items:center">
-            <span class="badge" style="color:${r.cl.c};border-color:${r.cl.br};background:${r.cl.b}">${r.cl.t}</span>
-            <span style="color:var(--or)">${r.progress>0.01?'+'+gapS+'s':''}</span>
-            <span style="color:var(--dm)">${EFF_IC[r.effort-1]}</span>
-          </div>
-        </div>
-      </div>`;
-    }).join('');
-
   // Situation text
   updateSituation();
 }
@@ -1124,10 +1092,7 @@ function renderMyCard(r){
       <div class="rc-state" style="color:${st.c}">${st.l}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
-    <div class="rc-meta">
-      <span>${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''}</span>
-      <span>${ROLES[r.role]?.l||''}</span>
-    </div>
+    <div class="rc-info">${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
       ${[1,2,3,4,5].map(e=>`<button class="eb${r.effort===e?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}</button>`).join('')}
     </div>
@@ -1188,7 +1153,7 @@ function profPts(rt,W,H){
 
 function drawCanvas(){
   const cv=document.getElementById('race-canvas');
-  const LANES=10,LANE_H=42,ML=96,MR=12;
+  const LANES=10,LANE_H=64,ML=118,MR=14,R=22;
   const W=cv.offsetWidth||900,H=LANES*LANE_H;
   if(cv.width!==W)cv.width=W;
   if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
@@ -1209,112 +1174,116 @@ function drawCanvas(){
   // Lane dividers
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
-    ctx.strokeStyle=i===5?'rgba(255,255,255,.22)':'rgba(255,255,255,.05)';
-    ctx.lineWidth=i===5?1.5:1;ctx.stroke();
+    ctx.strokeStyle=i===5?'rgba(255,255,255,.25)':'rgba(255,255,255,.06)';
+    ctx.lineWidth=i===5?2:1;ctx.stroke();
   }
 
   // Left margin separator
   ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
-  ctx.strokeStyle='rgba(255,255,255,.1)';ctx.lineWidth=1;ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;ctx.stroke();
 
   const t=G.tick/TOTAL_TICKS;const sec=curSec(t);
 
   // Section highlight
-  ctx.fillStyle='rgba(255,93,0,.035)';
+  ctx.fillStyle='rgba(255,93,0,.03)';
   ctx.fillRect(ML+sec.s*TW,0,(sec.e-sec.s)*TW,H);
 
   // Finish line
   ctx.save();ctx.beginPath();ctx.moveTo(ML+TW,0);ctx.lineTo(ML+TW,H);
-  ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=1.5;
-  ctx.setLineDash([4,4]);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+  ctx.strokeStyle='rgba(255,255,255,.3)';ctx.lineWidth=2;
+  ctx.setLineDash([5,5]);ctx.stroke();ctx.setLineDash([]);ctx.restore();
 
   // Progress cursor
   const cx=ML+t*TW;
   ctx.beginPath();ctx.moveTo(cx,0);ctx.lineTo(cx,H);
-  ctx.strokeStyle='rgba(255,255,255,.07)';ctx.lineWidth=1;ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1;ctx.stroke();
 
   // Team labels in margin
-  ctx.save();ctx.font='bold 7px monospace';ctx.textAlign='left';ctx.textBaseline='top';
-  ctx.fillStyle='rgba(0,229,255,.55)';ctx.fillText('MY TEAM',3,2);
-  ctx.fillStyle='rgba(255,93,0,.55)';ctx.fillText('OPPONENT',3,5*LANE_H+2);ctx.restore();
+  ctx.save();ctx.font='bold 8px monospace';ctx.textAlign='left';ctx.textBaseline='top';
+  ctx.fillStyle='rgba(0,229,255,.6)';ctx.fillText('MY TEAM',4,3);
+  ctx.fillStyle='rgba(255,93,0,.6)';ctx.fillText('OPPONENT',4,5*LANE_H+3);ctx.restore();
 
   // Riders
-  const R=15;
   G.racers.forEach(r=>{
+    if(r.absent)return;
     const cy=r.lane*LANE_H+LANE_H/2;
     const col=r.team==='leqp'?'#00e5ff':'#ff5d00';
     const isYou=r.id==G.youId;
+    const attacking=r.attackTicks>0;
 
-    // Name label in margin
-    const firstName=r.display.split(' ')[0].slice(0,10);
-    ctx.save();
-    ctx.fillStyle=isYou?'#ffffff':r.team==='leqp'?'rgba(0,229,255,.95)':'rgba(255,93,0,.9)';
-    ctx.font=(isYou?'bold ':'')+`11px "JetBrains Mono",monospace`;
-    ctx.textAlign='left';ctx.textBaseline='middle';
-    ctx.fillText(firstName,3,cy);
-
-    // Position number right-aligned in margin
+    // Name + position in margin
+    const firstName=r.display.split(' ')[0].slice(0,11);
     const p=r.position;
+    ctx.save();
+    ctx.textBaseline='middle';
+    ctx.fillStyle=isYou?'#ffffff':r.team==='leqp'?'rgba(0,229,255,.95)':'rgba(255,93,0,.9)';
+    ctx.font=(isYou?'bold ':'')+`12px "JetBrains Mono",monospace`;
+    ctx.textAlign='left';ctx.fillText(firstName,4,cy-7);
     ctx.fillStyle=p===1?'#ffd700':p===2?'#c0c0c0':p===3?'#cd7f32':col;
-    ctx.font='bold 10px monospace';ctx.textAlign='right';
-    ctx.fillText(p,ML-5,cy);ctx.restore();
+    ctx.font='bold 11px monospace';ctx.fillText(`#${p}`,4,cy+8);ctx.restore();
 
     // Rider circle on track
     const rx=ML+r.progress*TW;
 
     ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
-    ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.13)':'rgba(255,93,0,.13)';ctx.fill();
-    ctx.strokeStyle=r.attackTicks>0?'#ffd700':col;
-    ctx.lineWidth=isYou?3:r.attackTicks>0?2.5:1.8;ctx.stroke();
+    ctx.fillStyle=attacking?'rgba(255,215,0,.15)':r.team==='leqp'?'rgba(0,229,255,.14)':'rgba(255,93,0,.14)';ctx.fill();
+    ctx.strokeStyle=attacking?'#ffd700':col;
+    ctx.lineWidth=isYou?3.5:attacking?3:2;ctx.stroke();
 
-    // Stamina arc (own team only)
+    // Stamina arc (all riders — own team full, opponents lighter)
     if(r.team==='leqp'){
       ctx.beginPath();
-      ctx.arc(rx,cy,R+4,-Math.PI/2,-Math.PI/2+2*Math.PI*(r.stamina/100));
-      ctx.strokeStyle=stCol(r.stamina);ctx.lineWidth=3;ctx.stroke();
+      ctx.arc(rx,cy,R+5,-Math.PI/2,-Math.PI/2+2*Math.PI*(r.stamina/100));
+      ctx.strokeStyle=stCol(r.stamina);ctx.lineWidth=4;ctx.stroke();
     }
 
     // State icon inside circle
     ctx.save();
-    ctx.font=`${R}px serif`;
+    ctx.font=`${R+2}px serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(r.attackTicks>0?'⚡':stIcon(r.stamina),rx,cy+1);
+    ctx.fillText(attacking?'⚡':stIcon(r.stamina),rx,cy+1);
     ctx.restore();
 
-    // Powerup active: icon floating above circle
+    // Effort icon below circle
+    ctx.save();
+    const effColors=['#26c6da','#7fff6b','#00e5ff','#ff5d00','#ff4455'];
+    ctx.font=`11px serif`;
+    ctx.textAlign='center';ctx.textBaseline='top';
+    ctx.globalAlpha=0.85;
+    ctx.fillText(EFF_IC[r.effort-1],rx,cy+R+3);
+    ctx.restore();
+
+    // Powerup active: icon above circle
     if(r.powerupActive&&r.powerup){
       ctx.save();
-      ctx.font=`${R-1}px serif`;
+      ctx.font=`${R}px serif`;
       ctx.textAlign='center';ctx.textBaseline='alphabetic';
-      ctx.fillText(r.powerup.icon,rx,cy-R-1);
+      ctx.fillText(r.powerup.icon,rx,cy-R-2);
       ctx.restore();
     }
 
-    // Speech bubble (shown when rider responds to status question)
+    // Speech bubble
     if(r.bubble){
       const age=Date.now()-r.bubble.born;
       if(age<6000){
         const alpha=age>4000?1-(age-4000)/2000:1;
-        const txt=r.bubble.text.slice(0,34);
+        const txt=r.bubble.text.slice(0,38);
         ctx.save();ctx.globalAlpha=alpha;
-        ctx.font='8.5px monospace';
-        const bw=ctx.measureText(txt).width+14,bh=20;
-        const goRight=rx+R+8+bw+4<=W-MR;
-        const bx=goRight?rx+R+8:rx-R-8-bw;
+        ctx.font='bold 11px monospace';
+        const bw=ctx.measureText(txt).width+18,bh=26;
+        const goRight=rx+R+10+bw+4<=W-MR;
+        const bx=goRight?rx+R+10:rx-R-10-bw;
         const by=cy-bh/2;
-        // Bubble body
-        drawRoundRect(ctx,bx,by,bw,bh,4);
-        ctx.fillStyle='rgba(18,26,44,.95)';ctx.fill();
-        ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke();
-        // Tail
+        drawRoundRect(ctx,bx,by,bw,bh,5);
+        ctx.fillStyle='rgba(14,20,38,.97)';ctx.fill();
+        ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
         ctx.beginPath();
-        if(goRight){ctx.moveTo(bx,cy-4);ctx.lineTo(bx-7,cy);ctx.lineTo(bx,cy+4);}
-        else{ctx.moveTo(bx+bw,cy-4);ctx.lineTo(bx+bw+7,cy);ctx.lineTo(bx+bw,cy+4);}
-        ctx.fillStyle='rgba(18,26,44,.95)';ctx.fill();
-        ctx.strokeStyle=col;ctx.lineWidth=1;ctx.stroke();
-        // Text
+        if(goRight){ctx.moveTo(bx,cy-5);ctx.lineTo(bx-8,cy);ctx.lineTo(bx,cy+5);}
+        else{ctx.moveTo(bx+bw,cy-5);ctx.lineTo(bx+bw+8,cy);ctx.lineTo(bx+bw,cy+5);}
+        ctx.fillStyle='rgba(14,20,38,.97)';ctx.fill();
+        ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
         ctx.fillStyle='#e2e8f0';ctx.textAlign='left';ctx.textBaseline='middle';
-        ctx.fillText(txt,bx+7,cy);
+        ctx.fillText(txt,bx+9,cy);
         ctx.restore();
       } else {
         r.bubble=null;
