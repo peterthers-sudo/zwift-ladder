@@ -55,6 +55,9 @@ select:focus,input:focus{border-color:var(--ac);}
 .ri-cb{width:15px;height:15px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12s;}
 .ri.sel .ri-cb{background:var(--ac);border-color:var(--ac);}
 .ri.sel .ri-cb::after{content:'✓';color:#fff;font-size:.6rem;font-weight:700;line-height:1;}
+.ri.locked{cursor:default;border-color:var(--bd);}
+.ri.locked:hover{border-color:var(--bd);}
+.ri-lock{width:15px;height:15px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.7rem;opacity:.45;}
 .ritem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
 .ritem:hover{border-color:var(--ac);}.ritem.sel{border-color:var(--ac);background:rgba(0,180,216,.07);}
 .mt{margin-top:12px;}.fe{display:flex;justify-content:flex-end;gap:10px;}.fb{display:flex;justify-content:space-between;align-items:center;}
@@ -293,7 +296,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.1.0';
+const VERSION='v1.1.1';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -489,16 +492,6 @@ function restoreSelections(){
     }
     ts.value=d.oppKey;
     loadOppTeam();
-    if(d.oppPick?.length){
-      G.oppPick=[];
-      document.querySelectorAll('#opp-list [data-rid]').forEach(el=>el.classList.remove('sel'));
-      d.oppPick.forEach(id=>{
-        const el=document.querySelector(`#opp-list [data-rid="${id}"]`);
-        const r=G.oppData?.riders.find(x=>x.id==id);
-        if(el&&r){G.oppPick.push(r);el.classList.add('sel');}
-      });
-      document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;
-    }
   }
 
   if(d.routeName){
@@ -635,18 +628,16 @@ function loadOppTeam(){
   const k=document.getElementById('opp-team').value;if(!k)return;
   G.oppKey=k;G.oppData=OPPONENT_LIBRARY[k];
   G.oppPick=[...G.oppData.riders].filter(r=>wkg(r,'20')>0).sort((a,b)=>wkg(b,'20')-wkg(a,'20')).slice(0,5);
+  if(G.oppPick.length<5){
+    const rest=[...G.oppData.riders].filter(r=>!G.oppPick.includes(r));
+    G.oppPick.push(...rest.slice(0,5-G.oppPick.length));
+  }
   const box=document.getElementById('opp-list');box.innerHTML='';
-  G.oppData.riders.forEach(r=>{
-    const sel=G.oppPick.includes(r);
-    const el=document.createElement('div');el.className='ri'+(sel?' sel':'');el.dataset.rid=r.id;
-    el.innerHTML='<div class="ri-cb"></div>'+riderRow(r,'opp');el.onclick=()=>toggleOpp(r,el);box.appendChild(el);
+  G.oppPick.forEach(r=>{
+    const el=document.createElement('div');el.className='ri locked sel';el.dataset.rid=r.id;
+    el.innerHTML='<div class="ri-lock">🔒</div>'+riderRow(r,'opp');
+    box.appendChild(el);
   });
-  document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();saveSelections();
-}
-function toggleOpp(r,el){
-  const i=G.oppPick.findIndex(x=>x.id===r.id);
-  if(i>=0){G.oppPick.splice(i,1);el.classList.remove('sel');}
-  else{if(G.oppPick.length>=5){const o=G.oppPick.shift();document.querySelector(`#opp-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.oppPick.push(r);el.classList.add('sel');}
   document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();saveSelections();
 }
 
