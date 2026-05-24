@@ -203,7 +203,6 @@ select:focus,input:focus{border-color:var(--ac);}
     </div>
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <span class="rh-pct" id="rh-pct">0%</span>
-    <span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.22);margin-left:auto" id="ver-lbl"></span>
   </div>
   <div id="my-panel-top">
     <div class="phdr-top">
@@ -245,7 +244,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.7';
+const VERSION='v0.6.8';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -442,8 +441,6 @@ function restoreSelections(){
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
-  document.getElementById('ver-lbl').textContent=VERSION;
-
   // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
   document.getElementById('my-cards').addEventListener('pointerdown',e=>{
     const btn=e.target.closest('[data-action]');
@@ -737,7 +734,8 @@ function beginRace(){
   const pauseBtn=document.getElementById('pause-btn');
   pauseBtn.textContent='▶ Start';pauseBtn.classList.add('paused');
   commsEvt(`Ready! ${G.route.name} — ${routeTag(G.route).l}. Set your riders, then hit Start.`);
-  G.pendingEvts.forEach(msg=>commsEvt(msg));
+  // Show pre-race intel messages sequentially — each after the previous fades
+  G.pendingEvts.forEach((msg,i)=>setTimeout(()=>commsEvt(msg),(i+1)*5000));
   G.pendingEvts=[];
   startTick();startRender();
 }
