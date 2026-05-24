@@ -6,7 +6,25 @@
 <title>Pedal Harder</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
-:root{--bg:#1a1f2b;--s1:#242a38;--s2:#2d3447;--bd:rgba(255,255,255,.09);--ac:#00e5ff;--or:#ff5d00;--gr:#7fff6b;--tx:#e2e8f0;--dm:#94a3b8;--rd:#ff4455;--pu:#cc88ff;--go:#ffd700;}
+:root{
+  /* ── Backgrounds ── */
+  --bg:#1a1f2b; --s1:#242a38; --s2:#2d3447;
+  /* ── Borders ── */
+  --bd:rgba(255,255,255,.09);
+  /* ── Accent colours ── */
+  --ac:#00e5ff;   /* cyan  — own team */
+  --or:#ff5d00;   /* orange — opponents */
+  --gr:#7fff6b;   /* green  — climb / fresh */
+  --pu:#cc88ff;   /* purple — punch */
+  --go:#ffd700;   /* gold   — finish / attack */
+  --rd:#ff4455;   /* red    — danger */
+  /* ── Text ── */
+  --tx:#e2e8f0; --dm:#94a3b8;
+  /* ── Stamina states ── */
+  --st-good:#f59e0b; --st-tired:#fb923c; --st-blown:#6b7280;
+  /* ── Opponent intro splash ── */
+  --opp:#ffaa44;
+}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
 .screen{display:none;} .screen.on{display:block;}
@@ -16,6 +34,17 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-h
 .bp{background:var(--ac);color:var(--bg);}.bp:hover{background:#33eeff;}.bp:disabled{background:var(--bd);color:var(--dm);cursor:not-allowed;}
 .bs{background:transparent;border:1px solid var(--or);color:var(--or);}.bs:hover{background:var(--or);color:#fff;}
 .badge{font-size:.55rem;letter-spacing:1px;padding:2px 6px;border:1px solid;border-radius:2px;white-space:nowrap;}
+/* Route type badges */
+.badge-climb{color:var(--gr);border-color:rgba(127,255,107,.3);background:rgba(127,255,107,.08);}
+.badge-punch{color:var(--pu);border-color:rgba(204,136,255,.3);background:rgba(204,136,255,.08);}
+.badge-sprint{color:var(--or);border-color:rgba(255,93,0,.3);background:rgba(255,93,0,.08);}
+.badge-tt{color:var(--ac);border-color:rgba(0,229,255,.3);background:rgba(0,229,255,.08);}
+.badge-endurance{color:var(--st-good);border-color:rgba(245,158,11,.3);background:rgba(245,158,11,.08);}
+/* Rider classification badges */
+.badge-sprinter{color:var(--or);background:rgba(255,93,0,.1);border-color:rgba(255,93,0,.35);}
+.badge-klatrer{color:var(--gr);background:rgba(127,255,107,.08);border-color:rgba(127,255,107,.35);}
+.badge-puncheur{color:var(--pu);background:rgba(204,136,255,.08);border-color:rgba(204,136,255,.35);}
+.badge-diesel{color:var(--ac);background:rgba(0,229,255,.06);border-color:rgba(0,229,255,.3);}
 select,input[type=text],input[type=number]{background:var(--bg);border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:7px 10px;outline:none;width:100%;border-radius:4px;}
 select:focus,input:focus{border-color:var(--ac);}
 .sb{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
@@ -271,7 +300,22 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.11';
+const VERSION='v1.0.12';
+
+// ══════════════════════════════════════════════════════
+// THEME — reads CSS :root vars so canvas uses same palette
+// ══════════════════════════════════════════════════════
+const THEME=(()=>{
+  const s=getComputedStyle(document.documentElement);
+  const v=n=>s.getPropertyValue(n).trim();
+  return{
+    bg:v('--bg'),s1:v('--s1'),s2:v('--s2'),bd:v('--bd'),
+    ac:v('--ac'),or:v('--or'),gr:v('--gr'),pu:v('--pu'),
+    go:v('--go'),rd:v('--rd'),tx:v('--tx'),dm:v('--dm'),
+    stGood:v('--st-good'),stTired:v('--st-tired'),stBlown:v('--st-blown'),
+    opp:v('--opp'),
+  };
+})();
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -293,10 +337,10 @@ const ROLES={
 
 const STATUS=[
   {min:75,l:'Fresh 🟢',   c:'var(--gr)'},
-  {min:50,l:'Good 🟡',    c:'#f59e0b'},
-  {min:25,l:'Tired 🟠',   c:'#fb923c'},
+  {min:50,l:'Good 🟡',    c:'var(--st-good)'},
+  {min:25,l:'Tired 🟠',   c:'var(--st-tired)'},
   {min:8, l:'Cracked 🔴', c:'var(--rd)'},
-  {min:0, l:'Blown up 💀',c:'#6b7280'},
+  {min:0, l:'Blown up 💀',c:'var(--st-blown)'},
 ];
 
 const RESP={
@@ -371,10 +415,10 @@ function scoreR(r,rt){
 }
 function classify(r){
   const w15=wkg(r,'15'),w1=wkg(r,'1'),w5=wkg(r,'5'),w20=wkg(r,'20');
-  if(w15/(w5||1)>2.8)        return{t:'Sprinter',c:'#ff5d00',b:'rgba(255,93,0,.1)',br:'rgba(255,93,0,.35)'};
-  if(w20>4.2&&w5>4.8)        return{t:'Klatrer', c:'#7fff6b',b:'rgba(127,255,107,.08)',br:'rgba(127,255,107,.35)'};
-  if(w1/(w20||1)>1.6)        return{t:'Puncheur',c:'#cc88ff',b:'rgba(204,136,255,.08)',br:'rgba(204,136,255,.35)'};
-  return                            {t:'Diesel',  c:'#00e5ff',b:'rgba(0,229,255,.06)',br:'rgba(0,229,255,.3)'};
+  if(w15/(w5||1)>2.8) return{t:'Sprinter',cls:'badge-sprinter'};
+  if(w20>4.2&&w5>4.8) return{t:'Klatrer', cls:'badge-klatrer'};
+  if(w1/(w20||1)>1.6) return{t:'Puncheur',cls:'badge-puncheur'};
+  return                    {t:'Diesel',  cls:'badge-diesel'};
 }
 function sname(n){
   const s=n.replace(/&[^;]+;/g,'').replace(/\|.*$/,'').replace(/\(.*$/,'').replace(/[^\x00-\x7F]/g,'').trim();
@@ -386,7 +430,7 @@ function inits(n){
   return s.length>=2?(s[0][0]+s[1][0]).toUpperCase():(s[0]||'?').slice(0,2).toUpperCase();
 }
 function stSt(s){return STATUS.find(t=>s>=t.min)||STATUS[STATUS.length-1];}
-function stCol(s){if(s>55)return'var(--gr)';if(s>28)return'#f59e0b';return'var(--rd)';}
+function stCol(s){if(s>55)return'var(--gr)';if(s>28)return'var(--st-good)';return'var(--rd)';}
 function pick(a){return a[Math.floor(Math.random()*a.length)];}
 function getFlatPower(r){
   // Use w20min watts directly; fall back to w/kg × weight
@@ -511,7 +555,7 @@ function riderRow(r,team){
       <span style="color:var(--ac)">${wkg(r,'20').toFixed(1)}</span> w/kg ·
       <span style="color:var(--tx)">${watts}W</span> ·
       <span style="color:var(--or)">${wkg(r,'15').toFixed(1)}</span> 15s</div></div>
-    <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b}">${cl.t}</span>`;
+    <span class="${cl.cls}">${cl.t}</span>`;
 }
 
 function loadMyTeam(){
@@ -556,11 +600,11 @@ function toggleOpp(r,el){
 
 function routeTag(rt){
   const m=Math.max(rt.sprint,rt.punch,rt.climb,rt.pursuit,rt.endurance);
-  if(m===rt.climb)  return{l:'Climb',    s:'color:#7fff6b;border:1px solid rgba(127,255,107,.3);background:rgba(127,255,107,.08)'};
-  if(m===rt.punch)  return{l:'Punch',    s:'color:#cc88ff;border:1px solid rgba(204,136,255,.3);background:rgba(204,136,255,.08)'};
-  if(m===rt.sprint) return{l:'Sprint',   s:'color:#ff5d00;border:1px solid rgba(255,93,0,.3);background:rgba(255,93,0,.08)'};
-  if(m===rt.pursuit)return{l:'TT',       s:'color:#00e5ff;border:1px solid rgba(0,229,255,.3);background:rgba(0,229,255,.08)'};
-  return{l:'Endurance',s:'color:#f59e0b;border:1px solid rgba(245,158,11,.3);background:rgba(245,158,11,.08)'};
+  if(m===rt.climb)  return{l:'Climb',     cls:'badge badge-climb'};
+  if(m===rt.punch)  return{l:'Punch',     cls:'badge badge-punch'};
+  if(m===rt.sprint) return{l:'Sprint',    cls:'badge badge-sprint'};
+  if(m===rt.pursuit)return{l:'TT',        cls:'badge badge-tt'};
+  return                  {l:'Endurance', cls:'badge badge-endurance'};
 }
 function filterRoutes(){
   const q=(document.getElementById('rq').value||'').toLowerCase();
@@ -571,7 +615,7 @@ function filterRoutes(){
       const tg=routeTag(rt);
       const el=document.createElement('div');el.className='ritem';el.dataset.rname=rt.name;
       el.innerHTML=`<div><div style="font-weight:600">${rt.name}</div><div style="color:var(--dm);font-size:.6rem">${rt.world} · ${rt.distance}km · ${rt.elevation}m</div></div>
-        <span style="font-size:.55rem;padding:2px 7px;border-radius:10px;${tg.s}">${tg.l}</span>`;
+        <span class="${tg.cls}">${tg.l}</span>`;
       el.onclick=()=>{document.querySelectorAll('#rlist .ritem').forEach(e=>e.classList.remove('sel'));el.classList.add('sel');G.route=rt;drawPrev(rt);checkReady();saveSelections();};
       box.appendChild(el);
     });
@@ -642,7 +686,7 @@ function goStrategy(){
     const div=document.createElement('div');div.className='role-card';
     div.innerHTML=`<div style="min-width:0">
       <div style="font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}</div>
-      <span class="badge" style="color:${cl.c};border-color:${cl.br};background:${cl.b};margin-top:3px;display:inline-block">${cl.t}</span>
+      <span class="${cl.cls}" style="margin-top:3px;display:inline-block">${cl.t}</span>
     </div>
     <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:var(--dm);max-width:100px;line-height:1.4">${ROLES[suggestRole].desc.split('.')[0]}</div>
     <select class="role-select" data-idx="${i}">
@@ -1661,7 +1705,7 @@ function drawCanvas(){
     const cy=rpu.lane*LANE_H+LANE_H/2;
     const pulse=1+0.18*Math.sin(now/180);
     ctx.save();ctx.globalAlpha=alpha;
-    ctx.shadowColor=rpu.pu.id==='pedal'?'#ff5d00':'#ffd700';
+    ctx.shadowColor=rpu.pu.id==='pedal'?THEME.or:THEME.go;
     ctx.shadowBlur=14*pulse;
     ctx.font=`${Math.round(R*1.7*pulse)}px serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
@@ -1673,7 +1717,7 @@ function drawCanvas(){
   G.racers.forEach(r=>{
     if(r.absent)return;
     const cy=r.lane*LANE_H+LANE_H/2;
-    const col=r.team==='leqp'?'#00e5ff':'#ff5d00';
+    const col=r.team==='leqp'?THEME.ac:THEME.or;
     const isYou=r.id==G.youId;
     const attacking=r.attackTicks>0;
 
@@ -1681,7 +1725,7 @@ function drawCanvas(){
     const rx=Math.min(ML-R+r.progress*TW, ML+TW+FINISH_ZONE-R-4);
     ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
     ctx.fillStyle='rgba(255,255,255,.93)';ctx.fill();
-    ctx.strokeStyle=attacking?'#ffd700':col;
+    ctx.strokeStyle=attacking?THEME.go:col;
     ctx.lineWidth=isYou?5:attacking?4:3;ctx.stroke();
 
     // Pedal Harder spin animation — 3 fast-rotating arcs
@@ -1691,11 +1735,11 @@ function drawCanvas(){
       for(let i=0;i<3;i++){
         const a=ang+i*(Math.PI*2/3);
         ctx.beginPath();ctx.arc(0,0,R+8,a,a+Math.PI*0.55);
-        ctx.strokeStyle='#ff5d00';ctx.lineWidth=3;ctx.stroke();
+        ctx.strokeStyle=THEME.or;ctx.lineWidth=3;ctx.stroke();
       }
-      ctx.shadowColor='#ff5d00';ctx.shadowBlur=8;
+      ctx.shadowColor=THEME.or;ctx.shadowBlur=8;
       ctx.beginPath();ctx.arc(0,0,R+8,ang+Math.PI,ang+Math.PI+Math.PI*0.55);
-      ctx.strokeStyle='#ffd700';ctx.lineWidth=2;ctx.stroke();
+      ctx.strokeStyle=THEME.go;ctx.lineWidth=2;ctx.stroke();
       ctx.restore();
     }
 
@@ -1704,7 +1748,7 @@ function drawCanvas(){
       if(Date.now()<G.markTarget.expiry){
         if(Math.sin(Date.now()/140)>0){
           ctx.save();ctx.beginPath();ctx.arc(rx,cy,R+9,0,Math.PI*2);
-          ctx.strokeStyle='#ffd700';ctx.lineWidth=3;ctx.globalAlpha=.9;ctx.stroke();
+          ctx.strokeStyle=THEME.go;ctx.lineWidth=3;ctx.globalAlpha=.9;ctx.stroke();
           ctx.restore();
         }
       } else {G.markTarget=null;}
@@ -1714,11 +1758,11 @@ function drawCanvas(){
     if(r.team==='leqp'&&r.following){
       ctx.save();
       ctx.beginPath();ctx.arc(rx,cy,R+7,0,Math.PI*2);
-      ctx.strokeStyle='#ffd700';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();
+      ctx.strokeStyle=THEME.go;ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();
       ctx.setLineDash([]);
       ctx.font=`${Math.round(R*.55)}px sans-serif`;
       ctx.textAlign='center';ctx.textBaseline='alphabetic';
-      ctx.fillStyle='#ffd700';ctx.fillText('▶',rx,cy-R-4);
+      ctx.fillStyle=THEME.go;ctx.fillText('▶',rx,cy-R-4);
       ctx.restore();
     }
 
@@ -1752,7 +1796,7 @@ function drawCanvas(){
       ctx.save();
       ctx.font=(isYou?'bold ':'')+'10px "JetBrains Mono",monospace';
       ctx.textAlign='right';ctx.textBaseline='middle';
-      ctx.fillStyle=isYou?'rgba(255,255,255,.95)':r.team==='leqp'?'rgba(0,229,255,.88)':'rgba(255,93,0,.85)';
+      ctx.fillStyle=isYou?THEME.tx:col;
       ctx.fillText(nm,rx-R-16,cy);
       ctx.restore();
     }
@@ -1770,14 +1814,14 @@ function drawCanvas(){
         const bx=goRight?rx+R+10:rx-R-10-bw;
         const by=cy-bh/2;
         drawRoundRect(ctx,bx,by,bw,bh,5);
-        ctx.fillStyle='rgba(14,20,38,.97)';ctx.fill();
+        ctx.fillStyle=THEME.s1;ctx.fill();
         ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
         ctx.beginPath();
         if(goRight){ctx.moveTo(bx,cy-5);ctx.lineTo(bx-8,cy);ctx.lineTo(bx,cy+5);}
         else{ctx.moveTo(bx+bw,cy-5);ctx.lineTo(bx+bw+8,cy);ctx.lineTo(bx+bw,cy+5);}
-        ctx.fillStyle='rgba(14,20,38,.97)';ctx.fill();
+        ctx.fillStyle=THEME.s1;ctx.fill();
         ctx.strokeStyle=col;ctx.lineWidth=1.5;ctx.stroke();
-        ctx.fillStyle='#e2e8f0';ctx.textAlign='left';ctx.textBaseline='middle';
+        ctx.fillStyle=THEME.tx;ctx.textAlign='left';ctx.textBaseline='middle';
         ctx.fillText(txt,bx+9,cy);
         ctx.restore();
       } else {
@@ -1874,28 +1918,28 @@ function drawCanvas(){
       const last=G.preRaceOverlay.intel.slice(-2);
       ctx.font='bold 13px "JetBrains Mono",monospace';
       ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillStyle='#ffd700';
+      ctx.fillStyle=THEME.go;
       last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,H*0.07+(i+.5)*22));
     }
 
     // My team — closer to VS
-    splash(G.myData.name, cx, H*0.39, Math.min(44,W/13), '#00e5ff');
+    splash(G.myData.name, cx, H*0.39, Math.min(44,W/13), THEME.ac);
 
     // VS
-    splash('⚡ VS ⚡', cx, H*0.50, Math.min(36,W/16), '#ff5d00', 3);
+    splash('⚡ VS ⚡', cx, H*0.50, Math.min(36,W/16), THEME.or, 3);
 
     // Opponent team — closer to VS
-    splash(G.oppData.name, cx, H*0.61, Math.min(44,W/13), '#ffaa44');
+    splash(G.oppData.name, cx, H*0.61, Math.min(44,W/13), THEME.opp);
 
     // Route + distance — bottom
     splash(`${rt.name}  ·  ${rt.world}  ·  ${rt.distance} km  ·  ${rt.elevation} m`,
-           cx, H*0.82, Math.min(17,W/40), '#94a3b8', 3);
+           cx, H*0.82, Math.min(17,W/40), THEME.dm, 3);
 
     // Countdown — big, bottom centre
     if(countdown!==null){
       splash(countdown>0?String(countdown):'GO!',
              cx, H*0.92, Math.min(64,W/8),
-             countdown>0?'#ffffff':'#7fff6b', 8);
+             countdown>0?THEME.tx:THEME.gr, 8);
     }
 
     ctx.restore();
@@ -1949,7 +1993,7 @@ function finishRace(){
     return `<div class="fo-row ${r.team}">
       <span style="font-weight:700;color:${posCol}">${r.finalPos}</span>
       <span>${r.display}</span>
-      <span style="color:${r.cl.c};opacity:.7">${r.cl.t}</span>
+      <span class="${r.cl.cls}" style="opacity:.8">${r.cl.t}</span>
       <span style="color:var(--ac);font-weight:600">${pts} pt</span>
     </div>`;
   }).join('');
@@ -1981,7 +2025,7 @@ function showResults(){
     <div class="rr ${r.team}">
       <span style="font-weight:700;font-size:.9rem;color:${r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)'}">${r.finalPos}</span>
       <span>${r.display}</span>
-      <span style="color:${r.cl.c};font-size:.65rem">${r.cl.t}</span>
+      <span class="${r.cl.cls}" style="font-size:.65rem">${r.cl.t}</span>
       <span style="color:var(--dm);font-size:.65rem">${r.teamName}</span>
       <span style="color:${r.team==='leqp'?'var(--ac)':'var(--or)'};font-weight:700">${ladderPts(r.finalPos)} pts</span>
     </div>`).join('');
