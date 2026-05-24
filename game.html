@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.2';
+const VERSION='v1.2.3';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -647,7 +647,9 @@ function toggleMy(r,el){
 function loadOppTeam(){
   const k=document.getElementById('opp-team').value;if(!k)return;
   G.oppKey=k;G.oppData=OPPONENT_LIBRARY[k];
-  const oppPool=[...G.oppData.riders].sort(()=>Math.random()-.5);
+  const oppAll=[...G.oppData.riders];
+  const oppWithStats=oppAll.filter(r=>wkg(r,'20')>0||(r.watt||0)>50);
+  const oppPool=(oppWithStats.length>=5?oppWithStats:oppAll).sort(()=>Math.random()-.5);
   G.oppPick=oppPool.slice(0,5);
   const box=document.getElementById('opp-list');box.innerHTML='';
   G.oppPick.forEach(r=>{
@@ -2065,12 +2067,14 @@ function finishRace(){
   // Set all riders to Rest and refresh their cards
   G.racers.filter(r=>r.team==='leqp'&&!r.absent).forEach(r=>{r.effort=1;renderMyCard(r);});
 
-  // Sort: finished riders by crossing order, dropped riders last by progress
+  // Sort: finished riders by crossing order, DNF/dropped last by progress
   const active=[...G.racers].filter(r=>!r.absent);
   const sorted=active.sort((a,b)=>{
-    if(a.dropped&&!b.dropped)return 1;
-    if(b.dropped&&!a.dropped)return -1;
-    if(a.dropped&&b.dropped)return b.progress-a.progress;
+    const aDNF=a.dropped||!a.finished;
+    const bDNF=b.dropped||!b.finished;
+    if(aDNF&&!bDNF)return 1;
+    if(!aDNF&&bDNF)return -1;
+    if(aDNF&&bDNF)return b.progress-a.progress;
     return a.finishTick-b.finishTick;
   });
   sorted.forEach((r,i)=>r.finalPos=i+1);
