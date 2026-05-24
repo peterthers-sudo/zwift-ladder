@@ -103,7 +103,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .seg.active{outline:1px solid currentColor;font-weight:700;}
 
 /* Center — canvas fills all remaining height */
-#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding:8px 12px 6px;}
+#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding:8px 12px 14px;}
 
 /* ══ RESULTS ══ */
 #results{max-width:900px;margin:0 auto;padding:20px;}
@@ -244,7 +244,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.5';
+const VERSION='v0.6.6';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1086,7 +1086,7 @@ function drawCanvas(){
   const W=cv.offsetWidth||900;
   // Fill all space race-center gives us (minus seg-bar)
   const ctr=document.getElementById('race-center');
-  const availH=Math.max(400,ctr.clientHeight-18);
+  const availH=Math.max(400,ctr.clientHeight-40); // 18 seg-bar + 8 top pad + 14 bottom pad
   const LANE_H=Math.min(88,Math.max(52,Math.floor(availH/LANES)));
   const H=LANES*LANE_H;
   const R=Math.round(LANE_H*0.33);
