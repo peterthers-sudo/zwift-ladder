@@ -267,12 +267,12 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.3';
+const VERSION='v0.8.4';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
 // ══════════════════════════════════════════════════════
-const TICK_BASE=1000, TOTAL_TICKS=130, GAP_GROUP=0.018, FINISH_ZONE=80;
+const TICK_BASE=1000, RACE_TICKS=130, TOTAL_TICKS=400, GAP_GROUP=0.018, FINISH_ZONE=80;
 
 const EFF_LBL=['Rest','Easy','Tempo','Hard','Attack'];
 const EFF_IC =['💤','🚴','🎯','🔥','⚡'];
@@ -911,9 +911,9 @@ function applyStrategy(r,t,sec){
 function doTick(){
   if(G.tick>=TOTAL_TICKS){finishRace();return;}
   G.tick++;
-  const t=G.tick/TOTAL_TICKS;
-  const sec=curSec(t);
-  const prevSec=curSec(Math.max(0,(G.tick-1)/TOTAL_TICKS));
+  const t=G.tick/RACE_TICKS;
+  const sec=curSec(Math.min(t,1));
+  const prevSec=curSec(Math.min(Math.max(0,(G.tick-1)/RACE_TICKS),1));
 
   G.racers.forEach(r=>{
     // Skip absent riders entirely
@@ -932,7 +932,7 @@ function doTick(){
 
     // Finished riders coast gently past the finish line
     if(r.finished){
-      r.progress=Math.min(1+FINISH_ZONE/(G.canvasLayout?.TW||700),r.progress+r.norm*EFF_SPD[1]*0.6*(1/TOTAL_TICKS));
+      r.progress=Math.min(1+FINISH_ZONE/(G.canvasLayout?.TW||700),r.progress+r.norm*EFF_SPD[1]*0.6*(1/RACE_TICKS));
       return;
     }
 
@@ -1002,7 +1002,7 @@ function doTick(){
     const stamMod=0.55+(r.stamina/100)*0.45;
     const fit=sectionFit(r,rSec);
     const speed=r.norm*effSpd*stamMod*fit*pMult;
-    r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/TOTAL_TICKS));
+    r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/RACE_TICKS));
     r._protectBonus=0;
     // Mark finish the moment progress hits 1 (next tick they'll coast past)
     if(r.progress>=1){r.finished=true;r.finishTick=r.finishTick||G.tick;}
@@ -1242,7 +1242,7 @@ function startRender(){
 }
 
 function updatePanels(){
-  const t=G.tick/TOTAL_TICKS;
+  const t=Math.min(1,G.tick/RACE_TICKS);
   const sorted=[...G.racers].sort((a,b)=>b.progress-a.progress);
   const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.position,0);
   const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+r.position,0);
@@ -1437,7 +1437,7 @@ function drawCanvas(){
   ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
   ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=2;ctx.stroke();
 
-  const t=G.tick/TOTAL_TICKS;const sec=curSec(t);
+  const t=Math.min(1,G.tick/RACE_TICKS);const sec=curSec(t);
 
   // Section highlight
   ctx.fillStyle='rgba(255,93,0,.03)';
