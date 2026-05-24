@@ -173,8 +173,9 @@ select:focus,input:focus{border-color:var(--ac);}
     </div>
     <div class="card">
       <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">Opponent</h2><span id="opp-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
-      <span class="lbl">Rung</span><select id="opp-rung" onchange="loadRung()" style="margin-bottom:8px"><option value="">— Select rung —</option></select>
-      <span class="lbl">Team</span><select id="opp-team" onchange="loadOppTeam()" style="margin-bottom:10px" disabled><option value="">— Select rung first —</option></select>
+      <div id="campaign-info" style="font-family:'JetBrains Mono',monospace;font-size:.72rem;padding:7px 10px;background:var(--s2);border-radius:6px;margin-bottom:8px;color:var(--dm)">Select your team to see eligible opponents</div>
+      <div class="fb" style="margin-bottom:4px"><span class="lbl" style="margin:0">Challenge</span><button id="reset-camp-btn" onclick="resetCampaign()" style="display:none;font-size:.6rem;padding:2px 8px;border:1px solid var(--bd);border-radius:4px;cursor:pointer;background:none;color:var(--dm)">Reset</button></div>
+      <select id="opp-team" onchange="loadOppTeam()" style="margin-bottom:10px" disabled><option value="">— Select your team first —</option></select>
       <div class="ri-list" id="opp-list"></div>
     </div>
   </div>
@@ -292,7 +293,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.17';
+const VERSION='v1.1.0';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -368,9 +369,11 @@ const STRATEGIES={
 // ══════════════════════════════════════════════════════
 // STATE
 // ══════════════════════════════════════════════════════
+const CAMP_LS_PREFIX='ph_camp_';
 const G={
   myKey:null,myData:null,myPick:[],
   oppKey:null,oppData:null,oppPick:[],
+  campaign:null,
   route:null,laps:1,youId:null,
   racers:[],sections:[],groups:[],
   tick:0,paused:false,speed:1,
@@ -450,7 +453,6 @@ function saveSelections(){
   localStorage.setItem(LS_KEY,JSON.stringify({
     myKey:G.myKey,
     myPick:G.myPick.map(r=>r.id),
-    oppRung:document.getElementById('opp-rung').value,
     oppKey:G.oppKey,
     oppPick:G.oppPick.map(r=>r.id),
     routeName:G.route?.name,
@@ -478,10 +480,14 @@ function restoreSelections(){
     }
   }
 
-  if(d.oppRung&&d.oppKey&&OPPONENT_LIBRARY[d.oppKey]){
-    document.getElementById('opp-rung').value=d.oppRung;
-    loadRung();
-    document.getElementById('opp-team').value=d.oppKey;
+  if(d.oppKey&&OPPONENT_LIBRARY[d.oppKey]){
+    const ts=document.getElementById('opp-team');
+    if(!ts.querySelector(`option[value="${d.oppKey}"]`)){
+      const t=OPPONENT_LIBRARY[d.oppKey];
+      ts.insertAdjacentHTML('beforeend',`<option value="${d.oppKey}">#${t.ladderPosition} ${t.name}</option>`);
+      ts.disabled=false;
+    }
+    ts.value=d.oppKey;
     loadOppTeam();
     if(d.oppPick?.length){
       G.oppPick=[];
@@ -531,9 +537,6 @@ function init(){
 
   const ms=document.getElementById('my-sel');
   Object.entries(MY_TEAMS).forEach(([k,t])=>ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
-  const rs=document.getElementById('opp-rung');
-  [...new Set(Object.values(OPPONENT_LIBRARY).map(t=>t.rung))].sort((a,b)=>a-b)
-    .forEach(r=>rs.insertAdjacentHTML('beforeend',`<option value="${r}">Rung ${r}</option>`));
   filterRoutes();
   restoreSelections();
 }
@@ -550,6 +553,55 @@ function riderRow(r,team){
     <span class="${cl.cls}">${cl.t}</span>`;
 }
 
+function loadCampaign(teamKey,startPos){
+  let c;try{c=JSON.parse(localStorage.getItem(CAMP_LS_PREFIX+teamKey)||'null');}catch(e){}
+  if(!c||c.startPos!==startPos)c={myPos:startPos,startPos,consecutiveLosses:0,wins:0};
+  G.campaign=c;return c;
+}
+function saveCampaign(){
+  if(!G.campaign||!G.myKey)return;
+  localStorage.setItem(CAMP_LS_PREFIX+G.myKey,JSON.stringify(G.campaign));
+}
+function resetCampaign(){
+  if(!G.campaign)return;
+  G.campaign.myPos=G.campaign.startPos;
+  G.campaign.consecutiveLosses=0;
+  G.campaign.wins=0;
+  saveCampaign();
+  updateCampaignInfo();
+  filterOpponentsByLadder();
+  G.oppKey=null;G.oppData=null;G.oppPick=[];
+  document.getElementById('opp-list').innerHTML='';
+  document.getElementById('opp-cnt').textContent='0/5';
+  checkReady();
+}
+function updateCampaignInfo(){
+  const c=G.campaign;
+  if(!c){document.getElementById('campaign-info').textContent='Select your team to see eligible opponents';return;}
+  const lo=c.myPos-7,hi=c.myPos-1;
+  const lossStr=c.consecutiveLosses>0?` &nbsp;·&nbsp; ⚠️ ${c.consecutiveLosses}/3 losses`:'';
+  const winsStr=c.wins>0?` &nbsp;·&nbsp; 🏆 ${c.wins} win${c.wins>1?'s':''}`:'';
+  document.getElementById('campaign-info').innerHTML=
+    `Ranked <strong style="color:var(--ac)">#${c.myPos}</strong> &nbsp;·&nbsp; Challenge: <strong>#${lo}–#${hi}</strong>${lossStr}${winsStr}`;
+  document.getElementById('reset-camp-btn').style.display=c.wins>0||c.consecutiveLosses>0?'':'none';
+}
+function filterOpponentsByLadder(){
+  const c=G.campaign;if(!c)return;
+  const lo=c.myPos-7,hi=c.myPos-1;
+  const ts=document.getElementById('opp-team');
+  ts.innerHTML='<option value="">— Select opponent —</option>';
+  const eligible=Object.entries(OPPONENT_LIBRARY)
+    .filter(([k,t])=>t.ladderPosition>=lo&&t.ladderPosition<=hi&&!k.includes('_LEQP_'))
+    .sort((a,b)=>a[1].ladderPosition-b[1].ladderPosition);
+  if(eligible.length===0){
+    ts.innerHTML='<option value="">No opponents in range — all clear ahead!</option>';
+    ts.disabled=true;
+  } else {
+    ts.disabled=false;
+    eligible.forEach(([k,t])=>ts.insertAdjacentHTML('beforeend',
+      `<option value="${k}">#${t.ladderPosition} ${t.name}</option>`));
+  }
+}
 function loadMyTeam(){
   const k=document.getElementById('my-sel').value;if(!k)return;
   G.myKey=k;G.myData=MY_TEAMS[k];G.myPick=[];
@@ -557,19 +609,27 @@ function loadMyTeam(){
   G.myData.riders.forEach(r=>{
     const el=document.createElement('div');el.className='ri';el.dataset.rid=r.id;
     el.innerHTML='<div class="ri-cb"></div>'+riderRow(r,'my');el.onclick=()=>toggleMy(r,el);box.appendChild(el);
-  });checkReady();
+  });
+  const oppEntry=OPPONENT_LIBRARY[k];
+  if(oppEntry?.ladderPosition){
+    loadCampaign(k,oppEntry.ladderPosition);
+    updateCampaignInfo();
+    filterOpponentsByLadder();
+  } else {
+    G.campaign=null;
+    document.getElementById('campaign-info').textContent='Ladder position not available';
+    const ts=document.getElementById('opp-team');
+    ts.innerHTML='<option value="">— Select opponent —</option>';ts.disabled=false;
+    Object.entries(OPPONENT_LIBRARY).sort((a,b)=>a[1].name.localeCompare(b[1].name))
+      .forEach(([ek,et])=>ts.insertAdjacentHTML('beforeend',`<option value="${ek}">${et.name}</option>`));
+  }
+  checkReady();saveSelections();
 }
 function toggleMy(r,el){
   const i=G.myPick.findIndex(x=>x.id===r.id);
   if(i>=0){G.myPick.splice(i,1);el.classList.remove('sel');}
   else{if(G.myPick.length>=5){const o=G.myPick.shift();document.querySelector(`#my-list [data-rid="${o.id}"]`)?.classList.remove('sel');}G.myPick.push(r);el.classList.add('sel');}
   document.getElementById('my-cnt').textContent=`${G.myPick.length}/5`;checkReady();saveSelections();
-}
-function loadRung(){
-  const rung=+document.getElementById('opp-rung').value;
-  const ts=document.getElementById('opp-team');ts.innerHTML='<option value="">— Select team —</option>';ts.disabled=false;
-  Object.entries(OPPONENT_LIBRARY).filter(([,t])=>t.rung===rung).sort((a,b)=>a[1].name.localeCompare(b[1].name))
-    .forEach(([k,t])=>ts.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
 }
 function loadOppTeam(){
   const k=document.getElementById('opp-team').value;if(!k)return;
@@ -1975,6 +2035,35 @@ function finishRace(){
   const won=myPts>opPts;
   const draw=myPts===opPts;
 
+  // Campaign update
+  let campMsg='',campReset=false;
+  if(G.campaign&&G.oppData?.ladderPosition){
+    const oppPos=G.oppData.ladderPosition;
+    if(won){
+      const oldPos=G.campaign.myPos;
+      G.campaign.myPos=oppPos;
+      G.campaign.consecutiveLosses=0;
+      G.campaign.wins++;
+      saveCampaign();
+      campMsg=`You advance from <strong>#${oldPos}</strong> to <strong style="color:var(--gr)">#${G.campaign.myPos}</strong>! Next: challenge #${G.campaign.myPos-7}–#${G.campaign.myPos-1}`;
+    } else if(!draw){
+      G.campaign.consecutiveLosses++;
+      if(G.campaign.consecutiveLosses>=3){
+        G.campaign.myPos=G.campaign.startPos;
+        G.campaign.consecutiveLosses=0;
+        G.campaign.wins=0;
+        campReset=true;
+        saveCampaign();
+        campMsg=`3 consecutive losses — campaign reset to <strong style="color:var(--rd)">#${G.campaign.myPos}</strong>`;
+      } else {
+        saveCampaign();
+        campMsg=`${G.campaign.consecutiveLosses}/3 consecutive losses · Still ranked <strong>#${G.campaign.myPos}</strong>`;
+      }
+    }
+    updateCampaignInfo();
+    filterOpponentsByLadder();
+  }
+
   // Store for showResults()
   G._finishSorted=sorted;
   G._myPts=myPts;G._opPts=opPts;G._won=won;G._draw=draw;
@@ -1982,6 +2071,8 @@ function finishRace(){
   // Show result overlay — floats over the canvas, no layout shift
   const verdictText=won?'VICTORY!':draw?'DRAW':'DEFEAT';
   const verdictCol=won?'var(--gr)':draw?'var(--ac)':'var(--rd)';
+  const campBg=won?'rgba(43,196,72,.1)':campReset?'rgba(239,35,60,.15)':'rgba(239,35,60,.08)';
+  const campSection=campMsg?`<div style="text-align:center;padding:8px 12px;margin-bottom:10px;border-radius:6px;background:${campBg};font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--tx)">${campMsg}</div>`:'';
   const rows=sorted.map(r=>{
     const pts=ladderPts(r.finalPos);
     const posCol=r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)';
@@ -1995,6 +2086,7 @@ function finishRace(){
   document.getElementById('finish-overlay').innerHTML=`
     <div class="fo-verdict" style="color:${verdictCol}">${verdictText}</div>
     <div class="fo-score">${G.myData.name} <span style="color:var(--ac);font-weight:700">${myPts}</span> pts &nbsp;·&nbsp; ${G.oppData.name} <span style="color:var(--or);font-weight:700">${opPts}</span> pts</div>
+    ${campSection}
     <div style="border-radius:6px;overflow:hidden;margin-bottom:4px">${rows}</div>
     <div class="fo-actions">
       <button class="btn bs" style="font-size:.8rem;padding:7px 18px" onclick="show('setup')">Change setup</button>
