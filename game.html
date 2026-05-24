@@ -271,7 +271,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.8';
+const VERSION='v1.0.9';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1582,35 +1582,38 @@ function drawCanvas(){
   const TW=W-ML-FINISH_ZONE-MR;  // race track; FINISH_ZONE is past the line
   G.canvasLayout={ML,R,LANE_H,TW};
 
-  // Clean dark slate base
-  ctx.fillStyle='#1c2333';ctx.fillRect(0,0,W,H);
+  // Deep navy base
+  ctx.fillStyle='#0d1526';ctx.fillRect(0,0,W,H);
 
-  // Team half-backgrounds — single block each, not per-lane
-  ctx.fillStyle='rgba(0,229,255,.06)'; ctx.fillRect(0,0,W,LANE_H*5);
-  ctx.fillStyle='rgba(255,93,0,.06)';  ctx.fillRect(0,LANE_H*5,W,LANE_H*5);
+  // Strong team colour blocks — your team cyan, opponents orange
+  const myGrad=ctx.createLinearGradient(0,0,0,LANE_H*5);
+  myGrad.addColorStop(0,'rgba(0,210,255,.18)');
+  myGrad.addColorStop(1,'rgba(0,210,255,.08)');
+  ctx.fillStyle=myGrad; ctx.fillRect(0,0,W,LANE_H*5);
 
-  // Alternating lane tint — very light, just enough to track individual lanes
+  const opGrad=ctx.createLinearGradient(0,LANE_H*5,0,H);
+  opGrad.addColorStop(0,'rgba(255,100,0,.10)');
+  opGrad.addColorStop(1,'rgba(255,100,0,.20)');
+  ctx.fillStyle=opGrad; ctx.fillRect(0,LANE_H*5,W,LANE_H*5);
+
+  // Alternating lane stripe — barely-there
   for(let i=0;i<LANES;i+=2){
     ctx.fillStyle='rgba(255,255,255,.03)';
     ctx.fillRect(0,i*LANE_H,W,LANE_H);
   }
 
-  // Finish zone
-  ctx.fillStyle='rgba(255,215,0,.06)';
-  ctx.fillRect(ML+TW,0,FINISH_ZONE,H);
-
-  // Lane dividers — thin for rows, solid for team split
+  // Lane dividers
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
-    ctx.strokeStyle=i===5?'rgba(255,255,255,.28)':'rgba(255,255,255,.07)';
+    ctx.strokeStyle=i===5?'rgba(255,255,255,.40)':'rgba(255,255,255,.09)';
     ctx.lineWidth=i===5?2:1;ctx.stroke();
   }
 
-  // Elevation silhouette — white/neutral so it doesn't clash with background
+  // Elevation silhouette — white so it reads cleanly on either team half
   const rp=ROUTE_PROFILES[G.route?.name];
   if(rp){
     const minA=Math.min(...rp),maxA=Math.max(...rp),range=Math.max(1,maxA-minA);
-    const silH=Math.min(H*0.40,LANE_H*4);
+    const silH=Math.min(H*0.38,LANE_H*3.5);
     ctx.save();
     ctx.beginPath();
     rp.forEach((a,i)=>{
@@ -1620,23 +1623,22 @@ function drawCanvas(){
     });
     ctx.lineTo(ML+TW,H);ctx.lineTo(ML,H);ctx.closePath();
     const silGrad=ctx.createLinearGradient(0,H-silH,0,H);
-    silGrad.addColorStop(0,'rgba(255,255,255,.10)');
-    silGrad.addColorStop(1,'rgba(255,255,255,.02)');
+    silGrad.addColorStop(0,'rgba(255,255,255,.14)');
+    silGrad.addColorStop(1,'rgba(255,255,255,.03)');
     ctx.fillStyle=silGrad;ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=1;ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.30)';ctx.lineWidth=1.5;ctx.stroke();
     ctx.restore();
   }
 
+  // Finish zone — gold tint
+  ctx.fillStyle='rgba(255,215,0,.07)';
+  ctx.fillRect(ML+TW,0,FINISH_ZONE,H);
+
   // Start line
   ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
-  ctx.strokeStyle='rgba(255,255,255,.35)';ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.40)';ctx.lineWidth=2;ctx.stroke();
 
   const t=Math.min(1,G.tick/RACE_TICKS);const sec=curSec(t);
-
-  // Section type highlight — subtle tint on current section
-  const SEC_HL={flat:'rgba(0,229,255,.04)',climb:'rgba(127,255,107,.05)',punch:'rgba(204,136,255,.05)',sprint:'rgba(255,93,0,.05)'};
-  ctx.fillStyle=SEC_HL[sec.t]||'rgba(255,255,255,.03)';
-  ctx.fillRect(ML+sec.s*TW,0,(sec.e-sec.s)*TW,H);
 
   // Finish line — solid gold/white chequered look
   const flx=ML+TW;
