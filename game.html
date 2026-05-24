@@ -217,13 +217,13 @@ select:focus,input:focus{border-color:var(--ac);}
   <div id="my-panel-top">
     <div class="capt-bar">
       <span class="capt-lbl">CAPTAIN:</span>
-      <button class="capt-btn" onclick="captCmd('draft')">🚴 Draft</button>
-      <button class="capt-btn" onclick="captCmd('tempo')">🎯 Tempo</button>
-      <button class="capt-btn" onclick="captCmd('hard')">🔥 Hard</button>
-      <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Attack All!</button>
-      <button class="capt-btn" onclick="captCmd('protect')">🛡 Protect</button>
-      <button class="capt-btn" onclick="captCmd('rest')">💤 Rest All</button>
-      <button class="capt-btn" onclick="captCmd('status')">💬 Status</button>
+      <button class="capt-btn" onclick="captCmd('draft')">🚴 Stay in draft</button>
+      <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
+      <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
+      <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Everyone attack!</button>
+      <button class="capt-btn" onclick="captCmd('protect')">🛡 Protect leader</button>
+      <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
+      <button class="capt-btn" onclick="captCmd('status')">💬 Give status</button>
     </div>
     <div id="my-cards"></div>
   </div>
@@ -261,7 +261,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.0';
+const VERSION='v0.8.1';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
