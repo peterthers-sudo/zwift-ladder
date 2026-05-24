@@ -114,7 +114,15 @@ select:focus,input:focus{border-color:var(--ac);}
 .seg.active{outline:1px solid currentColor;font-weight:700;}
 
 /* Center — canvas fills all remaining height */
-#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding:8px 12px 14px;}
+#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding:8px 12px 14px;position:relative;}
+/* Finish overlay — floats over the canvas */
+#finish-overlay{display:none;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:20;width:min(560px,90%);max-height:85%;overflow-y:auto;background:rgba(10,15,28,.96);border:2px solid rgba(255,255,255,.12);border-radius:14px;padding:22px 24px;box-shadow:0 8px 48px rgba(0,0,0,.7);}
+#finish-overlay::-webkit-scrollbar{width:3px;}#finish-overlay::-webkit-scrollbar-thumb{background:rgba(255,255,255,.15);}
+.fo-verdict{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:5px;text-align:center;line-height:1;}
+.fo-score{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm);text-align:center;margin:6px 0 14px;}
+.fo-row{display:grid;grid-template-columns:28px 1fr auto auto;gap:8px;align-items:center;padding:5px 8px;border-bottom:1px solid rgba(255,255,255,.06);font-family:'JetBrains Mono',monospace;font-size:.68rem;}
+.fo-row.leqp{background:rgba(0,229,255,.03);}.fo-row.opp{background:rgba(255,93,0,.03);}
+.fo-actions{display:flex;gap:8px;margin-top:16px;justify-content:center;}
 
 /* ══ RESULTS ══ */
 #results{max-width:900px;margin:0 auto;padding:20px;}
@@ -203,11 +211,6 @@ select:focus,input:focus{border-color:var(--ac);}
 
 <!-- ══════════ RACE ══════════ -->
 <div class="screen" id="race">
-  <div id="finish-bar" style="display:none;align-items:center;gap:14px;flex-shrink:0;padding:8px 14px;border-bottom:2px solid var(--ac);background:rgba(0,229,255,.06)">
-    <span id="finish-verdict" style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px"></span>
-    <span id="finish-score" style="font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm)"></span>
-    <button class="btn bp" style="margin-left:auto;padding:6px 20px;font-size:.8rem" onclick="showResults()">Results →</button>
-  </div>
   <div id="race-hdr">
     <span class="rh-title" id="rh-name">—</span>
     <span class="rh-info" id="rh-dist"></span>
@@ -230,6 +233,7 @@ select:focus,input:focus{border-color:var(--ac);}
     <div id="my-cards"></div>
   </div>
   <div id="race-center">
+    <div id="finish-overlay"></div>
     <canvas id="race-canvas"></canvas>
     <div class="seg-bar" id="seg-bar"></div>
   </div>
@@ -264,7 +268,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.2';
+const VERSION='v1.0.3';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -797,7 +801,7 @@ function beginRace(){
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
   G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;
-  document.getElementById('finish-bar').style.display='none';
+  document.getElementById('finish-overlay').style.display='none';
   document.getElementById('pause-btn').disabled=false;
 
   const mkRacer=(r,team,teamName,role)=>({
@@ -1920,18 +1924,29 @@ function finishRace(){
   G._finishSorted=sorted;
   G._myPts=myPts;G._opPts=opPts;G._won=won;G._draw=draw;
 
-  // Show finish bar — stay on race screen
+  // Show result overlay — floats over the canvas, no layout shift
   const verdictText=won?'VICTORY!':draw?'DRAW':'DEFEAT';
   const verdictCol=won?'var(--gr)':draw?'var(--ac)':'var(--rd)';
-  document.getElementById('finish-verdict').textContent=verdictText;
-  document.getElementById('finish-verdict').style.color=verdictCol;
-  document.getElementById('finish-score').textContent=
-    `${G.myData.name} ${myPts} pts  ·  ${G.oppData.name} ${opPts} pts`;
-  const bar=document.getElementById('finish-bar');
-  bar.style.display='flex';
+  const rows=sorted.map(r=>{
+    const pts=ladderPts(r.finalPos);
+    const posCol=r.finalPos<=3?'#ffd700':r.team==='leqp'?'var(--ac)':'var(--or)';
+    return `<div class="fo-row ${r.team}">
+      <span style="font-weight:700;color:${posCol}">${r.finalPos}</span>
+      <span>${r.display}</span>
+      <span style="color:${r.cl.c};opacity:.7">${r.cl.t}</span>
+      <span style="color:var(--ac);font-weight:600">${pts} pt</span>
+    </div>`;
+  }).join('');
+  document.getElementById('finish-overlay').innerHTML=`
+    <div class="fo-verdict" style="color:${verdictCol}">${verdictText}</div>
+    <div class="fo-score">${G.myData.name} <span style="color:var(--ac);font-weight:700">${myPts}</span> pts &nbsp;·&nbsp; ${G.oppData.name} <span style="color:var(--or);font-weight:700">${opPts}</span> pts</div>
+    <div style="border-radius:6px;overflow:hidden;margin-bottom:4px">${rows}</div>
+    <div class="fo-actions">
+      <button class="btn bs" style="font-size:.8rem;padding:7px 18px" onclick="show('setup')">Change setup</button>
+      <button class="btn bp" style="font-size:.8rem;padding:7px 18px" onclick="rerun()">Play again</button>
+    </div>`;
+  document.getElementById('finish-overlay').style.display='block';
   document.getElementById('pause-btn').disabled=true;
-  // Finish-bar adds a new row — redraw canvas at new smaller race-center height
-  requestAnimationFrame(drawCanvas);
 }
 
 function showResults(){
