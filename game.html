@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.1';
+const VERSION='v1.2.2';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -374,7 +374,7 @@ const POWERUPS=[
   {id:'gel',    icon:'🍬',name:'Energy Gel',   desc:'Restore 40 stamina instantly',
    apply(r){r.stamina=Math.min(100,r.stamina+40);}},
   {id:'pedal',  icon:'🔥',name:'Pedal Harder', desc:'SUPER: +35% speed everywhere — 12 ticks!',
-   apply(r){r.powerupActive={type:'pedal',  ticks:12};}},
+   apply(r){r.powerupActive={type:'pedal',  ticks:3};}},
 ];
 // Pedal Harder excluded from normal pick pools — only from route drops
 const POWERUPS_NORMAL=POWERUPS.filter(p=>p.id!=='pedal');
@@ -647,11 +647,8 @@ function toggleMy(r,el){
 function loadOppTeam(){
   const k=document.getElementById('opp-team').value;if(!k)return;
   G.oppKey=k;G.oppData=OPPONENT_LIBRARY[k];
-  G.oppPick=[...G.oppData.riders].filter(r=>wkg(r,'20')>0).sort((a,b)=>wkg(b,'20')-wkg(a,'20')).slice(0,5);
-  if(G.oppPick.length<5){
-    const rest=[...G.oppData.riders].filter(r=>!G.oppPick.includes(r));
-    G.oppPick.push(...rest.slice(0,5-G.oppPick.length));
-  }
+  const oppPool=[...G.oppData.riders].sort(()=>Math.random()-.5);
+  G.oppPick=oppPool.slice(0,5);
   const box=document.getElementById('opp-list');box.innerHTML='';
   G.oppPick.forEach(r=>{
     const el=document.createElement('div');el.className='ri locked sel';el.dataset.rid=r.id;
@@ -1472,7 +1469,7 @@ function captPedalHarder(){
   commsEvt('🔥 Captain: PEDAL HARDER!!!');
   const replies=['On it — everything I\'ve got!','PEDAL HARDER! Let\'s go!','Full gas — for the win!','I\'m going all in!','Giving everything — now!'];
   G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished).forEach(r=>{
-    r.powerupActive={type:'pedal',ticks:12};
+    r.powerupActive={type:'pedal',ticks:3};
     say(r,replies[Math.floor(Math.random()*replies.length)],true);
     renderMyCard(r);
   });
