@@ -245,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.1';
+const VERSION='v0.7.2';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -313,8 +313,9 @@ const G={
   strategy:'control',
   pendingEvts:[],
   hudMsg:null,
-  markTarget:null,   // {id, expiry} — opponent marked for follow-assignment
-  canvasLayout:null, // {ML,R,LANE_H,TW} — set each frame for hit-testing
+  markTarget:null,
+  canvasLayout:null,
+  explosions:[],     // [{progress,lane,born,col}] — particle bursts
 };
 
 // ══════════════════════════════════════════════════════
@@ -675,7 +676,7 @@ function beginRace(){
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=true;G.racers=[];G.groups=[];
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];
 
   const mkRacer=(r,team,teamName,role)=>({
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
@@ -829,7 +830,10 @@ function doTick(){
       if(sec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
       if(r.inGroup)drain*=.65;
     }
+    const prevStam=r.stamina;
     r.stamina=Math.max(0,Math.min(100,r.stamina+drain));
+    if(prevStam>=10&&r.stamina<10)
+      G.explosions.push({progress:r.progress,lane:r.lane,born:Date.now(),col:r.team==='leqp'?'#00e5ff':'#ff5d00'});
 
     // Protection
     if(r.protecting&&r.protectTarget){
@@ -1287,6 +1291,31 @@ function drawCanvas(){
         r.bubble=null;
       }
     }
+  });
+
+  // Explosion animations
+  const now2=Date.now();
+  G.explosions=G.explosions.filter(ex=>{
+    const age=now2-ex.born;
+    if(age>750)return false;
+    const alpha=1-age/750;
+    const exRx=ML-R+ex.progress*TW;
+    const exCy=ex.lane*LANE_H+LANE_H/2;
+    const spread=age/750*R*3.5;
+    ctx.save();
+    // Expanding shockwave ring
+    ctx.beginPath();ctx.arc(exRx,exCy,R+spread,0,Math.PI*2);
+    ctx.strokeStyle=ex.col;ctx.lineWidth=2.5;ctx.globalAlpha=alpha*.7;ctx.stroke();
+    // 10 particles radiating outward
+    for(let i=0;i<10;i++){
+      const angle=i/10*Math.PI*2;
+      const px=exRx+Math.cos(angle)*spread;
+      const py=exCy+Math.sin(angle)*spread;
+      ctx.beginPath();ctx.arc(px,py,Math.max(1,3.5*alpha),0,Math.PI*2);
+      ctx.fillStyle=ex.col;ctx.globalAlpha=alpha*.9;ctx.fill();
+    }
+    ctx.restore();
+    return true;
   });
 
   // Gap indicators between groups (drawn as labels at the gap boundary on the track)
