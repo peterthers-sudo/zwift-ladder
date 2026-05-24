@@ -1100,10 +1100,16 @@ function aiDomestique(r,t,sec){
   if(!leader)return;
   r.protecting=true;r.protectTarget=leader.id;
   if(r.stamina<25){r.protecting=false;return;}
+  // Own stamina-aware effort — does NOT mirror the leader's effort number
+  // so clicking your rider's button never visually propagates to domestiques
   const onClimb=sec.t==='climb'||sec.t==='punch';
-  const target=onClimb?Math.min(4,leader.effort+1):leader.effort;
-  // Don't blow up matching a hard-charging leader — cap by own stamina
-  r.effort=r.stamina>42?target:Math.min(target,3);
+  const nearFinish=t>0.88;
+  const fresh=r.stamina>68,good=r.stamina>44;
+  if(r.stamina<8){r.effort=1;return;}
+  if(r.stamina<28){r.effort=2;return;}
+  if(nearFinish)      r.effort=good?3:2;
+  else if(onClimb)    r.effort=fresh?4:good?3:2;
+  else                r.effort=good?3:2;
 }
 
 // ── TACTICS ───────────────────────────────────────────
