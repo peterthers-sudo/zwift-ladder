@@ -103,9 +103,6 @@ select:focus,input:focus{border-color:var(--ac);}
 .tb{width:100%;padding:6px 4px;font-size:.65rem;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;margin-bottom:4px;}
 .tb:hover{border-color:var(--pu);color:var(--pu);}
 .tb:disabled{opacity:.3;cursor:not-allowed;}
-.ask-btn{width:100%;font-family:'JetBrains Mono',monospace;font-size:.64rem;padding:5px 4px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
-.ask-btn:hover:not(:disabled){border-color:var(--pu);color:var(--pu);}
-.ask-btn:disabled{opacity:.35;cursor:not-allowed;}
 
 #race-canvas{width:100%;display:block;}
 .seg-bar{display:flex;height:40px;flex-shrink:0;}
@@ -267,7 +264,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.9';
+const VERSION='v0.9.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1310,11 +1307,10 @@ function renderMyCard(r){
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
     <div style="display:flex;gap:4px;margin-bottom:4px">
-      <button class="pbt${r.protecting?' act':''}" style="flex:0 0 auto;width:auto;margin-bottom:0;padding:7px 8px;font-size:.82rem" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡</button>
-      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+'t':r.attackCooldown>0?' · cooldown':''}</button>
-      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;width:auto;margin-bottom:0;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+'t':''}</button>`:''}
+      <button class="pbt${r.protecting?' act':''}" style="flex:2;min-width:0;width:auto;margin-bottom:0;padding:8px 6px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect</button>
+      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.78rem;padding:6px 3px;letter-spacing:1px" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' …':' ATK'}</button>
+      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:0 0 auto;width:auto;margin-bottom:0;padding:6px 7px;font-size:.9rem;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
     </div>
-    <button class="ask-btn" data-action="ask" data-id="${r.id}" ${r.askCooldown>0?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
   `;
   let el=document.getElementById(`rc-${r.id}`);
   if(el){el.innerHTML=html;el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;}
