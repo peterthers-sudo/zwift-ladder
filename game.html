@@ -73,7 +73,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
 .rc-info{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dm);margin-bottom:5px;}
 .eff-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
-.eb{padding:10px 2px;font-size:1.4rem;line-height:1.1;border:2px solid var(--bd);background:rgba(255,255,255,.04);color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;}
+.eb{padding:5px 3px;font-size:1rem;line-height:1;border:2px solid var(--bd);background:rgba(255,255,255,.04);color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;display:flex;align-items:center;justify-content:center;gap:4px;}
 .eb:hover{border-color:var(--ac);background:rgba(0,229,255,.08);}
 .eb.act{border-width:2px;border-color:transparent;color:#111;}
 .eb[data-e="1"].act{background:#26c6da;}.eb[data-e="2"].act{background:var(--gr);}.eb[data-e="3"].act{background:var(--ac);}.eb[data-e="4"].act{background:var(--or);}
@@ -203,6 +203,7 @@ select:focus,input:focus{border-color:var(--ac);}
     </div>
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <span class="rh-pct" id="rh-pct">0%</span>
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:rgba(255,255,255,.22);margin-left:auto" id="ver-lbl"></span>
   </div>
   <div id="my-panel-top">
     <div class="phdr-top">
@@ -244,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.6';
+const VERSION='v0.6.7';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1048,7 +1049,7 @@ function renderMyCard(r){
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
     <div class="rc-info">${r.stamina.toFixed(0)}% stamina${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
-      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}">${EFF_IC[e-1]}<br><span style="font-size:.55rem;font-family:'JetBrains Mono',monospace;opacity:.8">${EFF_LBL[e-1]}</span></button>`).join('')}
+      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
     <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect leader</button>
     <button class="atk-full${r.attackTicks>0?' active':''}" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+' ticks left':r.attackCooldown>0?' · cooling down':''}</button>
