@@ -267,7 +267,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.4';
+const VERSION='v0.8.5';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -794,7 +794,7 @@ function beginRace(){
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;
   document.getElementById('finish-bar').style.display='none';
   document.getElementById('pause-btn').disabled=false;
 
@@ -1025,8 +1025,12 @@ function doTick(){
   if(prevSec!==sec)commsEvt(`📍 New section: ${sec.l}`);
   checkEvents(t,sec);
 
-  // Race ends when every active rider has finished or dropped
-  if(active.every(r=>r.finished||r.dropped))finishRace();
+  // Race ends when every active rider has finished or dropped —
+  // wait 12 extra ticks so the last rider visibly coasts past the line
+  if(active.every(r=>r.finished||r.dropped)){
+    G.finishDelay=(G.finishDelay||0)+1;
+    if(G.finishDelay>=12)finishRace();
+  }
 }
 
 function updateDraft(){
