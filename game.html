@@ -48,7 +48,7 @@ body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-h
 select,input[type=text],input[type=number]{background:#fff;border:1px solid var(--bd);color:var(--tx);font-family:'JetBrains Mono',monospace;font-size:.82rem;padding:7px 10px;outline:none;width:100%;border-radius:4px;}
 select:focus,input:focus{border-color:var(--ac);}
 .sb{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
-.sb::-webkit-scrollbar{width:3px;}.sb::-webkit-scrollbar-thumb{background:var(--bd);}
+.sb::-webkit-scrollbar{width:8px;}.sb::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px;}.sb::-webkit-scrollbar-track{background:var(--s2);border-radius:4px;}
 .ri-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:5px;}
 .ri{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
 .ri:hover{border-color:var(--ac);}.ri.sel{border-color:var(--ac);background:rgba(0,180,216,.1);}
@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.0';
+const VERSION='v1.2.1';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -673,7 +673,7 @@ function filterRoutes(){
   const q=(document.getElementById('rq').value||'').toLowerCase();
   const mx=+document.getElementById('rdist').value;
   const box=document.getElementById('rlist');box.innerHTML='';
-  ZWIFT_ROUTES.filter(r=>r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
+  ZWIFT_ROUTES.filter(r=>ROUTE_PROFILES[r.name]&&r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
     .slice(0,60).forEach(rt=>{
       const tg=routeTag(rt);
       const el=document.createElement('div');el.className='ritem';el.dataset.rname=rt.name;
@@ -2019,10 +2019,10 @@ function drawCanvas(){
     // Intel — top, no box, plain text
     if(hasIntel){
       const last=G.preRaceOverlay.intel.slice(-2);
-      ctx.font='bold 13px "JetBrains Mono",monospace';
+      ctx.font='bold 17px "JetBrains Mono",monospace';
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.fillStyle=THEME.go;
-      last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,H*0.07+(i+.5)*22));
+      last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,H*0.07+(i+.5)*28));
     }
 
     // My team — closer to VS
