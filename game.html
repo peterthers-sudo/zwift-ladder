@@ -1295,11 +1295,14 @@ function renderMyCard(r){
   const pc=posClass(r.position);
   const blownUp=r.stamina<10;
   const locked=r.attackTicks>0||r.forcedEasy>0||blownUp;
+  const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)'},climb:{l:'Climb',i:'▲',c:'var(--gr)'},punch:{l:'Punch',i:'◆',c:'var(--pu)'},sprint:{l:'Sprint',i:'⚡',c:'var(--or)'}};
+  const terrSec=G.sections?curSec(Math.min(r.progress,0.999)):null;
+  const terr=terrSec?TERR_MAP[terrSec.t]:null;
   const html=`
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
       <div class="rc-name">${r.display}${isYou?'<span class="you-tag">YOU</span>':''}</div>
-      <div class="rc-state" style="color:${st.c}">${st.l}</div>
+      <div class="rc-state" style="color:${st.c};text-align:right;line-height:1.3">${st.l}${terr?`<div style="color:${terr.c};font-size:.5rem;letter-spacing:.5px;margin-top:1px">${terr.i} ${terr.l}</div>`:''}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
     <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
@@ -1695,6 +1698,8 @@ function finishRace(){
   const bar=document.getElementById('finish-bar');
   bar.style.display='flex';
   document.getElementById('pause-btn').disabled=true;
+  // Finish-bar adds a new row — redraw canvas at new smaller race-center height
+  requestAnimationFrame(drawCanvas);
 }
 
 function showResults(){
