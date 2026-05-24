@@ -42,7 +42,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .threat-high{color:var(--rd);}.threat-med{color:var(--or);}.threat-low{color:var(--dm);}
 
 /* ══ RACE ══ */
-#race{display:none;flex-direction:column;min-height:100vh;}
+#race{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 #race.on{display:flex;}
 #race-hdr{background:var(--s1);border-bottom:2px solid var(--bd);padding:7px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
 .rh-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);}
@@ -89,8 +89,6 @@ select:focus,input:focus{border-color:var(--ac);}
 .ask-btn:hover:not(:disabled){border-color:var(--pu);color:var(--pu);}
 .ask-btn:disabled{opacity:.35;cursor:not-allowed;}
 
-/* Center */
-#race-center{display:flex;flex-direction:column;background:var(--bg);}
 #race-canvas{width:100%;display:block;}
 .seg-bar{display:flex;height:18px;flex-shrink:0;}
 .seg{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:.5px;overflow:hidden;transition:background .3s;}
@@ -100,26 +98,8 @@ select:focus,input:focus{border-color:var(--ac);}
 .seg.sprint{background:rgba(255,93,0,.1);color:var(--or);}
 .seg.active{outline:1px solid currentColor;font-weight:700;}
 
-/* Situation panel */
-#situation{flex-shrink:0;background:var(--s1);border-top:1px solid var(--bd);padding:6px 14px;min-height:44px;}
-.sit-group{font-family:'JetBrains Mono',monospace;font-size:.68rem;line-height:1.8;}
-.sit-g1{color:var(--ac);}.sit-g2{color:var(--tx);}.sit-gn{color:var(--dm);}
-.sit-gap{color:var(--or);font-size:.63rem;margin:0 4px;}
-.sit-warn{color:var(--rd);}
-
-/* Comms */
-#comms{flex-shrink:0;border-top:1px solid var(--bd);background:var(--s1);display:flex;flex-direction:column;max-height:115px;}
-.comms-hdr{padding:5px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:2px;color:var(--dm);text-transform:uppercase;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-#comms-log{flex:1;overflow-y:auto;padding:4px 12px;display:flex;flex-direction:column;gap:2px;}
-#comms-log::-webkit-scrollbar{width:3px;}.#comms-log::-webkit-scrollbar-thumb{background:var(--bd);}
-.msg{font-family:'JetBrains Mono',monospace;font-size:.66rem;line-height:1.4;}
-.msg-t{color:var(--dm);margin-right:5px;}
-.msg-w{font-weight:600;margin-right:3px;}
-.msg-w.cap{color:var(--ac);}.msg-w.rider{color:var(--gr);}.msg-w.evt{color:var(--or);}.msg-w.warn{color:var(--rd);}
-.comms-btns{padding:4px 10px;display:flex;gap:5px;flex-wrap:wrap;border-top:1px solid var(--bd);flex-shrink:0;}
-.aq{font-family:'JetBrains Mono',monospace;font-size:.56rem;padding:3px 9px;border:1px solid var(--pu);color:var(--pu);background:transparent;border-radius:3px;cursor:pointer;white-space:nowrap;}
-.aq:hover{background:rgba(204,136,255,.1);}
-.aq:disabled{opacity:.3;cursor:not-allowed;}
+/* Center — canvas fills all remaining height */
+#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;}
 
 /* ══ RESULTS ══ */
 #results{max-width:900px;margin:0 auto;padding:20px;}
@@ -231,12 +211,6 @@ select:focus,input:focus{border-color:var(--ac);}
   <div id="race-center">
     <canvas id="race-canvas"></canvas>
     <div class="seg-bar" id="seg-bar"></div>
-    <div id="situation"></div>
-  </div>
-  <div id="comms">
-    <div class="comms-hdr">💬 TEAM RADIO <span id="comms-hint" style="color:var(--pu)">· Pause (Space) to communicate</span></div>
-    <div id="comms-log"></div>
-    <div class="comms-btns" id="comms-btns"></div>
   </div>
 </div>
 
@@ -266,7 +240,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.5.0';
+const VERSION='v0.6.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -333,6 +307,7 @@ const G={
   leaderRole:null,
   strategy:'control',
   pendingEvts:[],
+  hudMsg:null,
 };
 
 // ══════════════════════════════════════════════════════
@@ -749,7 +724,7 @@ function beginRace(){
   }
 
   G.sections=buildSections(G.route);
-  buildSegBar();buildCommsBtns();
+  buildSegBar();
   document.getElementById('rh-name').textContent=G.route.name;
   document.getElementById('rh-dist').textContent=`${(G.route.distance*G.laps).toFixed(1)} km · ${G.route.elevation*G.laps} m`;
 
@@ -774,8 +749,7 @@ function togglePause(){
   const btn=document.getElementById('pause-btn');
   btn.textContent=G.paused?'▶ Resume':'⏸ Pause';
   btn.classList.toggle('paused',G.paused);
-  document.getElementById('comms-hint').textContent=G.paused?'· Click rider to ask status':'· Pause (Space) to communicate';
-  document.querySelectorAll('.aq,.ask-btn').forEach(b=>b.disabled=!G.paused);
+  document.querySelectorAll('.ask-btn').forEach(b=>b.disabled=!G.paused);
 }
 
 // ── STRATEGY ──────────────────────────────────────────
@@ -942,8 +916,8 @@ function aiDomestique(r,t,sec){
 
 // ── TACTICS ───────────────────────────────────────────
 function triggerAttack(r, silent){
-  if(r.stamina<30){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} doesn't have the stamina for an attack!`,'cap');return;}
-  if(r.attackCooldown>0){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} is still recovering from the last attack.`,'cap');return;}
+  if(r.stamina<30){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} doesn't have the stamina for an attack!`);return;}
+  if(r.attackCooldown>0){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} is still recovering from the last attack.`);return;}
   r.attackTicks=7;r.attackCooldown=20;r.effort=5;
   commsEvt(`⚡ ${r.display} attacks!`,'warn');
 }
@@ -964,7 +938,7 @@ function usePowerup(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r||r.powerupUsed||!r.powerup)return;
   r.powerup.apply(r);r.powerupUsed=true;
-  commsMsg('Captain',`${r.display.split(' ')[0]} activates ${r.powerup.name}! ${r.powerup.icon}`,'cap');
+  commsMsg('Captain',`${r.display.split(' ')[0]} activates ${r.powerup.name}! ${r.powerup.icon}`);
   renderMyCard(r);
 }
 
@@ -1001,22 +975,13 @@ function checkEvents(t,sec){
 }
 
 // ── COMMS ─────────────────────────────────────────────
-function buildCommsBtns(){
-  const box=document.getElementById('comms-btns');box.innerHTML='';
-  G.racers.filter(r=>r.team==='leqp').forEach(r=>{
-    const btn=document.createElement('button');btn.className='aq';
-    btn.textContent=`Ask ${r.display.split(' ')[0]}`;btn.disabled=!G.paused;
-    btn.onclick=()=>askRider(r);box.appendChild(btn);
-  });
-}
 function askRider(r){
   if(!G.paused)return;
-  if((r.askCooldown||0)>0){commsMsg('Captain',`Wait — ${r.display.split(' ')[0]} just responded.`,'cap');return;}
-  commsMsg('Captain',`${r.display.split(' ')[0]}, what's your status?`,'cap');
+  if((r.askCooldown||0)>0){G.hudMsg={text:`Wait — ${r.display.split(' ')[0]} just responded.`,born:Date.now()};return;}
+  G.hudMsg={text:`Captain: ${r.display.split(' ')[0]}, what's your status?`,born:Date.now()};
   r.askCooldown=10;
   setTimeout(()=>{
     const resp=genResp(r);
-    commsMsg(r.display.split(' ')[0],resp,'rider');
     r.bubble={text:resp,born:Date.now()};
   },1100+Math.random()*600);
 }
@@ -1028,22 +993,11 @@ function genResp(r){
   if(p>10)return pick(RESP.cracked);
   return pick(RESP.blownup);
 }
-function commsMsg(who,text,type){
-  const log=document.getElementById('comms-log');
-  const ts=raceTime();
-  log.insertAdjacentHTML('beforeend',`<div class="msg"><span class="msg-t">${ts}</span><span class="msg-w ${type}">${who}:</span> <span>${text}</span></div>`);
-  log.scrollTop=log.scrollHeight;
+function commsMsg(who,text){
+  G.hudMsg={text:`${who}: ${text}`,born:Date.now()};
 }
-function commsEvt(text,type='evt'){
-  const log=document.getElementById('comms-log');
-  const ts=raceTime();
-  log.insertAdjacentHTML('beforeend',`<div class="msg"><span class="msg-t">${ts}</span><span class="msg-w ${type}">●</span> <span style="color:var(--dm)">${text}</span></div>`);
-  log.scrollTop=log.scrollHeight;
-}
-function raceTime(){
-  const m=String(Math.floor(G.tick/6)).padStart(2,'0');
-  const s=String((G.tick%6)*10).padStart(2,'0');
-  return`${m}:${s}`;
+function commsEvt(text){
+  G.hudMsg={text,born:Date.now()};
 }
 
 // ══════════════════════════════════════════════════════
@@ -1153,8 +1107,14 @@ function profPts(rt,W,H){
 
 function drawCanvas(){
   const cv=document.getElementById('race-canvas');
-  const LANES=10,LANE_H=64,ML=118,MR=14,R=22;
-  const W=cv.offsetWidth||900,H=LANES*LANE_H;
+  const LANES=10,ML=118,MR=14;
+  const W=cv.offsetWidth||900;
+  // Fill all space race-center gives us (minus seg-bar)
+  const ctr=document.getElementById('race-center');
+  const availH=Math.max(400,ctr.clientHeight-18);
+  const LANE_H=Math.min(88,Math.max(52,Math.floor(availH/LANES)));
+  const H=LANES*LANE_H;
+  const R=Math.round(LANE_H*0.33);
   if(cv.width!==W)cv.width=W;
   if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
   const ctx=cv.getContext('2d');
@@ -1290,6 +1250,45 @@ function drawCanvas(){
       }
     }
   });
+
+  // Gap indicators between groups (drawn as labels at the gap boundary on the track)
+  if(G.groups&&G.groups.length>1){
+    ctx.save();
+    ctx.font='bold 10px monospace';
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    for(let gi=1;gi<G.groups.length;gi++){
+      const prev=G.groups[gi-1];const cur2=G.groups[gi];
+      const gap=gapSecs(prev,cur2);
+      if(gap<1)continue;
+      const midProg=(prev[prev.length-1].progress+cur2[0].progress)/2;
+      const gx=ML+midProg*TW;
+      const label=`−${gap}s`;
+      const tw2=ctx.measureText(label).width+10;
+      drawRoundRect(ctx,gx-tw2/2,H/2-10,tw2,20,4);
+      ctx.fillStyle='rgba(20,28,48,.9)';ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.18)';ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle='#94a3b8';ctx.fillText(label,gx,H/2);
+    }
+    ctx.restore();
+  }
+
+  // HUD event message — fades after 3.5s, shown at top centre of canvas
+  if(G.hudMsg){
+    const age=Date.now()-G.hudMsg.born;
+    if(age<3500){
+      const alpha=age>2500?1-(age-2500)/1000:1;
+      ctx.save();ctx.globalAlpha=alpha;
+      ctx.font='bold 12px monospace';
+      const tw2=ctx.measureText(G.hudMsg.text).width;
+      const bw=tw2+22,bh=28,bx=(W-bw)/2,by=8;
+      drawRoundRect(ctx,bx,by,bw,bh,5);
+      ctx.fillStyle='rgba(14,20,38,.94)';ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,.22)';ctx.lineWidth=1;ctx.stroke();
+      ctx.fillStyle='#e2e8f0';ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillText(G.hudMsg.text,W/2,by+bh/2);
+      ctx.restore();
+    } else {G.hudMsg=null;}
+  }
 }
 
 function drawRoundRect(ctx,x,y,w,h,r){
