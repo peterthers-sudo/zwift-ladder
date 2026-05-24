@@ -244,7 +244,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.0';
+const VERSION='v0.7.1';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -312,6 +312,8 @@ const G={
   strategy:'control',
   pendingEvts:[],
   hudMsg:null,
+  markTarget:null,   // {id, expiry} — opponent marked for follow-assignment
+  canvasLayout:null, // {ML,R,LANE_H,TW} — set each frame for hit-testing
 };
 
 // ══════════════════════════════════════════════════════
@@ -442,6 +444,7 @@ function restoreSelections(){
 // ══════════════════════════════════════════════════════
 function init(){
   document.getElementById('ver-lbl').textContent=VERSION;
+  document.getElementById('race-canvas').addEventListener('pointerdown',onCanvasClick);
   // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
   document.getElementById('my-cards').addEventListener('pointerdown',e=>{
     const btn=e.target.closest('[data-action]');
@@ -677,7 +680,7 @@ function beginRace(){
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
     cl:classify(r),base:scoreR(r,G.route),norm:1,
     role:role||'normal',
-    stamina:100,effort:3,manualEffort:null,progress:0,position:0,inGroup:true,
+    stamina:100,effort:3,manualEffort:null,following:null,progress:0,position:0,inGroup:true,
     personality:.68+Math.random()*.32,
     attackTicks:0,attackCooldown:0,forcedEasy:0,
     protecting:false,protectTarget:null,
@@ -808,7 +811,14 @@ function doTick(){
     if(r.team==='opp')aiEffort(r,t,sec);
     else aiDomestique(r,t,sec);
     applyStrategy(r,t,sec);
-    if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort; // re-cap after AI
+    if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
+
+    // Following — match target's effort (overrides AI, respects attack/recovery locks)
+    if(r.team==='leqp'&&r.following&&r.attackTicks===0&&r.forcedEasy===0){
+      const tgt=G.racers.find(x=>x.id===r.following);
+      if(!tgt||tgt.absent||tgt.dropped){r.following=null;}
+      else{r.effort=Math.min(r.maxEffort||5,tgt.effort+(sec.t==='climb'||sec.t==='punch'?1:0));}
+    }
 
     // Stamina drain
     let drain=EFF_DRN[r.effort-1];
@@ -923,12 +933,13 @@ function triggerAttack(r, silent){
   if(r.stamina<30){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} doesn't have the stamina for an attack!`);return;}
   if(r.attackCooldown>0){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} is still recovering from the last attack.`);return;}
   r.attackTicks=7;r.attackCooldown=20;r.effort=5;
-  commsEvt(`⚡ ${r.display} attacks!`,'warn');
+  commsEvt(`⚡ ${r.display} attacks!`);
+  if(silent&&r.team==='opp'){G.markTarget={id:r.id,expiry:Date.now()+5000};}
 }
 function setEffort(id,e){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r||r.attackTicks>0||r.forcedEasy>0)return;
-  r.effort=e;r.manualEffort=e;renderMyCard(r);
+  r.effort=e;r.manualEffort=e;r.following=null;renderMyCard(r);
 }
 function setProtect(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
@@ -994,6 +1005,37 @@ function genResp(r){
   if(p>28)return pick(RESP.tired);
   if(p>10)return pick(RESP.cracked);
   return pick(RESP.blownup);
+}
+function onCanvasClick(e){
+  if(!G.canvasLayout||!G.racers.length)return;
+  const rect=e.target.getBoundingClientRect();
+  const scaleX=e.target.width/rect.width;
+  const scaleY=e.target.height/rect.height;
+  const px=(e.clientX-rect.left)*scaleX;
+  const py=(e.clientY-rect.top)*scaleY;
+  const {ML,R,LANE_H,TW}=G.canvasLayout;
+  let hit=null;
+  for(const r of G.racers){
+    if(r.absent||r.dropped)continue;
+    const cy=r.lane*LANE_H+LANE_H/2;
+    const rx=ML-R+r.progress*TW;
+    if(Math.hypot(px-rx,py-cy)<=R+8){hit=r;break;}
+  }
+  if(!hit)return;
+  if(hit.team==='opp'){
+    G.markTarget={id:hit.id,expiry:Date.now()+3000};
+    commsEvt(`Marking ${hit.display.split(' ')[0]} — click your riders to follow!`);
+  } else if(hit.team==='leqp'){
+    if(G.markTarget&&Date.now()<G.markTarget.expiry){
+      const tgt=G.racers.find(x=>x.id===G.markTarget.id);
+      hit.following=G.markTarget.id;
+      hit.manualEffort=null;
+      commsEvt(`${hit.display.split(' ')[0]} follows ${tgt?.display.split(' ')[0]||'?'}!`);
+    } else if(hit.following){
+      hit.following=null;
+      commsEvt(`${hit.display.split(' ')[0]} no longer following.`);
+    }
+  }
 }
 function commsMsg(who,text){
   G.hudMsg={text:`${who}: ${text}`,born:Date.now()};
@@ -1094,6 +1136,7 @@ function drawCanvas(){
   if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
   const ctx=cv.getContext('2d');
   const TW=W-ML-MR;
+  G.canvasLayout={ML,R,LANE_H,TW};
 
   ctx.fillStyle='#111620';ctx.fillRect(0,0,W,H);
 
@@ -1151,6 +1194,29 @@ function drawCanvas(){
     ctx.fillStyle=circleFill;ctx.fill();
     ctx.strokeStyle=attacking?'#ffd700':col;
     ctx.lineWidth=isYou?4:attacking?3.5:2.5;ctx.stroke();
+
+    // Mark target: blinking gold ring
+    if(G.markTarget&&r.id===G.markTarget.id){
+      if(Date.now()<G.markTarget.expiry){
+        if(Math.sin(Date.now()/140)>0){
+          ctx.save();ctx.beginPath();ctx.arc(rx,cy,R+9,0,Math.PI*2);
+          ctx.strokeStyle='#ffd700';ctx.lineWidth=3;ctx.globalAlpha=.9;ctx.stroke();
+          ctx.restore();
+        }
+      } else {G.markTarget=null;}
+    }
+
+    // Following indicator: gold ring on own rider + small arrow above
+    if(r.team==='leqp'&&r.following){
+      ctx.save();
+      ctx.beginPath();ctx.arc(rx,cy,R+7,0,Math.PI*2);
+      ctx.strokeStyle='#ffd700';ctx.lineWidth=2;ctx.setLineDash([4,3]);ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.font=`${Math.round(R*.55)}px sans-serif`;
+      ctx.textAlign='center';ctx.textBaseline='alphabetic';
+      ctx.fillStyle='#ffd700';ctx.fillText('▶',rx,cy-R-4);
+      ctx.restore();
+    }
 
     // Stamina arc (all riders — own team full, opponents lighter)
     if(r.team==='leqp'){
