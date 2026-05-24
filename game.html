@@ -267,12 +267,12 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.2';
+const VERSION='v0.8.3';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
 // ══════════════════════════════════════════════════════
-const TICK_BASE=1000, TOTAL_TICKS=130, GAP_GROUP=0.018;
+const TICK_BASE=1000, TOTAL_TICKS=130, GAP_GROUP=0.018, FINISH_ZONE=80;
 
 const EFF_LBL=['Rest','Easy','Tempo','Hard','Attack'];
 const EFF_IC =['💤','🚴','🎯','🔥','⚡'];
@@ -930,6 +930,12 @@ function doTick(){
     }
     if(r.dropped)return;
 
+    // Finished riders coast gently past the finish line
+    if(r.finished){
+      r.progress=Math.min(1+FINISH_ZONE/(G.canvasLayout?.TW||700),r.progress+r.norm*EFF_SPD[1]*0.6*(1/TOTAL_TICKS));
+      return;
+    }
+
     // Cap effort by event-imposed max (tired riders)
     if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
 
@@ -998,13 +1004,12 @@ function doTick(){
     const speed=r.norm*effSpd*stamMod*fit*pMult;
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/TOTAL_TICKS));
     r._protectBonus=0;
+    // Mark finish the moment progress hits 1 (next tick they'll coast past)
+    if(r.progress>=1){r.finished=true;r.finishTick=r.finishTick||G.tick;}
   });
 
   updateDraft();
   const active=G.racers.filter(r=>!r.absent);
-
-  // Lock in finish time for riders who just crossed the line
-  active.forEach(r=>{if(!r.finished&&!r.dropped&&r.progress>=1){r.finished=true;r.finishTick=G.tick;}});
 
   // Sort: finished riders by crossing order, then unfinished by progress
   const sorted=[...active].sort((a,b)=>{
@@ -1344,7 +1349,7 @@ function drawElevStrip(){
   });
   ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();
 
-  // Individual rider position markers — each racer as a 2px tick on the profile
+  // Individual rider position markers — capped at finish line on the elevation profile
   G.racers.forEach(r=>{
     if(r.absent||r.dropped)return;
     const posX=ML+Math.min(r.progress,1)*TW;
@@ -1382,7 +1387,7 @@ function drawCanvas(){
   if(cv.width!==W)cv.width=W;
   if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
   const ctx=cv.getContext('2d');
-  const TW=W-ML-MR;
+  const TW=W-ML-FINISH_ZONE-MR;  // race track; FINISH_ZONE is past the line
   G.canvasLayout={ML,R,LANE_H,TW};
 
   ctx.fillStyle='#111620';ctx.fillRect(0,0,W,H);
@@ -1396,6 +1401,10 @@ function drawCanvas(){
     ctx.fillRect(0,y0,ML,LANE_H);
   }
 
+  // Finish zone shading
+  ctx.fillStyle='rgba(255,215,0,.05)';
+  ctx.fillRect(ML+TW,0,FINISH_ZONE,H);
+
   // Lane dividers
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
@@ -1407,7 +1416,7 @@ function drawCanvas(){
   const rp=ROUTE_PROFILES[G.route?.name];
   if(rp){
     const minA=Math.min(...rp),maxA=Math.max(...rp),range=Math.max(1,maxA-minA);
-    const silH=Math.min(H*0.38,LANE_H*3.5); // use bottom 38% of canvas max
+    const silH=Math.min(H*0.38,LANE_H*3.5);
     ctx.save();
     ctx.beginPath();
     rp.forEach((a,i)=>{
@@ -1424,7 +1433,7 @@ function drawCanvas(){
     ctx.restore();
   }
 
-  // Start line (pen boundary)
+  // Start line
   ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
   ctx.strokeStyle='rgba(255,255,255,.28)';ctx.lineWidth=2;ctx.stroke();
 
@@ -1434,10 +1443,17 @@ function drawCanvas(){
   ctx.fillStyle='rgba(255,93,0,.03)';
   ctx.fillRect(ML+sec.s*TW,0,(sec.e-sec.s)*TW,H);
 
-  // Finish line
-  ctx.save();ctx.beginPath();ctx.moveTo(ML+TW,0);ctx.lineTo(ML+TW,H);
-  ctx.strokeStyle='rgba(255,255,255,.3)';ctx.lineWidth=2;
-  ctx.setLineDash([5,5]);ctx.stroke();ctx.setLineDash([]);ctx.restore();
+  // Finish line — solid gold/white chequered look
+  const flx=ML+TW;
+  const SQ=6;
+  for(let row=0;row<Math.ceil(H/SQ);row++){
+    ctx.fillStyle=row%2===0?'rgba(255,255,255,.55)':'rgba(0,0,0,.55)';
+    ctx.fillRect(flx-3,row*SQ,3,SQ);
+    ctx.fillStyle=row%2===0?'rgba(0,0,0,.55)':'rgba(255,255,255,.55)';
+    ctx.fillRect(flx,row*SQ,3,SQ);
+  }
+  ctx.beginPath();ctx.moveTo(flx,0);ctx.lineTo(flx,H);
+  ctx.strokeStyle='rgba(255,215,0,.5)';ctx.lineWidth=1;ctx.stroke();
 
   // Progress cursor
   const cx=ML+t*TW;
@@ -1453,8 +1469,8 @@ function drawCanvas(){
     const isYou=r.id==G.youId;
     const attacking=r.attackTicks>0;
 
-    // Rider circle — right edge touches start line at progress=0, left edge touches finish at progress=1
-    const rx=ML-R+r.progress*TW;
+    // progress 0-1 = race track; >1 = coasting in finish zone
+    const rx=Math.min(ML-R+r.progress*TW, ML+TW+FINISH_ZONE-R-4);
     ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
     ctx.fillStyle='rgba(255,255,255,.93)';ctx.fill();
     ctx.strokeStyle=attacking?'#ffd700':col;
