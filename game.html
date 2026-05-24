@@ -8,7 +8,7 @@
 <style>
 :root{
   /* ── Backgrounds ── */
-  --bg:#1a1f2b; --s1:#242a38; --s2:#2d3447;
+  --bg:#1a1f2b; --s1:#2e3d58; --s2:#3a4e6e;
   /* ── Borders ── */
   --bd:rgba(255,255,255,.09);
   /* ── Accent colours ── */
@@ -300,7 +300,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.12';
+const VERSION='v1.0.13';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1119,7 +1119,10 @@ function doTick(){
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/RACE_TICKS));
     r._protectBonus=0;
     // Mark finish the moment progress hits 1 (coast logic takes over next tick)
-    if(r.progress>=1&&!r.finished){r.finished=true;r.finishTick=G.tick;}
+    if(r.progress>=1&&!r.finished){
+      r.finished=true;r.finishTick=G.tick;
+      if(r.team==='leqp'){r.effort=1;renderMyCard(r);}
+    }
   });
 
   // ── Route powerup pickup & expiry ─────────────────────
