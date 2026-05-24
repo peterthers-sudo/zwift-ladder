@@ -55,8 +55,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .rh-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dm);}
 .rh-sec{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,93,0,.4);border-radius:10px;}
 .rh-pct{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ac);margin-left:auto;}
-.spd-btn{font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:4px 11px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;border-radius:3px;transition:all .15s;}
-.spd-btn.act{border-color:var(--ac);color:var(--ac);}
+.rh-score{font-family:'JetBrains Mono',monospace;font-size:.72rem;white-space:nowrap;}
 .pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
 
@@ -65,9 +64,9 @@ select:focus,input:focus{border-color:var(--ac);}
 .phdr-top{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);display:flex;align-items:center;gap:8px;padding-bottom:4px;}
 #my-cards{display:flex;gap:5px;width:100%;}
 /* Captain command bar */
-.capt-bar{display:flex;gap:4px;padding:3px 0 5px;flex-wrap:wrap;align-items:center;}
-.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1.5px;color:var(--dm);flex-shrink:0;opacity:.7;}
-.capt-btn{font-family:'JetBrains Mono',monospace;font-size:.54rem;padding:3px 9px;border:1px solid var(--bd);background:rgba(255,255,255,.03);color:var(--dm);cursor:pointer;border-radius:3px;transition:all .12s;white-space:nowrap;}
+.capt-bar{display:flex;gap:5px;padding:5px 0 6px;flex-wrap:wrap;align-items:center;}
+.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:1.5px;color:var(--dm);flex-shrink:0;opacity:.7;}
+.capt-btn{font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:5px 12px;border:1px solid var(--bd);background:rgba(255,255,255,.03);color:var(--dm);cursor:pointer;border-radius:4px;transition:all .12s;white-space:nowrap;}
 .capt-btn:hover{border-color:var(--ac);color:var(--ac);}
 .capt-btn.capt-atk{border-color:rgba(255,93,0,.4);color:rgba(255,93,0,.85);}
 .capt-btn.capt-atk:hover{background:var(--or);color:#fff;border-color:var(--or);}
@@ -210,20 +209,11 @@ select:focus,input:focus{border-color:var(--ac);}
     <span class="rh-title" id="rh-name">—</span>
     <span class="rh-info" id="rh-dist"></span>
     <span class="rh-sec" id="rh-sec">—</span>
-    <div style="display:flex;gap:3px">
-      <button class="spd-btn act" data-sp="1" onclick="setSpeed(1)">1×</button>
-      <button class="spd-btn" data-sp="2" onclick="setSpeed(2)">2×</button>
-      <button class="spd-btn" data-sp="3" onclick="setSpeed(3)">3×</button>
-    </div>
+    <span class="rh-score"><span style="color:var(--ac)" id="my-pts-live">—</span> <span style="opacity:.4">vs</span> <span style="color:var(--or)" id="opp-pts-live">—</span> <span style="opacity:.5">pts</span></span>
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <span class="rh-pct" id="rh-pct">0%</span>
   </div>
   <div id="my-panel-top">
-    <div class="phdr-top">
-      MY TEAM · <span id="my-pts-live" style="color:var(--ac)">—</span> pts
-      <span style="opacity:.3;margin:0 4px">|</span>
-      OPPONENT · <span id="opp-pts-live" style="color:var(--or)">—</span> pts
-    </div>
     <div class="capt-bar">
       <span class="capt-lbl">CAPTAIN:</span>
       <button class="capt-btn" onclick="captCmd('draft')">🚴 Draft</button>
@@ -268,7 +258,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.7';
+const VERSION='v0.7.8';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -772,11 +762,6 @@ function beginRace(){
 function startTick(){
   clearInterval(G.tickTimer);
   G.tickTimer=setInterval(()=>{if(!G.paused)doTick();},TICK_BASE/G.speed);
-}
-function setSpeed(sp){
-  G.speed=sp;
-  document.querySelectorAll('.spd-btn').forEach(b=>b.classList.toggle('act',+b.dataset.sp===sp));
-  startTick();
 }
 function togglePause(){
   G.paused=!G.paused;
