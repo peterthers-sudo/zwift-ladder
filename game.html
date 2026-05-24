@@ -245,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.3';
+const VERSION='v0.7.4';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1203,13 +1203,10 @@ function drawCanvas(){
 
     // Rider circle — right edge touches start line at progress=0, left edge touches finish at progress=1
     const rx=ML-R+r.progress*TW;
-    const effFill=['rgba(38,198,218,.55)','rgba(127,255,107,.52)','rgba(0,229,255,.48)','rgba(255,93,0,.65)'];
-    const circleFill=attacking?'rgba(255,215,0,.72)':effFill[Math.max(0,Math.min(3,r.effort-1))];
-
     ctx.beginPath();ctx.arc(rx,cy,R,0,Math.PI*2);
-    ctx.fillStyle=circleFill;ctx.fill();
+    ctx.fillStyle='rgba(255,255,255,.93)';ctx.fill();
     ctx.strokeStyle=attacking?'#ffd700':col;
-    ctx.lineWidth=isYou?4:attacking?3.5:2.5;ctx.stroke();
+    ctx.lineWidth=isYou?5:attacking?4:3;ctx.stroke();
 
     // Mark target: blinking gold ring
     if(G.markTarget&&r.id===G.markTarget.id){
