@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Zwift Ladder Tactics</title>
+<title>Pedal Harder</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#1a1f2b;--s1:#242a38;--s2:#2d3447;--bd:rgba(255,255,255,.09);--ac:#00e5ff;--or:#ff5d00;--gr:#7fff6b;--tx:#e2e8f0;--dm:#94a3b8;--rd:#ff4455;--pu:#cc88ff;--go:#ffd700;}
@@ -133,7 +133,7 @@ select:focus,input:focus{border-color:var(--ac);}
 <!-- ══════════ SETUP ══════════ -->
 <div class="screen on" id="setup">
 <div style="max-width:1080px;margin:0 auto;padding:16px 20px">
-  <div style="padding:16px 0 12px"><h1>ZWIFT LADDER TACTICS</h1><span class="lbl" style="margin:0">Ladder Race Strategy Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span></div>
+  <div style="padding:16px 0 12px"><h1>PEDAL HARDER</h1><span class="lbl" style="margin:0">Zwift Ladder Race Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span></div>
   <div class="sg">
     <div class="card">
       <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">My Team</h2><span id="my-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
@@ -264,7 +264,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.9.4';
+const VERSION='v1.0.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -309,7 +309,11 @@ const POWERUPS=[
    apply(r){r.powerupActive={type:'steam',  ticks:10};}},
   {id:'gel',    icon:'🍬',name:'Energy Gel',   desc:'Restore 40 stamina instantly',
    apply(r){r.stamina=Math.min(100,r.stamina+40);}},
+  {id:'pedal',  icon:'🔥',name:'Pedal Harder', desc:'SUPER: +35% speed everywhere — 12 ticks!',
+   apply(r){r.powerupActive={type:'pedal',  ticks:12};}},
 ];
+// Pedal Harder excluded from normal pick pools — only from route drops
+const POWERUPS_NORMAL=POWERUPS.filter(p=>p.id!=='pedal');
 
 const STRATEGIES={
   control:     {l:'Control',            desc:'Steady team pace — normal AI. Let the race develop.'},
@@ -807,7 +811,7 @@ function beginRace(){
     // Event fields
     maxEffort:5,absent:false,lateStart:0,dropped:false,dropoutTick:0,
     // Powerup (own team gets one; opponents don't)
-    powerup:team==='leqp'?pick(POWERUPS):null,
+    powerup:team==='leqp'?pick(POWERUPS_NORMAL):null,
     powerupUsed:false,powerupActive:null,bubble:null,
     // Bubble state tracking
     _lastSec:null,_lastStamBand:3,_saidFinish:false,_saidDone:false,_lastChatTick:0,
@@ -822,6 +826,10 @@ function beginRace(){
   normScores();
   G.racers.filter(r=>r.team==='leqp').forEach((r,i)=>r.lane=i);
   G.racers.filter(r=>r.team==='opp').forEach((r,i)=>r.lane=5+i);
+
+  // ── Route powerups ──────────────────────────────────
+  G.routePowerups=[];
+  spawnRoutePowerups(4);
 
   // ── Random pre-race events ──────────────────────────
   G.pendingEvts=[];
@@ -1023,6 +1031,7 @@ function doTick(){
         if(r.powerupActive.type==='aero'&&rSec.t==='flat')    pMult=1.20;
         if(r.powerupActive.type==='feather'&&(rSec.t==='climb'||rSec.t==='punch'))pMult=1.30;
         if(r.powerupActive.type==='steam')                   pMult=1.15;
+        if(r.powerupActive.type==='pedal')                   pMult=1.35;
       }
     }
 
@@ -1036,6 +1045,27 @@ function doTick(){
     // Mark finish the moment progress hits 1 (coast logic takes over next tick)
     if(r.progress>=1&&!r.finished){r.finished=true;r.finishTick=G.tick;}
   });
+
+  // ── Route powerup pickup & expiry ─────────────────────
+  {const now=Date.now();
+  G.routePowerups=G.routePowerups.filter(rpu=>{
+    if(now<rpu.born)return true;
+    if(now-rpu.born>10000)return false;
+    for(const r of G.racers){
+      if(r.absent||r.dropped||r.finished)continue;
+      if(r.powerup&&!r.powerupUsed)continue; // already has unused powerup
+      if(Math.abs(r.progress-rpu.progress)<0.013){
+        r.powerup=rpu.pu;r.powerupUsed=false;r.powerupActive=null;
+        say(r,`Got ${rpu.pu.name}!`,true);
+        if(r.team==='leqp')renderMyCard(r);
+        return false;
+      }
+    }
+    return true;
+  });
+  // Respawn to keep 2–3 active on track
+  const active0=G.routePowerups.filter(rpu=>Date.now()>=rpu.born);
+  if(active0.length<2&&Math.random()<0.12)spawnRoutePowerups(1);}
 
   updateDraft();
   const active=G.racers.filter(r=>!r.absent);
@@ -1059,6 +1089,18 @@ function doTick(){
   if(active.every(r=>r.finished||r.dropped)){
     G.finishDelay=(G.finishDelay||0)+1;
     if(G.finishDelay>=12)finishRace();
+  }
+}
+
+function spawnRoutePowerups(n){
+  const now=Date.now();
+  for(let i=0;i<n;i++){
+    // Stagger appearance: first one immediate, rest every 15 s
+    const born=now+i*15000;
+    const progress=0.08+Math.random()*0.76;
+    // 6% chance of rare Pedal Harder; rest normal pool
+    const pool=Math.random()<0.06?POWERUPS:POWERUPS_NORMAL;
+    G.routePowerups.push({pu:pick(pool),progress,born});
   }
 }
 
@@ -1392,8 +1434,8 @@ function renderMyCard(r){
     </div>
     <div style="display:flex;gap:4px;margin-bottom:4px">
       <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect</button>
-      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.78rem;padding:6px 4px;letter-spacing:1px" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' …':' ATK'}</button>
-      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.9rem;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
+      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.72rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
+      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
     </div>
   `;
   let el=document.getElementById(`rc-${r.id}`);
@@ -1564,6 +1606,30 @@ function drawCanvas(){
   ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1;ctx.stroke();
 
 
+  // Route powerups on track
+  {const now=Date.now();
+  G.routePowerups.forEach(rpu=>{
+    if(now<rpu.born)return;
+    const age=now-rpu.born;
+    if(age>10000)return;
+    const alpha=age>7500?1-(age-7500)/2500:1;
+    const x=ML+rpu.progress*TW;
+    const pulse=1+0.18*Math.sin(now/180);
+    ctx.save();ctx.globalAlpha=alpha;
+    // Glow
+    ctx.shadowColor=rpu.pu.id==='pedal'?'#ff5d00':'#ffd700';
+    ctx.shadowBlur=12*pulse;
+    ctx.font=`${Math.round(R*1.1*pulse)}px serif`;
+    ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText(rpu.pu.icon,x,H/2);
+    // Countdown bar (10 s → 0)
+    ctx.shadowBlur=0;
+    const barW=24*(1-age/10000);
+    ctx.fillStyle='rgba(255,215,0,.7)';
+    ctx.fillRect(x-12,H/2+R+8,barW,2);
+    ctx.restore();
+  });}
+
   // Riders
   G.racers.forEach(r=>{
     if(r.absent)return;
@@ -1578,6 +1644,21 @@ function drawCanvas(){
     ctx.fillStyle='rgba(255,255,255,.93)';ctx.fill();
     ctx.strokeStyle=attacking?'#ffd700':col;
     ctx.lineWidth=isYou?5:attacking?4:3;ctx.stroke();
+
+    // Pedal Harder spin animation — 3 fast-rotating arcs
+    if(r.powerupActive&&r.powerupActive.type==='pedal'){
+      const ang=(Date.now()/70)%(Math.PI*2);
+      ctx.save();ctx.translate(rx,cy);
+      for(let i=0;i<3;i++){
+        const a=ang+i*(Math.PI*2/3);
+        ctx.beginPath();ctx.arc(0,0,R+8,a,a+Math.PI*0.55);
+        ctx.strokeStyle='#ff5d00';ctx.lineWidth=3;ctx.stroke();
+      }
+      ctx.shadowColor='#ff5d00';ctx.shadowBlur=8;
+      ctx.beginPath();ctx.arc(0,0,R+8,ang+Math.PI,ang+Math.PI+Math.PI*0.55);
+      ctx.strokeStyle='#ffd700';ctx.lineWidth=2;ctx.stroke();
+      ctx.restore();
+    }
 
     // Mark target: blinking gold ring
     if(G.markTarget&&r.id===G.markTarget.id){
