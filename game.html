@@ -271,7 +271,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.6';
+const VERSION='v1.0.7';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1053,6 +1053,18 @@ function doTick(){
         if(r.powerupActive.type==='steam')                   pMult=1.15;
         if(r.powerupActive.type==='pedal')                   pMult=1.35;
       }
+    }
+
+    // AI powerup usage for opponents — use contextually, not immediately
+    if(r.team==='opp'&&r.powerup&&!r.powerupUsed&&!r.powerupActive){
+      const pu=r.powerup;
+      const onFlat=rSec.t==='flat', onClimb=rSec.t==='climb'||rSec.t==='punch';
+      const use=(pu.id==='gel'&&r.stamina<45)||
+                (pu.id==='aero'&&onFlat&&r.progress>0.30)||
+                (pu.id==='feather'&&onClimb&&r.progress>0.20)||
+                (pu.id==='steam'&&r.progress>0.65)||
+                (pu.id==='pedal'&&r.progress>0.72&&Math.random()<0.25);
+      if(use){pu.apply(r);r.powerupUsed=true;}
     }
 
     // Speed — stamMod uses steeper curve: empty tank = 55% speed (hard blow-up)
