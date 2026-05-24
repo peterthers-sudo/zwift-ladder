@@ -244,7 +244,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.9';
+const VERSION='v0.7.0';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1082,7 +1082,7 @@ function profPts(rt,W,H){
 
 function drawCanvas(){
   const cv=document.getElementById('race-canvas');
-  const LANES=10,ML=95,MR=14;
+  const LANES=10,ML=120,MR=14;
   const W=cv.offsetWidth||900;
   // Fill all space race-center gives us (minus seg-bar)
   const ctr=document.getElementById('race-center');
@@ -1142,8 +1142,8 @@ function drawCanvas(){
     const isYou=r.id==G.youId;
     const attacking=r.attackTicks>0;
 
-    // Rider circle on track — starts with left edge at start line (ML)
-    const rx=ML+R+r.progress*(TW-2*R);
+    // Rider circle — right edge touches start line at progress=0, left edge touches finish at progress=1
+    const rx=ML-R+r.progress*TW;
     const effFill=['rgba(38,198,218,.55)','rgba(127,255,107,.52)','rgba(0,229,255,.48)','rgba(255,93,0,.65)'];
     const circleFill=attacking?'rgba(255,215,0,.72)':effFill[Math.max(0,Math.min(3,r.effort-1))];
 
@@ -1225,7 +1225,7 @@ function drawCanvas(){
       const gap=gapSecs(prev,cur2);
       if(gap<1)continue;
       const midProg=(prev[prev.length-1].progress+cur2[0].progress)/2;
-      const gx=ML+R+midProg*(TW-2*R);
+      const gx=ML-R+midProg*TW;
       const label=`−${gap}s`;
       const tw2=ctx.measureText(label).width+10;
       drawRoundRect(ctx,gx-tw2/2,H/2-10,tw2,20,4);
