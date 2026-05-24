@@ -268,7 +268,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.3';
+const VERSION='v1.0.4';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -886,7 +886,7 @@ function beginRace(){
   if(G._countdownInterval){clearInterval(G._countdownInterval);G._countdownInterval=null;}
   setTimeout(()=>{
     let count=10;
-    if(G.preRaceOverlay)G.preRaceOverlay.countdown=count;
+    if(G.preRaceOverlay){G.preRaceOverlay.countdown=count;G.preRaceOverlay.intel=[];}
     pauseBtn.textContent=`▶ ${count}`;pauseBtn.disabled=false;
     G._countdownInterval=setInterval(()=>{
       count--;
@@ -1829,15 +1829,14 @@ function drawCanvas(){
   // Pre-race team intro overlay
   if(G.preRaceOverlay){
     ctx.save();
-    // Dark background
-    ctx.fillStyle='rgba(10,15,28,0.91)';ctx.fillRect(0,0,W,H);
+    // Semi-transparent — track and riders remain visible
+    ctx.fillStyle='rgba(8,12,24,0.58)';ctx.fillRect(0,0,W,H);
 
-    // Helper: outlined bold text (comic style)
-    function splash(text,x,y,size,fill,outlineW=6){
+    function splash(text,x,y,size,fill,outlineW=5){
       ctx.font=`${size}px 'Bebas Neue',sans-serif`;
       ctx.textAlign='center';ctx.textBaseline='middle';
       ctx.lineJoin='round';ctx.lineWidth=outlineW;
-      ctx.strokeStyle='rgba(0,0,0,.85)';ctx.strokeText(text,x,y);
+      ctx.strokeStyle='rgba(0,0,0,.9)';ctx.strokeText(text,x,y);
       ctx.fillStyle=fill;ctx.fillText(text,x,y);
     }
 
@@ -1846,40 +1845,39 @@ function drawCanvas(){
     const hasIntel=G.preRaceOverlay.intel.length>0;
     const countdown=G.preRaceOverlay.countdown;
 
-    // Route pill at top
-    ctx.font='bold 11px "JetBrains Mono",monospace';
-    ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillStyle='rgba(255,255,255,.12)';
-    drawRoundRect(ctx,cx-120,14,240,26,13);ctx.fill();
-    ctx.fillStyle='#94a3b8';
-    ctx.fillText(`🗺 ${rt.name}  ·  ${rt.world}  ·  ${rt.distance}km  ·  ${rt.elevation}m`,cx,27);
+    // Route + distance — Bebas Neue, same family as team names
+    splash(`${rt.name}  ·  ${rt.world}  ·  ${rt.distance} km  ·  ${rt.elevation} m`,
+           cx, 22, Math.min(18,W/40), '#94a3b8', 3);
 
     // My team
-    splash(G.myData.name,cx,H*0.26,Math.min(58,W/10),'#00e5ff');
+    splash(G.myData.name, cx, H*0.28, Math.min(44,W/13), '#00e5ff');
 
-    // VS lightning bolt
-    splash('⚡ VS ⚡',cx,H*0.50,Math.min(48,W/12),'#ff5d00',4);
+    // VS
+    splash('⚡ VS ⚡', cx, H*0.50, Math.min(36,W/16), '#ff5d00', 3);
 
     // Opponent team
-    splash(G.oppData.name,cx,H*0.74,Math.min(58,W/10),'#ffaa44');
+    splash(G.oppData.name, cx, H*0.72, Math.min(44,W/13), '#ffaa44');
 
-    // Intel box (only if there is intel)
+    // Intel — only while still incoming (cleared before countdown)
     if(hasIntel){
       const last=G.preRaceOverlay.intel.slice(-2);
-      const boxH=last.length*22+16,boxW=Math.min(W-40,520);
-      const bx=cx-boxW/2,by=H*0.88-boxH;
+      const boxW=Math.min(W-40,500),boxH=last.length*24+14;
+      const bx=cx-boxW/2,by=H*0.87-boxH;
       drawRoundRect(ctx,bx,by,boxW,boxH,6);
-      ctx.fillStyle='rgba(255,215,0,.07)';ctx.fill();
-      ctx.strokeStyle='rgba(255,215,0,.25)';ctx.lineWidth=1;ctx.stroke();
-      ctx.font='11px "JetBrains Mono",monospace';
-      ctx.textAlign='center';ctx.fillStyle='#ffd700';
-      last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,by+14+(i+.5)*22));
+      ctx.fillStyle='rgba(255,215,0,.08)';ctx.fill();
+      ctx.strokeStyle='rgba(255,215,0,.3)';ctx.lineWidth=1;ctx.stroke();
+      splash('INTEL',cx,by+10,14,'#ffd700',2);
+      ctx.font='bold 13px "JetBrains Mono",monospace';
+      ctx.textAlign='center';ctx.textBaseline='middle';
+      ctx.fillStyle='#ffd700';
+      last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,by+26+(i+.5)*24));
     }
 
-    // Countdown
+    // Countdown — big, bottom centre
     if(countdown!==null){
-      splash(countdown>0?String(countdown):'GO!',cx,H*(hasIntel?0.93:0.88),
-             Math.min(72,W/8),countdown>0?'#ffffff':'#7fff6b',8);
+      splash(countdown>0?String(countdown):'GO!',
+             cx, H*0.88, Math.min(64,W/8),
+             countdown>0?'#ffffff':'#7fff6b', 8);
     }
 
     ctx.restore();
