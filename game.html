@@ -267,7 +267,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.8.7';
+const VERSION='v0.8.8';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1004,8 +1004,8 @@ function doTick(){
     const speed=r.norm*effSpd*stamMod*fit*pMult;
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/RACE_TICKS));
     r._protectBonus=0;
-    // Mark finish the moment progress hits 1 — set to Rest and coast from next tick
-    if(r.progress>=1&&!r.finished){r.finished=true;r.finishTick=G.tick;r.effort=1;if(r.team==='leqp')renderMyCard(r);}
+    // Mark finish the moment progress hits 1 (coast logic takes over next tick)
+    if(r.progress>=1&&!r.finished){r.finished=true;r.finishTick=G.tick;}
   });
 
   updateDraft();
