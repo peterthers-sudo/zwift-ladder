@@ -264,7 +264,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.9.0';
+const VERSION='v0.9.4';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -809,6 +809,8 @@ function beginRace(){
     // Powerup (own team gets one; opponents don't)
     powerup:team==='leqp'?pick(POWERUPS):null,
     powerupUsed:false,powerupActive:null,bubble:null,
+    // Bubble state tracking
+    _lastSec:null,_lastStamBand:3,_saidFinish:false,_saidDone:false,_lastChatTick:0,
   });
 
   G.myPick.forEach(r=>G.racers.push(mkRacer(r,'leqp',G.myData.name,roles[r.id]||'domestique')));
@@ -975,6 +977,36 @@ function doTick(){
     // Blown up — force Rest, override everything (manual, following, strategy)
     if(r.stamina<10&&r.attackTicks===0){r.effort=1;}
 
+    // ── Bubble triggers ──────────────────────────────
+    // Section transition
+    if(r._lastSec&&r._lastSec!==rSec){
+      const opts=BUBBLE.sec[rSec.t];
+      if(opts)say(r,pick(opts));
+    }
+    r._lastSec=rSec;
+    // Stamina band drop
+    const sBand=r.stamina>=70?3:r.stamina>=45?2:r.stamina>=25?1:0;
+    if(sBand<r._lastStamBand){say(r,pick(BUBBLE.stam[3-sBand]),true);}
+    r._lastStamBand=sBand;
+    // Approaching finish
+    if(!r._saidFinish&&r.progress>=0.88){say(r,pick(BUBBLE.near));r._saidFinish=true;}
+    // Crossed finish
+    if(!r._saidDone&&r.finished){say(r,pick(BUBBLE.done),true);r._saidDone=true;}
+    // Random chatter — at most once every 30 ticks, 8% chance
+    if(G.tick-r._lastChatTick>=30&&Math.random()<0.08){
+      const ch=BUBBLE.chat;
+      let pool;
+      if(r.attackTicks>0)pool=ch.hard;
+      else if(r.stamina<35)pool=ch.tired;
+      else if(r.stamina>68)pool=ch.fresh;
+      else if(r.position<=2)pool=ch.lead;
+      else if(r.position<=4)pool=ch.mid;
+      else pool=ch.back;
+      say(r,pick(pool));
+      r._lastChatTick=G.tick;
+    }
+    // ─────────────────────────────────────────────────
+
     // Protection
     if(r.protecting&&r.protectTarget){
       const leader=G.racers.find(x=>x.id==r.protectTarget);
@@ -1112,18 +1144,60 @@ function aiDomestique(r,t,sec){
   else                r.effort=good?3:2;
 }
 
+// ── SPEECH BUBBLES ────────────────────────────────────
+const BUBBLE={
+  effort:[
+    ['Resting up...','Taking a breather','Saving for later','Easy does it'],
+    ['Spinning easy','Sitting in the draft','Staying patient','Just rolling'],
+    ['Holding tempo','Keeping the pace','Steady rhythm','Working at tempo'],
+    ['Going hard!','Pushing now!','Lifting the pace!','Full gas!'],
+  ],
+  attack:['Attack!','I\'m going!','Bridge the gap!','Now or never!','Bridging!','Move!'],
+  protect:['Covering you!','I\'ve got your back!','On your wheel!','Shielding!'],
+  unprotect:['Backing off now','Saving my own legs'],
+  sec:{
+    climb:['Here comes the climb!','Push through!','Legs burning!','Stay on the wheel!','Dig in!','Summit ahead!'],
+    punch:['Short punch!','Dig deep!','Over the top!','Hit it hard!'],
+    sprint:['SPRINT!','Everything now!','Go go go!','Leave it all here!','Final effort!'],
+    flat: ['Back on the flat','Catch my breath','Rolling now','Good on the flat'],
+  },
+  stam:[
+    ['Nothing left!','Completely blown!','Survival mode!'],
+    ['Hanging on...','Almost empty!','Need to recover!'],
+    ['Legs are heavy','Getting tired','Feeling the effort'],
+    ['Starting to feel it...','Working now','Pace is on'],
+  ],
+  near:['Almost there!','Can see the line!','One last push!','Nearly done!','Hold on!'],
+  done:['YES!','Done!','That\'s it!','Made it!','Phew!','Finished!'],
+  chat:{
+    lead:['In the lead!','Looking good up front','Holding the front!'],
+    mid: ['Right with the group','Holding position','On the pace'],
+    back:['Staying in contact','Just behind','Keeping up'],
+    hard:['Working hard!','Pushing!','Giving it!'],
+    fresh:['Feeling good!','Legs are solid','Ready to go!'],
+    tired:['Struggling a bit','Legs are heavy','Holding on...'],
+  },
+};
+function say(r,text,force=false){
+  if(!force&&r.bubble&&Date.now()-r.bubble.born<2500)return;
+  r.bubble={text,born:Date.now()};
+}
+
 // ── TACTICS ───────────────────────────────────────────
 function triggerAttack(r, silent){
   if(r.stamina<30){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} doesn't have the stamina for an attack!`);return;}
   if(r.attackCooldown>0){if(!silent)commsMsg('Captain',`${r.display.split(' ')[0]} is still recovering from the last attack.`);return;}
   r.attackTicks=7;r.attackCooldown=20;r.effort=5;
+  say(r,pick(BUBBLE.attack),true);
   commsEvt(`⚡ ${r.display} attacks!`);
   if(silent&&r.team==='opp'){G.markTarget={id:r.id,expiry:Date.now()+5000};}
 }
 function setEffort(id,e){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r||r.attackTicks>0||r.forcedEasy>0)return;
-  r.effort=e;r.manualEffort=e;r.following=null;renderMyCard(r);
+  r.effort=e;r.manualEffort=e;r.following=null;
+  say(r,pick(BUBBLE.effort[e-1]),true);
+  renderMyCard(r);
 }
 function captCmd(cmd){
   const alive=G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&r.stamina>=10);
@@ -1156,7 +1230,8 @@ function setProtect(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r)return;
   r.protecting=!r.protecting;
-  if(r.protecting)r.protectTarget=G.leaderRole;
+  if(r.protecting){r.protectTarget=G.leaderRole;say(r,pick(BUBBLE.protect),true);}
+  else{say(r,pick(BUBBLE.unprotect),true);}
   renderMyCard(r);
 }
 function usePowerup(id){
