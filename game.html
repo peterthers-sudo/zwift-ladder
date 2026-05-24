@@ -20,8 +20,14 @@ select,input[type=text],input[type=number]{background:var(--bg);border:1px solid
 select:focus,input:focus{border-color:var(--ac);}
 .sb{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
 .sb::-webkit-scrollbar{width:3px;}.sb::-webkit-scrollbar-thumb{background:var(--bd);}
-.ri{display:flex;align-items:center;gap:8px;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
-.ri:hover{border-color:rgba(0,229,255,.4);}.ri.sel{border-color:var(--ac);background:rgba(0,229,255,.07);}
+/* Rider list — no internal scroll, grid layout */
+.ri-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:5px;}
+.ri{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
+.ri:hover{border-color:rgba(0,229,255,.3);}.ri.sel{border-color:var(--ac);background:rgba(0,229,255,.07);}
+/* Checkbox visual */
+.ri-cb{width:15px;height:15px;border:1.5px solid var(--bd);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;transition:all .12s;}
+.ri.sel .ri-cb{background:var(--ac);border-color:var(--ac);}
+.ri.sel .ri-cb::after{content:'✓';color:var(--bg);font-size:.6rem;font-weight:700;line-height:1;}
 .ritem{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:9px 11px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
 .ritem:hover{border-color:rgba(0,229,255,.3);}.ritem.sel{border-color:var(--ac);background:rgba(0,229,255,.07);}
 .mt{margin-top:12px;}.fe{display:flex;justify-content:flex-end;gap:10px;}.fb{display:flex;justify-content:space-between;align-items:center;}
@@ -56,8 +62,15 @@ select:focus,input:focus{border-color:var(--ac);}
 
 /* My team panel — above canvas */
 #my-panel-top{background:var(--s1);border-bottom:2px solid var(--bd);flex-shrink:0;padding:5px 12px 6px;}
-.phdr-top{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);display:flex;align-items:center;gap:8px;padding-bottom:5px;}
+.phdr-top{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);display:flex;align-items:center;gap:8px;padding-bottom:4px;}
 #my-cards{display:flex;gap:5px;width:100%;}
+/* Captain command bar */
+.capt-bar{display:flex;gap:4px;padding:3px 0 5px;flex-wrap:wrap;align-items:center;}
+.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:1.5px;color:var(--dm);flex-shrink:0;opacity:.7;}
+.capt-btn{font-family:'JetBrains Mono',monospace;font-size:.54rem;padding:3px 9px;border:1px solid var(--bd);background:rgba(255,255,255,.03);color:var(--dm);cursor:pointer;border-radius:3px;transition:all .12s;white-space:nowrap;}
+.capt-btn:hover{border-color:var(--ac);color:var(--ac);}
+.capt-btn.capt-atk{border-color:rgba(255,93,0,.4);color:rgba(255,93,0,.85);}
+.capt-btn.capt-atk:hover{background:var(--or);color:#fff;border-color:var(--or);}
 
 /* Rider card — horizontal strip */
 .rc{flex:1;min-width:0;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 9px 6px;transition:border-color .15s;overflow:hidden;}
@@ -128,13 +141,13 @@ select:focus,input:focus{border-color:var(--ac);}
     <div class="card">
       <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">My Team</h2><span id="my-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
       <span class="lbl">LEQP Team</span><select id="my-sel" onchange="loadMyTeam()" style="margin-bottom:10px"><option value="">— Select team —</option></select>
-      <div class="sb" id="my-list"></div>
+      <div class="ri-list" id="my-list"></div>
     </div>
     <div class="card">
       <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">Opponent</h2><span id="opp-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
       <span class="lbl">Rung</span><select id="opp-rung" onchange="loadRung()" style="margin-bottom:8px"><option value="">— Select rung —</option></select>
       <span class="lbl">Team</span><select id="opp-team" onchange="loadOppTeam()" style="margin-bottom:10px" disabled><option value="">— Select rung first —</option></select>
-      <div class="sb" id="opp-list"></div>
+      <div class="ri-list" id="opp-list"></div>
     </div>
   </div>
   <div class="card mt">
@@ -211,6 +224,16 @@ select:focus,input:focus{border-color:var(--ac);}
       <span style="opacity:.3;margin:0 4px">|</span>
       OPPONENT · <span id="opp-pts-live" style="color:var(--or)">—</span> pts
     </div>
+    <div class="capt-bar">
+      <span class="capt-lbl">CAPTAIN:</span>
+      <button class="capt-btn" onclick="captCmd('draft')">🚴 Draft</button>
+      <button class="capt-btn" onclick="captCmd('tempo')">🎯 Tempo</button>
+      <button class="capt-btn" onclick="captCmd('hard')">🔥 Hard</button>
+      <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Attack All!</button>
+      <button class="capt-btn" onclick="captCmd('protect')">🛡 Protect</button>
+      <button class="capt-btn" onclick="captCmd('rest')">💤 Rest All</button>
+      <button class="capt-btn" onclick="captCmd('status')">💬 Status</button>
+    </div>
     <div id="my-cards"></div>
   </div>
   <div id="race-center">
@@ -245,7 +268,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.5';
+const VERSION='v0.7.7';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -488,7 +511,7 @@ function loadMyTeam(){
   const box=document.getElementById('my-list');box.innerHTML='';
   G.myData.riders.forEach(r=>{
     const el=document.createElement('div');el.className='ri';el.dataset.rid=r.id;
-    el.innerHTML=riderRow(r,'my');el.onclick=()=>toggleMy(r,el);box.appendChild(el);
+    el.innerHTML='<div class="ri-cb"></div>'+riderRow(r,'my');el.onclick=()=>toggleMy(r,el);box.appendChild(el);
   });checkReady();
 }
 function toggleMy(r,el){
@@ -511,7 +534,7 @@ function loadOppTeam(){
   G.oppData.riders.forEach(r=>{
     const sel=G.oppPick.includes(r);
     const el=document.createElement('div');el.className='ri'+(sel?' sel':'');el.dataset.rid=r.id;
-    el.innerHTML=riderRow(r,'opp');el.onclick=()=>toggleOpp(r,el);box.appendChild(el);
+    el.innerHTML='<div class="ri-cb"></div>'+riderRow(r,'opp');el.onclick=()=>toggleOpp(r,el);box.appendChild(el);
   });
   document.getElementById('opp-cnt').textContent=`${G.oppPick.length}/5`;checkReady();saveSelections();
 }
@@ -949,6 +972,33 @@ function setEffort(id,e){
   if(!r||r.attackTicks>0||r.forcedEasy>0)return;
   r.effort=e;r.manualEffort=e;r.following=null;renderMyCard(r);
 }
+function captCmd(cmd){
+  const alive=G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&r.stamina>=10);
+  if(cmd==='draft'){
+    alive.forEach(r=>setEffort(r.id,2));
+    commsEvt('Captain: Stay in draft — all Easy');
+  } else if(cmd==='tempo'){
+    alive.forEach(r=>setEffort(r.id,3));
+    commsEvt('Captain: Hold Tempo — keep it steady');
+  } else if(cmd==='hard'){
+    alive.forEach(r=>setEffort(r.id,4));
+    commsEvt('Captain: All Hard — lift the pace!');
+  } else if(cmd==='rest'){
+    alive.forEach(r=>setEffort(r.id,1));
+    commsEvt('Captain: Everyone rest — recover now');
+  } else if(cmd==='attack'){
+    const can=alive.filter(r=>r.stamina>=30&&!r.attackTicks&&!r.attackCooldown);
+    if(!can.length){commsEvt('No riders with enough stamina to attack!');return;}
+    can.forEach(r=>{r.attackTicks=7;r.attackCooldown=20;r.effort=5;r.bubble={text:'⚡ ATTACKING!',born:Date.now()};});
+    commsEvt(`Captain: EVERYONE ATTACK — ${can.length} riders go!`);
+  } else if(cmd==='protect'){
+    alive.filter(r=>r.role!=='leader'&&r.role!=='sprinter').forEach(r=>{r.protecting=true;r.protectTarget=G.leaderRole;r.manualEffort=null;});
+    commsEvt('Captain: Protect the leader — close ranks!');
+  } else if(cmd==='status'){
+    alive.forEach((r,i)=>setTimeout(()=>askRider(r),i*900));
+    commsEvt('Captain: Report in, everyone!');
+  }
+}
 function setProtect(id){
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r)return;
@@ -1109,8 +1159,10 @@ function renderMyCard(r){
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
     <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect leader</button>
-    <button class="atk-full${r.attackTicks>0?' active':''}" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+' ticks left':r.attackCooldown>0?' · cooling down':''}</button>
-    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
+    <div style="display:flex;gap:4px;margin-bottom:4px">
+      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+'t':r.attackCooldown>0?' · cooldown':''}</button>
+      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;width:auto;margin-bottom:0;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+'t':''}</button>`:''}
+    </div>
     <button class="ask-btn" data-action="ask" data-id="${r.id}" ${r.askCooldown>0?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
   `;
   let el=document.getElementById(`rc-${r.id}`);
