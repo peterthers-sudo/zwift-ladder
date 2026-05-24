@@ -271,7 +271,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.10';
+const VERSION='v1.0.11';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1582,25 +1582,20 @@ function drawCanvas(){
   const TW=W-ML-FINISH_ZONE-MR;  // race track; FINISH_ZONE is past the line
   G.canvasLayout={ML,R,LANE_H,TW};
 
-  // Same colour system as the standings site: bg → surface → surface2 → border
-  // Alternating lanes give the same table-row feel
+  // Use the same CSS vars as the rest of game.html:
+  // --bg:#1a1f2b  --s1:#242a38  --s2:#2d3447  --bd:rgba(255,255,255,.09)
   for(let i=0;i<LANES;i++){
-    ctx.fillStyle=i%2===0?'#111520':'#0d1020';
+    ctx.fillStyle=i%2===0?'#242a38':'#2d3447'; // s1 / s2 alternating
     ctx.fillRect(0,i*LANE_H,W,LANE_H);
-    // Very subtle team half-tint — accent only, not a heavy block
-    ctx.fillStyle=i<5?'rgba(0,229,255,.04)':'rgba(255,107,53,.04)';
+    ctx.fillStyle=i<5?'rgba(0,229,255,.05)':'rgba(255,93,0,.05)';
     ctx.fillRect(0,i*LANE_H,W,LANE_H);
   }
 
-  // Lane dividers — border colour from site (#1f2a40)
+  // Lane dividers — --bd colour
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
-    if(i===5){
-      ctx.strokeStyle='rgba(0,229,255,.35)';ctx.lineWidth=2;
-    } else {
-      ctx.strokeStyle='#1f2a40';ctx.lineWidth=1;
-    }
-    ctx.stroke();
+    ctx.strokeStyle=i===5?'rgba(0,229,255,.40)':'rgba(255,255,255,.09)';
+    ctx.lineWidth=i===5?2:1;ctx.stroke();
   }
 
   // Elevation silhouette — white/neutral
