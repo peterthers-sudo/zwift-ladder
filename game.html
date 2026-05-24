@@ -104,7 +104,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .seg.active{outline:1px solid currentColor;font-weight:700;}
 
 /* Center — canvas fills all remaining height */
-#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;}
+#race-center{flex:1;min-height:0;display:flex;flex-direction:column;background:var(--bg);overflow:hidden;padding:8px 12px 6px;}
 
 /* ══ RESULTS ══ */
 #results{max-width:900px;margin:0 auto;padding:20px;}
@@ -245,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.3';
+const VERSION='v0.6.4';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -673,7 +673,7 @@ function beginRace(){
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=false;G.racers=[];G.groups=[];
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];
 
   const mkRacer=(r,team,teamName,role)=>({
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
@@ -734,8 +734,10 @@ function beginRace(){
   document.getElementById('rh-dist').textContent=`${(G.route.distance*G.laps).toFixed(1)} km · ${G.route.elevation*G.laps} m`;
 
   show('race');
-  commsEvt(`Race is on! ${G.route.name} — ${routeTag(G.route).l}. Keep the team together at the start.`);
-  G.pendingEvts.forEach(msg=>commsEvt(msg,'warn'));
+  const pauseBtn=document.getElementById('pause-btn');
+  pauseBtn.textContent='▶ Start';pauseBtn.classList.add('paused');
+  commsEvt(`Ready! ${G.route.name} — ${routeTag(G.route).l}. Set your riders, then hit Start.`);
+  G.pendingEvts.forEach(msg=>commsEvt(msg));
   G.pendingEvts=[];
   startTick();startRender();
 }
@@ -754,7 +756,6 @@ function togglePause(){
   const btn=document.getElementById('pause-btn');
   btn.textContent=G.paused?'▶ Resume':'⏸ Pause';
   btn.classList.toggle('paused',G.paused);
-  document.querySelectorAll('.ask-btn').forEach(b=>b.disabled=!G.paused);
 }
 
 // ── STRATEGY ──────────────────────────────────────────
@@ -938,7 +939,6 @@ function setProtect(id){
   renderMyCard(r);
 }
 function usePowerup(id){
-  if(!G.paused)return;
   const r=G.racers.find(x=>x.id==id&&x.team==='leqp');
   if(!r||r.powerupUsed||!r.powerup)return;
   r.powerup.apply(r);r.powerupUsed=true;
@@ -980,7 +980,6 @@ function checkEvents(t,sec){
 
 // ── COMMS ─────────────────────────────────────────────
 function askRider(r){
-  if(!G.paused)return;
   if((r.askCooldown||0)>0){G.hudMsg={text:`Wait — ${r.display.split(' ')[0]} just responded.`,born:Date.now()};return;}
   G.hudMsg={text:`Captain: ${r.display.split(' ')[0]}, what's your status?`,born:Date.now()};
   r.askCooldown=10;
@@ -1054,8 +1053,8 @@ function renderMyCard(r){
     </div>
     <button class="pbt${r.protecting?' act':''}" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect leader</button>
     <button class="atk-full${r.attackTicks>0?' active':''}" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0?'disabled':''}>⚡ ATTACK${r.attackTicks>0?' · '+r.attackTicks+' ticks left':r.attackCooldown>0?' · cooling down':''}</button>
-    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${!G.paused||r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
-    <button class="ask-btn" data-action="ask" data-id="${r.id}" ${!G.paused||(r.askCooldown>0)?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
+    ${r.powerup&&!r.powerupUsed?`<button class="tb" style="background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' · '+r.powerupActive.ticks+' ticks':''}</button>`:''}
+    <button class="ask-btn" data-action="ask" data-id="${r.id}" ${r.askCooldown>0?'disabled':''}>${r.askCooldown>0?'Waiting...':'💬 Ask '+r.display.split(' ')[0]}</button>
   `;
   let el=document.getElementById(`rc-${r.id}`);
   if(el){el.innerHTML=html;el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;}
@@ -1245,8 +1244,8 @@ function drawCanvas(){
   // HUD event message — fades after 3.5s, shown at top centre of canvas
   if(G.hudMsg){
     const age=Date.now()-G.hudMsg.born;
-    if(age<3500){
-      const alpha=age>2500?1-(age-2500)/1000:1;
+    if(age<7000){
+      const alpha=age>5500?1-(age-5500)/1500:1;
       ctx.save();ctx.globalAlpha=alpha;
       ctx.font='bold 12px monospace';
       const tw2=ctx.measureText(G.hudMsg.text).width;
