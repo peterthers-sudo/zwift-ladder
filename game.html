@@ -101,6 +101,9 @@ select:focus,input:focus{border-color:var(--ac);}
 .capt-btn.capt-atk:hover{background:var(--or);color:#fff;border-color:var(--or);}
 .capt-btn.capt-pu{border-color:rgba(255,183,3,.5);color:#d49600;}
 .capt-btn.capt-pu:hover{background:var(--go);color:#000;border-color:var(--go);}
+.capt-btn.capt-ph{border-color:rgba(239,35,60,.45);color:var(--rd);font-weight:700;}
+.capt-btn.capt-ph:hover{background:var(--rd);color:#fff;border-color:var(--rd);}
+.capt-btn.capt-ph:disabled{opacity:.3;cursor:not-allowed;border-color:var(--bd);color:var(--dm);background:none;font-weight:normal;}
 /* Rider cards */
 .rc{flex:1;min-width:0;background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:8px 9px 6px;transition:border-color .15s;overflow:hidden;}
 .rc.attacking{background:rgba(255,107,0,.06);border-color:var(--or);}
@@ -257,6 +260,7 @@ select:focus,input:focus{border-color:var(--ac);}
       <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
       <button class="capt-btn" onclick="captCmd('status')">💬 Give status</button>
       <button class="capt-btn capt-pu" onclick="useAllPowerups()">💥 Use powerups</button>
+      <button class="capt-btn capt-ph" id="capt-ph-btn" onclick="captPedalHarder()">🔥 Pedal Harder!</button>
     </div>
     <div id="my-cards"></div>
   </div>
@@ -296,7 +300,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.1.1';
+const VERSION='v1.1.2';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -890,7 +894,8 @@ function beginRace(){
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.youId;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;
+  document.getElementById('capt-ph-btn').disabled=false;
   document.getElementById('finish-overlay').style.display='none';
   document.getElementById('pause-btn').disabled=false;
 
@@ -1420,6 +1425,18 @@ function useAllPowerups(){
   });
   if(used.length)commsEvt(`💥 Captain: Use powerups — ${used.join(', ')} activate!`);
   else commsEvt('Captain: Nobody has a powerup ready.');
+}
+function captPedalHarder(){
+  if(G.pedalHarderUsed)return;
+  G.pedalHarderUsed=true;
+  document.getElementById('capt-ph-btn').disabled=true;
+  commsEvt('🔥 Captain: PEDAL HARDER!!!');
+  const replies=['On it — everything I\'ve got!','PEDAL HARDER! Let\'s go!','Full gas — for the win!','I\'m going all in!','Giving everything — now!'];
+  G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished).forEach(r=>{
+    r.powerupActive={type:'pedal',ticks:12};
+    say(r,replies[Math.floor(Math.random()*replies.length)],true);
+    renderMyCard(r);
+  });
 }
 
 // ── EVENTS ────────────────────────────────────────────
@@ -2080,8 +2097,7 @@ function finishRace(){
     ${campSection}
     <div style="border-radius:6px;overflow:hidden;margin-bottom:4px">${rows}</div>
     <div class="fo-actions">
-      <button class="btn bs" style="font-size:.8rem;padding:7px 18px" onclick="show('setup')">Change setup</button>
-      <button class="btn bp" style="font-size:.8rem;padding:7px 18px" onclick="rerun()">Play again</button>
+      <button class="btn bp" style="font-size:.8rem;padding:7px 18px" onclick="newChallenge()">New challenge ▶</button>
     </div>`;
   document.getElementById('finish-overlay').style.display='block';
   document.getElementById('pause-btn').disabled=true;
@@ -2131,7 +2147,16 @@ function show(id){
   window.scrollTo(0,0);
 }
 function goSetup(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);show('setup');}
-function rerun(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);beginRace();}
+function newChallenge(){
+  clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
+  G.oppKey=null;G.oppData=null;G.oppPick=[];
+  document.getElementById('opp-list').innerHTML='';
+  document.getElementById('opp-cnt').textContent='0/5';
+  if(G.campaign)filterOpponentsByLadder();
+  else{const ts=document.getElementById('opp-team');ts.innerHTML='<option value="">— Select opponent —</option>';ts.disabled=true;}
+  checkReady();
+  show('setup');
+}
 
 // Keyboard shortcuts
 document.addEventListener('keydown',e=>{
