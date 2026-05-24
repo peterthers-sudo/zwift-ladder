@@ -240,7 +240,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.6.0';
+const VERSION='v0.6.1';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1028,8 +1028,6 @@ function updatePanels(){
   // My cards
   G.racers.filter(r=>r.team==='leqp').forEach(r=>renderMyCard(r));
 
-  // Situation text
-  updateSituation();
 }
 
 function posClass(p){return p===1?'gold':p===2?'silver':p===3?'bronze':'';}
@@ -1062,29 +1060,6 @@ function renderMyCard(r){
   else{el=document.createElement('div');el.className=`rc${r.attackTicks>0?' attacking':r.protecting?' protecting':''}`;el.id=`rc-${r.id}`;el.innerHTML=html;document.getElementById('my-cards').appendChild(el);}
 }
 
-function updateSituation(){
-  if(!G.groups||G.groups.length===0)return;
-  const leader=G.groups[0][0];
-  let html='<div class="sit-group">';
-  G.groups.forEach((grp,gi)=>{
-    const myRiders=grp.filter(r=>r.team==='leqp');
-    const oppRiders=grp.filter(r=>r.team==='opp');
-    const cls=gi===0?'sit-g1':gi<G.groups.length-1?'sit-g2':'sit-gn';
-    const label=gi===0?(grp.length>=5?'Peloton':'Breakaway'):gi===G.groups.length-1&&G.groups.length>2?'Grupetto':'Group';
-    let names=[...myRiders.map(r=>`<span style="color:var(--ac)">${r.display.split(' ')[0]}</span>`),
-               ...oppRiders.map(r=>`<span style="color:var(--or)">${r.display.split(' ')[0]}</span>`)].join(', ');
-    if(gi>0){
-      const gap=gapSecs(G.groups[gi-1],grp);
-      html+=`<span class="sit-gap">+${gap}s</span>`;
-    }
-    html+=`<span class="${cls}">${label} (${grp.length}): ${names}</span>`;
-    // Warn if my riders are being dropped
-    const cracking=myRiders.filter(r=>r.stamina<15);
-    if(cracking.length)html+=` <span class="sit-warn">⚠️ ${cracking.map(r=>r.display.split(' ')[0]).join(', ')} cracking!</span>`;
-  });
-  html+='</div>';
-  document.getElementById('situation').innerHTML=html;
-}
 
 // ── CANVAS ────────────────────────────────────────────
 function buildSegBar(){
