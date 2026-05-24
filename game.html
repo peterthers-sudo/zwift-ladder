@@ -1054,7 +1054,7 @@ function doTick(){
     for(const r of G.racers){
       if(r.absent||r.dropped||r.finished)continue;
       if(r.powerup&&!r.powerupUsed)continue; // already has unused powerup
-      if(Math.abs(r.progress-rpu.progress)<0.013){
+      if(r.lane===rpu.lane&&Math.abs(r.progress-rpu.progress)<0.016){
         r.powerup=rpu.pu;r.powerupUsed=false;r.powerupActive=null;
         say(r,`Got ${rpu.pu.name}!`,true);
         if(r.team==='leqp')renderMyCard(r);
@@ -1094,13 +1094,16 @@ function doTick(){
 
 function spawnRoutePowerups(n){
   const now=Date.now();
+  // Spawn ahead of the current race leader so dropped pickups are reachable
+  const riders=G.racers?G.racers.filter(r=>!r.absent&&!r.dropped&&!r.finished):[];
+  const leadProg=riders.length?Math.max(...riders.map(r=>r.progress)):0;
+  const minProg=Math.min(0.65,leadProg+0.04);
   for(let i=0;i<n;i++){
-    // Stagger appearance: first one immediate, rest every 15 s
-    const born=now+i*15000;
-    const progress=0.08+Math.random()*0.76;
-    // 6% chance of rare Pedal Harder; rest normal pool
+    const born=now+i*14000; // stagger appearance
+    const progress=minProg+Math.random()*Math.max(0.05,0.84-minProg);
+    const lane=Math.floor(Math.random()*10); // random lane 0–9
     const pool=Math.random()<0.06?POWERUPS:POWERUPS_NORMAL;
-    G.routePowerups.push({pu:pick(pool),progress,born});
+    G.routePowerups.push({pu:pick(pool),progress,lane,born});
   }
 }
 
@@ -1614,19 +1617,14 @@ function drawCanvas(){
     if(age>10000)return;
     const alpha=age>7500?1-(age-7500)/2500:1;
     const x=ML+rpu.progress*TW;
+    const cy=rpu.lane*LANE_H+LANE_H/2;
     const pulse=1+0.18*Math.sin(now/180);
     ctx.save();ctx.globalAlpha=alpha;
-    // Glow
     ctx.shadowColor=rpu.pu.id==='pedal'?'#ff5d00':'#ffd700';
-    ctx.shadowBlur=12*pulse;
-    ctx.font=`${Math.round(R*1.1*pulse)}px serif`;
+    ctx.shadowBlur=14*pulse;
+    ctx.font=`${Math.round(R*1.7*pulse)}px serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
-    ctx.fillText(rpu.pu.icon,x,H/2);
-    // Countdown bar (10 s → 0)
-    ctx.shadowBlur=0;
-    const barW=24*(1-age/10000);
-    ctx.fillStyle='rgba(255,215,0,.7)';
-    ctx.fillRect(x-12,H/2+R+8,barW,2);
+    ctx.fillText(rpu.pu.icon,x,cy);
     ctx.restore();
   });}
 
