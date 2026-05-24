@@ -245,7 +245,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.4';
+const VERSION='v0.7.5';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -253,7 +253,7 @@ const VERSION='v0.7.4';
 const TICK_BASE=1000, TOTAL_TICKS=130, GAP_GROUP=0.018;
 
 const EFF_LBL=['Rest','Easy','Tempo','Hard','Attack'];
-const EFF_IC =['🌊','🚴','⏱','🔥','⚡'];
+const EFF_IC =['💤','🚴','🎯','🔥','⚡'];
 const EFF_SPD=[0.75,0.88,1.00,1.12,1.26];
 const EFF_DRN=[2.0,-0.5,-2.0,-4.5,-11.0]; // stamina Δ/tick (+= recovery)
 
@@ -1242,6 +1242,7 @@ function drawCanvas(){
     ctx.save();
     ctx.font=`${Math.round(R*0.9)}px serif`;
     ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.shadowColor='rgba(0,0,0,0.28)';ctx.shadowBlur=4;
     ctx.fillText(attacking?'⚡':EFF_IC[Math.max(0,Math.min(4,r.effort-1))],rx,cy+2);
     ctx.restore();
 
