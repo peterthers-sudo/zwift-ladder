@@ -271,7 +271,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.0.9';
+const VERSION='v1.0.10';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -1582,34 +1582,28 @@ function drawCanvas(){
   const TW=W-ML-FINISH_ZONE-MR;  // race track; FINISH_ZONE is past the line
   G.canvasLayout={ML,R,LANE_H,TW};
 
-  // Deep navy base
-  ctx.fillStyle='#0d1526';ctx.fillRect(0,0,W,H);
-
-  // Strong team colour blocks — your team cyan, opponents orange
-  const myGrad=ctx.createLinearGradient(0,0,0,LANE_H*5);
-  myGrad.addColorStop(0,'rgba(0,210,255,.18)');
-  myGrad.addColorStop(1,'rgba(0,210,255,.08)');
-  ctx.fillStyle=myGrad; ctx.fillRect(0,0,W,LANE_H*5);
-
-  const opGrad=ctx.createLinearGradient(0,LANE_H*5,0,H);
-  opGrad.addColorStop(0,'rgba(255,100,0,.10)');
-  opGrad.addColorStop(1,'rgba(255,100,0,.20)');
-  ctx.fillStyle=opGrad; ctx.fillRect(0,LANE_H*5,W,LANE_H*5);
-
-  // Alternating lane stripe — barely-there
-  for(let i=0;i<LANES;i+=2){
-    ctx.fillStyle='rgba(255,255,255,.03)';
+  // Same colour system as the standings site: bg → surface → surface2 → border
+  // Alternating lanes give the same table-row feel
+  for(let i=0;i<LANES;i++){
+    ctx.fillStyle=i%2===0?'#111520':'#0d1020';
+    ctx.fillRect(0,i*LANE_H,W,LANE_H);
+    // Very subtle team half-tint — accent only, not a heavy block
+    ctx.fillStyle=i<5?'rgba(0,229,255,.04)':'rgba(255,107,53,.04)';
     ctx.fillRect(0,i*LANE_H,W,LANE_H);
   }
 
-  // Lane dividers
+  // Lane dividers — border colour from site (#1f2a40)
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
-    ctx.strokeStyle=i===5?'rgba(255,255,255,.40)':'rgba(255,255,255,.09)';
-    ctx.lineWidth=i===5?2:1;ctx.stroke();
+    if(i===5){
+      ctx.strokeStyle='rgba(0,229,255,.35)';ctx.lineWidth=2;
+    } else {
+      ctx.strokeStyle='#1f2a40';ctx.lineWidth=1;
+    }
+    ctx.stroke();
   }
 
-  // Elevation silhouette — white so it reads cleanly on either team half
+  // Elevation silhouette — white/neutral
   const rp=ROUTE_PROFILES[G.route?.name];
   if(rp){
     const minA=Math.min(...rp),maxA=Math.max(...rp),range=Math.max(1,maxA-minA);
@@ -1623,20 +1617,20 @@ function drawCanvas(){
     });
     ctx.lineTo(ML+TW,H);ctx.lineTo(ML,H);ctx.closePath();
     const silGrad=ctx.createLinearGradient(0,H-silH,0,H);
-    silGrad.addColorStop(0,'rgba(255,255,255,.14)');
-    silGrad.addColorStop(1,'rgba(255,255,255,.03)');
+    silGrad.addColorStop(0,'rgba(255,255,255,.10)');
+    silGrad.addColorStop(1,'rgba(255,255,255,.02)');
     ctx.fillStyle=silGrad;ctx.fill();
-    ctx.strokeStyle='rgba(255,255,255,.30)';ctx.lineWidth=1.5;ctx.stroke();
+    ctx.strokeStyle='rgba(255,255,255,.20)';ctx.lineWidth=1;ctx.stroke();
     ctx.restore();
   }
 
-  // Finish zone — gold tint
-  ctx.fillStyle='rgba(255,215,0,.07)';
+  // Finish zone
+  ctx.fillStyle='rgba(255,215,0,.06)';
   ctx.fillRect(ML+TW,0,FINISH_ZONE,H);
 
   // Start line
   ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
-  ctx.strokeStyle='rgba(255,255,255,.40)';ctx.lineWidth=2;ctx.stroke();
+  ctx.strokeStyle='rgba(255,255,255,.30)';ctx.lineWidth=2;ctx.stroke();
 
   const t=Math.min(1,G.tick/RACE_TICKS);const sec=curSec(t);
 
