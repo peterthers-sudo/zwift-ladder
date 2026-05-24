@@ -58,6 +58,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .rh-score{font-family:'JetBrains Mono',monospace;font-size:.72rem;white-space:nowrap;}
 .pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
+.pause-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--bd);color:var(--dm);background:transparent !important;}
 
 /* My team panel — above canvas */
 #my-panel-top{background:var(--s1);border-bottom:2px solid var(--bd);flex-shrink:0;padding:5px 12px 6px;}
@@ -258,7 +259,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v0.7.8';
+const VERSION='v0.7.9';
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -329,6 +330,7 @@ const G={
   markTarget:null,
   canvasLayout:null,
   explosions:[],     // [{progress,lane,born,col}] — particle bursts
+  _countdownInterval:null,
 };
 
 // ══════════════════════════════════════════════════════
@@ -751,11 +753,26 @@ function beginRace(){
 
   show('race');
   const pauseBtn=document.getElementById('pause-btn');
-  pauseBtn.textContent='▶ Start';pauseBtn.classList.add('paused');
-  commsEvt(`Ready! ${G.route.name} — ${routeTag(G.route).l}. Set your riders, then hit Start.`);
-  // Show pre-race intel messages sequentially — each after the previous fades
+  pauseBtn.textContent='⏳ Intel...';pauseBtn.classList.add('paused');pauseBtn.disabled=true;
+  commsEvt(`Ready! ${G.route.name} — ${routeTag(G.route).l}. Incoming intel…`);
+  const nEvts=G.pendingEvts.length;
   G.pendingEvts.forEach((msg,i)=>setTimeout(()=>commsEvt(msg),(i+1)*5000));
   G.pendingEvts=[];
+  // After last intel message, count down 10→0 then auto-start
+  if(G._countdownInterval){clearInterval(G._countdownInterval);G._countdownInterval=null;}
+  setTimeout(()=>{
+    let count=10;
+    pauseBtn.textContent=`▶ Start · ${count}`;pauseBtn.disabled=false;
+    G._countdownInterval=setInterval(()=>{
+      count--;
+      if(count<=0){
+        clearInterval(G._countdownInterval);G._countdownInterval=null;
+        if(G.paused&&G.tick===0){G.paused=false;pauseBtn.textContent='⏸ Pause';pauseBtn.classList.remove('paused');}
+      } else {
+        pauseBtn.textContent=`▶ Start · ${count}`;
+      }
+    },1000);
+  },(nEvts+1)*5000);
   startTick();startRender();
 }
 
@@ -764,6 +781,7 @@ function startTick(){
   G.tickTimer=setInterval(()=>{if(!G.paused)doTick();},TICK_BASE/G.speed);
 }
 function togglePause(){
+  if(G._countdownInterval){clearInterval(G._countdownInterval);G._countdownInterval=null;}
   G.paused=!G.paused;
   const btn=document.getElementById('pause-btn');
   btn.textContent=G.paused?'▶ Resume':'⏸ Pause';
