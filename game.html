@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.3';
+const VERSION='v1.2.4';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -555,7 +555,7 @@ function riderRow(r,team){
   const cl=classify(r);
   const bw=(team==='my'&&G.campaign?.bonuses?.[r.id])||0;
   const watts=getFlatPower(r).toFixed(0);
-  const bonusTag=bw>=0.005?`<span style="color:var(--gr);font-size:.52rem;font-family:'JetBrains Mono',monospace;opacity:.9"> +${bw.toFixed(2)}</span>`:'';
+  const bonusTag=bw>=0.005?`<span style="color:var(--gr);font-size:.52rem;font-family:'JetBrains Mono',monospace;opacity:.9" title="Campaign win bonus"> +${bw.toFixed(2)} w/kg</span>`:'';
   return`<div style="flex:1;min-width:0">
     <div style="font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${sname(r.name)}${bonusTag}</div>
     <div style="color:var(--dm);font-size:.6rem;margin-top:2px">
@@ -623,6 +623,11 @@ function loadMyTeam(){
     const el=document.createElement('div');el.className='ri';el.dataset.rid=r.id;
     el.innerHTML='<div class="ri-cb"></div>'+riderRow(r,'my');el.onclick=()=>toggleMy(r,el);box.appendChild(el);
   });
+  // Clear opponent when team changes
+  G.oppKey=null;G.oppData=null;G.oppPick=[];
+  document.getElementById('opp-list').innerHTML='';
+  document.getElementById('opp-cnt').textContent='0/5';
+  document.getElementById('opp-team').value='';
   const oppEntry=OPPONENT_LIBRARY[k];
   if(oppEntry?.ladderPosition){
     loadCampaign(k,oppEntry.ladderPosition);
@@ -1614,7 +1619,7 @@ function renderMyCard(r){
   const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)'},climb:{l:'Climb',i:'▲',c:'var(--gr)'},punch:{l:'Punch',i:'◆',c:'var(--pu)'},sprint:{l:'Sprint',i:'⚡',c:'var(--or)'}};
   const terrSec=G.sections?curSec(Math.min(r.progress,0.999)):null;
   const terr=terrSec?TERR_MAP[terrSec.t]:null;
-  const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.48rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px">+${r.bonusWkg.toFixed(2)}</span>`:'';
+  const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.48rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px" title="Campaign win bonus">+${r.bonusWkg.toFixed(2)} w/kg</span>`:'';
   const html=`
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
