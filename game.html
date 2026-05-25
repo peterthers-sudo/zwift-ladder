@@ -171,7 +171,6 @@ select:focus,input:focus{border-color:var(--ac);}
 .rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;color:var(--dm);width:24px;text-align:center;flex-shrink:0;}
 .rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#8a94a6;}.rc-pos.bronze{color:#cd7f32;}
 .rc-name{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:1.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.rc-mid{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
 .rc-terr{font-size:1.3rem;line-height:1;transition:color .3s;}
 .rc-terr.climbing{animation:pulse-climb 1.4s ease-in-out infinite;}
 .rc-state{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;flex-shrink:0;}
@@ -358,7 +357,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.8';
+const VERSION='v1.3.9';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1708,9 +1707,7 @@ function renderMyCard(r){
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
       <div class="rc-name">${r.display}${bonusTag}</div>
-    </div>
-    <div class="rc-mid">
-      ${terr?`<span class="rc-terr${terr.pulse?' climbing':''}" style="color:${terr.c}" title="${terr.l}">${terr.i}</span>`:'<span class="rc-terr" style="opacity:.3">—</span>'}
+      ${terr?`<span class="rc-terr${terr.pulse?' climbing':''}" style="color:${terr.c}" title="${terr.l}">${terr.i}</span>`:'<span class="rc-terr" style="opacity:.25">—</span>'}
       <div class="rc-state" style="color:${st.c}">${st.l}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
