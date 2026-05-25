@@ -270,13 +270,19 @@ select:focus,input:focus{border-color:var(--ac);}
   #my-cards::-webkit-scrollbar{display:none;}
   .rc{min-width:140px;flex:0 0 140px;}
 
-  /* Ensure canvas fills remaining space */
-  #race-center{min-height:160px;}
+  /* Canvas scrollable so all 10 lanes are reachable */
+  #race-center{min-height:160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
 
   /* Results — drop last column, smaller score */
   .sc-num{font-size:2.2rem;}
   .rr{grid-template-columns:20px 1fr auto auto;font-size:.65rem;}
   .rr>span:nth-child(4){display:none;}
+}
+/* Landscape mobile — cap panel height so canvas gets space */
+@media(max-height:500px) and (max-width:900px){
+  #race-hdr{padding:2px 8px;}
+  #my-panel-top{max-height:42vh;overflow-y:auto;}
+  .rc{min-width:120px;flex:0 0 120px;}
 }
 </style>
 </head>
@@ -416,7 +422,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.13';
+const VERSION='v1.5.14';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2065,8 +2071,9 @@ function drawCanvas(){
   const W=cv.offsetWidth||900;
   // Fill all space race-center gives us (minus seg-bar)
   const ctr=document.getElementById('race-center');
-  const availH=Math.max(400,ctr.clientHeight-62); // seg-bar(40) + padding top(8) + bottom(14)
-  const LANE_H=Math.min(88,Math.max(52,Math.floor(availH/LANES)));
+  const mob=window.innerWidth<=640;
+  const availH=Math.max(mob?200:400, ctr.clientHeight-62);
+  const LANE_H=Math.min(88,Math.max(mob?28:52,Math.floor(availH/LANES)));
   const H=LANES*LANE_H;
   const R=Math.round(LANE_H*0.33);
   if(cv.width!==W)cv.width=W;
