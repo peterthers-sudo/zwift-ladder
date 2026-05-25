@@ -7,34 +7,44 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
 <style>
 :root {
-  /* ── Eksklusive Baggrunde ── */
-  --bg: #f8fafc;     /* En renere, sprødere lys baggrund */
-  --s1: #ffffff;     /* Rent hvidt til kort (cards) */
-  --s2: #f1f5f9;     /* En anelse mørkere grå til listeelementer for bedre adskillelse */
-
-  /* ── Knivskarpe Kanter & Skygger ── */
-  --bd: #e2e8f0;     /* En mere markant, men elegant kant i stedet for gennemsigtig blå */
-  --shadow-premium: 0 10px 30px -10px rgba(15, 23, 42, 0.08); /* Blødere, dybere luksus-skygge */
-
-  /* ── Dbyere, Eksklusive Accentfarver (Høj Kontrast) ── */
-  --ac: #0ea5e9;     /* En dybere, mere elektrisk cyan/himmelblå (eget hold) */
-  --or: #ea580c;     /* En mørkere, brændt orange i stedet for neon (modstandere) */
-  --gr: #16a34a;     /* En rig, dyb skovgrøn i stedet for lys grøn */
-  --pu: #7c3aed;     /* En royal, mættet lilla (punch) */
-  --go: #d97706;     /* En rig rav/guld farve (meget bedre kontrast mod hvid end #ffb703) */
-  --rd: #dc2626;     /* En sofistikeret mørkerød (fare) */
-
-  /* ── Tekst med maksimal læsbarhed ── */
-  --tx: #0f172a;     /* En dyb skifer/næsten-sort (meget højere kontrast end #1e293b) */
-  --dm: #475569;     /* Mellemgrå til sekundær tekst (opfylder WCAG AA kravet på > 4.5:1) */
-
-  /* ── Stamina-tilstande ── */
+  --bg: #f8fafc;
+  --s1: #ffffff;
+  --s2: #f1f5f9;
+  --bd: #e2e8f0;
+  --shadow-premium: 0 10px 30px -10px rgba(15,23,42,0.08);
+  --ac: #0ea5e9;
+  --or: #ea580c;
+  --gr: #16a34a;
+  --pu: #7c3aed;
+  --go: #d97706;
+  --rd: #dc2626;
+  --tx: #0f172a;
+  --dm: #475569;
   --st-good: #d97706;
   --st-tired: #ea580c;
   --st-blown: #64748b;
-
-  /* ── Modstander intro ── */
   --opp: #ea580c;
+  --div: rgba(0,40,80,.10);
+}
+html[data-theme="dark"] {
+  --bg: #0d1520;
+  --s1: #162033;
+  --s2: #0f1928;
+  --bd: rgba(255,255,255,0.10);
+  --shadow-premium: 0 10px 30px -10px rgba(0,0,0,0.4);
+  --ac: #38bdf8;
+  --or: #fb923c;
+  --gr: #4ade80;
+  --pu: #c084fc;
+  --go: #fbbf24;
+  --rd: #f87171;
+  --tx: #e2e8f0;
+  --dm: #94a3b8;
+  --st-good: #fbbf24;
+  --st-tired: #fb923c;
+  --st-blown: #64748b;
+  --opp: #fb923c;
+  --div: rgba(255,255,255,.08);
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 body{background:var(--bg);color:var(--tx);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
@@ -147,6 +157,8 @@ select:focus,input:focus{border-color:var(--ac);}
 /* Manual overlay */
 #manual-btn{padding:5px 14px;border-radius:6px;border:2px solid var(--ac);background:var(--ac);cursor:pointer;font-size:.75rem;font-family:'Bebas Neue',sans-serif;letter-spacing:2px;display:flex;align-items:center;gap:5px;box-shadow:0 2px 10px rgba(0,180,216,.25);color:#fff;transition:all .15s;flex-shrink:0;}
 #manual-btn:hover{background:transparent;color:var(--ac);box-shadow:0 4px 16px rgba(0,180,216,.35);}
+.theme-toggle{padding:5px 12px;border-radius:6px;border:1px solid var(--bd);background:transparent;color:var(--dm);cursor:pointer;font-size:.75rem;font-family:'JetBrains Mono',monospace;transition:all .15s;flex-shrink:0;white-space:nowrap;}
+.theme-toggle:hover{border-color:var(--ac);color:var(--ac);}
 #manual-overlay{display:none;position:fixed;inset:0;z-index:300;align-items:flex-start;justify-content:center;background:rgba(0,0,0,.55);padding:20px;overflow-y:auto;}
 #manual-overlay.on{display:flex;}
 .manual-box{background:var(--s1);border-radius:14px;width:min(780px,96%);overflow-y:auto;padding:32px 36px 36px;color:var(--tx);position:relative;margin:auto;}
@@ -239,9 +251,13 @@ select:focus,input:focus{border-color:var(--ac);}
 <!-- ══════════ SETUP ══════════ -->
 <div class="screen on" id="setup">
 <div style="max-width:1080px;margin:0 auto;padding:16px 20px">
-  <div style="padding:16px 0 12px">
+  <div style="padding:16px 0 12px;display:flex;align-items:flex-start;justify-content:space-between">
+  <div>
     <h1>PEDAL HARDER</h1>
     <span class="lbl" style="margin:0">Zwift Ladder Race Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span>
+  </div>
+  <button class="theme-toggle" onclick="setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')">🌙 Dark</button>
+  </div>
     <p style="margin:10px 0 0;font-size:.88rem;line-height:1.6;color:var(--dm)">Select your LEQP team and challenge an opponent ranked up to 7 places above you on the Zwift Cycling Ladder. Pick a route, set your riders' roles and strategy — then race. You control effort levels, attacks, powerups and captain commands in real time. Win to climb the ladder and earn w/kg bonuses for your riders. Lose 3 races in a row and the campaign resets — back to your starting position with all bonuses cleared. Then go again, but this time <strong style="color:var(--or);letter-spacing:1px">PEDAL HARDER!!!</strong></p>
   </div>
   <div class="sg">
@@ -312,6 +328,7 @@ select:focus,input:focus{border-color:var(--ac);}
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <div class="rh-pct" id="rh-pct"><span class="rh-pct-main">0%</span><span class="rh-pct-sub">— km</span></div>
     <button id="manual-btn" onclick="showManual()" title="Game Manual">📖 Manual</button>
+    <button class="theme-toggle" onclick="setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')">🌙 Dark</button>
   </div>
   <div id="my-panel-top">
     <div class="capt-bar">
@@ -364,12 +381,12 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.1';
+const VERSION='v1.5.2';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
 // ══════════════════════════════════════════════════════
-const THEME=(()=>{
+function readTheme(){
   const s=getComputedStyle(document.documentElement);
   const v=n=>s.getPropertyValue(n).trim();
   return{
@@ -377,9 +394,16 @@ const THEME=(()=>{
     ac:v('--ac'),or:v('--or'),gr:v('--gr'),pu:v('--pu'),
     go:v('--go'),rd:v('--rd'),tx:v('--tx'),dm:v('--dm'),
     stGood:v('--st-good'),stTired:v('--st-tired'),stBlown:v('--st-blown'),
-    opp:v('--opp'),
+    opp:v('--opp'),div:v('--div'),
   };
-})();
+}
+let THEME=readTheme();
+function setTheme(t){
+  document.documentElement.setAttribute('data-theme',t);
+  localStorage.setItem('ph_theme',t);
+  Object.assign(THEME,readTheme());
+  document.querySelectorAll('.theme-toggle').forEach(b=>b.textContent=t==='dark'?'☀ Light':'🌙 Dark');
+}
 
 // ══════════════════════════════════════════════════════
 // CONSTANTS
@@ -585,6 +609,8 @@ function restoreSelections(){
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
+  const saved=localStorage.getItem('ph_theme')||'light';
+  if(saved==='dark')setTheme('dark');
   document.getElementById('ver-lbl').textContent=VERSION;
   document.getElementById('race-canvas').addEventListener('pointerdown',onCanvasClick);
   // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
@@ -2025,7 +2051,7 @@ function drawCanvas(){
   // Lane dividers — dark on light background
   for(let i=1;i<LANES;i++){
     ctx.beginPath();ctx.moveTo(0,i*LANE_H);ctx.lineTo(W,i*LANE_H);
-    ctx.strokeStyle=i===5?THEME.ac:'rgba(0,40,80,.10)';
+    ctx.strokeStyle=i===5?THEME.ac:THEME.div;
     ctx.lineWidth=i===5?2:1;ctx.stroke();
   }
 
