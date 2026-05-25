@@ -247,7 +247,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .rr.leqp{background:rgba(0,180,216,.04);}.rr.opp{background:rgba(255,107,0,.04);}
 
 /* ══ RACE REPORT ══ */
-#res-report h2{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--dm);margin-bottom:8px;}
+#res-report h2{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:8px;}
 .rep-row{display:flex;gap:10px;align-items:baseline;padding:4px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.68rem;}
 .rep-km{color:var(--dm);min-width:54px;flex-shrink:0;font-size:.6rem;letter-spacing:1px;}
 .rep-txt{flex:1;}
@@ -418,8 +418,8 @@ select:focus,input:focus{border-color:var(--ac);}
     <div class="sc-box" id="op-scb"><span class="lbl" id="op-scn"></span><div class="sc-num" id="op-sc">–</div><span class="lbl">ladder points</span></div>
   </div>
   <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px" id="res-cls"></div>
-  <div class="card mt" id="res-debrief"></div>
   <div class="card mt" id="res-report"></div>
+  <div class="card mt" id="res-debrief"></div>
   <div class="fe mt" style="margin-bottom:24px">
     <button class="btn bs" onclick="goSetup()">Change team/route</button>
     <button class="btn bs" onclick="show('race')">← Back to race</button>
@@ -438,7 +438,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.16';
+const VERSION='v1.5.17';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
