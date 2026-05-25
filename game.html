@@ -358,7 +358,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.3';
+const VERSION='v1.3.4';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -650,6 +650,7 @@ function filterOpponentsByLadder(){
   const lo=c.myPos-7,hi=c.myPos-1;
   const ts=document.getElementById('opp-team');
   ts.innerHTML='<option value="">— Select opponent —</option>';
+  ts.value='';
   const eligible=Object.entries(OPPONENT_LIBRARY)
     .filter(([k,t])=>t.ladderPosition>=lo&&t.ladderPosition<=hi&&!k.includes('_LEQP_'))
     .sort((a,b)=>a[1].ladderPosition-b[1].ladderPosition);
@@ -2282,6 +2283,9 @@ function show(id){
 function goSetup(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
   document.getElementById('my-cards').innerHTML='';
+  G.oppKey=null;G.oppData=null;G.oppPick=[];
+  document.getElementById('opp-list').innerHTML='';
+  document.getElementById('opp-cnt').textContent='0/5';
   if(G.campaign){updateCampaignInfo();filterOpponentsByLadder();}
   show('setup');
 }
