@@ -343,6 +343,40 @@
     .course-meta { font-size: 0.68rem; }
     .world-btn { font-size: 0.65rem; }
   }
+
+  /* ── PEDAL HARDER PROMO ── */
+  .game-promo-btn {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.95rem;
+    letter-spacing: 2.5px;
+    padding: 7px 14px;
+    background: linear-gradient(105deg, var(--accent2) 0%, #ff9100 50%, var(--accent) 100%);
+    color: #fff;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.2s;
+    animation: promo-pulse 2.8s ease-in-out infinite;
+    white-space: nowrap;
+  }
+  .game-promo-btn:hover {
+    filter: brightness(1.12);
+    transform: translateY(-2px);
+    box-shadow: 0 0 28px rgba(255,93,0,.55), 0 4px 20px rgba(0,229,255,.3);
+  }
+  .game-promo-sub {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    letter-spacing: 1px;
+    opacity: 0.9;
+    background: rgba(0,0,0,0.22);
+    padding: 2px 7px;
+  }
+  @keyframes promo-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255,93,0,.3); }
+    50% { box-shadow: 0 0 22px rgba(255,93,0,.55), 0 0 10px rgba(0,229,255,.25); }
+  }
 </style>
   <style>body { visibility: hidden; }</style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
@@ -358,13 +392,15 @@
         <div style="font-family:'JetBrains Mono',monospace; font-size:0.65rem; color:var(--text-dim); letter-spacing:1px; margin-top:3px;" id="last-updated"><!-- LAST_UPDATED_START -->Last updated: May 25, 2026 · 02:59<!-- LAST_UPDATED_END --> · Teams: <!-- TEAMS_UPDATED_START -->yes<!-- TEAMS_UPDATED_END --></div>
       </div>
 
-      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;margin-left:auto;flex-shrink:0;">
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px;margin-left:auto;flex-shrink:0;">
         <div style="display:flex;gap:6px;align-items:center;">
           <button class="help-btn" onclick="document.getElementById('help-modal').classList.add('open')">? HELP</button>
           <button class="privacy-btn" onclick="document.getElementById('privacy-modal').classList.add('open')">P&D</button>
           <button class="privacy-btn" onclick="openRouteAudit()" style="letter-spacing:1px;">&#128202; Route Diagnosis</button>
         </div>
-
+        <a href="game.html" target="_blank" rel="noopener" class="game-promo-btn">
+          🚴&thinsp;PEDAL HARDER <span class="game-promo-sub">New Game ↗</span>
+        </a>
       </div>
     </div>
   </header>
