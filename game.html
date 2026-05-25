@@ -2322,7 +2322,6 @@ document.addEventListener('keydown',e=>{
 
 function showManual(){document.getElementById('manual-overlay').classList.add('on');}
 function hideManual(){document.getElementById('manual-overlay').classList.remove('on');}
-document.getElementById('manual-overlay').addEventListener('click',e=>{if(e.target===document.getElementById('manual-overlay'))hideManual();});
 
 window.addEventListener('load',init);
 </script>
@@ -2331,7 +2330,7 @@ window.addEventListener('load',init);
 
 <button id="manual-btn" onclick="showManual()" title="Game Manual">?</button>
 
-<div id="manual-overlay">
+<div id="manual-overlay" onclick="if(event.target===this)hideManual()">
 <div class="manual-box">
   <button class="man-close" onclick="hideManual()">✕</button>
   <h1>PEDAL HARDER</h1>
