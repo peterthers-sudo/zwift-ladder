@@ -1,7 +1,7 @@
 PEDAL HARDER — GAME MANUAL
 ==========================
 Zwift Ladder Race Simulator · 5 vs 5
-Version 1.2.5
+Version 1.2.6
 
 
 ─────────────────────────────────────────────────────────────────────
