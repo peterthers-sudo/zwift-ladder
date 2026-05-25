@@ -251,10 +251,6 @@ select:focus,input:focus{border-color:var(--ac);}
   </div>
   <div class="card mt">
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Route</h2>
-    <div style="display:flex;gap:16px;align-items:end;margin-bottom:10px">
-      <div><span class="lbl">Max km</span><select id="rdist" onchange="filterRoutes()"><option value="15">≤15</option><option value="25" selected>≤25</option><option value="40">≤40</option><option value="999">All</option></select></div>
-      <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:60px" oninput="saveSelections()"/></div>
-    </div>
     <div class="sb" style="max-height:200px" id="rlist"></div>
     <canvas id="pcv" height="48" style="width:100%;margin-top:8px;border-radius:4px;background:var(--s2);display:none"></canvas>
   </div>
@@ -358,7 +354,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.4';
+const VERSION='v1.3.5';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -521,7 +517,6 @@ function saveSelections(){
     oppKey:G.oppKey,
     oppPick:G.oppPick.map(r=>r.id),
     routeName:G.route?.name,
-    laps:document.getElementById('laps').value,
     strategy:document.getElementById('strat-sel')?.value,
   }));
 }
@@ -565,7 +560,6 @@ function restoreSelections(){
     }
   }
 
-  if(d.laps)document.getElementById('laps').value=d.laps;
   G._savedStrategy=d.strategy;
   checkReady();
 }
@@ -722,10 +716,8 @@ function routeTag(rt){
   return                  {l:'Endurance', cls:'badge badge-endurance'};
 }
 function filterRoutes(){
-  const q='';
-  const mx=+document.getElementById('rdist').value;
   const box=document.getElementById('rlist');box.innerHTML='';
-  ZWIFT_ROUTES.filter(r=>ROUTE_PROFILES[r.name]&&r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
+  ZWIFT_ROUTES.filter(r=>ROUTE_PROFILES[r.name]&&r.distance>=2)
     .slice(0,60).forEach(rt=>{
       const tg=routeTag(rt);
       const el=document.createElement('div');el.className='ritem';el.dataset.rname=rt.name;
@@ -955,7 +947,7 @@ function getRoles(){
 }
 
 function beginRace(){
-  G.laps=+document.getElementById('laps').value||1;
+  G.laps=1;
   const roles=getRoles();
   G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.myPick[0]?.id;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
