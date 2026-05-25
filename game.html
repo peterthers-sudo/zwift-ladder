@@ -127,6 +127,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
 .pause-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--bd);color:var(--dm);background:transparent !important;}
+.capt-btn:disabled,.capt-btn.disabled{opacity:.35;cursor:not-allowed;}
 #my-panel-top{background:var(--s1);border-bottom:2px solid var(--bd);flex-shrink:0;padding:5px 12px 6px;}
 .phdr-top{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:2px;text-transform:uppercase;color:var(--dm);display:flex;align-items:center;gap:8px;padding-bottom:4px;}
 #my-cards{display:flex;gap:5px;width:100%;}
@@ -313,7 +314,7 @@ select:focus,input:focus{border-color:var(--ac);}
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
       <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Everyone attack!</button>
-      <button class="capt-btn" id="capt-protect-btn" onclick="captCmd('protect')">🛡 Protect leader</button>
+      <button class="capt-btn" id="capt-protect-btn" onclick="captCmd('protect')" title="Requires a Leader role to be assigned">🛡 Protect leader</button>
       <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
       <button class="capt-btn" onclick="captCmd('status')">💬 Give status</button>
       <button class="capt-btn capt-pu" onclick="useAllPowerups()">💥 Use powerups</button>
@@ -357,7 +358,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.3';
+const VERSION='v1.4.4';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -965,7 +966,7 @@ function beginRace(){
   G.strategy=document.getElementById('strat-sel')?.value||'control';
   G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;
   document.getElementById('capt-ph-btn').disabled=false;
-  document.getElementById('capt-protect-btn').disabled=!G.hasLeader;
+  document.getElementById('capt-protect-btn').classList.toggle('disabled',!G.hasLeader);
   document.getElementById('finish-overlay').style.display='none';
   document.getElementById('pause-btn').disabled=false;
 
