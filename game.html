@@ -245,6 +245,39 @@ select:focus,input:focus{border-color:var(--ac);}
 .sc-num{font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;}
 .rr{display:grid;grid-template-columns:28px 1fr auto auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.73rem;}
 .rr.leqp{background:rgba(0,180,216,.04);}.rr.opp{background:rgba(255,107,0,.04);}
+
+/* ══ MOBILE ══ */
+#mob-capt-toggle{display:none;width:100%;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:6px 14px;border:1px solid var(--bd);background:transparent;color:var(--ac);cursor:pointer;border-radius:3px;align-items:center;justify-content:space-between;margin-bottom:2px;}
+@media(max-width:640px){
+  /* Strategy — stack to single column */
+  .str-grid{grid-template-columns:1fr !important;}
+
+  /* Race header — compact */
+  #race-hdr{padding:4px 8px;gap:6px;}
+  .rh-title{font-size:1rem;letter-spacing:1.5px;}
+  .rh-info{display:none;}
+  #manual-btn{padding:4px 10px;font-size:.65rem;}
+  .theme-toggle{display:none;}
+
+  /* Captain bar — collapsible */
+  #mob-capt-toggle{display:flex;}
+  .capt-bar{max-height:0;overflow:hidden;padding:0;transition:max-height .25s ease,padding .2s ease;}
+  .capt-bar.mob-open{max-height:300px;padding:6px 0 8px;}
+  .capt-btn{font-size:.7rem;padding:7px 10px;}
+
+  /* Rider cards — horizontal scroll strip */
+  #my-cards{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:5px;scrollbar-width:none;}
+  #my-cards::-webkit-scrollbar{display:none;}
+  .rc{min-width:140px;flex:0 0 140px;}
+
+  /* Ensure canvas fills remaining space */
+  #race-center{min-height:160px;}
+
+  /* Results — drop last column, smaller score */
+  .sc-num{font-size:2.2rem;}
+  .rr{grid-template-columns:20px 1fr auto auto;font-size:.65rem;}
+  .rr>span:nth-child(4){display:none;}
+}
 </style>
 </head>
 <body>
@@ -289,7 +322,7 @@ select:focus,input:focus{border-color:var(--ac);}
 <div class="screen" id="strategy">
 <div style="max-width:900px;margin:0 auto;padding:20px">
   <div style="margin-bottom:16px"><h1>PRE-RACE STRATEGY</h1><span class="lbl" style="margin:0;color:var(--or)" id="str-route-lbl"></span></div>
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+  <div class="str-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
     <div>
       <div class="card" style="margin-bottom:12px">
         <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);margin-bottom:12px">Your Riders</h2>
@@ -332,6 +365,7 @@ select:focus,input:focus{border-color:var(--ac);}
     <button class="theme-toggle" onclick="setTheme(document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark')">🌙 Dark</button>
   </div>
   <div id="my-panel-top">
+    <button id="mob-capt-toggle" onclick="toggleCaptBar()">⚓ Commands <span id="mob-capt-arrow">▾</span></button>
     <div class="capt-bar">
       <span class="capt-lbl">⚓ Captain:</span>
       <button class="capt-btn" onclick="captCmd('draft')">🚴 Stay in draft</button>
@@ -382,7 +416,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.12';
+const VERSION='v1.5.13';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2513,6 +2547,12 @@ function show(id){
   document.querySelectorAll('.screen').forEach(s=>s.classList.remove('on'));
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
+}
+function toggleCaptBar(){
+  const bar=document.querySelector('.capt-bar');
+  const arrow=document.getElementById('mob-capt-arrow');
+  bar.classList.toggle('mob-open');
+  if(arrow)arrow.textContent=bar.classList.contains('mob-open')?'▴':'▾';
 }
 function goSetup(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
