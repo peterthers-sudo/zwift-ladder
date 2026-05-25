@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
       <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Everyone attack!</button>
-      <button class="capt-btn" onclick="captCmd('protect')">🛡 Protect leader</button>
+      <button class="capt-btn" id="capt-protect-btn" onclick="captCmd('protect')">🛡 Protect leader</button>
       <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
       <button class="capt-btn" onclick="captCmd('status')">💬 Give status</button>
       <button class="capt-btn capt-pu" onclick="useAllPowerups()">💥 Use powerups</button>
@@ -357,7 +357,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.0';
+const VERSION='v1.4.1';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -959,10 +959,13 @@ function getRoles(){
 function beginRace(){
   G.laps=1;
   const roles=getRoles();
-  G.leaderRole=Object.entries(roles).find(([,v])=>v==='leader')?.[0]||G.myPick[0]?.id;
+  const leaderEntry=Object.entries(roles).find(([,v])=>v==='leader');
+  G.leaderRole=leaderEntry?.[0]||G.myPick[0]?.id;
+  G.hasLeader=!!leaderEntry;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
   G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;
   document.getElementById('capt-ph-btn').disabled=false;
+  document.getElementById('capt-protect-btn').disabled=!G.hasLeader;
   document.getElementById('finish-overlay').style.display='none';
   document.getElementById('pause-btn').disabled=false;
 
@@ -1698,6 +1701,7 @@ function captCmd(cmd){
     can.forEach(r=>{r.attackTicks=3;r.attackCooldown=15;r.effort=5;r.bubble={text:'⚡ ATTACKING!',born:Date.now()};});
     commsEvt(`Captain: EVERYONE ATTACK — ${can.length} riders go!`);
   } else if(cmd==='protect'){
+    if(!G.hasLeader){commsEvt('No leader assigned — assign a Leader role before using this command.');return;}
     alive.filter(r=>r.role!=='leader'&&r.role!=='sprinter').forEach(r=>{r.protecting=true;r.protectTarget=G.leaderRole;r.manualEffort=null;});
     commsEvt('Captain: Protect the leader — close ranks!');
   } else if(cmd==='status'){
@@ -1892,7 +1896,7 @@ function renderMyCard(r){
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.7rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
     <div style="display:flex;gap:4px;margin-bottom:4px">
-      <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect</button>
+      <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'||!G.hasLeader?'disabled':''} title="${G.hasLeader?'Shield the leader — gives them a speed bonus':'Assign a Leader role to use this'}">🛡 Protect</button>
       <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.82rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0||r.hardTicks>0||r.hailMary?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
       <button class="hm-btn${r.hailMary?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.78rem;padding:6px 4px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:rgba(139,0,0,.5);color:var(--rd);" data-action="hailmary" data-id="${r.id}" ${r.hailMary||r.attackTicks>0||r.hardTicks>0||r.stamina<30||r.attackCooldown>0?'disabled':''}>💀 Hail Mary</button>
       ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
