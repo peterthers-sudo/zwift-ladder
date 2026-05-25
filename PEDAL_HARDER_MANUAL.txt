@@ -1,0 +1,445 @@
+PEDAL HARDER — GAME MANUAL
+==========================
+Zwift Ladder Race Simulator · 5 vs 5
+Version 1.2.5
+
+
+─────────────────────────────────────────────────────────────────────
+OVERVIEW
+─────────────────────────────────────────────────────────────────────
+
+You manage a 5-rider LEQP team in a simulated Zwift ladder race against
+an opponent team of 5 riders. The race plays out tick by tick (1 tick =
+approx. 1 second of real time). You set effort levels, trigger attacks
+and powerups, and give captain commands. Most rider behaviour is
+automatic — your decisions alter the outcome at key moments.
+
+Win condition: the team with the most combined ladder points wins.
+Points per finish position: 1st=10, 2nd=9, 3rd=8 ... 10th=1.
+In a 5v5 race the lowest possible finish position is 10th.
+
+
+─────────────────────────────────────────────────────────────────────
+ROUTES
+─────────────────────────────────────────────────────────────────────
+
+Only routes with a saved elevation profile are available. Each route is
+divided into sections: Flat, Climb, Punch, and Sprint. The profile is
+shown as a coloured bar above the canvas during the race.
+
+A normal rider at 100% stamina and Tempo effort finishes any route in
+approximately 130 ticks. Stronger riders finish faster; a rider at Hard
+effort throughout finishes in roughly 100-110 ticks.
+
+The race has a safety valve of 400 ticks — any rider still racing at
+that point is marked DNF.
+
+You choose both the route and the number of laps before each race.
+The opponent has no say in route selection — you are the challenger.
+
+
+─────────────────────────────────────────────────────────────────────
+STAMINA
+─────────────────────────────────────────────────────────────────────
+
+Every rider has a stamina bar (0–100%). Stamina determines how fast
+they ride at any given effort level.
+
+Speed modifier from stamina:
+  speed × (0.55 + stamina% × 0.45)
+
+At 100% stamina: full speed (modifier 1.00)
+At   0% stamina: 55% of maximum speed (modifier 0.55)
+
+Stamina states shown on rider cards:
+  🟢 Fresh      > 75%
+  🟡 Good       > 50%
+  🟠 Tired      > 25%
+  🔴 Cracked    >  8%
+  💀 Blown up   ≤  8%  — rider automatically drops to Rest effort
+
+Stamina change per tick by effort level:
+  Rest   (💤) : +1.5  (recovery)
+  Easy   (🚴) : −0.3
+  Tempo  (🎯) : −1.0
+  Hard   (🔥) : −2.5
+  Attack (⚡) : −7.0
+
+
+─────────────────────────────────────────────────────────────────────
+EFFORT LEVELS
+─────────────────────────────────────────────────────────────────────
+
+You set effort for each of your own riders manually. Opponent riders
+are controlled by AI. Effort affects both speed and stamina drain.
+
+  Level 1 — Rest   💤   Speed ×0.75   Stamina +1.5/tick
+  Level 2 — Easy   🚴   Speed ×0.88   Stamina −0.3/tick
+  Level 3 — Tempo  🎯   Speed ×1.00   Stamina −1.0/tick  (baseline)
+  Level 4 — Hard   🔥   Speed ×1.12   Stamina −2.5/tick
+  Level 5 — Attack ⚡   Speed ×1.26   Stamina −7.0/tick
+
+Tempo (3) is the reference: a "normal" rider at full stamina and Tempo
+effort will finish a route in approximately 130 ticks.
+
+Tip: Hard burns stamina 2.5× faster than Tempo. Reserve Hard for
+climbs and decisive moments. Use Rest to recover a cracked rider.
+
+
+─────────────────────────────────────────────────────────────────────
+RIDER ROLES
+─────────────────────────────────────────────────────────────────────
+
+Each rider is assigned a role before the race on the Strategy screen.
+The role affects how the rider's AI behaves automatically when you are
+not overriding it with a captain command.
+
+LEADER ⭐
+  The team rides for the leader. Their goal is the best finish
+  position. They receive a speed bonus from domestiques who protect
+  them. AI pushes Hard on climbs when fresh, picks up pace near the
+  finish.
+
+SPRINTER ⚡
+  Conserves energy throughout the race. AI holds Easy or Tempo for
+  the first 85% of the route, then goes full gas in the final sprint.
+  Strong in flat finishes, weak on long climbs.
+
+DOMESTIQUE 🛡
+  Automatically protects the leader the entire race. Gives the leader
+  a speed boost as long as the domestique has stamina > 25%.
+  The protect button has no effect for leader or sprinter roles
+  (they never protect).
+
+CLIMBER ⛰
+  Pushes Hard on climb and punch sections when fresh. Falls back to
+  Tempo or Easy on flats. Strong on mountain routes.
+
+WILD CARD 🦅
+  Attacks opportunistically. AI triggers attacks when the rider is
+  fresh and stronger than the opposing leader.
+
+  Note: Wild Card is a role (AI behaviour), not a rider type. The
+  terrain bonus a Wild Card rider gets depends on their rider TYPE
+  (Diesel/Climber/Puncheur/Sprinter), which is derived from their
+  w/kg statistics — see TERRAIN section below.
+
+
+─────────────────────────────────────────────────────────────────────
+TERRAIN — SECTION FIT
+─────────────────────────────────────────────────────────────────────
+
+Each route is divided into sections: Flat, Climb, Punch, and Sprint.
+Riders get a terrain speed bonus depending on their TYPE:
+
+  Flat:   Diesel    +5%,  Climber   −3%
+  Climb:  Climber  +10%
+  Punch:  Puncheur  +9%
+  Sprint: Sprinter +12%
+
+Rider TYPE (Diesel, Climber, Puncheur, Sprinter) is derived
+automatically from their real w/kg statistics. This is separate from
+the rider's ROLE (Leader, Sprinter, Domestique, etc.) — both a ROLE
+and a TYPE exist simultaneously for every rider.
+
+  Sprinter : 15s w/kg / 5min w/kg > 2.8
+  Climber  : 20min w/kg > 4.2 AND 5min w/kg > 4.8
+  Puncheur : 1min w/kg / 20min w/kg > 1.6
+  Diesel   : everyone else
+
+The rider's actual w/kg and watt values from Zwift are also used
+directly in the physics speed calculation — stronger riders (higher
+w/kg) are genuinely faster, not just categorised differently.
+
+
+─────────────────────────────────────────────────────────────────────
+ATTACK
+─────────────────────────────────────────────────────────────────────
+
+Triggered by the ⚡ Attack button on a rider's card, or via the
+captain command "Everyone attack!".
+
+Effect:
+  • Rider is forced to effort 5 (Attack) for 3 ticks
+  • After 3 ticks: forced to effort 4 (Hard) for 4 more ticks
+  • The rider is ready to ride normally again after those 7 ticks
+  • Cooldown: 15 ticks before the rider can attack again
+
+Requirements to trigger manually:
+  • Stamina ≥ 30%
+  • Not currently attacking, in hard phase, doing a Hail Mary, or
+    on cooldown
+
+Captain "Everyone attack!" triggers all eligible riders simultaneously.
+
+AI opponents attack automatically when fresh (stamina > 72%),
+stronger than your leader, and random chance (≈ 1.8% per tick).
+
+
+─────────────────────────────────────────────────────────────────────
+HAIL MARY
+─────────────────────────────────────────────────────────────────────
+
+Triggered by the 💀 Hail Mary button on a rider's card.
+
+Effect:
+  • Rider is forced to effort 5 (Attack) continuously
+  • Continues until stamina drops to ≤ 8% (blown up)
+  • Once blown up, the rider is automatically forced to Rest
+  • No cooldown — the rider is already spent after a Hail Mary
+
+Use case: A last-ditch move in the final kilometres to squeeze out
+a better finishing position at the cost of riding completely empty.
+There is no recovery — the rider will be very slow for the remainder.
+
+Requirements to trigger:
+  • Stamina ≥ 30%
+  • Not currently attacking or on cooldown
+
+
+─────────────────────────────────────────────────────────────────────
+MARK & FOLLOW
+─────────────────────────────────────────────────────────────────────
+
+You can order one of your riders to shadow a specific opponent by
+clicking directly on the canvas.
+
+How it works — two clicks:
+  1. Click an opponent rider on the canvas
+       → A gold blinking ring appears around them (lasts 3 seconds).
+         The comms feed confirms: "Marking X — click your riders
+         to follow!"
+
+  2. While the target is marked, click one of your own riders
+       → Your rider starts following that opponent. A dashed gold
+         ring and a ▶ arrow appear above your rider's circle.
+
+Your following rider automatically mirrors the opponent's effort
+level, with a small bonus on climbs and punches. The strategy keeps
+your rider in the opponent's wheel — useful for covering dangerous
+opponents or staying in contact with a break.
+
+To stop following:
+  • Click your own rider when no target is marked
+      → The rider stops following and returns to normal AI/manual.
+  • Setting a manual effort (buttons 1–4) also cancels following.
+  • Following is cancelled automatically if the target drops out
+    or abandons the race.
+
+Note: following does NOT prevent blown-up or stamina management.
+A rider who runs out of stamina will still be forced to Rest even
+while following.
+
+
+─────────────────────────────────────────────────────────────────────
+PROTECT / SHIELD
+─────────────────────────────────────────────────────────────────────
+
+The 🛡 Protect button toggles whether a rider shields the leader.
+
+Effect while protecting:
+  • The protecting rider rides slightly more economically
+  • The leader receives a speed bonus of +0.004 progress/tick per
+    protecting domestique (roughly equivalent to a small gear change)
+  • Multiple domestiques stacks — 3 protecting riders = 3× the bonus
+
+Stops working automatically when:
+  • The protecting rider's stamina drops below 25%
+
+Protect is disabled for leader and sprinter (they never protect).
+Domestiques auto-protect at race start; you can turn it off manually.
+
+
+─────────────────────────────────────────────────────────────────────
+POWERUPS
+─────────────────────────────────────────────────────────────────────
+
+Powerups spawn on the track as icons in rider lanes. A rider collects
+one automatically when they pass over it — but only if they don't
+already hold one and have no active powerup running.
+
+Collected powerups are shown on the rider card. They do NOT activate
+automatically — you must press the button or use "Use powerups".
+
+Once activated, a rider cannot collect a new powerup until the active
+effect expires.
+
+AERO BOOST 💨       +20% speed on flat sections         10 ticks
+FEATHERWEIGHT ☁     +30% speed on climb/punch sections  10 ticks
+STEAMROLLER ⚡      +15% speed on all terrain            10 ticks
+ENERGY GEL 🍬       +40 stamina instantly (no duration)
+PEDAL HARDER 🔥     +35% speed on all terrain             3 ticks
+                    Rare drop — 20% spawn chance vs
+                    normal powerups
+
+Opponent riders use powerups automatically with contextual timing:
+  Gel       — when stamina < 45%
+  Aero      — on flat, after 30% of route
+  Feather   — on climb, after 20% of route
+  Steamroller — after 65% of route
+  Pedal Harder — after 72% of route, 25% chance per tick
+
+
+─────────────────────────────────────────────────────────────────────
+CAPTAIN COMMANDS
+─────────────────────────────────────────────────────────────────────
+
+Captain commands affect the whole team simultaneously.
+
+🚴 Stay in draft    Set all riders to Easy (effort 2)
+🎯 Hold tempo       Set all riders to Tempo (effort 3)
+🔥 Go hard          Set all riders to Hard (effort 4)
+⚡ Everyone attack! All eligible riders trigger an attack burst
+🛡 Protect leader   All non-leader/sprinter riders start protecting
+💤 Everyone rest    Set all riders to Rest (effort 1)
+💬 Give status      All riders report their current stamina status
+
+💥 Use powerups     All riders who hold an unused powerup activate it
+                    simultaneously
+
+🔥 Pedal Harder!    ONE-TIME USE PER RACE
+                    Captain shouts "PEDAL HARDER!!!"
+                    All active riders get a Pedal Harder boost (3 ticks,
+                    +35% speed). Each rider responds in the comms feed.
+                    Button grays out after use.
+
+
+─────────────────────────────────────────────────────────────────────
+PRE-RACE STRATEGY
+─────────────────────────────────────────────────────────────────────
+
+Chosen on the Strategy screen before the race starts.
+
+Control         Normal AI pace management. No special team plan.
+
+Sprint Start    All riders burst at full gas (effort 5) for 3 ticks,
+                then push Hard (effort 4) for 4 more ticks — gaps the
+                field early without blowing up. The team can continue
+                normally after those 7 ticks.
+
+Go Hard on      Adaptive climb effort. Short climbs (< 8% of route):
+Climbs          always Hard. Long climbs: Hard when fresh (> 75%
+                stamina), Tempo when stamina fades — so the team
+                doesn't blow up before the top. Best on mountain
+                routes with multiple climbs.
+
+Sprint Finish   Sprinters hold Easy/Tempo until 85% of the route,
+                then go full gas. All other riders push Hard in the
+                final 20% of the race.
+
+
+─────────────────────────────────────────────────────────────────────
+PRE-RACE INTEL
+─────────────────────────────────────────────────────────────────────
+
+Before each race, random events may appear in the countdown overlay.
+They affect starting conditions — roughly 0–2 events per race.
+
+Events that can occur (for either team):
+
+  ⏰ Late arrival        One rider starts 2–6 ticks into the race
+  😴 Tired legs          1–2 riders start at 75% stamina
+  📡 Connection issue    One rider drops out mid-race, reconnects 10
+                         ticks later at the same position
+  ❌ Absent rider        One rider is withdrawn — team races with 4
+  🚲 Forgot to switch    One rider has 5% less power the entire race
+     bikes
+
+Events can hit your team or the opponent team. Probability per event:
+  Opp late arrival   14%    Own late arrival    8%
+  Opp tired legs     13%    Own tired legs      12%
+  Opp drops mid-race 10%    Own absent           7%
+  Opp absent          7%    Own forgot bike      8%
+  Opp forgot bike    10%
+
+
+─────────────────────────────────────────────────────────────────────
+WHAT YOU CONTROL vs. WHAT IS AUTOMATIC
+─────────────────────────────────────────────────────────────────────
+
+YOU CONTROL:
+  • Effort level for each of your 5 riders (1–4, not 5 — that's Attack)
+  • When to trigger an attack (⚡) per rider
+  • When to trigger a Hail Mary (💀) per rider
+  • When to activate a powerup per rider
+  • Whether a rider protects the leader (🛡 toggle)
+  • All captain commands (timing is your decision)
+  • Pedal Harder! (once per race, you choose when)
+  • Rider roles and race strategy (chosen before the race)
+  • Route and laps selection
+  • Which 5 riders from your squad race
+
+AUTOMATIC (AI handles):
+  • All opponent rider decisions (effort, attacks, powerups, timing)
+  • Domestiques auto-protects at race start (you can override)
+  • Sprinter automatically saves legs and sprints at end (if Sprint
+    Finish strategy is active)
+  • Riders auto-switch to Rest when blown up (stamina ≤ 8%)
+  • Rider chat / speech bubbles
+  • Powerup pickup from track (when rider passes over spawn point)
+  • Grouping and gap calculation
+  • Rider coasting after crossing the finish line
+  • Position tracking and results
+
+
+─────────────────────────────────────────────────────────────────────
+CAMPAIGN — LADDER RANKING
+─────────────────────────────────────────────────────────────────────
+
+The campaign tracks your team's position in the real Zwift Cycling
+Ladder standings. Data is updated nightly from live standings.
+
+CHALLENGING
+  You can only challenge teams ranked 1–7 positions above you.
+  Example: if you are ranked #53, you can challenge teams #46–#52.
+  The opponent dropdown shows only eligible teams.
+
+WINNING
+  If you win, you advance to the opponent's position.
+  Example: beat #46 → you become #46, they drop to #47.
+  You can then challenge #39–#45.
+
+LOSING
+  Your rank does not change on a loss. The consecutive loss counter
+  goes up (shown as ⚠️ 1/3, 2/3 in the campaign banner).
+
+3 CONSECUTIVE LOSSES
+  Campaign resets: you return to your starting position, all wins
+  are cleared, and all accumulated win bonuses are removed.
+
+MILESTONES
+  Crossing these thresholds for the first time triggers a splash:
+    Top 50 · Top 25 · Top 10 · #3 Podium · #2 Runner-Up · #1 Champion
+  #1 includes confetti animation.
+
+WIN BONUS
+  After each win, riders earn a small w/kg bonus based on how many
+  positions were gained and their individual finish position:
+
+    Ranks climbed × position factor × 0.008 w/kg
+
+  Position factors:
+    1st  → ×1.00      4th–5th → ×0.40
+    2nd  → ×0.80      6th–7th → ×0.22
+    3rd  → ×0.60      8th–10th → ×0.10
+
+  Example: win against a team 7 positions above, rider finishes 1st:
+    7 × 1.00 × 0.008 = +0.056 w/kg
+
+  The bonus accumulates across wins, is shown on rider cards as
+  "+X.XX w/kg", and is applied directly in physics calculations
+  (getFlatPower). It is cleared on campaign reset.
+
+
+─────────────────────────────────────────────────────────────────────
+SCORING SUMMARY
+─────────────────────────────────────────────────────────────────────
+
+Positions 1–10 score ladder points:
+  1st=10  2nd=9  3rd=8  4th=7  5th=6  6th=5  7th=4  8th=3  9th=2  10th=1
+
+Combined points from your 5 riders vs opponent's 5 riders determine
+the result. Most points wins. Equal points = draw (no rank change).
+
+DNF riders (did not finish within time limit) score 0 points and are
+listed last, ranked by progress reached.
