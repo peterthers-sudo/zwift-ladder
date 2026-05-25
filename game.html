@@ -357,7 +357,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.2';
+const VERSION='v1.4.3';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1959,10 +1959,11 @@ function drawElevStrip(){
   });
   ctx.strokeStyle='rgba(255,255,255,.4)';ctx.lineWidth=1;ctx.stroke();
 
-  // Individual rider position markers — capped at finish line on the elevation profile
+  // Individual rider position markers — same x formula as drawCanvas circles (ML - R + progress*TW)
+  const R=G.canvasLayout?.R||20;
   G.racers.forEach(r=>{
     if(r.absent||r.dropped)return;
-    const posX=ML+Math.min(r.progress,1)*TW;
+    const posX=ML-R+Math.min(r.progress,1)*TW;
     ctx.fillStyle=r.team==='leqp'?'rgba(0,229,255,.9)':'rgba(255,93,0,.75)';
     ctx.fillRect(posX-1,0,2,H);
   });
