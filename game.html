@@ -259,19 +259,22 @@ select:focus,input:focus{border-color:var(--ac);}
   #manual-btn{padding:4px 10px;font-size:.65rem;}
   .theme-toggle{display:none;}
 
-  /* Captain bar — collapsible */
+  /* My panel — cap height so canvas always gets space */
+  #my-panel-top{max-height:50vh;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+
+  /* Captain bar — hidden by default, toggle shows it */
   #mob-capt-toggle{display:flex;}
-  .capt-bar{max-height:0;overflow:hidden;padding:0;transition:max-height .25s ease,padding .2s ease;}
-  .capt-bar.mob-open{max-height:300px;padding:6px 0 8px;}
+  .capt-bar{display:none;}
+  .capt-bar.mob-open{display:flex;padding:6px 0 8px;}
   .capt-btn{font-size:.7rem;padding:7px 10px;}
 
   /* Rider cards — horizontal scroll strip */
   #my-cards{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap;padding-bottom:5px;scrollbar-width:none;}
   #my-cards::-webkit-scrollbar{display:none;}
-  .rc{min-width:140px;flex:0 0 140px;}
+  .rc{min-width:150px;flex:0 0 150px;}
 
   /* Canvas scrollable so all 10 lanes are reachable */
-  #race-center{min-height:160px;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  #race-center{overflow-y:auto;-webkit-overflow-scrolling:touch;}
 
   /* Results — drop last column, smaller score */
   .sc-num{font-size:2.2rem;}
@@ -422,7 +425,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.14';
+const VERSION='v1.5.15';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2558,8 +2561,8 @@ function show(id){
 function toggleCaptBar(){
   const bar=document.querySelector('.capt-bar');
   const arrow=document.getElementById('mob-capt-arrow');
-  bar.classList.toggle('mob-open');
-  if(arrow)arrow.textContent=bar.classList.contains('mob-open')?'▴':'▾';
+  const open=bar.classList.toggle('mob-open');
+  if(arrow)arrow.textContent=open?'▴':'▾';
 }
 function goSetup(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
