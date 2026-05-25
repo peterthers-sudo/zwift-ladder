@@ -357,7 +357,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.9';
+const VERSION='v1.4.0';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1443,35 +1443,211 @@ function aiDomestique(r,t,sec){
 // ── SPEECH BUBBLES ────────────────────────────────────
 const BUBBLE={
   effort:[
-    ['Resting up...','Taking a breather','Saving for later','Easy does it'],
-    ['Spinning easy','Sitting in the draft','Staying patient','Just rolling'],
-    ['Holding tempo','Keeping the pace','Steady rhythm','Working at tempo'],
-    ['Going hard!','Pushing now!','Lifting the pace!','Full gas!'],
+    [
+      'Resting up...',
+      'Taking a breather',
+      'Saving for later',
+      'Easy does it',
+      'Recovering a bit',
+      'Keeping it calm'
+    ],
+    [
+      'Spinning easy',
+      'Sitting in the draft',
+      'Staying patient',
+      'Just rolling',
+      'Cruising along',
+      'Keeping it smooth'
+    ],
+    [
+      'Holding tempo',
+      'Keeping the pace',
+      'Steady rhythm',
+      'Working at tempo',
+      'Settling into pace',
+      'Locked into rhythm'
+    ],
+    [
+      'Going hard!',
+      'Pushing now!',
+      'Lifting the pace!',
+      'Full gas!',
+      'Digging deep!',
+      'No holding back!'
+    ],
   ],
-  attack:['Attack!','I\'m going!','Bridge the gap!','Now or never!','Bridging!','Move!'],
-  protect:['Covering you!','I\'ve got your back!','On your wheel!','Shielding!'],
-  unprotect:['Backing off now','Saving my own legs'],
+  attack:[
+    'Attack!',
+    'I\'m going!',
+    'Bridge the gap!',
+    'Now or never!',
+    'Bridging!',
+    'Move!',
+    'Launching now!',
+    'Time to attack!',
+    'Going all in!'
+  ],
+  protect:[
+    'Covering you!',
+    'I\'ve got your back!',
+    'On your wheel!',
+    'Shielding!',
+    'Staying with you!',
+    'I\'ll protect the lead!'
+  ],
+  unprotect:[
+    'Backing off now',
+    'Saving my own legs',
+    'Can\'t hold it anymore',
+    'You\'re on your own now',
+    'Need to recover',
+    'Dropping back'
+  ],
   sec:{
-    climb:['Here comes the climb!','Push through!','Legs burning!','Stay on the wheel!','Dig in!','Summit ahead!'],
-    punch:['Short punch!','Dig deep!','Over the top!','Hit it hard!'],
-    sprint:['SPRINT!','Everything now!','Go go go!','Leave it all here!','Final effort!'],
-    flat: ['Back on the flat','Catch my breath','Rolling now','Good on the flat'],
+    climb:[
+      'Here comes the climb!',
+      'Push through!',
+      'Legs burning!',
+      'Stay on the wheel!',
+      'Dig in!',
+      'Summit ahead!',
+      'Keep climbing!',
+      'This hill hurts!',
+      'Drive to the top!'
+    ],
+    punch:[
+      'Short punch!',
+      'Dig deep!',
+      'Over the top!',
+      'Hit it hard!',
+      'Sharp effort!',
+      'Punch it now!',
+      'Explode over it!'
+    ],
+    sprint:[
+      'SPRINT!',
+      'Everything now!',
+      'Go go go!',
+      'Leave it all here!',
+      'Final effort!',
+      'Empty the tank!',
+      'Full sprint now!',
+      'To the line!'
+    ],
+    flat:[
+      'Back on the flat',
+      'Catch my breath',
+      'Rolling now',
+      'Good on the flat',
+      'Settling back in',
+      'Nice fast section',
+      'Smooth riding here'
+    ],
   },
   stam:[
-    ['Nothing left!','Completely blown!','Survival mode!'],
-    ['Hanging on...','Almost empty!','Need to recover!'],
-    ['Legs are heavy','Getting tired','Feeling the effort'],
-    ['Starting to feel it...','Working now','Pace is on'],
+    [
+      'Nothing left!',
+      'Completely blown!',
+      'Survival mode!',
+      'Out of energy!',
+      'Totally spent!',
+      'I\'m cracked!'
+    ],
+    [
+      'Hanging on...',
+      'Almost empty!',
+      'Need to recover!',
+      'Barely holding!',
+      'Running low now!',
+      'Struggling to stay on!'
+    ],
+    [
+      'Legs are heavy',
+      'Getting tired',
+      'Feeling the effort',
+      'This is tough',
+      'Starting to fade',
+      'Fatigue kicking in'
+    ],
+    [
+      'Starting to feel it...',
+      'Working now',
+      'Pace is on',
+      'Effort is building',
+      'Need to focus',
+      'This is heating up'
+    ],
   ],
-  near:['Almost there!','Can see the line!','One last push!','Nearly done!','Hold on!'],
-  done:['YES!','Done!','That\'s it!','Made it!','Phew!','Finished!'],
+  near:[
+    'Almost there!',
+    'Can see the line!',
+    'One last push!',
+    'Nearly done!',
+    'Hold on!',
+    'So close now!',
+    'Final meters!',
+    'Just a bit more!'
+  ],
+  done:[
+    'YES!',
+    'Done!',
+    'That\'s it!',
+    'Made it!',
+    'Phew!',
+    'Finished!',
+    'Job done!',
+    'We did it!',
+    'Finally over!'
+  ],
   chat:{
-    lead:['In the lead!','Looking good up front','Holding the front!'],
-    mid: ['Right with the group','Holding position','On the pace'],
-    back:['Staying in contact','Just behind','Keeping up'],
-    hard:['Working hard!','Pushing!','Giving it!'],
-    fresh:['Feeling good!','Legs are solid','Ready to go!'],
-    tired:['Struggling a bit','Legs are heavy','Holding on...'],
+    lead:[
+      'In the lead!',
+      'Looking good up front',
+      'Holding the front!',
+      'Controlling the pace',
+      'Still leading out',
+      'Right where we want to be'
+    ],
+    mid:[
+      'Right with the group',
+      'Holding position',
+      'On the pace',
+      'Sitting comfortably',
+      'Keeping contact',
+      'Right in the mix'
+    ],
+    back:[
+      'Staying in contact',
+      'Just behind',
+      'Keeping up',
+      'Still attached',
+      'Trying not to lose the wheel',
+      'Holding the gap'
+    ],
+    hard:[
+      'Working hard!',
+      'Pushing!',
+      'Giving it!',
+      'Flat out now!',
+      'Really hurting!',
+      'Digging deep!'
+    ],
+    fresh:[
+      'Feeling good!',
+      'Legs are solid',
+      'Ready to go!',
+      'Still feeling fresh',
+      'Power feels good',
+      'Full of energy!'
+    ],
+    tired:[
+      'Struggling a bit',
+      'Legs are heavy',
+      'Holding on...',
+      'Feeling cooked',
+      'Running low',
+      'Need a breather'
+    ],
   },
 };
 function say(r,text,force=false){
