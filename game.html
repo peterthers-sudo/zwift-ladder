@@ -179,6 +179,10 @@ select:focus,input:focus{border-color:var(--ac);}
 .sw{height:5px;background:rgba(0,0,0,.06);border-radius:2px;margin-bottom:5px;overflow:hidden;}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
 .rc-info{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm);margin-bottom:5px;}
+.pu-timer{flex:1;min-width:0;border:1px solid rgba(255,215,0,.5);border-radius:4px;padding:5px 8px;background:rgba(255,215,0,.06);}
+.pu-timer-top{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#b8860b;margin-bottom:4px;}
+.pu-timer-bar{height:5px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;}
+.pu-timer-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#ffd700,#ffaa00);transition:width 1s linear;}
 .eff-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
 .eb{padding:5px 3px;font-size:1rem;line-height:1;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;display:flex;align-items:center;justify-content:center;gap:4px;}
 .eb:hover{border-color:var(--ac);background:rgba(0,180,216,.05);}
@@ -360,7 +364,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.7';
+const VERSION='v1.4.8';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -420,15 +424,15 @@ const RESP={
 
 const POWERUPS=[
   {id:'aero',   icon:'💨',name:'Aero Boost',   desc:'+20% speed on flat — 10 ticks',
-   apply(r){r.powerupActive={type:'aero',   ticks:10};}},
+   apply(r){r.powerupActive={type:'aero',   ticks:10,total:10};}},
   {id:'feather',icon:'☁', name:'Featherweight',desc:'+30% speed on climbs — 10 ticks',
-   apply(r){r.powerupActive={type:'feather',ticks:10};}},
+   apply(r){r.powerupActive={type:'feather',ticks:10,total:10};}},
   {id:'steam',  icon:'⚡',name:'Steamroller',  desc:'+15% speed everywhere — 10 ticks',
-   apply(r){r.powerupActive={type:'steam',  ticks:10};}},
+   apply(r){r.powerupActive={type:'steam',  ticks:10,total:10};}},
   {id:'gel',    icon:'🍬',name:'Energy Gel',   desc:'Restore 40 stamina instantly',
    apply(r){r.stamina=Math.min(100,r.stamina+40);}},
   {id:'pedal',  icon:'🔥',name:'Pedal Harder', desc:'SUPER: +35% speed everywhere — 12 ticks!',
-   apply(r){r.powerupActive={type:'pedal',  ticks:3};}},
+   apply(r){r.powerupActive={type:'pedal',  ticks:12,total:12};}},
 ];
 // Pedal Harder excluded from normal pick pools — only from route drops
 const POWERUPS_NORMAL=POWERUPS.filter(p=>p.id!=='pedal');
@@ -1904,7 +1908,11 @@ function renderMyCard(r){
       <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'||!G.hasLeader?'disabled':''} title="${G.hasLeader?'Shield the leader — gives them a speed bonus':'Assign a Leader role to use this'}">🛡 Protect</button>
       <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.82rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0||r.hardTicks>0||r.hailMary?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
       <button class="hm-btn${r.hailMary?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.78rem;padding:6px 4px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:rgba(139,0,0,.5);color:var(--rd);" data-action="hailmary" data-id="${r.id}" ${r.hailMary||r.attackTicks>0||r.hardTicks>0||r.stamina<30||r.attackCooldown>0?'disabled':''}>💀 Hail Mary</button>
-      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
+      ${r.powerup&&!r.powerupUsed
+        ? `<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:transparent;border-color:${r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}</button>`
+        : r.powerupActive
+          ? `<div class="pu-timer"><div class="pu-timer-top"><span>${r.powerupActive.type==='aero'?'💨':r.powerupActive.type==='feather'?'☁':r.powerupActive.type==='steam'?'⚡':r.powerupActive.type==='pedal'?'🔥':'⚡'} ACTIVE</span><span>${r.powerupActive.ticks}t</span></div><div class="pu-timer-bar"><div class="pu-timer-fill" style="width:${(r.powerupActive.ticks/r.powerupActive.total*100).toFixed(0)}%"></div></div></div>`
+          : ''}
     </div>
   `;
   let el=document.getElementById(`rc-${r.id}`);
