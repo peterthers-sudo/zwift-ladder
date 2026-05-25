@@ -313,7 +313,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.4';
+const VERSION='v1.2.5';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -580,6 +580,7 @@ function resetCampaign(){
   G.campaign.myPos=G.campaign.startPos;
   G.campaign.consecutiveLosses=0;
   G.campaign.wins=0;
+  G.campaign.bonuses={};
   saveCampaign();
   updateCampaignInfo();
   filterOpponentsByLadder();
@@ -2116,6 +2117,7 @@ function finishRace(){
         G.campaign.myPos=G.campaign.startPos;
         G.campaign.consecutiveLosses=0;
         G.campaign.wins=0;
+        G.campaign.bonuses={};
         campReset=true;
         saveCampaign();
         campMsg=`3 consecutive losses — campaign reset to <strong style="color:var(--rd)">#${G.campaign.myPos}</strong>`;
