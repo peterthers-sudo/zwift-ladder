@@ -180,7 +180,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
 .rc-info{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm);margin-bottom:5px;}
 .pu-timer{flex:1;min-width:0;border:1px solid rgba(255,215,0,.5);border-radius:4px;padding:5px 8px;background:rgba(255,215,0,.06);}
-.pu-timer-top{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#b8860b;margin-bottom:4px;}
+.pu-timer-top{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#b8860b;margin-bottom:3px;}
 .pu-timer-bar{height:5px;background:rgba(0,0,0,.08);border-radius:3px;overflow:hidden;}
 .pu-timer-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#ffd700,#ffaa00);transition:width 1s linear;}
 .eff-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
@@ -364,7 +364,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.0';
+const VERSION='v1.5.1';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1911,7 +1911,7 @@ function renderMyCard(r){
       ${r.powerup&&!r.powerupUsed
         ? `<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:transparent;border-color:${r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}</button>`
         : r.powerupActive
-          ? `<div class="pu-timer"><div class="pu-timer-top"><span>${r.powerupActive.type==='aero'?'💨':r.powerupActive.type==='feather'?'☁':r.powerupActive.type==='steam'?'⚡':r.powerupActive.type==='pedal'?'🔥':'⚡'} ACTIVE</span><span>${r.powerupActive.ticks}t</span></div><div class="pu-timer-bar"><div class="pu-timer-fill" style="width:${(r.powerupActive.ticks/r.powerupActive.total*100).toFixed(0)}%"></div></div></div>`
+          ? `<div class="pu-timer"><div class="pu-timer-top"><span>${r.powerupActive.type==='aero'?'💨':r.powerupActive.type==='feather'?'☁':r.powerupActive.type==='steam'?'⚡':r.powerupActive.type==='pedal'?'🔥':'⚡'} ACTIVE</span></div><div class="pu-timer-bar"><div class="pu-timer-fill" style="width:${(r.powerupActive.ticks/r.powerupActive.total*100).toFixed(0)}%"></div></div></div>`
           : ''}
     </div>
   `;
