@@ -341,7 +341,7 @@ select:focus,input:focus{border-color:var(--ac);}
   <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px" id="res-cls"></div>
   <div class="card mt" id="res-debrief"></div>
   <div class="fe mt" style="margin-bottom:24px">
-    <button class="btn bs" onclick="show('setup')">Change team/route</button>
+    <button class="btn bs" onclick="goSetup()">Change team/route</button>
     <button class="btn bs" onclick="show('race')">← Back to race</button>
     <button class="btn bp" onclick="rerun()">Try again</button>
   </div>
@@ -358,7 +358,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.2';
+const VERSION='v1.3.3';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2279,7 +2279,12 @@ function show(id){
   document.getElementById(id).classList.add('on');
   window.scrollTo(0,0);
 }
-function goSetup(){clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);show('setup');}
+function goSetup(){
+  clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
+  document.getElementById('my-cards').innerHTML='';
+  if(G.campaign){updateCampaignInfo();filterOpponentsByLadder();}
+  show('setup');
+}
 const MILESTONES=[
   {th:1,  title:'CHAMPION!',         sub:'You are #1 in the entire ladder!', col:'#e8a000', fire:true},
   {th:2,  title:'#2 — RUNNER UP!',   sub:'Silver position. One step from the top.', col:'#8e8e8e'},
@@ -2320,10 +2325,11 @@ function showMilestone(oldPos,newPos){
 }
 function newChallenge(){
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
+  document.getElementById('my-cards').innerHTML='';
   G.oppKey=null;G.oppData=null;G.oppPick=[];
   document.getElementById('opp-list').innerHTML='';
   document.getElementById('opp-cnt').textContent='0/5';
-  if(G.campaign)filterOpponentsByLadder();
+  if(G.campaign){updateCampaignInfo();filterOpponentsByLadder();}
   else{const ts=document.getElementById('opp-team');ts.innerHTML='<option value="">— Select opponent —</option>';ts.disabled=true;}
   checkReady();
   show('setup');
