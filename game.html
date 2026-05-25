@@ -357,7 +357,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.1';
+const VERSION='v1.4.2';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1935,7 +1935,7 @@ function drawElevStrip(){
   if(cv.width!==W){cv.width=W;cv.height=H;}
   const ctx=cv.getContext('2d');
   ctx.clearRect(0,0,W,H);
-  const ML=G.canvasLayout?.ML||120,MR=G.canvasLayout?.MR||14,TW=W-ML-(MR||14);
+  const ML=G.canvasLayout?.ML||120,TW=G.canvasLayout?.TW||(W-ML-80-14);
   const minA=Math.min(...profile),maxA=Math.max(...profile),range=Math.max(1,maxA-minA);
   const SEC_COL={flat:'rgba(0,229,255,.25)',climb:'rgba(127,255,107,.3)',punch:'rgba(204,136,255,.28)',sprint:'rgba(255,93,0,.3)'};
 
