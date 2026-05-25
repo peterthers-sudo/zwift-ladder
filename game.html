@@ -246,6 +246,18 @@ select:focus,input:focus{border-color:var(--ac);}
 .rr{display:grid;grid-template-columns:28px 1fr auto auto auto;gap:8px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.73rem;}
 .rr.leqp{background:rgba(0,180,216,.04);}.rr.opp{background:rgba(255,107,0,.04);}
 
+/* ══ RACE REPORT ══ */
+#res-report h2{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--dm);margin-bottom:8px;}
+.rep-row{display:flex;gap:10px;align-items:baseline;padding:4px 12px;border-bottom:1px solid var(--bd);font-family:'JetBrains Mono',monospace;font-size:.68rem;}
+.rep-km{color:var(--dm);min-width:54px;flex-shrink:0;font-size:.6rem;letter-spacing:1px;}
+.rep-txt{flex:1;}
+.rep-attack .rep-txt{color:var(--or);}
+.rep-finish .rep-txt{color:var(--ac);font-weight:700;}
+.rep-blowup .rep-txt{color:var(--rd);}
+.rep-captain .rep-txt{color:var(--pu);}
+.rep-powerup .rep-txt{color:var(--go);}
+.rep-start .rep-txt{color:var(--dm);}
+
 /* ══ MOBILE ══ */
 #mob-capt-toggle{display:none;width:100%;font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:6px 14px;border:1px solid var(--bd);background:transparent;color:var(--ac);cursor:pointer;border-radius:3px;align-items:center;justify-content:space-between;margin-bottom:2px;}
 @media(max-width:640px){
@@ -407,6 +419,7 @@ select:focus,input:focus{border-color:var(--ac);}
   </div>
   <div class="card" style="padding:0;overflow:hidden;margin-bottom:12px" id="res-cls"></div>
   <div class="card mt" id="res-debrief"></div>
+  <div class="card mt" id="res-report"></div>
   <div class="fe mt" style="margin-bottom:24px">
     <button class="btn bs" onclick="goSetup()">Change team/route</button>
     <button class="btn bs" onclick="show('race')">← Back to race</button>
@@ -425,7 +438,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.15';
+const VERSION='v1.5.16';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1033,6 +1046,11 @@ function getRoles(){
   return roles;
 }
 
+function logEvt(text,type='info'){
+  if(!G.raceLog)return;
+  const km=G.route?(G.tick/RACE_TICKS*G.route.distance).toFixed(1):'—';
+  G.raceLog.push({km,text,type});
+}
 function beginRace(){
   G.laps=1;
   const roles=getRoles();
@@ -1040,7 +1058,7 @@ function beginRace(){
   G.leaderRole=leaderEntry?.[0]||G.myPick[0]?.id;
   G.hasLeader=!!leaderEntry;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
-  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;
+  G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;G.raceLog=[];G._finishCount=0;
   document.getElementById('capt-ph-btn').disabled=false;
   document.getElementById('capt-protect-btn').classList.toggle('disabled',!G.hasLeader);
   document.getElementById('finish-overlay').style.display='none';
@@ -1283,8 +1301,10 @@ function doTick(){
     }
     const prevStam=r.stamina;
     r.stamina=Math.max(0,Math.min(100,r.stamina+drain));
-    if(prevStam>=10&&r.stamina<10)
+    if(prevStam>=10&&r.stamina<10){
       G.explosions.push({progress:r.progress,lane:r.lane,born:Date.now(),col:r.team==='leqp'?'#00e5ff':'#ff5d00'});
+      logEvt(`💥 ${r.display} blown up!`,'blowup');
+    }
 
     // Blown up — force Rest, override everything (manual, following, strategy)
     if(r.stamina<10&&r.attackTicks===0){r.hailMary=false;r.effort=1;}
@@ -1364,6 +1384,8 @@ function doTick(){
     // Mark finish the moment progress hits 1 (coast logic takes over next tick)
     if(r.progress>=1&&!r.finished){
       r.finished=true;r.finishTick=G.tick;
+      G._finishCount=(G._finishCount||0)+1;
+      logEvt(`P${G._finishCount} — ${r.display} finishes`+(r.team==='leqp'?' ✅':' (Opp)'),'finish');
       if(r.team==='leqp'){r.effort=1;renderMyCard(r);}
     }
   });
@@ -1742,6 +1764,7 @@ function triggerAttack(r, silent){
   r.attackTicks=3;r.attackCooldown=15;r.effort=5;
   say(r,pick(BUBBLE.attack),true);
   commsEvt(`⚡ ${r.display} attacks!`);
+  logEvt(`⚡ ${r.display} attacks!${r.team==='opp'?' (Opp)':''}`,'attack');
   if(silent&&r.team==='opp'){G.markTarget={id:r.id,expiry:Date.now()+5000};}
 }
 function triggerHailMary(r){
@@ -1749,6 +1772,7 @@ function triggerHailMary(r){
   r.hailMary=true;r.effort=5;
   say(r,'Going ALL IN — Hail Mary!',true);
   commsEvt(`💀 ${r.display} — HAIL MARY! Full gas until empty.`,'warn');
+  logEvt(`💀 ${r.display} — Hail Mary! Going all in.`,'attack');
   renderMyCard(r);
 }
 function setEffort(id,e){
@@ -1769,6 +1793,7 @@ function captCmd(cmd){
   } else if(cmd==='hard'){
     alive.forEach(r=>setEffort(r.id,4));
     commsEvt('Captain: All Hard — lift the pace!');
+    logEvt('Captain: All Hard — lift the pace!','captain');
   } else if(cmd==='rest'){
     alive.forEach(r=>setEffort(r.id,1));
     commsEvt('Captain: Everyone rest — recover now');
@@ -1777,10 +1802,12 @@ function captCmd(cmd){
     if(!can.length){commsEvt('No riders with enough stamina to attack!');return;}
     can.forEach(r=>{r.attackTicks=3;r.attackCooldown=15;r.effort=5;r.bubble={text:'⚡ ATTACKING!',born:Date.now()};});
     commsEvt(`Captain: EVERYONE ATTACK — ${can.length} riders go!`);
+    logEvt(`⚡ Captain: Team attack — ${can.length} riders!`,'captain');
   } else if(cmd==='protect'){
     if(!G.hasLeader){commsEvt('No leader assigned — assign a Leader role before using this command.');return;}
     alive.filter(r=>r.role!=='leader'&&r.role!=='sprinter').forEach(r=>{r.protecting=true;r.protectTarget=G.leaderRole;r.manualEffort=null;});
     commsEvt('Captain: Protect the leader — close ranks!');
+    logEvt('Captain: Protect the leader — close ranks!','captain');
   } else if(cmd==='status'){
     alive.forEach((r,i)=>setTimeout(()=>askRider(r),i*900));
     commsEvt('Captain: Report in, everyone!');
@@ -1799,6 +1826,7 @@ function usePowerup(id){
   if(!r||r.powerupUsed||!r.powerup||r.powerupActive)return;
   r.powerup.apply(r);r.powerupUsed=true;
   commsMsg('Captain',`${r.display.split(' ')[0]} activates ${r.powerup.name}! ${r.powerup.icon}`);
+  logEvt(`${r.powerup.icon} ${r.display.split(' ')[0]} activates ${r.powerup.name}`,'powerup');
   renderMyCard(r);
 }
 function useAllPowerups(){
@@ -1809,7 +1837,7 @@ function useAllPowerups(){
     used.push(r.display.split(' ')[0]);
     renderMyCard(r);
   });
-  if(used.length)commsEvt(`💥 Captain: Use powerups — ${used.join(', ')} activate!`);
+  if(used.length){commsEvt(`💥 Captain: Use powerups — ${used.join(', ')} activate!`);logEvt(`💥 Team powerups: ${used.join(', ')} activate!`,'powerup');}
   else commsEvt('Captain: Nobody has a powerup ready.');
 }
 function captPedalHarder(){
@@ -1817,6 +1845,7 @@ function captPedalHarder(){
   G.pedalHarderUsed=true;
   document.getElementById('capt-ph-btn').disabled=true;
   commsEvt('🔥 Captain: PEDAL HARDER!!!');
+  logEvt('🔥 PEDAL HARDER!!!','captain');
   const replies=['On it — everything I\'ve got!','PEDAL HARDER! Let\'s go!','Full gas — for the win!','I\'m going all in!','Giving everything — now!'];
   G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished).forEach(r=>{
     r.powerupActive={type:'pedal',ticks:3,total:3};
@@ -2548,6 +2577,12 @@ function showResults(){
         <span style="color:var(--dm)">${ROLES[r.role]?.l||''}</span>
       </div>`;
     }).join('');
+
+  const repEl=document.getElementById('res-report');
+  if(G.raceLog&&G.raceLog.length){
+    repEl.innerHTML=`<h2>Race Report</h2>`+
+      G.raceLog.map(e=>`<div class="rep-row rep-${e.type}"><span class="rep-km">${e.km} km</span><span class="rep-txt">${e.text}</span></div>`).join('');
+  }else{repEl.innerHTML='';}
 }
 
 // ══════════════════════════════════════════════════════
