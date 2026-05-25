@@ -118,12 +118,12 @@ select:focus,input:focus{border-color:var(--ac);}
 /* ══ RACE ══ */
 #race{display:none;flex-direction:column;height:100vh;overflow:hidden;}
 #race.on{display:flex;}
-#race-hdr{background:var(--s1);border-bottom:2px solid var(--bd);padding:7px 14px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
-.rh-title{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:3px;color:var(--ac);}
-.rh-info{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--dm);}
-.rh-sec{font-family:'JetBrains Mono',monospace;font-size:.62rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,107,0,.4);border-radius:10px;}
-.rh-pct{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--ac);margin-left:auto;}
-.rh-score{font-family:'JetBrains Mono',monospace;font-size:.72rem;white-space:nowrap;}
+#race-hdr{background:var(--s1);border-bottom:2px solid var(--bd);padding:7px 14px;padding-right:120px;display:flex;align-items:center;gap:12px;flex-shrink:0;flex-wrap:wrap;}
+.rh-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:3px;color:var(--ac);}
+.rh-info{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--dm);}
+.rh-sec{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,107,0,.4);border-radius:10px;}
+.rh-pct{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ac);margin-left:auto;}
+.rh-score{font-family:'JetBrains Mono',monospace;font-size:.88rem;white-space:nowrap;}
 .pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
 .pause-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--bd);color:var(--dm);background:transparent !important;}
@@ -132,8 +132,8 @@ select:focus,input:focus{border-color:var(--ac);}
 #my-cards{display:flex;gap:5px;width:100%;}
 /* Captain command bar */
 .capt-bar{display:flex;gap:5px;padding:5px 0 6px;flex-wrap:wrap;align-items:center;}
-.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.52rem;letter-spacing:1px;color:var(--dm);flex-shrink:0;opacity:.7;}
-.capt-btn{font-family:'JetBrains Mono',monospace;font-size:.65rem;padding:5px 12px;border:1px solid var(--bd);background:rgba(0,0,0,.02);color:var(--tx);cursor:pointer;border-radius:4px;transition:all .12s;white-space:nowrap;}
+.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1px;color:var(--dm);flex-shrink:0;opacity:.7;}
+.capt-btn{font-family:'JetBrains Mono',monospace;font-size:.78rem;padding:6px 13px;border:1px solid var(--bd);background:rgba(0,0,0,.02);color:var(--tx);cursor:pointer;border-radius:4px;transition:all .12s;white-space:nowrap;}
 .capt-btn:hover{border-color:var(--ac);color:var(--ac);background:#fff;}
 .capt-btn.capt-atk{border-color:rgba(255,107,0,.4);color:var(--or);}
 .capt-btn.capt-atk:hover{background:var(--or);color:#fff;border-color:var(--or);}
@@ -169,18 +169,18 @@ select:focus,input:focus{border-color:var(--ac);}
 .rc-top{display:flex;align-items:center;gap:4px;margin-bottom:4px;}
 .rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;color:var(--dm);width:24px;text-align:center;flex-shrink:0;}
 .rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#8a94a6;}.rc-pos.bronze{color:#cd7f32;}
-.rc-name{font-family:'DM Sans',sans-serif;font-size:.74rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.rc-state{font-size:.65rem;white-space:nowrap;flex-shrink:0;}
+.rc-name{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rc-state{font-size:.78rem;white-space:nowrap;flex-shrink:0;}
 .sw{height:5px;background:rgba(0,0,0,.06);border-radius:2px;margin-bottom:5px;overflow:hidden;}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
-.rc-info{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--dm);margin-bottom:5px;}
+.rc-info{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm);margin-bottom:5px;}
 .eff-row{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:4px;}
 .eb{padding:5px 3px;font-size:1rem;line-height:1;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;display:flex;align-items:center;justify-content:center;gap:4px;}
 .eb:hover{border-color:var(--ac);background:rgba(0,180,216,.05);}
 .eb.act{border-width:2px;border-color:transparent;color:#fff;}
 .eb[data-e="1"].act{background:var(--gr);}.eb[data-e="2"].act{background:var(--ac);}.eb[data-e="3"].act{background:var(--or);}.eb[data-e="4"].act{background:var(--rd);}
 .eb:disabled{opacity:.3;cursor:not-allowed;}
-.pbt{width:100%;padding:7px 4px;font-size:.78rem;font-family:'JetBrains Mono',monospace;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;margin-bottom:4px;}
+.pbt{width:100%;padding:7px 4px;font-size:.88rem;font-family:'JetBrains Mono',monospace;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:5px;text-align:center;transition:all .12s;margin-bottom:4px;}
 .pbt:hover{border-color:var(--ac);color:var(--ac);}
 .pbt.act{background:var(--ac);color:#fff;border-color:var(--ac);}
 .pbt:disabled{opacity:.3;cursor:not-allowed;}
@@ -192,7 +192,7 @@ select:focus,input:focus{border-color:var(--ac);}
 .hm-btn:hover:not(:disabled){background:var(--rd);color:#fff;border-color:var(--rd);}
 .hm-btn.active{background:rgba(180,0,0,.12);border-color:var(--rd);color:var(--rd);}
 .hm-btn:disabled{opacity:.25;cursor:not-allowed;}
-.tb{width:100%;padding:6px 4px;font-size:.65rem;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;margin-bottom:4px;}
+.tb{width:100%;padding:6px 4px;font-size:.78rem;border:1px solid var(--bd);background:#fff;color:var(--dm);cursor:pointer;border-radius:3px;text-align:center;transition:all .12s;margin-bottom:4px;}
 .tb:hover{border-color:var(--pu);color:var(--pu);}
 .tb:disabled{opacity:.3;cursor:not-allowed;}
 
@@ -356,7 +356,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.9';
+const VERSION='v1.3.0';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1692,7 +1692,7 @@ function renderMyCard(r){
   const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)'},climb:{l:'Climb',i:'▲',c:'var(--gr)'},punch:{l:'Punch',i:'◆',c:'var(--pu)'},sprint:{l:'Sprint',i:'⚡',c:'var(--or)'}};
   const terrSec=G.sections?curSec(Math.min(r.progress,0.999)):null;
   const terr=terrSec?TERR_MAP[terrSec.t]:null;
-  const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.48rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px" title="Campaign win bonus">+${r.bonusWkg.toFixed(2)} w/kg</span>`:'';
+  const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.6rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px" title="Campaign win bonus">+${r.bonusWkg.toFixed(2)} w/kg</span>`:'';
   const html=`
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
@@ -1702,13 +1702,13 @@ function renderMyCard(r){
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
     <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.hardTicks>0?' · 💪 HARD':''}${r.hailMary?' · 💀 HAIL MARY':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
-      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.58rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
+      ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.7rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
     <div style="display:flex;gap:4px;margin-bottom:4px">
       <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect</button>
-      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.72rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0||r.hardTicks>0||r.hailMary?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
-      <button class="hm-btn${r.hailMary?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.65rem;padding:6px 4px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:rgba(139,0,0,.5);color:var(--rd);" data-action="hailmary" data-id="${r.id}" ${r.hailMary||r.attackTicks>0||r.hardTicks>0||r.stamina<30||r.attackCooldown>0?'disabled':''}>💀 Hail Mary</button>
-      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
+      <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.82rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0||r.hardTicks>0||r.hailMary?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
+      <button class="hm-btn${r.hailMary?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.78rem;padding:6px 4px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:rgba(139,0,0,.5);color:var(--rd);" data-action="hailmary" data-id="${r.id}" ${r.hailMary||r.attackTicks>0||r.hardTicks>0||r.stamina<30||r.attackCooldown>0?'disabled':''}>💀 Hail Mary</button>
+      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
     </div>
   `;
   let el=document.getElementById(`rc-${r.id}`);
@@ -1975,7 +1975,7 @@ function drawCanvas(){
     {
       const nm=r.display.split(' ')[0].slice(0,6);
       ctx.save();
-      ctx.font='10px "JetBrains Mono",monospace';
+      ctx.font='13px "JetBrains Mono",monospace';
       ctx.textAlign='right';ctx.textBaseline='middle';
       ctx.fillStyle=col;
       ctx.fillText(nm,rx-R-16,cy);
@@ -2349,7 +2349,7 @@ window.addEventListener('load',init);
 <div class="manual-box">
   <button class="man-close" onclick="hideManual()">✕</button>
   <h1>PEDAL HARDER</h1>
-  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.2.9</span>
+  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.3.0</span>
 
   <div class="toc">
     <a href="#man-overview">Overview</a>
