@@ -381,7 +381,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.2';
+const VERSION='v1.5.3';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -609,8 +609,8 @@ function restoreSelections(){
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
-  const saved=localStorage.getItem('ph_theme')||'light';
-  if(saved==='dark')setTheme('dark');
+  const saved=localStorage.getItem('ph_theme')||'dark';
+  setTheme(saved);
   document.getElementById('ver-lbl').textContent=VERSION;
   document.getElementById('race-canvas').addEventListener('pointerdown',onCanvasClick);
   // Event delegation for rider cards — avoids onclick on continuously-replaced innerHTML
