@@ -354,7 +354,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.6';
+const VERSION='v1.3.7';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -479,7 +479,7 @@ function scoreR(r,rt){
 function classify(r){
   const w15=wkg(r,'15'),w1=wkg(r,'1'),w5=wkg(r,'5'),w20=wkg(r,'20');
   if(w15/(w5||1)>2.8) return{t:'Sprinter',cls:'badge-sprinter'};
-  if(w20>4.2&&w5>4.8) return{t:'Klatrer', cls:'badge-klatrer'};
+  if(w20>4.2&&w5>4.8) return{t:'Climber', cls:'badge-klatrer'};
   if(w1/(w20||1)>1.6) return{t:'Puncheur',cls:'badge-puncheur'};
   return                    {t:'Diesel',  cls:'badge-diesel'};
 }
@@ -505,10 +505,10 @@ function stIcon(s){
   if(s>75)return'🟢';if(s>50)return'🟡';if(s>25)return'🟠';if(s>8)return'🔴';return'💀';
 }
 function sectionFit(r,sec){
-  if(sec.t==='climb')  return r.cl.t==='Klatrer'?1.10:r.cl.t==='Diesel'?0.97:1.0;
+  if(sec.t==='climb')  return r.cl.t==='Climber'?1.10:r.cl.t==='Diesel'?0.97:1.0;
   if(sec.t==='punch')  return r.cl.t==='Puncheur'?1.09:1.0;
   if(sec.t==='sprint') return r.cl.t==='Sprinter'?1.12:1.0;
-  if(sec.t==='flat')   return r.cl.t==='Diesel'?1.05:r.cl.t==='Klatrer'?0.97:1.0;
+  if(sec.t==='flat')   return r.cl.t==='Diesel'?1.05:r.cl.t==='Climber'?0.97:1.0;
   return 1.0;
 }
 
@@ -829,8 +829,8 @@ function goStrategy(){
 function suggestRiderRole(r,rt){
   const cl=classify(r);
   if(cl.t==='Sprinter')return'sprinter';
-  if(cl.t==='Klatrer'&&rt.climb>30)return'leader';
-  if(cl.t==='Klatrer')return'climber';
+  if(cl.t==='Climber'&&rt.climb>30)return'leader';
+  if(cl.t==='Climber')return'climber';
   if(cl.t==='Puncheur'&&rt.punch>30)return'wild';
   return'domestique';
 }
@@ -1193,7 +1193,7 @@ function doTick(){
     // Stamina drain
     let drain=EFF_DRN[r.effort-1];
     if(drain<0){
-      if(rSec.t==='climb') drain*=r.cl.t==='Klatrer'?.65:1.55;
+      if(rSec.t==='climb') drain*=r.cl.t==='Climber'?.65:1.55;
       if(rSec.t==='punch') drain*=r.cl.t==='Puncheur'?.7:1.3;
       if(rSec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
       if(r.inGroup)drain*=.65;
@@ -1406,7 +1406,7 @@ function aiEffort(r,t,sec){
     // Sprinters save legs — kick slightly earlier at higher difficulty
     const sprintT=0.84-DIFFICULTY*0.04;
     r.effort=nearFinish&&good?5:t>sprintT&&good?3:2;
-  } else if(tp==='Klatrer'){
+  } else if(tp==='Climber'){
     r.effort=Math.min(5,onClimb&&fresh?4+boost:onClimb&&good?3:good?3:2);
   } else if(tp==='Puncheur'){
     r.effort=Math.min(5,onClimb&&fresh?4+boost:onClimb&&good?3:good?3:2);
