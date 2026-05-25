@@ -2099,7 +2099,7 @@ function drawCanvas(){
       const last=G.preRaceOverlay.intel.slice(-2);
       ctx.font='bold 17px "JetBrains Mono",monospace';
       ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillStyle=THEME.go;
+      ctx.fillStyle='#ffffff';
       last.forEach((line,i)=>ctx.fillText(`📡 ${line}`,cx,H*0.07+(i+.5)*28));
     }
 
@@ -2107,7 +2107,7 @@ function drawCanvas(){
     if(countdown!==null){
       splash(countdown>0?String(countdown):'GO!',
              cx, H*0.22, Math.min(64,W/8),
-             countdown>0?THEME.tx:THEME.gr, 8);
+             countdown>0?THEME.ac:THEME.gr, 3);
     }
 
     // My team
