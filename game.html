@@ -382,7 +382,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.9';
+const VERSION='v1.5.10';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2081,10 +2081,10 @@ function drawCanvas(){
   ctx.fillStyle='rgba(255,183,3,.10)';
   ctx.fillRect(ML+TW,0,FINISH_ZONE,H);
 
-  // Start line — circles at progress=0 are centred at ML-R, so line sits just left of them
+  // Start line — sits just left of circles (circles fill ML-2R→ML at progress=0)
   ctx.save();
-  ctx.beginPath();ctx.moveTo(ML-R*2,0);ctx.lineTo(ML-R*2,H);
-  ctx.strokeStyle=THEME.tx;ctx.globalAlpha=.25;ctx.lineWidth=2;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ML-R*2-4,0);ctx.lineTo(ML-R*2-4,H);
+  ctx.strokeStyle=THEME.tx;ctx.globalAlpha=.45;ctx.lineWidth=2;ctx.stroke();
   ctx.restore();
 
   const t=Math.min(1,G.tick/RACE_TICKS);const sec=curSec(t);
