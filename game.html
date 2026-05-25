@@ -354,7 +354,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.5';
+const VERSION='v1.3.6';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -375,6 +375,13 @@ const THEME=(()=>{
 // CONSTANTS
 // ══════════════════════════════════════════════════════
 const TICK_BASE=1000, RACE_TICKS=130, TOTAL_TICKS=400, GAP_GROUP=0.018, FINISH_ZONE=80;
+
+// ── DIFFICULTY ─────────────────────────────────────────
+// 0 = Easy   (AI rides conservatively — effort 3 on flat, attacks rarely)
+// 1 = Normal (AI pushes hard when fresh, attacks more often)  ← official
+// 2 = Hard   (AI is always aggressive, high attack rate)
+const DIFFICULTY = 1;
+// ───────────────────────────────────────────────────────
 
 const EFF_LBL=['Rest','Easy','Tempo','Hard','Attack'];
 const EFF_IC =['💤','🚴','🎯','🔥','⚡'];
@@ -1377,28 +1384,35 @@ function aiEffort(r,t,sec){
   const oppLeader=G.racers.find(x=>x.team==='leqp'&&x.role==='leader');
   const stronger=oppLeader?r.norm>oppLeader.norm*0.97:true; // at least as strong
 
+  // Effort boost: +1 when fresh at D≥1, +1 more when good at D≥2
+  const freshBoost = DIFFICULTY >= 1 && fresh ? 1 : 0;
+  const goodBoost  = DIFFICULTY >= 2 && good  ? 1 : 0;
+  const boost = Math.max(freshBoost, goodBoost);
+
   if(r.role==='leader'){
     if(nearFinish){
       r.effort=good?4:3;
     } else if(onClimb){
-      r.effort=fresh?4:good?3:2;
+      r.effort=Math.min(5,fresh?4:good?3:2);
     } else {
-      r.effort=good?3:2;
+      r.effort=Math.min(5,(good?3:2)+boost);
     }
-    // Attack only when fresh and stronger than opp leader
-    if(fresh&&r.stamina>72&&stronger&&Math.random()<.018&&r.attackCooldown===0){
+    // Attack probability scales with difficulty
+    const atkChance=.018+DIFFICULTY*.012;
+    if(fresh&&r.stamina>72&&stronger&&Math.random()<atkChance&&r.attackCooldown===0){
       triggerAttack(r,true);
     }
   } else if(tp==='Sprinter'){
-    // Sprinters save legs — easy until the sprint
-    r.effort=nearFinish&&good?5:t>0.84&&good?3:2;
+    // Sprinters save legs — kick slightly earlier at higher difficulty
+    const sprintT=0.84-DIFFICULTY*0.04;
+    r.effort=nearFinish&&good?5:t>sprintT&&good?3:2;
   } else if(tp==='Klatrer'){
-    r.effort=onClimb&&fresh?4:onClimb&&good?3:good?3:2;
+    r.effort=Math.min(5,onClimb&&fresh?4+boost:onClimb&&good?3:good?3:2);
   } else if(tp==='Puncheur'){
-    r.effort=onClimb&&fresh?4:onClimb&&good?3:good?3:2;
+    r.effort=Math.min(5,onClimb&&fresh?4+boost:onClimb&&good?3:good?3:2);
   } else {
     // Diesel/normal — steady tempo, lift near the end
-    r.effort=nearFinish&&good?4:good?3:2;
+    r.effort=Math.min(5,nearFinish&&good?4:good?3:2);
   }
   // Small random variation; minimum 2 so AI never randomly rests
   if(Math.random()<.04)r.effort=Math.max(2,Math.min(5,r.effort+(Math.random()>.5?1:-1)));
