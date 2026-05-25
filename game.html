@@ -124,7 +124,6 @@ select:focus,input:focus{border-color:var(--ac);}
 .rh-info{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--dm);}
 .rh-sec{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--or);padding:2px 8px;border:1px solid rgba(255,107,0,.4);border-radius:10px;}
 .rh-pct{font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ac);margin-left:auto;}
-.rh-score{font-family:'JetBrains Mono',monospace;font-size:.88rem;white-space:nowrap;}
 .pause-btn{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:2px;padding:5px 16px;border:1px solid var(--or);color:var(--or);background:transparent;cursor:pointer;border-radius:3px;transition:all .2s;}
 .pause-btn.paused{background:var(--or);color:#fff;}
 .pause-btn:disabled{opacity:.4;cursor:not-allowed;border-color:var(--bd);color:var(--dm);background:transparent !important;}
@@ -305,7 +304,6 @@ select:focus,input:focus{border-color:var(--ac);}
     <span class="rh-title" id="rh-name">—</span>
     <span class="rh-info" id="rh-dist"></span>
     <span class="rh-sec" id="rh-sec">—</span>
-    <span class="rh-score"><span style="color:var(--ac)" id="my-pts-live">—</span> <span style="opacity:.4">vs</span> <span style="color:var(--or)" id="opp-pts-live">—</span> <span style="opacity:.5">pts</span></span>
     <button class="pause-btn" id="pause-btn" onclick="togglePause()">⏸ Pause</button>
     <span class="rh-pct" id="rh-pct">0%</span>
   </div>
@@ -1666,8 +1664,6 @@ function updatePanels(){
   const myPts=sorted.filter(r=>r.team==='leqp').reduce((s,r)=>s+r.position,0);
   const opPts=sorted.filter(r=>r.team==='opp').reduce((s,r)=>s+r.position,0);
 
-  document.getElementById('my-pts-live').textContent=`${myPts} pt`;
-  document.getElementById('opp-pts-live').textContent=`${opPts} pt`;
   document.getElementById('rh-pct').textContent=`${Math.round(t*100)}% · ${((G.route.distance*G.laps)*(1-t)).toFixed(1)} km`;
   const sec=curSec(t);
   document.getElementById('rh-sec').textContent=sec.l;
