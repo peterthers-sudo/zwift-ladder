@@ -364,7 +364,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.4.9';
+const VERSION='v1.5.0';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1749,7 +1749,7 @@ function captPedalHarder(){
   commsEvt('🔥 Captain: PEDAL HARDER!!!');
   const replies=['On it — everything I\'ve got!','PEDAL HARDER! Let\'s go!','Full gas — for the win!','I\'m going all in!','Giving everything — now!'];
   G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished).forEach(r=>{
-    r.powerupActive={type:'pedal',ticks:12,total:12};
+    r.powerupActive={type:'pedal',ticks:3,total:3};
     say(r,replies[Math.floor(Math.random()*replies.length)],true);
     renderMyCard(r);
   });
