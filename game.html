@@ -74,6 +74,7 @@ select,input[type=text],input[type=number]{background:#fff;border:1px solid var(
 select:focus,input:focus{border-color:var(--ac);}
 .sb{max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:5px;}
 .sb::-webkit-scrollbar{width:8px;}.sb::-webkit-scrollbar-thumb{background:var(--bd);border-radius:4px;}.sb::-webkit-scrollbar-track{background:var(--s2);border-radius:4px;}
+#rlist::-webkit-scrollbar{width:14px;}.rlist::-webkit-scrollbar-thumb{border-radius:6px;}#rlist::-webkit-scrollbar-thumb{background:var(--ac);border-radius:6px;}#rlist::-webkit-scrollbar-track{background:var(--s2);border-radius:6px;}
 .ri-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:5px;}
 .ri{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--s2);border:1px solid var(--bd);border-radius:4px;cursor:pointer;font-family:'JetBrains Mono',monospace;font-size:.72rem;transition:border-color .15s;}
 .ri:hover{border-color:var(--ac);}.ri.sel{border-color:var(--ac);background:rgba(0,180,216,.1);}
@@ -132,7 +133,7 @@ select:focus,input:focus{border-color:var(--ac);}
 #my-cards{display:flex;gap:5px;width:100%;}
 /* Captain command bar */
 .capt-bar{display:flex;gap:5px;padding:5px 0 6px;flex-wrap:wrap;align-items:center;}
-.capt-lbl{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:1px;color:var(--dm);flex-shrink:0;opacity:.7;}
+.capt-lbl{font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:3px;color:var(--ac);flex-shrink:0;}
 .capt-btn{font-family:'JetBrains Mono',monospace;font-size:.78rem;padding:6px 13px;border:1px solid var(--bd);background:rgba(0,0,0,.02);color:var(--tx);cursor:pointer;border-radius:4px;transition:all .12s;white-space:nowrap;}
 .capt-btn:hover{border-color:var(--ac);color:var(--ac);background:#fff;}
 .capt-btn.capt-atk{border-color:rgba(255,107,0,.4);color:var(--or);}
@@ -310,7 +311,7 @@ select:focus,input:focus{border-color:var(--ac);}
   </div>
   <div id="my-panel-top">
     <div class="capt-bar">
-      <span class="capt-lbl">Captain to team:</span>
+      <span class="capt-lbl">⚓ Captain:</span>
       <button class="capt-btn" onclick="captCmd('draft')">🚴 Stay in draft</button>
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
