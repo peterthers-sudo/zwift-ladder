@@ -166,11 +166,15 @@ select:focus,input:focus{border-color:var(--ac);}
 .rc.attacking{background:rgba(255,107,0,.06);border-color:var(--or);}
 .rc.protecting{background:rgba(0,180,216,.05);border-color:var(--ac);}
 .rc.absent{opacity:.4;pointer-events:none;}
-.rc-top{display:flex;align-items:center;gap:4px;margin-bottom:4px;}
+@keyframes pulse-climb{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.45;transform:scale(1.3);}}
+.rc-top{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
 .rc-pos{font-family:'Bebas Neue',sans-serif;font-size:1.4rem;line-height:1;color:var(--dm);width:24px;text-align:center;flex-shrink:0;}
 .rc-pos.gold{color:var(--go);}.rc-pos.silver{color:#8a94a6;}.rc-pos.bronze{color:#cd7f32;}
-.rc-name{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
-.rc-state{font-size:.78rem;white-space:nowrap;flex-shrink:0;}
+.rc-name{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:1.5px;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.rc-mid{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;}
+.rc-terr{font-size:1.3rem;line-height:1;transition:color .3s;}
+.rc-terr.climbing{animation:pulse-climb 1.4s ease-in-out infinite;}
+.rc-state{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:700;flex-shrink:0;}
 .sw{height:5px;background:rgba(0,0,0,.06);border-radius:2px;margin-bottom:5px;overflow:hidden;}
 .sb2{height:100%;border-radius:2px;transition:width .5s,background .5s;}
 .rc-info{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dm);margin-bottom:5px;}
@@ -354,7 +358,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.7';
+const VERSION='v1.3.8';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1696,7 +1700,7 @@ function renderMyCard(r){
   const pc=posClass(r.position);
   const blownUp=r.stamina<10;
   const locked=r.attackTicks>0||r.forcedEasy>0||r.hardTicks>0||r.hailMary||blownUp;
-  const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)'},climb:{l:'Climb',i:'▲',c:'var(--gr)'},punch:{l:'Punch',i:'◆',c:'var(--pu)'},sprint:{l:'Sprint',i:'⚡',c:'var(--or)'}};
+  const TERR_MAP={flat:{l:'Flat',i:'▶',c:'var(--ac)',pulse:false},climb:{l:'Climb',i:'⛰',c:'var(--gr)',pulse:true},punch:{l:'Punch',i:'⛰',c:'var(--pu)',pulse:true},sprint:{l:'Sprint',i:'⚡',c:'var(--or)',pulse:false}};
   const terrSec=G.sections?curSec(Math.min(r.progress,0.999)):null;
   const terr=terrSec?TERR_MAP[terrSec.t]:null;
   const bonusTag=(r.bonusWkg>=0.005)?`<span style="font-size:.6rem;color:var(--gr);font-family:'JetBrains Mono',monospace;opacity:.85;margin-left:3px" title="Campaign win bonus">+${r.bonusWkg.toFixed(2)} w/kg</span>`:'';
@@ -1704,7 +1708,10 @@ function renderMyCard(r){
     <div class="rc-top">
       <div class="rc-pos ${pc}">${r.position}</div>
       <div class="rc-name">${r.display}${bonusTag}</div>
-      <div class="rc-state" style="color:${st.c};text-align:right;line-height:1.3">${st.l}${terr?`<div style="color:${terr.c};font-size:.5rem;letter-spacing:.5px;margin-top:1px">${terr.i} ${terr.l}</div>`:''}</div>
+    </div>
+    <div class="rc-mid">
+      ${terr?`<span class="rc-terr${terr.pulse?' climbing':''}" style="color:${terr.c}" title="${terr.l}">${terr.i}</span>`:'<span class="rc-terr" style="opacity:.3">—</span>'}
+      <div class="rc-state" style="color:${st.c}">${st.l}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
     <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.hardTicks>0?' · 💪 HARD':''}${r.hailMary?' · 💀 HAIL MARY':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
