@@ -356,7 +356,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.2.8';
+const VERSION='v1.2.9';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1708,7 +1708,7 @@ function renderMyCard(r){
       <button class="pbt${r.protecting?' act':''}" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:8px 4px;font-size:.72rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="protect" data-id="${r.id}" ${r.role==='leader'||r.role==='sprinter'?'disabled':''} title="Shield the leader — gives them a speed bonus">🛡 Protect</button>
       <button class="atk-full${r.attackTicks>0?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.72rem;padding:6px 4px;letter-spacing:.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" data-action="attack" data-id="${r.id}" ${r.stamina<30||r.attackTicks>0||r.attackCooldown>0||r.hardTicks>0||r.hailMary?'disabled':''}>⚡ Attack${r.attackTicks>0?' '+r.attackTicks+'t':r.attackCooldown>0?' ⋯':''}</button>
       <button class="hm-btn${r.hailMary?' active':''}" style="flex:1;width:auto;margin-bottom:0;font-size:.65rem;padding:6px 4px;letter-spacing:.3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;border-color:rgba(139,0,0,.5);color:var(--rd);" data-action="hailmary" data-id="${r.id}" ${r.hailMary||r.attackTicks>0||r.hardTicks>0||r.stamina<30||r.attackCooldown>0?'disabled':''}>💀 Hail Mary</button>
-      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'rgba(255,215,0,.7)'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
+      ${r.powerup&&!r.powerupUsed?`<button class="tb" style="flex:1;min-width:0;width:auto;margin-bottom:0;padding:6px 4px;font-size:.65rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;background:${r.powerupActive?'rgba(255,215,0,.15)':'transparent'};border-color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'rgba(255,93,0,.6)':'rgba(255,215,0,.4)'};color:${r.powerupActive?'#ffd700':r.powerup.id==='pedal'?'var(--or)':'#9a7000'};" data-action="powerup" data-id="${r.id}" ${r.powerupActive?'disabled':''} title="${r.powerup.desc}">${r.powerup.icon} ${r.powerup.name}${r.powerupActive?' '+r.powerupActive.ticks+'t':''}</button>`:''}
     </div>
   `;
   let el=document.getElementById(`rc-${r.id}`);
@@ -2121,7 +2121,7 @@ function drawCanvas(){
 
     // Route + distance — bottom
     splash(`${rt.name}  ·  ${rt.world}  ·  ${rt.distance} km  ·  ${rt.elevation} m`,
-           cx, H*0.82, Math.min(17,W/40), THEME.dm, 3);
+           cx, H*0.82, Math.min(17,W/40), '#ffffff', 3);
 
     ctx.restore();
   }
@@ -2349,7 +2349,7 @@ window.addEventListener('load',init);
 <div class="manual-box">
   <button class="man-close" onclick="hideManual()">✕</button>
   <h1>PEDAL HARDER</h1>
-  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.2.8</span>
+  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.2.9</span>
 
   <div class="toc">
     <a href="#man-overview">Overview</a>
