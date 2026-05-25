@@ -438,7 +438,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.17';
+const VERSION='v1.5.18';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2532,11 +2532,17 @@ function finishRace(){
       <span style="color:var(--ac);font-weight:600">${pts} pt</span>
     </div>`;
   }).join('');
+  const reportHtml=(G.raceLog&&G.raceLog.length)?`
+    <div style="margin-top:14px;border-top:1px solid var(--bd);padding-top:10px">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:.9rem;letter-spacing:3px;color:var(--ac);margin-bottom:6px">Race Report</div>
+      ${G.raceLog.map(e=>`<div class="rep-row rep-${e.type}"><span class="rep-km">${e.km} km</span><span class="rep-txt">${e.text}</span></div>`).join('')}
+    </div>`:'';
   document.getElementById('finish-overlay').innerHTML=`
     <div class="fo-verdict" style="color:${verdictCol}">${verdictText}</div>
     <div class="fo-score">${G.myData.name} <span style="color:var(--ac);font-weight:700">${myPts}</span> pts &nbsp;·&nbsp; ${G.oppData.name} <span style="color:var(--or);font-weight:700">${opPts}</span> pts</div>
     ${campSection}
     <div style="border-radius:6px;overflow:hidden;margin-bottom:4px">${rows}</div>
+    ${reportHtml}
     <div class="fo-actions">
       <button class="btn bp" style="font-size:.8rem;padding:7px 18px" onclick="newChallenge()">New challenge ▶</button>
     </div>`;
