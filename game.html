@@ -230,7 +230,11 @@ select:focus,input:focus{border-color:var(--ac);}
 <!-- ══════════ SETUP ══════════ -->
 <div class="screen on" id="setup">
 <div style="max-width:1080px;margin:0 auto;padding:16px 20px">
-  <div style="padding:16px 0 12px"><h1>PEDAL HARDER</h1><span class="lbl" style="margin:0">Zwift Ladder Race Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span></div>
+  <div style="padding:16px 0 12px">
+    <h1>PEDAL HARDER</h1>
+    <span class="lbl" style="margin:0">Zwift Ladder Race Simulator · 5 vs 5 · <span id="ver-lbl" style="color:var(--ac)"></span></span>
+    <p style="margin:10px 0 0;max-width:680px;font-size:.88rem;line-height:1.6;color:var(--dm)">Select your LEQP team and challenge an opponent ranked up to 7 places above you on the Zwift Cycling Ladder. Pick a route, set your riders' roles and strategy — then race. You control effort levels, attacks, powerups and captain commands in real time. Win to climb the ladder and earn w/kg bonuses for your riders.</p>
+  </div>
   <div class="sg">
     <div class="card">
       <div class="fb" style="margin-bottom:10px"><h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin:0">My Team</h2><span id="my-cnt" style="font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--dm)">0/5</span></div>
@@ -247,8 +251,7 @@ select:focus,input:focus{border-color:var(--ac);}
   </div>
   <div class="card mt">
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:3px;color:var(--ac);margin-bottom:10px">Route</h2>
-    <div style="display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:end;margin-bottom:10px">
-      <div><span class="lbl">Search</span><input type="text" id="rq" placeholder="Name or world…" oninput="filterRoutes()"/></div>
+    <div style="display:flex;gap:16px;align-items:end;margin-bottom:10px">
       <div><span class="lbl">Max km</span><select id="rdist" onchange="filterRoutes()"><option value="15">≤15</option><option value="25" selected>≤25</option><option value="40">≤40</option><option value="999">All</option></select></div>
       <div><span class="lbl">Laps</span><input type="number" id="laps" value="1" min="1" max="10" style="width:60px" oninput="saveSelections()"/></div>
     </div>
@@ -356,7 +359,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.3.0';
+const VERSION='v1.3.1';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -719,7 +722,7 @@ function routeTag(rt){
   return                  {l:'Endurance', cls:'badge badge-endurance'};
 }
 function filterRoutes(){
-  const q=(document.getElementById('rq').value||'').toLowerCase();
+  const q='';
   const mx=+document.getElementById('rdist').value;
   const box=document.getElementById('rlist');box.innerHTML='';
   ZWIFT_ROUTES.filter(r=>ROUTE_PROFILES[r.name]&&r.distance>=2&&r.distance<=mx&&(r.name.toLowerCase().includes(q)||r.world.toLowerCase().includes(q)))
@@ -2349,7 +2352,7 @@ window.addEventListener('load',init);
 <div class="manual-box">
   <button class="man-close" onclick="hideManual()">✕</button>
   <h1>PEDAL HARDER</h1>
-  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.3.0</span>
+  <span class="man-sub">Game Manual · Zwift Ladder Race Simulator · 5 vs 5 · v1.3.1</span>
 
   <div class="toc">
     <a href="#man-overview">Overview</a>
