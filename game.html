@@ -382,7 +382,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.11';
+const VERSION='v1.5.12';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2355,10 +2355,10 @@ function drawCanvas(){
     ctx.restore();
   }
 
-  // Start line — drawn last so it's always on top of circle fills
+  // Start line — at ML, which is where the race track begins; circles start just left of it
   ctx.save();
-  ctx.beginPath();ctx.moveTo(ML-R*2,0);ctx.lineTo(ML-R*2,H);
-  ctx.strokeStyle='#ff0000';ctx.globalAlpha=1;ctx.lineWidth=5;ctx.stroke();
+  ctx.beginPath();ctx.moveTo(ML,0);ctx.lineTo(ML,H);
+  ctx.strokeStyle=THEME.tx;ctx.globalAlpha=.4;ctx.lineWidth=2;ctx.stroke();
   ctx.restore();
 }
 
