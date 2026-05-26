@@ -1337,8 +1337,10 @@ function doTick(){
     }
     const prevStam=r.stamina;
     r.stamina=Math.max(0,Math.min(100,r.stamina+drain));
-    if(prevStam>=10&&r.stamina<10)
+    if(prevStam>=10&&r.stamina<10){
       G.explosions.push({progress:r.progress,lane:r.lane,born:Date.now(),col:r.team==='leqp'?'#00e5ff':'#ff5d00'});
+      say(r,pick(["I'm dead","Completely empty","Legs are gone","Nothing left","Cooked 💀"]),true);
+    }
 
     // Blown up — force Rest, override everything (manual, following, strategy)
     if(r.stamina<10&&r.attackTicks===0){r.hailMary=false;r.following=null;r._chasing=false;r.effort=1;}
@@ -1461,6 +1463,7 @@ function doTick(){
   // Events
   if(prevSec!==sec)commsEvt(`📍 New section: ${sec.l}`);
   checkEvents(t,sec);
+  updatePanels();
 
   // Race ends when every active rider has finished or dropped —
   // wait 12 extra ticks so the last rider visibly coasts past the line
@@ -2054,7 +2057,7 @@ function commsEvt(text){
 function startRender(){
   cancelAnimationFrame(G.rafId);
   function frame(){
-    updatePanels();drawCanvas();
+    drawCanvas();
     G.rafId=requestAnimationFrame(frame);
   }
   G.rafId=requestAnimationFrame(frame);
