@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.26';
+const VERSION='v1.5.27';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2235,11 +2235,15 @@ function drawCanvas(){
     ctx.lineWidth=i===5?2:1;ctx.stroke();
   }
 
-  // Elevation silhouette — dark tint so it reads on light background
+  // Elevation silhouette — theme-aware so it reads in both light and dark mode
   const rp=ROUTE_PROFILES[G.route?.name];
   if(rp){
     const minA=Math.min(...rp),maxA=Math.max(...rp),range=Math.max(1,maxA-minA);
     const silH=Math.min(H*0.38,LANE_H*3.5);
+    const dark=document.documentElement.getAttribute('data-theme')==='dark';
+    const silTop=dark?'rgba(255,255,255,.08)':'rgba(0,40,80,.10)';
+    const silBot=dark?'rgba(255,255,255,.01)':'rgba(0,40,80,.02)';
+    const silLine=dark?'rgba(255,255,255,.22)':'rgba(0,40,80,.18)';
     ctx.save();
     ctx.beginPath();
     rp.forEach((a,i)=>{
@@ -2249,10 +2253,10 @@ function drawCanvas(){
     });
     ctx.lineTo(ML+TW,H);ctx.lineTo(ML,H);ctx.closePath();
     const silGrad=ctx.createLinearGradient(0,H-silH,0,H);
-    silGrad.addColorStop(0,'rgba(0,40,80,.10)');
-    silGrad.addColorStop(1,'rgba(0,40,80,.02)');
+    silGrad.addColorStop(0,silTop);
+    silGrad.addColorStop(1,silBot);
     ctx.fillStyle=silGrad;ctx.fill();
-    ctx.strokeStyle='rgba(0,40,80,.18)';ctx.lineWidth=1;ctx.stroke();
+    ctx.strokeStyle=silLine;ctx.lineWidth=1;ctx.stroke();
     ctx.restore();
   }
 
