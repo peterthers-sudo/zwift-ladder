@@ -426,7 +426,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.19';
+const VERSION='v1.5.20';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -628,13 +628,10 @@ function restoreSelections(){
 
   if(d.oppKey&&OPPONENT_LIBRARY[d.oppKey]){
     const ts=document.getElementById('opp-team');
-    if(!ts.querySelector(`option[value="${d.oppKey}"]`)){
-      const t=OPPONENT_LIBRARY[d.oppKey];
-      ts.insertAdjacentHTML('beforeend',`<option value="${d.oppKey}">#${t.ladderPosition} ${t.name}</option>`);
-      ts.disabled=false;
+    if(ts.querySelector(`option[value="${d.oppKey}"]`)){
+      ts.value=d.oppKey;
+      loadOppTeam();
     }
-    ts.value=d.oppKey;
-    loadOppTeam();
   }
 
   if(d.routeName){
