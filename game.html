@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.27';
+const VERSION='v1.5.28';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1413,7 +1413,7 @@ function doTick(){
     const effSpd=EFF_SPD[r.effort-1];
     const stamMod=0.55+(r.stamina/100)*0.45;
     const fit=sectionFit(r,rSec);
-    const speed=r.norm*effSpd*stamMod*fit*pMult*(1-(r.powerPenalty||0));
+    const speed=r.norm*effSpd*stamMod*fit*pMult*(1-(r.powerPenalty||0))*(1+r.draftFactor*0.14);
     r.progress=Math.min(1,r.progress+(speed+r._protectBonus)*(1/RACE_TICKS));
     r._protectBonus=0;
     // Mark finish the moment progress hits 1 (coast logic takes over next tick)
