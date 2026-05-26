@@ -378,7 +378,7 @@ select:focus,input:focus{border-color:var(--ac);}
     <button id="mob-capt-toggle" onclick="toggleCaptBar()">⚓ Commands <span id="mob-capt-arrow">▾</span></button>
     <div class="capt-bar">
       <span class="capt-lbl">⚓ Captain:</span>
-      <button class="capt-btn" onclick="captCmd('draft')">🚴 Stay in draft</button>
+      <button class="capt-btn" onclick="captCmd('draft')">🚴 Easy</button>
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
       <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Everyone attack!</button>
@@ -426,7 +426,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.20';
+const VERSION='v1.5.21';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1048,7 +1048,7 @@ function beginRace(){
     ...r,team,teamName,display:sname(r.name),init:inits(r.name),
     cl:classify(r),base:scoreR(r,G.route),norm:1,
     role:role||'normal',
-    stamina:100,effort:3,manualEffort:null,following:null,progress:0,position:0,inGroup:true,finished:false,finishTick:0,
+    stamina:100,effort:3,manualEffort:null,following:null,progress:0,position:0,draftFactor:0,finished:false,finishTick:0,
     personality:.68+Math.random()*.32,
     attackTicks:0,attackCooldown:0,forcedEasy:0,hardTicks:0,hailMary:false,reconnectTick:0,powerPenalty:0,
     protecting:false,protectTarget:null,
@@ -1277,7 +1277,7 @@ function doTick(){
       if(rSec.t==='climb') drain*=r.cl.t==='Climber'?.65:1.55;
       if(rSec.t==='punch') drain*=r.cl.t==='Puncheur'?.7:1.3;
       if(rSec.t==='sprint')drain*=r.cl.t==='Sprinter'?.75:1.2;
-      if(r.inGroup)drain*=.65;
+      if(r.draftFactor>0)drain*=(1-0.45*r.draftFactor);
     }
     const prevStam=r.stamina;
     r.stamina=Math.max(0,Math.min(100,r.stamina+drain));
@@ -1430,8 +1430,17 @@ function spawnRoutePowerups(n){
 }
 
 function updateDraft(){
-  const active=G.racers.filter(r=>!r.absent&&!r.dropped);
-  active.forEach(r=>{r.inGroup=active.some(o=>o!==r&&Math.abs(o.progress-r.progress)<GAP_GROUP);});
+  const active=G.racers.filter(r=>!r.absent&&!r.dropped&&!r.finished);
+  const sorted=[...active].sort((a,b)=>b.progress-a.progress);
+  active.forEach(r=>{
+    const ahead=sorted.find(o=>o!==r&&o.progress>r.progress);
+    if(ahead){
+      const gapTicks=(ahead.progress-r.progress)*RACE_TICKS;
+      r.draftFactor=Math.min(1,Math.max(0,(5-gapTicks)/4));
+    } else {
+      r.draftFactor=0;
+    }
+  });
 }
 
 function formGroups(sorted){
@@ -1760,7 +1769,7 @@ function captCmd(cmd){
   const alive=G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&r.stamina>=10);
   if(cmd==='draft'){
     alive.forEach(r=>setEffort(r.id,2));
-    commsEvt('Captain: Stay in draft — all Easy');
+    commsEvt('Captain: All Easy — sit in and recover');
   } else if(cmd==='tempo'){
     alive.forEach(r=>setEffort(r.id,3));
     commsEvt('Captain: Hold Tempo — keep it steady');
@@ -2765,7 +2774,7 @@ Classification rules:
 
   <h2 id="man-captain">Captain Commands</h2>
   <p>Affect the whole team simultaneously.</p>
-  <div class="mono">🚴 Stay in draft    All riders → Easy (effort 2)
+  <div class="mono">🚴 Easy             All riders → Easy (effort 2)
 🎯 Hold tempo       All riders → Tempo (effort 3)
 🔥 Go hard          All riders → Hard (effort 4)
 ⚡ Everyone attack! All eligible riders trigger an attack burst
