@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.24';
+const VERSION='v1.5.25';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -520,6 +520,7 @@ const STRATEGIES={
 // STATE
 // ══════════════════════════════════════════════════════
 const CAMP_LS_PREFIX='ph_camp_';
+const DNF_KEY='ph_dnf';
 const G={
   myKey:null,myData:null,myPick:[],
   oppKey:null,oppData:null,oppPick:[],
@@ -654,6 +655,7 @@ function restoreSelections(){
 // SETUP SCREEN
 // ══════════════════════════════════════════════════════
 function init(){
+  checkDNF();
   const saved=localStorage.getItem('ph_theme')||'dark';
   setTheme(saved);
   document.getElementById('ver-lbl').textContent=VERSION;
@@ -677,6 +679,9 @@ function init(){
   Object.entries(MY_TEAMS).forEach(([k,t])=>ms.insertAdjacentHTML('beforeend',`<option value="${k}">${t.name}</option>`));
   filterRoutes();
   restoreSelections();
+  window.addEventListener('beforeunload',e=>{
+    if(G.racers.length&&!G._finishSorted){e.preventDefault();e.returnValue='';}
+  });
 }
 
 function riderRow(r,team){
@@ -703,6 +708,23 @@ function saveCampaign(){
   if(!G.campaign||!G.myKey)return;
   localStorage.setItem(CAMP_LS_PREFIX+G.myKey,JSON.stringify(G.campaign));
 }
+function checkDNF(){
+  let d;try{d=JSON.parse(localStorage.getItem(DNF_KEY)||'null');}catch(e){}
+  if(!d)return;
+  localStorage.removeItem(DNF_KEY);
+  const startPos=OPPONENT_LIBRARY[d.myKey]?.ladderPosition;
+  if(!d.myKey||!startPos)return;
+  const c=loadCampaign(d.myKey,startPos);
+  c.consecutiveLosses++;
+  let extra='';
+  if(c.consecutiveLosses>=3){
+    c.myPos=c.startPos;c.consecutiveLosses=0;c.wins=0;c.bonuses={};
+    extra=` Campaign reset to #${c.myPos}.`;
+  }
+  G.myKey=d.myKey;
+  saveCampaign();
+  G._dnfMsg=`You abandoned the last race — counted as a loss.${extra}`;
+}
 function resetCampaign(){
   if(!G.campaign)return;
   G.campaign.myPos=G.campaign.startPos;
@@ -723,8 +745,10 @@ function updateCampaignInfo(){
   const lo=c.myPos-7,hi=c.myPos-1;
   const lossStr=c.consecutiveLosses>0?` &nbsp;·&nbsp; ⚠️ ${c.consecutiveLosses}/3 losses`:'';
   const winsStr=c.wins>0?` &nbsp;·&nbsp; 🏆 ${c.wins} win${c.wins>1?'s':''}`:'';
+  const dnfLine=G._dnfMsg?`<br><span style="color:var(--rd);font-size:.68rem">⚠️ ${G._dnfMsg}</span>`:''
+  if(G._dnfMsg)G._dnfMsg=null;
   document.getElementById('campaign-info').innerHTML=
-    `Ranked <strong style="color:var(--ac)">#${c.myPos}</strong> &nbsp;·&nbsp; Challenge: <strong>#${lo}–#${hi}</strong>${lossStr}${winsStr}`;
+    `Ranked <strong style="color:var(--ac)">#${c.myPos}</strong> &nbsp;·&nbsp; Challenge: <strong>#${lo}–#${hi}</strong>${lossStr}${winsStr}${dnfLine}`;
   document.getElementById('reset-camp-btn').style.display=c.wins>0||c.consecutiveLosses>0?'':'none';
 }
 function filterOpponentsByLadder(){
@@ -1042,6 +1066,7 @@ function beginRace(){
   G.hasLeader=!!leaderEntry;
   G.strategy=document.getElementById('strat-sel')?.value||'control';
   G.tick=0;G.paused=true;G.racers=[];G.groups=[];G.explosions=[];G._finishSorted=null;G.finishDelay=0;G.pedalHarderUsed=false;
+  if(G.myKey&&G.campaign)localStorage.setItem(DNF_KEY,JSON.stringify({myKey:G.myKey,oppKey:G.oppKey}));
   document.getElementById('capt-ph-btn').disabled=false;
   document.getElementById('capt-protect-btn').classList.toggle('disabled',!G.hasLeader);
   document.getElementById('finish-overlay').style.display='none';
@@ -2530,6 +2555,7 @@ function drawRoundRect(ctx,x,y,w,h,r){
 const ladderPts=pos=>Math.max(0,11-pos);
 
 function finishRace(){
+  localStorage.removeItem(DNF_KEY);
   clearInterval(G.tickTimer);cancelAnimationFrame(G.rafId);
 
   // Set all riders to Rest and refresh their cards
