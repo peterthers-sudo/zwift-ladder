@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.28';
+const VERSION='v1.5.29';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2148,7 +2148,7 @@ function buildSegBar(){
 function drawElevStrip(){
   const cv=document.getElementById('elev-cv');if(!cv)return;
   const profile=ROUTE_PROFILES[G.route?.name];if(!profile)return;
-  const W=cv.parentElement.offsetWidth||900;
+  const W=G.canvasLayout?.W||cv.parentElement.offsetWidth||900;
   const H=cv.parentElement.offsetHeight||40;
   if(cv.width!==W){cv.width=W;cv.height=H;}
   const ctx=cv.getContext('2d');
@@ -2218,7 +2218,7 @@ function drawCanvas(){
   if(cv.height!==H){cv.height=H;cv.style.height=H+'px';}
   const ctx=cv.getContext('2d');
   const TW=W-ML-FINISH_ZONE-MR;  // race track; FINISH_ZONE is past the line
-  G.canvasLayout={ML,R,LANE_H,TW};
+  G.canvasLayout={ML,R,LANE_H,TW,W};
 
   // Lane backgrounds — uses THEME (reads from CSS :root vars)
   for(let i=0;i<LANES;i++){
