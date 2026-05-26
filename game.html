@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.25';
+const VERSION='v1.5.26';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -2578,6 +2578,8 @@ function finishRace(){
   const won=myPts>opPts;
   const draw=myPts===opPts;
 
+  if(won)setTimeout(fireWinConfetti,350);
+
   // Campaign update
   let campMsg='',campReset=false,milestoneShown=false;
   if(G.campaign&&G.oppData?.ladderPosition){
@@ -2732,6 +2734,16 @@ function fireConfetti(){
     const c=document.createElement('div');c.className='confetti-piece';
     c.style.cssText=`left:${Math.random()*100}%;top:-10px;background:${colors[i%colors.length]};border-radius:${Math.random()<.5?'50%':'2px'};animation-duration:${1.4+Math.random()*1.6}s;animation-delay:${Math.random()*.8}s;transform:rotate(${Math.random()*360}deg)`;
     box.appendChild(c);
+  }
+}
+function fireWinConfetti(){
+  const colors=['#00b4d8','#ff6b00','#2bc448','#ffd700','#9d4edd','#ef233c','#ffb703','#00e5ff','#ff5d00'];
+  for(let i=0;i<120;i++){
+    const c=document.createElement('div');c.className='confetti-piece';
+    const sz=6+Math.random()*8;
+    c.style.cssText=`position:fixed;left:${Math.random()*100}%;top:-14px;width:${sz}px;height:${sz*1.3}px;background:${colors[i%colors.length]};border-radius:${Math.random()<.5?'50%':'2px'};animation-duration:${1.8+Math.random()*2.4}s;animation-delay:${Math.random()*1.6}s;transform:rotate(${Math.random()*360}deg);z-index:9999;pointer-events:none`;
+    document.body.appendChild(c);
+    c.addEventListener('animationend',()=>c.remove());
   }
 }
 function showMilestone(oldPos,newPos){
