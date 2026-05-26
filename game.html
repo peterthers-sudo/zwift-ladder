@@ -383,6 +383,7 @@ select:focus,input:focus{border-color:var(--ac);}
       <button class="capt-btn" onclick="captCmd('tempo')">🎯 Hold tempo</button>
       <button class="capt-btn" onclick="captCmd('hard')">🔥 Go hard</button>
       <button class="capt-btn capt-atk" onclick="captCmd('attack')">⚡ Everyone attack!</button>
+      <button class="capt-btn" onclick="captChase()" style="color:var(--pu);border-color:rgba(157,78,221,.4)">🎯 Chase!</button>
       <button class="capt-btn" id="capt-brk-btn" onclick="launchBreakaway()" style="color:var(--gr);border-color:rgba(43,196,72,.4)">🏃 Breakaway</button>
       <button class="capt-btn" id="capt-protect-btn" onclick="captCmd('protect')" title="Requires a Leader role to be assigned">🛡 Protect leader</button>
       <button class="capt-btn" onclick="captCmd('rest')">💤 Everyone rest</button>
@@ -428,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.23';
+const VERSION='v1.5.24';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1266,11 +1267,31 @@ function doTick(){
     applyStrategy(r,r.progress,rSec);
     if(r.effort>(r.maxEffort||5))r.effort=r.maxEffort;
 
-    // Following — match target's effort (overrides AI, respects attack/recovery locks)
-    if(r.team==='leqp'&&r.following&&r.attackTicks===0&&r.forcedEasy===0){
+    // Following — gap-aware chase: sprint to close, ease when on the wheel
+    if(r.team==='leqp'&&r.following&&r.attackTicks===0&&r.forcedEasy===0&&!r.hailMary){
       const tgt=G.racers.find(x=>x.id===r.following);
-      if(!tgt||tgt.absent||tgt.dropped){r.following=null;}
-      else{r.effort=Math.min(r.maxEffort||5,tgt.effort+(rSec.t==='climb'||rSec.t==='punch'?1:0));}
+      if(!tgt||tgt.absent||tgt.dropped||tgt.finished){r.following=null;}
+      else{
+        const gapTicks=(tgt.progress-r.progress)*RACE_TICKS;
+        if(gapTicks>5){
+          // Long chase — go harder than target
+          r.effort=Math.min(r.maxEffort||5,Math.max(4,tgt.effort+1));
+          if(!r._chasing){r._chasing=true;say(r,pick(['Chasing hard!','Closing the gap!','On the chase!','Bridging across!']),true);}
+        } else if(gapTicks>1){
+          // Closing — push above target
+          r.effort=Math.min(r.maxEffort||5,tgt.effort+1);
+          r._chasing=true;
+        } else if(gapTicks>=0){
+          // On the wheel — match effort, draft kicks in naturally
+          r.effort=Math.min(r.maxEffort||5,tgt.effort);
+          if(r._chasing){r._chasing=false;say(r,pick(['Got the wheel!','Sitting in!','Locked on!','Hanging on!']),true);}
+        } else {
+          // Target behind — ease off, stay with them
+          r.effort=Math.max(2,tgt.effort);
+          r._chasing=false;
+        }
+        if(rSec.t==='climb'||rSec.t==='punch')r.effort=Math.min(r.maxEffort||5,r.effort+1);
+      }
     }
 
     // Breakaway — enforce min effort 3, end if tank runs out
@@ -1295,7 +1316,7 @@ function doTick(){
       G.explosions.push({progress:r.progress,lane:r.lane,born:Date.now(),col:r.team==='leqp'?'#00e5ff':'#ff5d00'});
 
     // Blown up — force Rest, override everything (manual, following, strategy)
-    if(r.stamina<10&&r.attackTicks===0){r.hailMary=false;r.effort=1;}
+    if(r.stamina<10&&r.attackTicks===0){r.hailMary=false;r.following=null;r._chasing=false;r.effort=1;}
     // Hail Mary — full gas until blown up
     if(r.hailMary&&r.stamina>=10){r.effort=5;}
     else if(r.hailMary&&r.stamina<10){r.hailMary=false;commsEvt(`💀 ${r.display} went all in — completely blown up!`);}
@@ -1774,6 +1795,25 @@ function triggerAttack(r, silent){
   commsEvt(`⚡ ${r.display} attacks!`);
   if(silent&&r.team==='opp'){G.markTarget={id:r.id,expiry:Date.now()+5000};}
 }
+function captChase(){
+  // Find target: marked rider first, otherwise leading opponent not in a group with us
+  let tgt=null;
+  if(G.markTarget&&Date.now()<G.markTarget.expiry)
+    tgt=G.racers.find(r=>r.id===G.markTarget.id&&!r.finished&&!r.dropped);
+  if(!tgt){
+    const opps=G.racers.filter(r=>r.team==='opp'&&!r.finished&&!r.absent&&!r.dropped);
+    tgt=opps.sort((a,b)=>b.progress-a.progress)[0];
+  }
+  if(!tgt){commsEvt('No target to chase!');return;}
+  // Pick best available chaser (stamina + base score)
+  const candidates=G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished&&!r.inBreak&&!r.hailMary&&r.stamina>=30&&r.attackTicks===0&&r.forcedEasy===0);
+  if(!candidates.length){commsEvt('No riders available to chase!');return;}
+  const chaser=candidates.sort((a,b)=>(b.stamina+b.base*6)-(a.stamina+a.base*6))[0];
+  chaser.following=tgt.id;chaser.manualEffort=null;chaser._chasing=true;
+  say(chaser,'On the chase!',true);
+  commsEvt(`🎯 ${chaser.display.split(' ')[0]} chases ${tgt.display.split(' ')[0]}!`,'warn');
+  renderMyCard(chaser);
+}
 function launchBreakaway(){
   if(G.tick/RACE_TICKS>0.55){commsEvt('Too late in the race for a breakaway!');return;}
   const candidates=G.racers.filter(r=>r.team==='leqp'&&!r.absent&&!r.dropped&&!r.finished&&!r.inBreak&&!r.hailMary&&r.stamina>=50&&r.attackTicks===0);
@@ -2040,7 +2080,7 @@ function renderMyCard(r){
       <div class="rc-state" style="color:${st.c}">${st.l}</div>
     </div>
     <div class="sw"><div class="sb2" style="width:${r.stamina.toFixed(0)}%;background:${stCol(r.stamina)}"></div></div>
-    <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.inBreak?'<span style="color:var(--gr)"> · 🏃 BREAKAWAY</span>':''}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.hardTicks>0?' · 💪 HARD':''}${r.hailMary?' · 💀 HAIL MARY':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
+    <div class="rc-info">${blownUp?'<span style="color:var(--rd)">💀 BLOWN UP — resting</span>':r.stamina.toFixed(0)+'% stamina'}${r.inBreak?'<span style="color:var(--gr)"> · 🏃 BREAKAWAY</span>':''}${r.following&&r._chasing?'<span style="color:var(--pu)"> · 🎯 CHASING</span>':r.following?'<span style="color:var(--ac)"> · 🔗 ON WHEEL</span>':''}${r.attackTicks>0?' · ⚡ ATTACK':''}${r.hardTicks>0?' · 💪 HARD':''}${r.hailMary?' · 💀 HAIL MARY':''}${r.forcedEasy>0?' · 😮 Resting':''} · ${ROLES[r.role]?.l||''}</div>
     <div class="eff-row">
       ${[1,2,3,4].map(e=>`<button class="eb${r.effort===e&&!r.attackTicks?' act':''}" data-action="effort" data-id="${r.id}" data-e="${e}" ${locked?'disabled':''} title="${EFF_LBL[e-1]}"><span style="font-size:1.15rem">${EFF_IC[e-1]}</span><span style="font-size:.7rem;font-family:'JetBrains Mono',monospace">${EFF_LBL[e-1]}</span></button>`).join('')}
     </div>
