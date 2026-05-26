@@ -429,7 +429,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.30';
+const VERSION='v1.5.31';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1188,6 +1188,7 @@ function beginRace(){
   // After intel (or immediately if none), count down 10→0 then auto-start
   if(G._countdownInterval){clearInterval(G._countdownInterval);G._countdownInterval=null;}
   setTimeout(()=>{
+    updatePanels();
     let count=10;
     if(G.preRaceOverlay){G.preRaceOverlay.countdown=count;G.preRaceOverlay.intel=[];}
     pauseBtn.textContent=`▶ ${count}`;pauseBtn.disabled=false;
@@ -2056,6 +2057,7 @@ function commsEvt(text){
 // ══════════════════════════════════════════════════════
 function startRender(){
   cancelAnimationFrame(G.rafId);
+  updatePanels();
   function frame(){
     drawCanvas();
     G.rafId=requestAnimationFrame(frame);
