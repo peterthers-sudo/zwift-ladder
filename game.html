@@ -426,7 +426,7 @@ select:focus,input:focus{border-color:var(--ac);}
 // ══════════════════════════════════════════════════════
 // VERSION
 // ══════════════════════════════════════════════════════
-const VERSION='v1.5.21';
+const VERSION='v1.5.22';
 
 // ══════════════════════════════════════════════════════
 // THEME — reads CSS :root vars so canvas uses same palette
@@ -1311,6 +1311,7 @@ function doTick(){
       let pool;
       if(r.attackTicks>0||r.hardTicks>0||r.hailMary)pool=ch.hard;
       else if(r.stamina<35)pool=ch.tired;
+      else if(r.draftFactor>=0.4)pool=ch.draft;
       else if(r.stamina>68)pool=ch.fresh;
       else if(r.position<=2)pool=ch.lead;
       else if(r.position<=4)pool=ch.mid;
@@ -1710,6 +1711,18 @@ const BUBBLE={
       'Still attached',
       'Trying not to lose the wheel',
       'Holding the gap'
+    ],
+    draft:[
+      'On the wheel',
+      'Sitting in nicely',
+      'Letting them do the work',
+      'Tucked in',
+      'Good slipstream here',
+      'Saving legs',
+      'Just following wheels',
+      'Nice wheel to follow',
+      'Conserving for later',
+      'Sitting in — feeling good'
     ],
     hard:[
       'Working hard!',
