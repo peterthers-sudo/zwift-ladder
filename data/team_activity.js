@@ -1,6 +1,6 @@
 // TEAM_ACTIVITY_START
 // Auto-genereret af parse_team_stats.py — rediger ikke manuelt.
-// Genereret: 2026-07-06T00:02:54+00:00  Vindue: sidste 60 dage
+// Genereret: 2026-07-07T00:04:05+00:00  Vindue: sidste 60 dage
 const TEAM_ACTIVITY = {
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_ACTINIDES": {
     "all_results": [
@@ -333,7 +333,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .515",
     "team_name": "ART Actinides",
     "team_stats_id": 355,
@@ -796,7 +796,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .474",
     "team_name": "ART Cuatro Bolas",
     "team_stats_id": 528,
@@ -1116,7 +1116,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .610",
     "team_name": "ART Hadrons",
     "team_stats_id": 448,
@@ -1354,7 +1354,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .410",
     "team_name": "ART Osmium",
     "team_stats_id": 511,
@@ -1461,7 +1461,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .667",
     "team_name": "ASTURES",
     "team_stats_id": 702,
@@ -1655,7 +1655,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .563",
     "team_name": "ATGNI Alloy",
     "team_stats_id": 162,
@@ -1819,7 +1819,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .583",
     "team_name": "AT-R2",
     "team_stats_id": 631,
@@ -1939,8 +1939,7 @@ const TEAM_ACTIVITY = {
     ],
     "cutoff_days": 60,
     "results": [
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1065979": {
@@ -1952,44 +1951,36 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "2957284": {
-        "best_pos": 3,
+        "best_pos": 5,
         "last_race": "2026-06-04",
         "name": "T M",
-        "points": 14,
-        "races": 2,
+        "points": 6,
+        "races": 1,
         "wins": 0
       },
       "3465944": {
         "best_pos": 2,
         "last_race": "2026-06-04",
         "name": "6 RSchep[bakpdl]",
-        "points": 14,
-        "races": 2,
+        "points": 9,
+        "races": 1,
         "wins": 0
       },
       "514482": {
         "best_pos": 1,
         "last_race": "2026-06-04",
         "name": "Jonas Häggqvist",
-        "points": 19,
-        "races": 2,
-        "wins": 1
-      },
-      "6173585": {
-        "best_pos": 5,
-        "last_race": "2026-05-07",
-        "name": "Josh Rance",
-        "points": 6,
+        "points": 10,
         "races": 1,
-        "wins": 0
+        "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .519",
     "team_name": "BAKPDL B",
     "team_stats_id": 141,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_BAKPDL_B.html",
-    "total_races_in_window": 2
+    "total_races_in_window": 1
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_BAKPDL_C": {
     "all_results": [
@@ -2299,7 +2290,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -2307,8 +2297,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-25",
         "name": "#. littleian",
-        "points": 55,
-        "races": 8,
+        "points": 51,
+        "races": 7,
         "wins": 1
       },
       "1445924": {
@@ -2323,16 +2313,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "Nick Hewitt",
-        "points": 33,
-        "races": 5,
+        "points": 26,
+        "races": 4,
         "wins": 1
       },
       "3425871": {
         "best_pos": 7,
         "last_race": "2026-07-02",
         "name": "Glen Groves",
-        "points": 7,
-        "races": 4,
+        "points": 6,
+        "races": 3,
         "wins": 0
       },
       "419853": {
@@ -2347,9 +2337,9 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-25",
         "name": "Chris Knight",
-        "points": 50,
-        "races": 5,
-        "wins": 5
+        "points": 40,
+        "races": 4,
+        "wins": 4
       },
       "548120": {
         "best_pos": 1,
@@ -2379,17 +2369,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "James Cheetham",
-        "points": 30,
-        "races": 7,
+        "points": 25,
+        "races": 6,
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .405",
     "team_name": "BAKPDL C",
     "team_stats_id": 289,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_BAKPDL_C.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_BAKPDL_D": {
     "all_results": [
@@ -2496,7 +2486,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .636",
     "team_name": "BAKPDL D",
     "team_stats_id": 699,
@@ -2822,7 +2812,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .408",
     "team_name": "CLS Chasers",
     "team_stats_id": 606,
@@ -3518,7 +3508,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .476",
     "team_name": "Coalition Nezerium",
     "team_stats_id": 72,
@@ -3853,7 +3843,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .633",
     "team_name": "COALITION Qyron",
     "team_stats_id": 542,
@@ -4329,8 +4319,7 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1246463": {
@@ -4353,8 +4342,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 7,
         "last_race": "2026-06-23",
         "name": "Nils Hagendorf",
-        "points": 7,
-        "races": 3,
+        "points": 5,
+        "races": 2,
         "wins": 0
       },
       "4010525": {
@@ -4366,44 +4355,44 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "4448824": {
-        "best_pos": 6,
+        "best_pos": 8,
         "last_race": "2026-06-23",
         "name": "David (COALITION)",
-        "points": 10,
-        "races": 4,
+        "points": 5,
+        "races": 3,
         "wins": 0
       },
       "67144": {
         "best_pos": 7,
         "last_race": "2026-05-14",
         "name": "Anders Gunnarsson",
-        "points": 8,
-        "races": 2,
+        "points": 4,
+        "races": 1,
         "wins": 0
       },
       "6856783": {
         "best_pos": 1,
         "last_race": "2026-06-25",
         "name": "Chris Blake",
-        "points": 44,
-        "races": 6,
+        "points": 37,
+        "races": 5,
         "wins": 2
       },
       "805369": {
         "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "B en",
-        "points": 37,
-        "races": 6,
+        "points": 34,
+        "races": 5,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .539",
     "team_name": "Coalition Sythene",
     "team_stats_id": 247,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Coalition_Sythene.html",
-    "total_races_in_window": 6
+    "total_races_in_window": 5
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_TARAXYL": {
     "all_results": [
@@ -5153,7 +5142,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .479",
     "team_name": "Coalition Taraxyl",
     "team_stats_id": 387,
@@ -5379,7 +5368,6 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -5391,14 +5379,6 @@ const TEAM_ACTIVITY = {
         "races": 6,
         "wins": 0
       },
-      "364183": {
-        "best_pos": 10,
-        "last_race": "2026-05-07",
-        "name": "Jack J",
-        "points": 1,
-        "races": 1,
-        "wins": 0
-      },
       "367987": {
         "best_pos": 6,
         "last_race": "2026-07-02",
@@ -5408,11 +5388,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "4220633": {
-        "best_pos": 2,
+        "best_pos": 5,
         "last_race": "2026-07-02",
         "name": "D aveG",
-        "points": 42,
-        "races": 9,
+        "points": 33,
+        "races": 8,
         "wins": 0
       },
       "5266228": {
@@ -5427,8 +5407,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-17",
         "name": "S N",
-        "points": 26,
-        "races": 4,
+        "points": 23,
+        "races": 3,
         "wins": 1
       },
       "608154": {
@@ -5443,16 +5423,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-05-21",
         "name": "Nikolas Daniel",
-        "points": 15,
-        "races": 2,
+        "points": 8,
+        "races": 1,
         "wins": 0
       },
       "7171561": {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "😈 Matt",
-        "points": 47,
-        "races": 8,
+        "points": 39,
+        "races": 7,
         "wins": 1
       },
       "7327629": {
@@ -5464,12 +5444,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .471",
     "team_name": "Coalition Zeon",
     "team_stats_id": 594,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Coalition_Zeon.html",
-    "total_races_in_window": 12
+    "total_races_in_window": 11
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_CRYO_GEN_DERAILLEUR_DYNASTY": {
     "all_results": [
@@ -5854,7 +5834,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .446",
     "team_name": "Cryo-Gen Derailleur Dynasty",
     "team_stats_id": 300,
@@ -6136,7 +6116,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .593",
     "team_name": "Cryo-Gen Handlebar Heroes",
     "team_stats_id": 239,
@@ -6782,7 +6762,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .588",
     "team_name": "Dangerous Rhinos",
     "team_stats_id": 26,
@@ -7083,7 +7063,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .564",
     "team_name": "DIRTy Beasts",
     "team_stats_id": 87,
@@ -7288,16 +7268,15 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1699206": {
         "best_pos": 2,
         "last_race": "2026-06-23",
         "name": "Dustin",
-        "points": 22,
-        "races": 4,
+        "points": 16,
+        "races": 3,
         "wins": 0
       },
       "2417653": {
@@ -7320,8 +7299,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-23",
         "name": "Grumpy Muppet",
-        "points": 36,
-        "races": 6,
+        "points": 27,
+        "races": 5,
         "wins": 0
       },
       "3632608": {
@@ -7333,27 +7312,27 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "3832397": {
-        "best_pos": 4,
+        "best_pos": 5,
         "last_race": "2026-06-05",
         "name": "Jeff Kitto",
-        "points": 21,
-        "races": 4,
+        "points": 14,
+        "races": 3,
         "wins": 0
       },
       "4421933": {
         "best_pos": 5,
         "last_race": "2026-06-05",
         "name": "G (ERMAR",
-        "points": 14,
-        "races": 3,
+        "points": 10,
+        "races": 2,
         "wins": 0
       },
       "5339496": {
         "best_pos": 3,
         "last_race": "2026-06-23",
         "name": ". Campbell",
-        "points": 30,
-        "races": 4,
+        "points": 22,
+        "races": 3,
         "wins": 0
       },
       "751042": {
@@ -7365,12 +7344,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .468",
     "team_name": "DIRTy Frenzy",
     "team_stats_id": 573,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_DIRTy_Frenzy.html",
-    "total_races_in_window": 7
+    "total_races_in_window": 6
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_PYRITES": {
     "all_results": [
@@ -8270,7 +8249,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .441",
     "team_name": "DIRTy Pyrites",
     "team_stats_id": 248,
@@ -8933,17 +8912,16 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "W",
       "W"
     ],
     "riders": {
       "1537979": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-05-21",
         "name": ".. Greg",
-        "points": 25,
-        "races": 3,
-        "wins": 1
+        "points": 15,
+        "races": 2,
+        "wins": 0
       },
       "1825946": {
         "best_pos": 2,
@@ -8986,11 +8964,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "4789073": {
-        "best_pos": 6,
+        "best_pos": 7,
         "last_race": "2026-06-11",
         "name": "* GrahamR",
-        "points": 18,
-        "races": 6,
+        "points": 13,
+        "races": 5,
         "wins": 0
       },
       "5320327": {
@@ -9029,16 +9007,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 7,
         "last_race": "2026-07-03",
         "name": "TessGames Tessachka",
-        "points": 14,
-        "races": 5,
+        "points": 10,
+        "races": 4,
         "wins": 0
       },
       "7700236": {
         "best_pos": 1,
         "last_race": "2026-07-03",
         "name": "O ruze",
-        "points": 75,
-        "races": 9,
+        "points": 67,
+        "races": 8,
         "wins": 2
       },
       "7861156": {
@@ -9058,12 +9036,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .447",
     "team_name": "DiRTy Saboteurs",
     "team_stats_id": 175,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_DiRTy_Saboteurs.html",
-    "total_races_in_window": 17
+    "total_races_in_window": 16
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_SPELLBOUND": {
     "all_results": [
@@ -9406,7 +9384,6 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -9414,32 +9391,32 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-25",
         "name": ". Diogo",
-        "points": 9,
-        "races": 3,
+        "points": 7,
+        "races": 2,
         "wins": 0
       },
       "1071376": {
         "best_pos": 3,
         "last_race": "2026-06-30",
         "name": ". Mike",
-        "points": 35,
-        "races": 6,
+        "points": 28,
+        "races": 5,
         "wins": 0
       },
       "1730413": {
         "best_pos": 4,
         "last_race": "2026-06-30",
         "name": "Paul R",
-        "points": 27,
-        "races": 5,
+        "points": 21,
+        "races": 4,
         "wins": 0
       },
       "2765354": {
         "best_pos": 2,
         "last_race": "2026-06-11",
         "name": "P ete",
-        "points": 18,
-        "races": 2,
+        "points": 9,
+        "races": 1,
         "wins": 0
       },
       "288644": {
@@ -9478,8 +9455,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 8,
         "last_race": "2026-05-14",
         "name": "Paul Woj",
-        "points": 6,
-        "races": 2,
+        "points": 3,
+        "races": 1,
         "wins": 0
       },
       "956214": {
@@ -9491,12 +9468,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .398",
     "team_name": "DIRTy Spellbound",
     "team_stats_id": 172,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_DIRTy_Spellbound.html",
-    "total_races_in_window": 6
+    "total_races_in_window": 5
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DOWN_N_DIRTY_BUTEOS": {
     "all_results": [
@@ -10013,7 +9990,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .519",
     "team_name": "Down n DIRTy Buteos",
     "team_stats_id": 160,
@@ -10440,24 +10417,23 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "2612903": {
         "best_pos": 2,
         "last_race": "2026-07-02",
         "name": "4 Dan",
-        "points": 32,
-        "races": 6,
+        "points": 25,
+        "races": 5,
         "wins": 0
       },
       "2643057": {
         "best_pos": 2,
         "last_race": "2026-07-02",
         "name": "Chris Temple",
-        "points": 30,
-        "races": 5,
+        "points": 26,
+        "races": 4,
         "wins": 0
       },
       "2722256": {
@@ -10488,8 +10464,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-11",
         "name": "Tony Bennett",
-        "points": 28,
-        "races": 4,
+        "points": 23,
+        "races": 3,
         "wins": 1
       },
       "620827": {
@@ -10504,17 +10480,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-07-02",
         "name": "4. Bren",
-        "points": 58,
-        "races": 8,
+        "points": 49,
+        "races": 7,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .510",
     "team_name": "Down n DIRTy Condors",
     "team_stats_id": 245,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Down_n_DIRTy_Condors.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DOWN_N_DIRTY_FALCONS": {
     "all_results": [
@@ -10753,8 +10729,7 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1028450": {
@@ -10769,32 +10744,32 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-24",
         "name": "Larry Webb(Falcons)",
-        "points": 27,
-        "races": 5,
+        "points": 24,
+        "races": 4,
         "wins": 0
       },
       "1486115": {
         "best_pos": 1,
         "last_race": "2026-05-27",
         "name": "4 SGarcia",
-        "points": 36,
-        "races": 5,
+        "points": 35,
+        "races": 4,
         "wins": 1
       },
       "252920": {
         "best_pos": 4,
         "last_race": "2026-05-21",
         "name": "6. Toby",
-        "points": 12,
-        "races": 2,
+        "points": 7,
+        "races": 1,
         "wins": 0
       },
       "3293009": {
         "best_pos": 1,
         "last_race": "2026-05-27",
         "name": "4 Ben",
-        "points": 21,
-        "races": 3,
+        "points": 14,
+        "races": 2,
         "wins": 1
       },
       "3328207": {
@@ -10809,17 +10784,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-24",
         "name": "Peter [Falcons]",
-        "points": 35,
-        "races": 6,
+        "points": 33,
+        "races": 5,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .386",
     "team_name": "Down n DIRTy Falcons",
     "team_stats_id": 506,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Down_n_DIRTy_Falcons.html",
-    "total_races_in_window": 6
+    "total_races_in_window": 5
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DOWN_N_DIRTY_VULTURES": {
     "all_results": [
@@ -11373,7 +11348,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -11389,17 +11363,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-23",
         "name": "8 Padraig",
-        "points": 47,
-        "races": 6,
+        "points": 38,
+        "races": 5,
         "wins": 2
       },
       "1972471": {
         "best_pos": 1,
         "last_race": "2026-06-23",
         "name": "Clive V",
-        "points": 69,
-        "races": 8,
-        "wins": 5
+        "points": 59,
+        "races": 7,
+        "wins": 4
       },
       "2340067": {
         "best_pos": 2,
@@ -11410,11 +11384,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "335164": {
-        "best_pos": 3,
+        "best_pos": 9,
         "last_race": "2026-07-02",
         "name": "6 Barreira",
-        "points": 10,
-        "races": 3,
+        "points": 2,
+        "races": 2,
         "wins": 0
       },
       "3659440": {
@@ -11437,8 +11411,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-23",
         "name": "Stevie Cobb",
-        "points": 26,
-        "races": 6,
+        "points": 20,
+        "races": 5,
         "wins": 0
       },
       "513566": {
@@ -11462,16 +11436,16 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-06-04",
         "name": "Adam W",
         "points": 5,
-        "races": 2,
+        "races": 1,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .511",
     "team_name": "Down n DIRTy Vultures",
     "team_stats_id": 131,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Down_n_DIRTy_Vultures.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DUNKING_TEABAGS": {
     "all_results": [
@@ -11828,7 +11802,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .723",
     "team_name": "Dunking Teabags",
     "team_stats_id": 372,
@@ -12080,7 +12054,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .630",
     "team_name": "eCKD Bandits",
     "team_stats_id": 500,
@@ -12273,7 +12247,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .344",
     "team_name": "ESCO Bohemian",
     "team_stats_id": 12,
@@ -12626,7 +12600,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .457",
     "team_name": "ESCO Fiendtini",
     "team_stats_id": 19,
@@ -12783,7 +12757,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .625",
     "team_name": "eSRT CLOUD CHASERS",
     "team_stats_id": 665,
@@ -13042,7 +13016,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .419",
     "team_name": "Evolve Mighty Ducks",
     "team_stats_id": 473,
@@ -13226,7 +13200,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .500",
     "team_name": "Extraordinary GentleWaTTs",
     "team_stats_id": 686,
@@ -13319,7 +13293,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record 1",
     "team_name": "Fellowship Berserker Rage",
     "team_stats_id": 710,
@@ -13467,7 +13441,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .889",
     "team_name": "Fellowship Mana Surge",
     "team_stats_id": 709,
@@ -13851,7 +13825,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .533",
     "team_name": "Foudre Camembert",
     "team_stats_id": 185,
@@ -14377,16 +14351,15 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1242636": {
         "best_pos": 4,
         "last_race": "2026-06-24",
         "name": "jf Morfin",
-        "points": 17,
-        "races": 4,
+        "points": 12,
+        "races": 3,
         "wins": 0
       },
       "1401599": {
@@ -14430,11 +14403,11 @@ const TEAM_ACTIVITY = {
         "wins": 1
       },
       "2883736": {
-        "best_pos": 4,
+        "best_pos": 10,
         "last_race": "2026-06-25",
         "name": "Via Esapis.Via(Foudre)",
-        "points": 8,
-        "races": 2,
+        "points": 1,
+        "races": 1,
         "wins": 0
       },
       "2977971": {
@@ -14457,16 +14430,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-07-02",
         "name": "Jf Kohl",
-        "points": 28,
-        "races": 6,
-        "wins": 0
-      },
-      "4586126": {
-        "best_pos": null,
-        "last_race": "2026-05-07",
-        "name": "K nightRider[Foudre]",
-        "points": 0,
-        "races": 1,
+        "points": 22,
+        "races": 5,
         "wins": 0
       },
       "5125136": {
@@ -14482,7 +14447,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-07-02",
         "name": "Florian Wou",
         "points": 19,
-        "races": 6,
+        "races": 5,
         "wins": 0
       },
       "7961658": {
@@ -14502,12 +14467,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .452",
     "team_name": "Foudre Picodon",
     "team_stats_id": 234,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Foudre_Picodon.html",
-    "total_races_in_window": 12
+    "total_races_in_window": 11
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_ASTRA": {
     "all_results": [
@@ -14775,8 +14740,7 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "2131608": {
@@ -14800,23 +14764,23 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-07-03",
         "name": "Ian O'Sullivan",
         "points": 28,
-        "races": 8,
+        "races": 7,
         "wins": 0
       },
       "342876": {
         "best_pos": 7,
         "last_race": "2026-06-24",
         "name": "Graham Smith",
-        "points": 12,
-        "races": 5,
+        "points": 9,
+        "races": 4,
         "wins": 0
       },
       "3559694": {
         "best_pos": 2,
         "last_race": "2026-07-03",
         "name": "John McChrystal",
-        "points": 41,
-        "races": 8,
+        "points": 39,
+        "races": 7,
         "wins": 0
       },
       "38770": {
@@ -14852,12 +14816,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "558697": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-06-30",
         "name": "Daniel Bolton",
-        "points": 50,
-        "races": 6,
-        "wins": 1
+        "points": 40,
+        "races": 5,
+        "wins": 0
       },
       "571813": {
         "best_pos": 1,
@@ -14888,7 +14852,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-06-08",
         "name": "Marvin the",
         "points": 15,
-        "races": 6,
+        "races": 5,
         "wins": 0
       },
       "703800": {
@@ -14903,8 +14867,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-06-10",
         "name": "Mike Hurtley",
-        "points": 37,
-        "races": 6,
+        "points": 32,
+        "races": 5,
         "wins": 0
       },
       "878884": {
@@ -14916,12 +14880,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .508",
     "team_name": "Galaxy Astra",
     "team_stats_id": 646,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Galaxy_Astra.html",
-    "total_races_in_window": 19
+    "total_races_in_window": 18
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_AVENGERS": {
     "all_results": [
@@ -15289,7 +15253,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -15309,14 +15272,6 @@ const TEAM_ACTIVITY = {
         "races": 6,
         "wins": 0
       },
-      "1478348": {
-        "best_pos": null,
-        "last_race": "2026-05-07",
-        "name": "Steve Cole",
-        "points": 0,
-        "races": 1,
-        "wins": 0
-      },
       "1553834": {
         "best_pos": 1,
         "last_race": "2026-07-01",
@@ -15329,16 +15284,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 8,
         "last_race": "2026-07-01",
         "name": "Duke “An",
-        "points": 4,
-        "races": 2,
+        "points": 3,
+        "races": 1,
         "wins": 0
       },
       "1906895": {
         "best_pos": 5,
         "last_race": "2026-06-21",
         "name": "Donnelly Joe",
-        "points": 19,
-        "races": 4,
+        "points": 14,
+        "races": 3,
         "wins": 0
       },
       "2420692": {
@@ -15377,9 +15332,9 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Connor Webb",
-        "points": 62,
-        "races": 7,
-        "wins": 3
+        "points": 52,
+        "races": 6,
+        "wins": 2
       },
       "368243": {
         "best_pos": 4,
@@ -15393,8 +15348,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-05-28",
         "name": "Jamie taylor",
-        "points": 29,
-        "races": 4,
+        "points": 21,
+        "races": 3,
         "wins": 0
       },
       "6268641": {
@@ -15409,8 +15364,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-22",
         "name": "Harry Monk",
-        "points": 44,
-        "races": 6,
+        "points": 40,
+        "races": 5,
         "wins": 0
       },
       "877920": {
@@ -15422,12 +15377,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .628",
     "team_name": "Galaxy Avengers",
     "team_stats_id": 567,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Galaxy_Avengers.html",
-    "total_races_in_window": 19
+    "total_races_in_window": 18
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_HYPERION": {
     "all_results": [
@@ -15736,7 +15691,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .429",
     "team_name": "Galaxy Hyperion",
     "team_stats_id": 649,
@@ -16312,7 +16267,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .373",
     "team_name": "Galaxy Interstellar",
     "team_stats_id": 489,
@@ -16630,8 +16585,7 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1041234": {
@@ -16646,8 +16600,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-05-25",
         "name": "Rudi [GXY]",
-        "points": 16,
-        "races": 4,
+        "points": 12,
+        "races": 3,
         "wins": 0
       },
       "1615643": {
@@ -16670,16 +16624,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-22",
         "name": "Luke Mattocks",
-        "points": 55,
-        "races": 9,
+        "points": 48,
+        "races": 8,
         "wins": 1
       },
       "212407": {
         "best_pos": 8,
         "last_race": "2026-05-27",
         "name": "... Steelo",
-        "points": 5,
-        "races": 3,
+        "points": 3,
+        "races": 2,
         "wins": 0
       },
       "2561618": {
@@ -16694,8 +16648,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-22",
         "name": "3 Janne",
-        "points": 60,
-        "races": 8,
+        "points": 51,
+        "races": 7,
         "wins": 0
       },
       "5145129": {
@@ -16762,14 +16716,6 @@ const TEAM_ACTIVITY = {
         "races": 2,
         "wins": 0
       },
-      "875225": {
-        "best_pos": 10,
-        "last_race": "2026-05-07",
-        "name": "M att",
-        "points": 1,
-        "races": 1,
-        "wins": 0
-      },
       "877920": {
         "best_pos": 2,
         "last_race": "2026-07-01",
@@ -16779,12 +16725,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .603",
     "team_name": "Galaxy Rockets",
     "team_stats_id": 491,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Galaxy_Rockets.html",
-    "total_races_in_window": 16
+    "total_races_in_window": 15
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_SUPERSONIC": {
     "all_results": [
@@ -16831,7 +16777,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record 1",
     "team_name": "Galaxy Supersonic",
     "team_stats_id": 717,
@@ -16888,7 +16834,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record 1",
     "team_name": "Galaxy Titans",
     "team_stats_id": 714,
@@ -17358,7 +17304,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .460",
     "team_name": "GTR Griffins",
     "team_stats_id": 478,
@@ -17842,7 +17788,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .480",
     "team_name": "GTR Krakens",
     "team_stats_id": 401,
@@ -18473,7 +18419,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .566",
     "team_name": "GTR Minotaurs",
     "team_stats_id": 227,
@@ -18838,7 +18784,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .466",
     "team_name": "GTR Skeleton Wheelers",
     "team_stats_id": 88,
@@ -19187,7 +19133,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .634",
     "team_name": "HCT Comets",
     "team_stats_id": 354,
@@ -19561,7 +19507,6 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "W",
       "W"
     ],
     "riders": {
@@ -19569,8 +19514,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-16",
         "name": "Andy Wade",
-        "points": 41,
-        "races": 5,
+        "points": 32,
+        "races": 4,
         "wins": 1
       },
       "1782797": {
@@ -19585,24 +19530,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-11",
         "name": "Chris Gregory",
-        "points": 13,
-        "races": 3,
+        "points": 7,
+        "races": 2,
         "wins": 0
       },
       "2409303": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "Dan Clarke",
-        "points": 42,
-        "races": 7,
-        "wins": 1
+        "points": 32,
+        "races": 6,
+        "wins": 0
       },
       "3131279": {
         "best_pos": 1,
         "last_race": "2026-06-25",
         "name": "Darrin Dexter",
-        "points": 38,
-        "races": 6,
+        "points": 31,
+        "races": 5,
         "wins": 1
       },
       "3589459": {
@@ -19617,8 +19562,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-25",
         "name": "Davide Alves",
-        "points": 42,
-        "races": 7,
+        "points": 34,
+        "races": 6,
         "wins": 1
       },
       "3993707": {
@@ -19630,12 +19575,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .539",
     "team_name": "HCT Tracers",
     "team_stats_id": 337,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_HCT_Tracers.html",
-    "total_races_in_window": 8
+    "total_races_in_window": 7
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HCT_TRIDENTS": {
     "all_results": [
@@ -19783,16 +19728,15 @@ const TEAM_ACTIVITY = {
     "cutoff_days": 60,
     "results": [
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "2629505": {
         "best_pos": 2,
         "last_race": "2026-06-04",
         "name": "Andy Challis",
-        "points": 20,
-        "races": 3,
+        "points": 14,
+        "races": 2,
         "wins": 0
       },
       "2862983": {
@@ -19803,36 +19747,28 @@ const TEAM_ACTIVITY = {
         "races": 1,
         "wins": 0
       },
-      "3058775": {
-        "best_pos": 1,
-        "last_race": "2026-05-07",
-        "name": "Richard Craddock",
-        "points": 10,
-        "races": 1,
-        "wins": 1
-      },
       "3180462": {
         "best_pos": 8,
         "last_race": "2026-05-14",
         "name": "Simon Perkins",
+        "points": 3,
+        "races": 1,
+        "wins": 0
+      },
+      "4868625": {
+        "best_pos": 6,
+        "last_race": "2026-06-04",
+        "name": "Phil Plummer",
         "points": 5,
         "races": 2,
         "wins": 0
       },
-      "4868625": {
-        "best_pos": 2,
-        "last_race": "2026-06-04",
-        "name": "Phil Plummer",
-        "points": 14,
-        "races": 3,
-        "wins": 0
-      },
       "5528835": {
-        "best_pos": 4,
+        "best_pos": 7,
         "last_race": "2026-06-04",
         "name": "Audrey Zilliox",
-        "points": 11,
-        "races": 2,
+        "points": 4,
+        "races": 1,
         "wins": 0
       },
       "7196480": {
@@ -19844,12 +19780,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .457",
     "team_name": "HCT Tridents",
     "team_stats_id": 471,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_HCT_Tridents.html",
-    "total_races_in_window": 3
+    "total_races_in_window": 2
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_HAMMERHEADS": {
     "all_results": [
@@ -20440,7 +20376,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .479",
     "team_name": "Herd of Hammerheads",
     "team_stats_id": 256,
@@ -20746,7 +20682,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .431",
     "team_name": "Herd of Honey Badgers",
     "team_stats_id": 624,
@@ -21059,7 +20995,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .371",
     "team_name": "Herd Of MAMILs",
     "team_stats_id": 128,
@@ -21575,7 +21511,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .490",
     "team_name": "Herd of Seataurs",
     "team_stats_id": 35,
@@ -21787,7 +21723,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .233",
     "team_name": "Herd of Sleepy Sloths",
     "team_stats_id": 353,
@@ -22332,8 +22268,7 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "W",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "1076222": {
@@ -22345,11 +22280,11 @@ const TEAM_ACTIVITY = {
         "wins": 1
       },
       "1159925": {
-        "best_pos": 3,
+        "best_pos": 6,
         "last_race": "2026-06-25",
         "name": "R amsey",
-        "points": 20,
-        "races": 4,
+        "points": 12,
+        "races": 3,
         "wins": 0
       },
       "1628932": {
@@ -22393,11 +22328,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "2702839": {
-        "best_pos": 4,
+        "best_pos": 8,
         "last_race": "2026-06-17",
         "name": ". Alister",
-        "points": 20,
-        "races": 6,
+        "points": 13,
+        "races": 5,
         "wins": 0
       },
       "2705987": {
@@ -22412,8 +22347,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "Derby Paul",
-        "points": 47,
-        "races": 7,
+        "points": 41,
+        "races": 6,
         "wins": 1
       },
       "3305091": {
@@ -22421,7 +22356,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-06-12",
         "name": "Lee Dickens",
         "points": 11,
-        "races": 3,
+        "races": 2,
         "wins": 0
       },
       "3573815": {
@@ -22433,12 +22368,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "398226": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "Pete Cundall",
-        "points": 42,
-        "races": 5,
-        "wins": 1
+        "points": 32,
+        "races": 4,
+        "wins": 0
       },
       "416807": {
         "best_pos": 4,
@@ -22465,12 +22400,12 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .477",
     "team_name": "Herd of Speedy Squirrels",
     "team_stats_id": 100,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Herd_of_Speedy_Squirrels.html",
-    "total_races_in_window": 15
+    "total_races_in_window": 14
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_TASMANIAN_DEVILS": {
     "all_results": [
@@ -22934,25 +22869,24 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "1144401": {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Sam Singleton[WCC]",
-        "points": 51,
-        "races": 8,
+        "points": 43,
+        "races": 7,
         "wins": 1
       },
       "1339625": {
         "best_pos": 1,
         "last_race": "2026-06-29",
         "name": "Dan Diment",
-        "points": 50,
-        "races": 6,
-        "wins": 2
+        "points": 40,
+        "races": 5,
+        "wins": 1
       },
       "15833": {
         "best_pos": 6,
@@ -22974,8 +22908,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-06-29",
         "name": "Andreas P",
-        "points": 29,
-        "races": 5,
+        "points": 25,
+        "races": 4,
         "wins": 0
       },
       "3027639": {
@@ -22987,11 +22921,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "3496512": {
-        "best_pos": 2,
+        "best_pos": 3,
         "last_race": "2026-07-01",
         "name": "D. ame",
-        "points": 41,
-        "races": 8,
+        "points": 32,
+        "races": 7,
         "wins": 0
       },
       "3736016": {
@@ -23006,8 +22940,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-15",
         "name": "Jeff Mervosh",
-        "points": 12,
-        "races": 2,
+        "points": 6,
+        "races": 1,
         "wins": 0
       },
       "60838": {
@@ -23027,12 +22961,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .446",
     "team_name": "Herd of Tasmanian Devils",
     "team_stats_id": 149,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Herd_of_Tasmanian_Devils.html",
-    "total_races_in_window": 11
+    "total_races_in_window": 10
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HISPACKS": {
     "all_results": [
@@ -23346,7 +23280,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .615",
     "team_name": "Hispacks",
     "team_stats_id": 576,
@@ -24011,8 +23945,7 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "1298544": {
@@ -24027,8 +23960,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-10",
         "name": "Oli Beli",
-        "points": 25,
-        "races": 6,
+        "points": 22,
+        "races": 5,
         "wins": 0
       },
       "1379711": {
@@ -24048,11 +23981,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "1705274": {
-        "best_pos": 2,
+        "best_pos": 3,
         "last_race": "2026-07-02",
         "name": "Michael Sendner",
-        "points": 31,
-        "races": 6,
+        "points": 22,
+        "races": 5,
         "wins": 0
       },
       "1902051": {
@@ -24123,24 +24056,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-07-02",
         "name": "Christian H.",
-        "points": 34,
-        "races": 6,
+        "points": 32,
+        "races": 5,
         "wins": 0
       },
       "6288176": {
-        "best_pos": 3,
+        "best_pos": 5,
         "last_race": "2026-07-02",
         "name": "Gerhard HINTERHÖLZL[KLUB]",
-        "points": 21,
-        "races": 5,
+        "points": 13,
+        "races": 4,
         "wins": 0
       },
       "6477017": {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "# Thorsten",
-        "points": 35,
-        "races": 4,
+        "points": 29,
+        "races": 3,
         "wins": 2
       },
       "6751203": {
@@ -24152,12 +24085,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .425",
     "team_name": "KLUB Crackers",
     "team_stats_id": 157,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_KLUB_Crackers.html",
-    "total_races_in_window": 15
+    "total_races_in_window": 14
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_OREOS": {
     "all_results": [
@@ -24784,7 +24717,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -24792,8 +24724,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-22",
         "name": "R. Ronald",
-        "points": 21,
-        "races": 6,
+        "points": 20,
+        "races": 5,
         "wins": 0
       },
       "3126399": {
@@ -24872,32 +24804,32 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Tim Roloff",
-        "points": 60,
-        "races": 8,
+        "points": 57,
+        "races": 7,
         "wins": 1
       },
       "6253259": {
         "best_pos": 2,
         "last_race": "2026-07-01",
         "name": "Marion Marx",
-        "points": 31,
-        "races": 6,
+        "points": 27,
+        "races": 5,
         "wins": 0
       },
       "7390096": {
-        "best_pos": 6,
+        "best_pos": 8,
         "last_race": "2026-06-11",
         "name": "G. Marion",
-        "points": 10,
-        "races": 3,
+        "points": 5,
+        "races": 2,
         "wins": 0
       },
       "7395570": {
-        "best_pos": 3,
+        "best_pos": 7,
         "last_race": "2026-06-18",
         "name": ". Ritchie[KLUB]",
-        "points": 13,
-        "races": 4,
+        "points": 5,
+        "races": 3,
         "wins": 0
       },
       "7502066": {
@@ -24917,12 +24849,12 @@ const TEAM_ACTIVITY = {
         "wins": 3
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .559",
     "team_name": "KLUB Oreos",
     "team_stats_id": 349,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_KLUB_Oreos.html",
-    "total_races_in_window": 14
+    "total_races_in_window": 13
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_SMARTIES": {
     "all_results": [
@@ -25313,7 +25245,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .493",
     "team_name": "KLUB Smarties",
     "team_stats_id": 475,
@@ -25483,7 +25415,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .737",
     "team_name": "Leap&Destroy",
     "team_stats_id": 688,
@@ -25622,7 +25554,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .438",
     "team_name": "LEQP Aubisque",
     "team_stats_id": 685,
@@ -25780,8 +25712,7 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "119672": {
@@ -25796,8 +25727,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 6,
         "last_race": "2026-06-29",
         "name": "J Hall",
-        "points": 30,
-        "races": 9,
+        "points": 27,
+        "races": 8,
         "wins": 0
       },
       "1409465": {
@@ -25848,14 +25779,6 @@ const TEAM_ACTIVITY = {
         "races": 9,
         "wins": 0
       },
-      "5374476": {
-        "best_pos": 6,
-        "last_race": "2026-05-07",
-        "name": "Casper Andresen",
-        "points": 5,
-        "races": 1,
-        "wins": 0
-      },
       "6455259": {
         "best_pos": 1,
         "last_race": "2026-06-16",
@@ -25868,16 +25791,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-29",
         "name": "Steven Smet",
-        "points": 73,
-        "races": 10,
+        "points": 69,
+        "races": 9,
         "wins": 3
       },
       "6744146": {
         "best_pos": 2,
         "last_race": "2026-06-09",
         "name": "Marlot |",
-        "points": 31,
-        "races": 5,
+        "points": 25,
+        "races": 4,
         "wins": 0
       },
       "712347": {
@@ -25897,12 +25820,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .424",
     "team_name": "LEQP Colombiere",
     "team_stats_id": 683,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_LEQP_Colombiere.html",
-    "total_races_in_window": 16
+    "total_races_in_window": 15
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_HAUTACAM": {
     "all_results": [
@@ -26328,16 +26251,15 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "L",
-      "L",
       "L"
     ],
     "riders": {
       "1005339": {
-        "best_pos": 6,
+        "best_pos": 7,
         "last_race": "2026-07-02",
         "name": "Evelyn Rocky",
-        "points": 14,
-        "races": 4,
+        "points": 9,
+        "races": 3,
         "wins": 0
       },
       "1342514": {
@@ -26377,7 +26299,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-07-02",
         "name": "6 M",
         "points": 5,
-        "races": 2,
+        "races": 1,
         "wins": 0
       },
       "4578513": {
@@ -26392,16 +26314,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "TomBeeast |",
-        "points": 42,
-        "races": 6,
+        "points": 33,
+        "races": 5,
         "wins": 1
       },
       "543081": {
         "best_pos": 8,
         "last_race": "2026-06-09",
         "name": ". Kendra",
-        "points": 7,
-        "races": 4,
+        "points": 4,
+        "races": 3,
         "wins": 0
       },
       "6016552": {
@@ -26424,17 +26346,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-04",
         "name": "Leigh Greenwood",
-        "points": 18,
-        "races": 4,
+        "points": 14,
+        "races": 3,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .359",
     "team_name": "LEQP Hautacam",
     "team_stats_id": 346,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_LEQP_Hautacam.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE": {
     "all_results": [
@@ -26861,7 +26783,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .482",
     "team_name": "LEQP Madeleine",
     "team_stats_id": 429,
@@ -27253,7 +27175,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .493",
     "team_name": "LEQP Tourmalet",
     "team_stats_id": 508,
@@ -27672,8 +27594,7 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "120423": {
@@ -27688,24 +27609,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-09",
         "name": "O. Beck",
-        "points": 10,
-        "races": 2,
+        "points": 7,
+        "races": 1,
         "wins": 0
       },
       "1889731": {
         "best_pos": 3,
         "last_race": "2026-06-11",
         "name": "Michael Wameling",
-        "points": 22,
-        "races": 4,
+        "points": 20,
+        "races": 3,
         "wins": 0
       },
       "21864": {
         "best_pos": 2,
         "last_race": "2026-06-16",
         "name": "Craig Genther",
-        "points": 16,
-        "races": 5,
+        "points": 9,
+        "races": 4,
         "wins": 0
       },
       "2909338": {
@@ -27728,8 +27649,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-07-01",
         "name": "Santtu Teerihalme",
-        "points": 37,
-        "races": 7,
+        "points": 32,
+        "races": 6,
         "wins": 0
       },
       "379514": {
@@ -27779,22 +27700,14 @@ const TEAM_ACTIVITY = {
         "points": 17,
         "races": 2,
         "wins": 0
-      },
-      "7147477": {
-        "best_pos": 10,
-        "last_race": "2026-05-07",
-        "name": "Lukas L😲😲f",
-        "points": 1,
-        "races": 1,
-        "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .470",
     "team_name": "LEQP Ventoux",
     "team_stats_id": 385,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_LEQP_Ventoux.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_OTR_BOLTS": {
     "all_results": [
@@ -27883,7 +27796,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .556",
     "team_name": "OTR Bolts",
     "team_stats_id": 639,
@@ -28311,7 +28224,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .595",
     "team_name": "OTR Morning Crew",
     "team_stats_id": 251,
@@ -28363,7 +28276,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record 1",
     "team_name": "Pampilho",
     "team_stats_id": 713,
@@ -28496,7 +28409,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .583",
     "team_name": "Progression Racers Team",
     "team_stats_id": 674,
@@ -28924,7 +28837,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .494",
     "team_name": "Rampaging Rhinos",
     "team_stats_id": 23,
@@ -29316,7 +29229,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .500",
     "team_name": "Roaring Rhinos",
     "team_stats_id": 295,
@@ -29527,7 +29440,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .281",
     "team_name": "ROC RACE TEAM",
     "team_stats_id": 431,
@@ -29635,7 +29548,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .167",
     "team_name": "ROC Thundercats",
     "team_stats_id": 705,
@@ -29773,7 +29686,6 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "W",
-      "L",
       "L"
     ],
     "riders": {
@@ -29789,16 +29701,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": ". Barbertez",
-        "points": 49,
-        "races": 8,
+        "points": 43,
+        "races": 7,
         "wins": 2
       },
       "4356953": {
         "best_pos": 3,
         "last_race": "2026-06-18",
         "name": "Matt Williams",
-        "points": 22,
-        "races": 3,
+        "points": 15,
+        "races": 2,
         "wins": 0
       },
       "6311857": {
@@ -29829,8 +29741,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-17",
         "name": "Robert Bracewell",
-        "points": 18,
-        "races": 4,
+        "points": 16,
+        "races": 3,
         "wins": 0
       },
       "7018812": {
@@ -29845,16 +29757,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "Shane McAloon",
-        "points": 79,
-        "races": 10,
+        "points": 70,
+        "races": 9,
         "wins": 1
       },
       "7166418": {
         "best_pos": 1,
         "last_race": "2026-07-02",
         "name": "Andrew Stamp(RollCo)",
-        "points": 65,
-        "races": 8,
+        "points": 57,
+        "races": 7,
         "wins": 2
       },
       "7253212": {
@@ -29874,12 +29786,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .724",
     "team_name": "RollCo Ciabatta",
     "team_stats_id": 664,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_RollCo_Ciabatta.html",
-    "total_races_in_window": 12
+    "total_races_in_window": 11
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROLLCO_GALETTE": {
     "all_results": [
@@ -30075,7 +29987,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .640",
     "team_name": "RollCo Galette",
     "team_stats_id": 663,
@@ -30169,40 +30081,31 @@ const TEAM_ACTIVITY = {
     "results": [
       "L",
       "W",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "637568": {
-        "best_pos": 3,
+        "best_pos": 4,
         "last_race": "2026-05-21",
         "name": "Jizza ▶️",
-        "points": 15,
-        "races": 2,
-        "wins": 0
-      },
-      "6593437": {
-        "best_pos": 7,
-        "last_race": "2026-05-07",
-        "name": "Steven Olander",
-        "points": 4,
+        "points": 7,
         "races": 1,
         "wins": 0
       },
       "6724122": {
-        "best_pos": 1,
+        "best_pos": 3,
         "last_race": "2026-06-15",
         "name": "Robert Hartwig",
-        "points": 27,
-        "races": 4,
-        "wins": 1
+        "points": 17,
+        "races": 3,
+        "wins": 0
       },
       "7053041": {
-        "best_pos": 2,
+        "best_pos": 6,
         "last_race": "2026-06-10",
         "name": "Will Smith",
-        "points": 14,
-        "races": 2,
+        "points": 5,
+        "races": 1,
         "wins": 0
       },
       "7202030": {
@@ -30230,12 +30133,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .550",
     "team_name": "RollCo Pumpernickel",
     "team_stats_id": 668,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_RollCo_Pumpernickel.html",
-    "total_races_in_window": 4
+    "total_races_in_window": 3
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SMASHING_RHINOS": {
     "all_results": [
@@ -30939,7 +30842,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .570",
     "team_name": "Smashing Rhinos",
     "team_stats_id": 126,
@@ -31228,7 +31131,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .500",
     "team_name": "SNOW Limit",
     "team_stats_id": 519,
@@ -31419,7 +31322,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .280",
     "team_name": "SNOW Storm",
     "team_stats_id": 598,
@@ -31913,7 +31816,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .512",
     "team_name": "SRT Gladiators",
     "team_stats_id": 512,
@@ -32617,7 +32520,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .417",
     "team_name": "SRT Gold Diggers",
     "team_stats_id": 270,
@@ -33175,7 +33078,6 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -33195,28 +33097,12 @@ const TEAM_ACTIVITY = {
         "races": 1,
         "wins": 0
       },
-      "2596934": {
-        "best_pos": 7,
-        "last_race": "2026-05-07",
-        "name": "Mountain Hippo",
-        "points": 4,
-        "races": 1,
-        "wins": 0
-      },
       "3003499": {
-        "best_pos": 6,
+        "best_pos": 8,
         "last_race": "2026-06-18",
         "name": "Andrew Staines",
-        "points": 13,
-        "races": 4,
-        "wins": 0
-      },
-      "3613084": {
-        "best_pos": 9,
-        "last_race": "2026-05-07",
-        "name": "Tim Simpson",
-        "points": 2,
-        "races": 1,
+        "points": 8,
+        "races": 3,
         "wins": 0
       },
       "3634173": {
@@ -33255,8 +33141,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-18",
         "name": "6. William",
-        "points": 24,
-        "races": 5,
+        "points": 21,
+        "races": 4,
         "wins": 0
       },
       "5602328": {
@@ -33288,7 +33174,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-06-18",
         "name": "J R",
         "points": 16,
-        "races": 4,
+        "races": 3,
         "wins": 0
       },
       "6586106": {
@@ -33316,12 +33202,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .430",
     "team_name": "SRT Plonkers",
     "team_stats_id": 193,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_SRT_Plonkers.html",
-    "total_races_in_window": 8
+    "total_races_in_window": 7
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_SURFERS": {
     "all_results": [
@@ -33726,7 +33612,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .427",
     "team_name": "SRT Surfers",
     "team_stats_id": 419,
@@ -33946,7 +33832,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .375",
     "team_name": "SRT Thundercats Hoo!",
     "team_stats_id": 570,
@@ -34548,7 +34434,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .462",
     "team_name": "SZR Cyclone Force",
     "team_stats_id": 454,
@@ -35634,7 +35520,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .438",
     "team_name": "SZR Delta Force",
     "team_stats_id": 105,
@@ -35856,7 +35742,6 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -35888,8 +35773,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 7,
         "last_race": "2026-06-17",
         "name": "Håkan Axelsson",
-        "points": 9,
-        "races": 3,
+        "points": 6,
+        "races": 2,
         "wins": 0
       },
       "285403": {
@@ -35912,8 +35797,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-29",
         "name": "K Knekta",
-        "points": 39,
-        "races": 6,
+        "points": 32,
+        "races": 5,
         "wins": 1
       },
       "427896": {
@@ -35928,8 +35813,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-29",
         "name": "Mathias Kangas",
-        "points": 38,
-        "races": 6,
+        "points": 32,
+        "races": 5,
         "wins": 0
       },
       "436189": {
@@ -35960,8 +35845,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-01",
         "name": "Tobias Adler",
-        "points": 14,
-        "races": 3,
+        "points": 10,
+        "races": 2,
         "wins": 0
       },
       "7276976": {
@@ -35984,17 +35869,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-29",
         "name": "Leif. Alriksson",
-        "points": 20,
-        "races": 6,
+        "points": 19,
+        "races": 5,
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .360",
     "team_name": "SZR G-force",
     "team_stats_id": 641,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_SZR_G-force.html",
-    "total_races_in_window": 12
+    "total_races_in_window": 11
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_PHANTOM_FORCE": {
     "all_results": [
@@ -36500,16 +36385,15 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "170422": {
         "best_pos": 2,
         "last_race": "2026-06-17",
         "name": "Magnus Hoff",
-        "points": 37,
-        "races": 5,
+        "points": 29,
+        "races": 4,
         "wins": 0
       },
       "423669": {
@@ -36529,19 +36413,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "52997": {
-        "best_pos": 1,
+        "best_pos": 3,
         "last_race": "2026-06-17",
         "name": "dennis larsson",
-        "points": 33,
-        "races": 4,
-        "wins": 1
-      },
-      "7061891": {
-        "best_pos": 10,
-        "last_race": "2026-05-07",
-        "name": "@ TwitchPlaysZwift",
-        "points": 1,
-        "races": 1,
+        "points": 23,
+        "races": 3,
         "wins": 0
       },
       "842196": {
@@ -36556,25 +36432,25 @@ const TEAM_ACTIVITY = {
         "best_pos": 6,
         "last_race": "2026-06-17",
         "name": "Tony Martinsson",
-        "points": 7,
-        "races": 2,
+        "points": 5,
+        "races": 1,
         "wins": 0
       },
       "987298": {
         "best_pos": 4,
         "last_race": "2026-06-17",
         "name": "M. Hansson",
-        "points": 19,
-        "races": 3,
+        "points": 13,
+        "races": 2,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .484",
     "team_name": "SZR Phantom Force",
     "team_stats_id": 85,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_SZR_Phantom_Force.html",
-    "total_races_in_window": 5
+    "total_races_in_window": 4
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TBR_OUTCASTS": {
     "all_results": [
@@ -36852,7 +36728,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .535",
     "team_name": "TBR Outcasts",
     "team_stats_id": 657,
@@ -37271,32 +37147,31 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "W",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "1021073": {
-        "best_pos": 5,
+        "best_pos": 6,
         "last_race": "2026-06-04",
         "name": "H. Lankveld",
-        "points": 11,
-        "races": 2,
+        "points": 5,
+        "races": 1,
         "wins": 0
       },
       "1109586": {
         "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "Stefan Stefan",
-        "points": 24,
-        "races": 5,
+        "points": 22,
+        "races": 4,
         "wins": 0
       },
       "1406356": {
         "best_pos": 3,
         "last_race": "2026-06-25",
         "name": "D vd",
-        "points": 21,
-        "races": 4,
+        "points": 17,
+        "races": 3,
         "wins": 0
       },
       "1495": {
@@ -37308,12 +37183,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "1574398": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "# Gido",
-        "points": 40,
-        "races": 5,
-        "wins": 1
+        "points": 30,
+        "races": 4,
+        "wins": 0
       },
       "5070891": {
         "best_pos": 1,
@@ -37327,17 +37202,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-06-25",
         "name": "PJ Buijs",
-        "points": 13,
-        "races": 2,
+        "points": 8,
+        "races": 1,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .525",
     "team_name": "TeamNL Cloud9 Lightning",
     "team_stats_id": 444,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_TeamNL_Cloud9_Lightning.html",
-    "total_races_in_window": 5
+    "total_races_in_window": 4
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAMNL_CLOUD9_THUNDER": {
     "all_results": [
@@ -37965,8 +37840,7 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "W",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "1044873": {
@@ -37981,8 +37855,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 6,
         "last_race": "2026-06-17",
         "name": "Mattijs Knol",
-        "points": 24,
-        "races": 7,
+        "points": 20,
+        "races": 6,
         "wins": 0
       },
       "1175748": {
@@ -37998,7 +37872,7 @@ const TEAM_ACTIVITY = {
         "last_race": "2026-06-25",
         "name": "Bas Seldenrijk",
         "points": 9,
-        "races": 2,
+        "races": 1,
         "wins": 0
       },
       "3137561": {
@@ -38045,8 +37919,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "B Agema",
-        "points": 65,
-        "races": 11,
+        "points": 60,
+        "races": 10,
         "wins": 2
       },
       "4582417": {
@@ -38069,9 +37943,9 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Jesper van",
-        "points": 132,
-        "races": 15,
-        "wins": 8
+        "points": 122,
+        "races": 14,
+        "wins": 7
       },
       "7498869": {
         "best_pos": 9,
@@ -38085,17 +37959,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-25",
         "name": "Anton (TeamNL",
-        "points": 82,
-        "races": 12,
+        "points": 75,
+        "races": 11,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .444",
     "team_name": "TeamNL Cloud9 Thunder",
     "team_stats_id": 290,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_TeamNL_Cloud9_Thunder.html",
-    "total_races_in_window": 19
+    "total_races_in_window": 18
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_CLS_CASUALS": {
     "all_results": [
@@ -38519,24 +38393,15 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "L",
-      "W",
       "W"
     ],
     "riders": {
-      "1360679": {
-        "best_pos": 9,
-        "last_race": "2026-05-07",
-        "name": "James Padgett",
-        "points": 2,
-        "races": 1,
-        "wins": 0
-      },
       "2305776": {
         "best_pos": 5,
         "last_race": "2026-06-05",
         "name": "Kev T",
-        "points": 17,
-        "races": 3,
+        "points": 11,
+        "races": 2,
         "wins": 0
       },
       "241787": {
@@ -38567,24 +38432,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-23",
         "name": "Pete R",
-        "points": 46,
-        "races": 5,
-        "wins": 3
+        "points": 36,
+        "races": 4,
+        "wins": 2
       },
       "40180": {
-        "best_pos": 3,
+        "best_pos": 6,
         "last_race": "2026-05-14",
         "name": "🚵 Kestas",
-        "points": 16,
-        "races": 3,
+        "points": 8,
+        "races": 2,
         "wins": 0
       },
       "4027281": {
         "best_pos": 5,
         "last_race": "2026-07-02",
         "name": "Trevor Francis",
-        "points": 21,
-        "races": 5,
+        "points": 18,
+        "races": 4,
         "wins": 0
       },
       "4504347": {
@@ -38596,12 +38461,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .398",
     "team_name": "Team CLS Casuals",
     "team_stats_id": 63,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Team_CLS_Casuals.html",
-    "total_races_in_window": 7
+    "total_races_in_window": 6
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_CLS_CHILL": {
     "all_results": [
@@ -38949,7 +38814,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .472",
     "team_name": "Team CLS Chill",
     "team_stats_id": 113,
@@ -39052,7 +38917,6 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "L",
-      "W",
       "W"
     ],
     "riders": {
@@ -39060,24 +38924,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-16",
         "name": "🐰🥕 Bugs",
-        "points": 55,
-        "races": 7,
-        "wins": 2
+        "points": 45,
+        "races": 6,
+        "wins": 1
       },
       "2259786": {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "Jose Luis",
-        "points": 43,
-        "races": 5,
+        "points": 34,
+        "races": 4,
         "wins": 1
       },
       "278868": {
-        "best_pos": 4,
+        "best_pos": 6,
         "last_race": "2026-06-30",
         "name": "Marco Mazzeo",
-        "points": 21,
-        "races": 5,
+        "points": 14,
+        "races": 4,
         "wins": 0
       },
       "3307256": {
@@ -39094,14 +38958,6 @@ const TEAM_ACTIVITY = {
         "name": "Salvatore Canna",
         "points": 12,
         "races": 3,
-        "wins": 0
-      },
-      "5259993": {
-        "best_pos": 9,
-        "last_race": "2026-05-07",
-        "name": "Luci Massimo_(EAT&WATT)",
-        "points": 2,
-        "races": 1,
         "wins": 0
       },
       "6166336": {
@@ -39124,17 +38980,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-30",
         "name": "Samuele Rovini",
-        "points": 37,
-        "races": 7,
+        "points": 31,
+        "races": 6,
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .524",
     "team_name": "Team Italy Eat&Watt",
     "team_stats_id": 670,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Team_Italy_Eat&Watt.html",
-    "total_races_in_window": 9
+    "total_races_in_window": 8
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_ITALY_GHOST": {
     "all_results": [
@@ -39370,7 +39226,6 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "W",
       "W"
     ],
     "riders": {
@@ -39407,12 +39262,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "3030086": {
-        "best_pos": 1,
+        "best_pos": 10,
         "last_race": "2026-05-20",
         "name": "Morten Bobby",
-        "points": 12,
-        "races": 3,
-        "wins": 1
+        "points": 2,
+        "races": 2,
+        "wins": 0
       },
       "420226": {
         "best_pos": 1,
@@ -39426,8 +39281,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Pietro Pavia",
-        "points": 68,
-        "races": 8,
+        "points": 59,
+        "races": 7,
         "wins": 1
       },
       "5312603": {
@@ -39442,8 +39297,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 3,
         "last_race": "2026-06-08",
         "name": "Fabio BENOTTI",
-        "points": 23,
-        "races": 3,
+        "points": 15,
+        "races": 2,
         "wins": 0
       },
       "847573": {
@@ -39458,8 +39313,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-05-26",
         "name": "Fabio Petruzzellis(ITA-👻)",
-        "points": 32,
-        "races": 4,
+        "points": 25,
+        "races": 3,
         "wins": 1
       },
       "866686": {
@@ -39471,12 +39326,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .673",
     "team_name": "Team Italy Ghost",
     "team_stats_id": 135,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Team_Italy_Ghost.html",
-    "total_races_in_window": 11
+    "total_races_in_window": 10
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_NOT_POGI_AMSTEL": {
     "all_results": [
@@ -39749,16 +39604,15 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "139204": {
         "best_pos": 1,
         "last_race": "2026-06-03",
         "name": "David Hinojosa",
-        "points": 23,
-        "races": 3,
+        "points": 16,
+        "races": 2,
         "wins": 1
       },
       "1938175": {
@@ -39829,24 +39683,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-10",
         "name": "John Swift",
-        "points": 18,
-        "races": 4,
+        "points": 14,
+        "races": 3,
         "wins": 0
       },
       "7455653": {
         "best_pos": 3,
         "last_race": "2026-06-30",
         "name": "Justin Draper",
-        "points": 20,
-        "races": 4,
+        "points": 15,
+        "races": 3,
         "wins": 0
       },
       "7799511": {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "B. Zwifts",
-        "points": 84,
-        "races": 10,
+        "points": 75,
+        "races": 9,
         "wins": 5
       },
       "9152": {
@@ -39858,12 +39712,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .594",
     "team_name": "Team Not Pogi Amstel",
     "team_stats_id": 574,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Team_Not_Pogi_Amstel.html",
-    "total_races_in_window": 12
+    "total_races_in_window": 11
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_NOT_POGI_FLANDERS": {
     "all_results": [
@@ -40070,7 +39924,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .500",
     "team_name": "Team Not Pogi Flanders",
     "team_stats_id": 586,
@@ -40307,7 +40161,6 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -40315,17 +40168,9 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-23",
         "name": "Ray McCaughey",
-        "points": 35,
-        "races": 4,
+        "points": 26,
+        "races": 3,
         "wins": 1
-      },
-      "1511742": {
-        "best_pos": 7,
-        "last_race": "2026-05-07",
-        "name": "M. Hayes",
-        "points": 4,
-        "races": 1,
-        "wins": 0
       },
       "2456203": {
         "best_pos": 1,
@@ -40344,19 +40189,19 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "5023206": {
-        "best_pos": 1,
+        "best_pos": 2,
         "last_race": "2026-05-22",
         "name": "Sybren Vanderbruggen(TNP)",
-        "points": 28,
-        "races": 3,
-        "wins": 1
+        "points": 18,
+        "races": 2,
+        "wins": 0
       },
       "5245340": {
         "best_pos": 2,
         "last_race": "2026-06-23",
         "name": "Chris Moore",
-        "points": 40,
-        "races": 5,
+        "points": 32,
+        "races": 4,
         "wins": 0
       },
       "5959135": {
@@ -40371,8 +40216,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-23",
         "name": "Robert McEwan",
-        "points": 22,
-        "races": 5,
+        "points": 16,
+        "races": 4,
         "wins": 0
       },
       "6528902": {
@@ -40384,12 +40229,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .836",
     "team_name": "Team Not Pogi Giro",
     "team_stats_id": 472,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Team_Not_Pogi_Giro.html",
-    "total_races_in_window": 7
+    "total_races_in_window": 6
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TFC_FIREBIRDS": {
     "all_results": [
@@ -41401,7 +41246,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .439",
     "team_name": "TFC Firebirds",
     "team_stats_id": 357,
@@ -41943,7 +41788,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .536",
     "team_name": "TFC Hulk",
     "team_stats_id": 360,
@@ -42670,7 +42515,7 @@ const TEAM_ACTIVITY = {
         "wins": 2
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .436",
     "team_name": "TFC Omega",
     "team_stats_id": 361,
@@ -42914,7 +42759,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -42922,16 +42766,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-09",
         "name": "Gert Segers[WATT]",
-        "points": 18,
-        "races": 2,
+        "points": 10,
+        "races": 1,
         "wins": 1
       },
       "1096681": {
         "best_pos": 2,
         "last_race": "2026-06-16",
         "name": "Ioan Van",
-        "points": 18,
-        "races": 5,
+        "points": 17,
+        "races": 4,
         "wins": 0
       },
       "1366226": {
@@ -42954,16 +42798,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-05-21",
         "name": "Olivier Symoens",
-        "points": 20,
-        "races": 2,
-        "wins": 2
+        "points": 10,
+        "races": 1,
+        "wins": 1
       },
       "4729460": {
         "best_pos": 6,
         "last_race": "2026-05-21",
         "name": "Jenne Breugelmans",
-        "points": 10,
-        "races": 3,
+        "points": 8,
+        "races": 2,
         "wins": 0
       },
       "5004512": {
@@ -42983,11 +42827,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "5870652": {
-        "best_pos": 6,
+        "best_pos": 7,
         "last_race": "2026-06-16",
         "name": "Birgen (WATT)",
-        "points": 9,
-        "races": 2,
+        "points": 4,
+        "races": 1,
         "wins": 0
       },
       "688960": {
@@ -43007,12 +42851,12 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .526",
     "team_name": "The Watt Squad",
     "team_stats_id": 441,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_The_Watt_Squad.html",
-    "total_races_in_window": 6
+    "total_races_in_window": 5
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_THE_WATT_SQUAD_2": {
     "all_results": [
@@ -43373,7 +43217,7 @@ const TEAM_ACTIVITY = {
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .438",
     "team_name": "The Watt Squad 2",
     "team_stats_id": 516,
@@ -43682,7 +43526,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .476",
     "team_name": "TT1 Gold Glucose Rush",
     "team_stats_id": 60,
@@ -43984,7 +43828,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .475",
     "team_name": "TT1 SweetPees",
     "team_stats_id": 152,
@@ -44036,7 +43880,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record 1",
     "team_name": "TugaZ Tsunami",
     "team_stats_id": 719,
@@ -44490,7 +44334,6 @@ const TEAM_ACTIVITY = {
       "L",
       "W",
       "L",
-      "L",
       "L"
     ],
     "riders": {
@@ -44498,8 +44341,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Michael Als",
-        "points": 83,
-        "races": 9,
+        "points": 74,
+        "races": 8,
         "wins": 5
       },
       "1449102": {
@@ -44534,20 +44377,12 @@ const TEAM_ACTIVITY = {
         "races": 8,
         "wins": 0
       },
-      "2881529": {
-        "best_pos": 8,
-        "last_race": "2026-05-07",
-        "name": "B ruce",
-        "points": 3,
-        "races": 1,
-        "wins": 0
-      },
       "3614882": {
         "best_pos": 2,
         "last_race": "2026-07-01",
         "name": "Simon Gower",
-        "points": 50,
-        "races": 7,
+        "points": 43,
+        "races": 6,
         "wins": 0
       },
       "3669536": {
@@ -44570,8 +44405,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-07-01",
         "name": ". Cookie",
-        "points": 25,
-        "races": 7,
+        "points": 19,
+        "races": 6,
         "wins": 0
       },
       "6526547": {
@@ -44599,12 +44434,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .449",
     "team_name": "Turbo Rhinos",
     "team_stats_id": 564,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_Turbo_Rhinos.html",
-    "total_races_in_window": 16
+    "total_races_in_window": 15
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VALHALLA_GARMR": {
     "all_results": [
@@ -45162,7 +44997,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .500",
     "team_name": "Valhalla Garmr",
     "team_stats_id": 298,
@@ -45670,7 +45505,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .440",
     "team_name": "Valhalla Thorir",
     "team_stats_id": 117,
@@ -45823,7 +45658,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .667",
     "team_name": "Vegan Blackbirds",
     "team_stats_id": 644,
@@ -46014,7 +45849,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .741",
     "team_name": "Vegan Outlaws",
     "team_stats_id": 580,
@@ -46300,7 +46135,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .764",
     "team_name": "Vegan Vanguard",
     "team_stats_id": 555,
@@ -47407,7 +47242,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .418",
     "team_name": "WCC Axle Grinders",
     "team_stats_id": 395,
@@ -47666,7 +47501,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .333",
     "team_name": "WCC Cadence Crew",
     "team_stats_id": 684,
@@ -48134,7 +47969,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .467",
     "team_name": "WCC Falcons",
     "team_stats_id": 188,
@@ -49024,7 +48859,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .351",
     "team_name": "WCC The Spinning Discs",
     "team_stats_id": 118,
@@ -49546,7 +49381,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .464",
     "team_name": "WCC The Sprocket Rockets",
     "team_stats_id": 575,
@@ -50154,7 +49989,6 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "W",
-      "W",
       "W"
     ],
     "riders": {
@@ -50170,8 +50004,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-16",
         "name": "G eorge",
-        "points": 38,
-        "races": 7,
+        "points": 35,
+        "races": 6,
         "wins": 0
       },
       "1401720": {
@@ -50194,24 +50028,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 6,
         "last_race": "2026-06-08",
         "name": "Chris Starkey",
-        "points": 14,
-        "races": 4,
+        "points": 10,
+        "races": 3,
         "wins": 0
       },
       "3603436": {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "3 Will",
-        "points": 83,
-        "races": 9,
-        "wins": 5
+        "points": 73,
+        "races": 8,
+        "wins": 4
       },
       "4365456": {
         "best_pos": 1,
         "last_race": "2026-06-22",
         "name": ".6 Craig",
-        "points": 67,
-        "races": 10,
+        "points": 62,
+        "races": 9,
         "wins": 1
       },
       "584996": {
@@ -50250,17 +50084,17 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-07-01",
         "name": "Adrien Benusiglio",
-        "points": 39,
-        "races": 8,
+        "points": 38,
+        "races": 7,
         "wins": 1
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .552",
     "team_name": "White Rhinos",
     "team_stats_id": 22,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_White_Rhinos.html",
-    "total_races_in_window": 18
+    "total_races_in_window": 17
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZABI_COBALTO": {
     "all_results": [
@@ -50668,7 +50502,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .621",
     "team_name": "ZABI Cobalto",
     "team_stats_id": 145,
@@ -51249,7 +51083,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .474",
     "team_name": "ZABI Ónix",
     "team_stats_id": 148,
@@ -51403,7 +51237,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .550",
     "team_name": "ZRG-R beta",
     "team_stats_id": 585,
@@ -51542,7 +51376,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .625",
     "team_name": "ZRG-R Delta",
     "team_stats_id": 651,
@@ -51879,18 +51713,9 @@ const TEAM_ACTIVITY = {
     "cutoff_days": 60,
     "results": [
       "L",
-      "L",
       "L"
     ],
     "riders": {
-      "172221": {
-        "best_pos": 2,
-        "last_race": "2026-05-07",
-        "name": "John Glass",
-        "points": 9,
-        "races": 1,
-        "wins": 0
-      },
       "2760636": {
         "best_pos": 8,
         "last_race": "2026-06-04",
@@ -51903,32 +51728,24 @@ const TEAM_ACTIVITY = {
         "best_pos": 4,
         "last_race": "2026-06-11",
         "name": "Thibaut Cornu",
-        "points": 13,
-        "races": 3,
+        "points": 10,
+        "races": 2,
         "wins": 0
       },
       "3818228": {
         "best_pos": 5,
         "last_race": "2026-06-11",
         "name": "Rusty (ZSUNR)",
-        "points": 13,
-        "races": 3,
-        "wins": 0
-      },
-      "4204538": {
-        "best_pos": 3,
-        "last_race": "2026-05-07",
-        "name": ". Ceri",
-        "points": 8,
-        "races": 1,
+        "points": 11,
+        "races": 2,
         "wins": 0
       },
       "666778": {
         "best_pos": 4,
         "last_race": "2026-06-11",
         "name": "6. paolo",
-        "points": 13,
-        "races": 2,
+        "points": 7,
+        "races": 1,
         "wins": 0
       },
       "7090410": {
@@ -51940,12 +51757,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .580",
     "team_name": "ZSUNR Airwolf",
     "team_stats_id": 207,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_ZSUNR_Airwolf.html",
-    "total_races_in_window": 3
+    "total_races_in_window": 2
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_HARRIERS": {
     "all_results": [
@@ -52110,24 +51927,23 @@ const TEAM_ACTIVITY = {
       "W",
       "W",
       "L",
-      "W",
-      "L"
+      "W"
     ],
     "riders": {
       "2400947": {
         "best_pos": 2,
         "last_race": "2026-06-22",
         "name": "Kev Turner",
-        "points": 43,
-        "races": 7,
+        "points": 40,
+        "races": 6,
         "wins": 0
       },
       "2513566": {
         "best_pos": 2,
         "last_race": "2026-06-24",
         "name": "Thilo ZSUNR",
-        "points": 45,
-        "races": 8,
+        "points": 41,
+        "races": 7,
         "wins": 0
       },
       "274926": {
@@ -52142,8 +51958,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-24",
         "name": "Matt attC(ZSUNR)",
-        "points": 70,
-        "races": 10,
+        "points": 62,
+        "races": 9,
         "wins": 2
       },
       "3019242": {
@@ -52198,8 +52014,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-30",
         "name": "matty redshaw",
-        "points": 18,
-        "races": 5,
+        "points": 17,
+        "races": 4,
         "wins": 0
       },
       "813288": {
@@ -52214,8 +52030,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "Erik Rademaker(ZSUNR)",
-        "points": 81,
-        "races": 11,
+        "points": 75,
+        "races": 10,
         "wins": 3
       },
       "95319": {
@@ -52227,12 +52043,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .472",
     "team_name": "ZSUNR Harriers",
     "team_stats_id": 622,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_ZSUNR_Harriers.html",
-    "total_races_in_window": 16
+    "total_races_in_window": 15
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_TOMCAT": {
     "all_results": [
@@ -52734,8 +52550,7 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "1448163": {
@@ -52771,11 +52586,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "281350": {
-        "best_pos": 3,
+        "best_pos": 6,
         "last_race": "2026-06-29",
         "name": ". Smurfiness",
-        "points": 31,
-        "races": 7,
+        "points": 23,
+        "races": 6,
         "wins": 0
       },
       "2824809": {
@@ -52785,22 +52600,6 @@ const TEAM_ACTIVITY = {
         "points": 29,
         "races": 4,
         "wins": 1
-      },
-      "36881": {
-        "best_pos": 9,
-        "last_race": "2026-05-07",
-        "name": "Brian Warner",
-        "points": 2,
-        "races": 1,
-        "wins": 0
-      },
-      "4183589": {
-        "best_pos": 6,
-        "last_race": "2026-05-07",
-        "name": "S teffen🌀",
-        "points": 5,
-        "races": 1,
-        "wins": 0
       },
       "49578": {
         "best_pos": 1,
@@ -52822,9 +52621,9 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-22",
         "name": ". Dean",
-        "points": 41,
-        "races": 6,
-        "wins": 2
+        "points": 31,
+        "races": 5,
+        "wins": 1
       },
       "7379557": {
         "best_pos": 2,
@@ -52838,8 +52637,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-29",
         "name": "W obyOne",
-        "points": 67,
-        "races": 9,
+        "points": 58,
+        "races": 8,
         "wins": 0
       },
       "973782": {
@@ -52851,12 +52650,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .496",
     "team_name": "ZSUNR Tomcat",
     "team_stats_id": 301,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_ZSUNR_Tomcat.html",
-    "total_races_in_window": 13
+    "total_races_in_window": 12
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_TYPHOONS": {
     "all_results": [
@@ -53098,8 +52897,7 @@ const TEAM_ACTIVITY = {
       "L",
       "L",
       "L",
-      "L",
-      "W"
+      "L"
     ],
     "riders": {
       "135491": {
@@ -53154,16 +52952,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-29",
         "name": "Thomas Neugebauer",
-        "points": 98,
-        "races": 13,
-        "wins": 6
+        "points": 88,
+        "races": 12,
+        "wins": 5
       },
       "2873877": {
         "best_pos": 3,
         "last_race": "2026-07-02",
         "name": "🌀 Rick",
-        "points": 32,
-        "races": 5,
+        "points": 25,
+        "races": 4,
         "wins": 0
       },
       "3147366": {
@@ -53178,8 +52976,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 5,
         "last_race": "2026-06-29",
         "name": "🚀Joe (ZSUNR🌀)",
-        "points": 30,
-        "races": 8,
+        "points": 27,
+        "races": 7,
         "wins": 0
       },
       "4724654": {
@@ -53199,11 +52997,11 @@ const TEAM_ACTIVITY = {
         "wins": 0
       },
       "5300769": {
-        "best_pos": 7,
+        "best_pos": 8,
         "last_race": "2026-06-26",
         "name": "3 TIM",
-        "points": 9,
-        "races": 3,
+        "points": 5,
+        "races": 2,
         "wins": 0
       },
       "5504254": {
@@ -53231,12 +53029,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .473",
     "team_name": "ZSUNR Typhoons",
     "team_stats_id": 595,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_ZSUNR_Typhoons.html",
-    "total_races_in_window": 17
+    "total_races_in_window": 16
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_WILDCATS": {
     "all_results": [
@@ -53610,7 +53408,7 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .386",
     "team_name": "ZSUNR Wildcats",
     "team_stats_id": 559,
@@ -54038,24 +53836,23 @@ const TEAM_ACTIVITY = {
       "W",
       "L",
       "W",
-      "W",
       "W"
     ],
     "riders": {
       "1206812": {
-        "best_pos": 6,
+        "best_pos": 8,
         "last_race": "2026-05-28",
         "name": "Rasmus Mollerup",
-        "points": 13,
-        "races": 4,
+        "points": 8,
+        "races": 3,
         "wins": 0
       },
       "1987605": {
-        "best_pos": 3,
+        "best_pos": 4,
         "last_race": "2026-06-30",
         "name": "Jarry Thøgersen",
-        "points": 50,
-        "races": 8,
+        "points": 42,
+        "races": 7,
         "wins": 0
       },
       "5174161": {
@@ -54070,8 +53867,8 @@ const TEAM_ACTIVITY = {
         "best_pos": 2,
         "last_race": "2026-06-30",
         "name": "David Francesco",
-        "points": 45,
-        "races": 6,
+        "points": 39,
+        "races": 5,
         "wins": 0
       },
       "5896817": {
@@ -54086,16 +53883,16 @@ const TEAM_ACTIVITY = {
         "best_pos": 1,
         "last_race": "2026-06-30",
         "name": "Christian Trier",
-        "points": 85,
-        "races": 9,
-        "wins": 6
+        "points": 75,
+        "races": 8,
+        "wins": 5
       },
       "794481": {
         "best_pos": 4,
         "last_race": "2026-06-23",
         "name": "Morten K",
-        "points": 32,
-        "races": 7,
+        "points": 29,
+        "races": 6,
         "wins": 0
       },
       "830994": {
@@ -54123,12 +53920,12 @@ const TEAM_ACTIVITY = {
         "wins": 0
       }
     },
-    "scraped_at": "2026-07-06T00:02:54+00:00",
+    "scraped_at": "2026-07-07T00:04:05+00:00",
     "season_label": "Season 7 statistics Record .559",
     "team_name": "[DBR] Underdogs",
     "team_stats_id": 453,
     "team_view_file": "view-source_ladder_cycleracing_club_teamView_[DBR]_Underdogs.html",
-    "total_races_in_window": 10
+    "total_races_in_window": 9
   }
 };
 // TEAM_ACTIVITY_END

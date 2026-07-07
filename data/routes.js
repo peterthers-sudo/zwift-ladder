@@ -380,5 +380,20 @@ const ROUTES = {
   "10051": "Paterberg",
   "1437969615": "Red Rock Loop Reverse",
   "967374265": "Red Rock Run",
-  "2521625692": "Yumezi Grit"
+  "2521625692": "Yumezi Grit",
+  "10052": "Alto de Patios",
+  "10053": "Col de la Croix de Fer",
+  "10056": "Col de Sarenne",
+  "10055": "Col du Galibier (Valloire)",
+  "10054": "Col du Télégraphe",
+  "4234984253": "Cirque du Suffer",
+  "3141079998": "Crêpe Escape",
+  "1365497350": "Double Espresso",
+  "565111133": "Heart of Montmartre",
+  "870135081": "La Boucle",
+  "3381223955": "Loop de loop de loop",
+  "1247427185": "Montmartre Mixer",
+  "2128895616": "Paris Pacer",
+  "2805636083": "Paris Toujours",
+  "2316916973": "Rues in Rythme"
 };
