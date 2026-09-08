@@ -1,0 +1,16 @@
+# API (main.py)
+fastapi
+uvicorn[standard]
+zpdatafetch          # leverer OGSAA modulet zrdatafetch (ZRRiderFetch) - ingen separat pakke
+keyring
+
+# Scraping / datahentning
+requests             # get_data.py, fetch_leqp_members.py, scrape_results.py
+beautifulsoup4       # parse_team_stats.py, scrape_results.py
+selenium             # download_teams.py, fetch_team_stats.py
+webdriver-manager    # download_teams.py, fetch_team_stats.py
+playwright           # get_data.py, hent_fixtures.py -- kraever: python -m playwright install chromium
+
+# Credentials fra .env (download_teams.py, fetch_team_stats.py, strava_*.py)
+# Se .env.example for hvilke noegler der skal saettes.
+python-dotenv
