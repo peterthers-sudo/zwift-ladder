@@ -7,22 +7,13 @@ set LOG_FILE=%PROJECT_DIR%\full_update_log.txt
 set PYTHONIOENCODING=utf-8
 chcp 65001 > nul
 
-:: ZwiftPower login - laeses fra .env (som er gitignored)
+:: Credentials ligger i .env (gitignored) og laeses af Python-scriptene selv
+:: via python-dotenv. Batch parser IKKE filen: for /f med eol=# afkorter
+:: koder der indeholder '#', og saetter i saa fald en forkert vaerdi som
+:: load_dotenv ikke overskriver.
 if not exist "%PROJECT_DIR%\.env" (
-    echo FEJL: %PROJECT_DIR%\.env mangler - opret den med ZWIFTPOWER_USERNAME og ZWIFTPOWER_PASSWORD.
-    timeout /t 30 /nobreak > nul
-    exit /b 1
-)
-for /f "usebackq eol=# tokens=1,* delims==" %%a in ("%PROJECT_DIR%\.env") do (
-    if not "%%a"=="" set "%%a=%%b"
-)
-if not defined ZWIFTPOWER_USERNAME (
-    echo FEJL: ZWIFTPOWER_USERNAME ikke fundet i .env
-    timeout /t 30 /nobreak > nul
-    exit /b 1
-)
-if not defined ZWIFTPOWER_PASSWORD (
-    echo FEJL: ZWIFTPOWER_PASSWORD ikke fundet i .env
+    echo FEJL: %PROJECT_DIR%\.env mangler.
+    echo Kopier .env.example til .env og udfyld den.
     timeout /t 30 /nobreak > nul
     exit /b 1
 )

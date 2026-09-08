@@ -2,10 +2,16 @@ import os
 import json
 import time
 from contextlib import asynccontextmanager
+from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from zpdatafetch import ZPCyclistFetch, ZPTeamFetch
+
+# Credentials laeses her, ikke af .bat-filerne. Batch kan ikke parse .env
+# paalideligt: for /f med eol=# afkorter ved '#', og tegn som < & | %
+# kraever escaping. python-dotenv haandterer det hele korrekt.
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
 
 # =========================
 # Group ride filter
