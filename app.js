@@ -670,25 +670,6 @@ function calcRaceMetrics(races) {
 }
 
 function scoreRiderForCourse(r, fp) {
-  // vELO2 fast path: use zwiftracing.app factor ratings when available
-  if (r.velo_sprint != null) {
-    function normV(v) { return Math.min(100, Math.max(0, (v - 400) / 5)); }
-    const vs  = normV(r.velo_sprint);
-    const vp  = normV(r.velo_punch);
-    const vc  = normV(r.velo_climb);
-    const vpr = normV(r.velo_pursuit);
-    const vtt = normV(r.velo_tt);
-    const ven = normV(r.velo_endurance);
-    return Math.round(
-      fp.sprint    * vs  * 0.01 +
-      fp.punch     * vp  * 0.01 +
-      fp.climber   * vc  * 0.01 +
-      fp.medium    * vpr * 0.01 +
-      fp.tt        * vtt * 0.01 +
-      fp.endurance * ven * 0.01
-    );
-  }
-
   // For each dimension, blend wkg-score and watt-score based on course type.
   // Flat courses: raw watts dominate. Climbs: w/kg dominates.
   // This mirrors real Zwift physics more accurately than pure w/kg.
@@ -763,24 +744,6 @@ function getBestLineupForCourse(course, teamSize) {
 // Scores an opponent rider for a course using same hybrid logic as scoreRiderForCourse
 // but using oppRiderWatts() for data access
 function scoreOppRiderForCourse(r, fp, oppRiderWattsFn) {
-  if (r.velo_sprint != null) {
-    function normV(v) { return Math.min(100, Math.max(0, (v - 400) / 5)); }
-    const vs  = normV(r.velo_sprint);
-    const vp  = normV(r.velo_punch);
-    const vc  = normV(r.velo_climb);
-    const vpr = normV(r.velo_pursuit);
-    const vtt = normV(r.velo_tt);
-    const ven = normV(r.velo_endurance);
-    return Math.round(
-      fp.sprint    * vs  * 0.01 +
-      fp.punch     * vp  * 0.01 +
-      fp.climber   * vc  * 0.01 +
-      fp.medium    * vpr * 0.01 +
-      fp.tt        * vtt * 0.01 +
-      fp.endurance * ven * 0.01
-    );
-  }
-
   const weight     = r.weight || 70;
   const wkgTT      = ((r.watt / weight) / 6.0) * 100;
   const wkgSprint  = (r.wkg / 20.0) * 100;
@@ -1081,25 +1044,6 @@ function renderOppRoster() {
         <span style="color:var(--text-dim);font-size:0.6rem">${wkg ? wkg.toFixed(1) + ' W/kg' : ''}</span>
       </div>`).join('');
 
-    const veloDims = [
-      ['Sprint',  r.velo_sprint,    '#f7d084'],
-      ['Punch',   r.velo_punch,     '#b48eff'],
-      ['Climb',   r.velo_climb,     'var(--accent3)'],
-      ['Pursuit', r.velo_pursuit,   '#ff9f43'],
-      ['TT',      r.velo_tt,        'var(--accent)'],
-      ['Endu',    r.velo_endurance, '#ff6b9d'],
-    ];
-    const veloHTML = r.velo_sprint != null ? veloDims.map(([label, val, color]) => {
-      const pct = Math.min(100, Math.max(0, ((val||0) - 400) / 5));
-      return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${label}</span>
-        <div style="width:100%;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
-          <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
-        </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;color:${color};font-weight:600">${val}</span>
-      </div>`;
-    }).join('') : null;
-
     return `
       <div style="background:var(--surface2); border:1px solid ${isActive ? 'var(--border)' : 'rgba(255,68,85,0.2)'}; opacity:${isActive ? '1' : '0.45'}; margin-bottom:4px;">
         <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; cursor:pointer;" onclick="toggleOppExpand('opp-detail-${i}', 'opp-arrow-${i}')">
@@ -1140,11 +1084,6 @@ function renderOppRoster() {
               </div>
             </div>
           </div>
-          ${veloHTML ? `
-          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
-            <div style="display:flex;gap:6px">${veloHTML}</div>
-          </div>` : ''}
         </div>
       </div>`;
   }).join('');
@@ -1532,25 +1471,6 @@ function renderRiders() {
         <span style="color:var(--text-dim);font-size:0.6rem">${wkg !== '—' ? wkg + ' W/kg' : ''}</span>
       </div>`).join('');
 
-    const myVeloDims = [
-      ['Sprint',  r.velo_sprint,    '#f7d084'],
-      ['Punch',   r.velo_punch,     '#b48eff'],
-      ['Climb',   r.velo_climb,     'var(--accent3)'],
-      ['Pursuit', r.velo_pursuit,   '#ff9f43'],
-      ['TT',      r.velo_tt,        'var(--accent)'],
-      ['Endu',    r.velo_endurance, '#ff6b9d'],
-    ];
-    const myVeloHTML = r.velo_sprint != null ? myVeloDims.map(([label, val, color]) => {
-      const pct = Math.min(100, Math.max(0, ((val||0) - 400) / 5));
-      return `<div style="display:flex;flex-direction:column;align-items:center;gap:3px;flex:1">
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;color:var(--text-dim)">${label}</span>
-        <div style="width:100%;height:3px;background:rgba(255,255,255,0.1);border-radius:2px">
-          <div style="width:${pct}%;height:100%;background:${color};border-radius:2px"></div>
-        </div>
-        <span style="font-family:'JetBrains Mono',monospace;font-size:0.60rem;color:${color};font-weight:600">${val}</span>
-      </div>`;
-    }).join('') : null;
-
     return `
       <div class="rider-card" style="background:var(--surface2);border:1px solid var(--border);margin-bottom:6px;${r.selected ? 'border-color:rgba(0,229,255,0.35)' : ''}">
         <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;cursor:pointer" onclick="toggleRiderExpand(${r.id})">
@@ -1590,11 +1510,6 @@ function renderRiders() {
               </div>
             </div>
           </div>
-          ${myVeloHTML ? `
-          <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
-            <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">vELO2</div>
-            <div style="display:flex;gap:6px">${myVeloHTML}</div>
-          </div>` : ''}
           ${(typeof RIDER_BIOS !== 'undefined' && RIDER_BIOS[String(r.zwift_id)]) ? `
           <div style="margin-top:10px;padding-top:8px;border-top:1px solid var(--border)">
             <div style="font-family:'JetBrains Mono',monospace;font-size:0.65rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase;margin-bottom:6px">Scout Report</div>

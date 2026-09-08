@@ -6,7 +6,6 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from zpdatafetch import ZPCyclistFetch, ZPTeamFetch
-from zrdatafetch import ZRRiderFetch
 
 # =========================
 # Group ride filter
@@ -504,57 +503,6 @@ async def get_rides(zwift_id: int):
 
     except Exception as e:
         print(f"FEJL rides: {str(e)}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-# =========================
-# vELO2 Endpoints
-# =========================
-
-@app.get("/rider/{zwift_id}/velo")
-async def get_velo(zwift_id: int):
-    try:
-        fetcher = ZRRiderFetch()
-        riders = await fetcher.afetch(zwift_id)
-        rider = riders.get(zwift_id)
-        if not rider:
-            raise HTTPException(status_code=404, detail="Rider not found in ZR")
-        return {
-            "zwift_id":       zwift_id,
-            "name":           rider.name,
-            "velo_sprint":    rider.velo_sprint,
-            "velo_punch":     rider.velo_punch,
-            "velo_climb":     rider.velo_climb,
-            "velo_pursuit":   rider.velo_pursuit,
-            "velo_endurance": rider.velo_endurance,
-            "velo_tt":        rider.velo_time_trial,
-            "velo_race":      rider.velo_race,
-        }
-    except HTTPException:
-        raise
-    except Exception as e:
-        print(f"FEJL velo {zwift_id}: {e}")
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/velo/batch")
-async def get_velo_batch(zwift_ids: list[int]):
-    try:
-        fetcher = ZRRiderFetch()
-        riders = await fetcher.afetch_batch(*zwift_ids)
-        result = {}
-        for zid, rider in riders.items():
-            result[str(zid)] = {
-                "zwift_id":       zid,
-                "name":           rider.name,
-                "velo_sprint":    rider.velo_sprint,
-                "velo_punch":     rider.velo_punch,
-                "velo_climb":     rider.velo_climb,
-                "velo_pursuit":   rider.velo_pursuit,
-                "velo_endurance": rider.velo_endurance,
-                "velo_tt":        rider.velo_time_trial,
-                "velo_race":      rider.velo_race,
-            }
-        return result
-    except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 # =========================

@@ -113,36 +113,7 @@ def fetch_rider(rid, retries=3):
                 print(f"    EXCEPTION: {type(e).__name__}: {e}")
     return None
 
-def fetch_velo(rid, retries=2):
-    for attempt in range(retries):
-        try:
-            response = requests.get(f"{API_URL}/{rid}/velo", timeout=20)
-            if response.status_code == 200:
-                return response.json()
-            return None
-        except Exception as e:
-            if attempt < retries - 1:
-                continue
-            print(f"    VELO FEJL for {rid}: {e}")
-    return None
-
-def fetch_velo_batch(rids):
-    """Henter velo for alle rids i ét API-kald. Returnerer dict {str(zwift_id): velo_dict}."""
-    try:
-        ids = [int(r) for r in rids]
-        base_url = API_URL.replace('/rider', '')
-        response = requests.post(f"{base_url}/velo/batch", json=ids, timeout=60)
-        if response.status_code == 200:
-            data = response.json()
-            print(f"    VELO BATCH OK: {len(data)}/{len(ids)} ryttere hentet")
-            return data
-        else:
-            print(f"    VELO BATCH FEJL: HTTP {response.status_code} — {response.text[:200]}")
-    except Exception as e:
-        print(f"    VELO BATCH FEJL: {e}")
-    return {}
-
-def rider_to_my_team_js(d, rider_id, velo=None):
+def rider_to_my_team_js(d, rider_id):
     name      = d.get('name', 'Unknown').replace("'", '')
     weight    = d.get('weight') or 70
     watt      = d.get('w20min', 0)
@@ -160,41 +131,23 @@ def rider_to_my_team_js(d, rider_id, velo=None):
     w10min = d.get('w10min','null')
     w20min = d.get('w20min','null')
     w30min = d.get('w30min','null')
-    v = velo or {}
-    vs  = v.get('velo_sprint',    'null')
-    vpu = v.get('velo_punch',     'null')
-    vcl = v.get('velo_climb',     'null')
-    vpr = v.get('velo_pursuit',   'null')
-    ven = v.get('velo_endurance', 'null')
-    vtt = v.get('velo_tt',        'null')
     return (
         f"      {{ id:{rider_id}, zwift_id:{d.get('zwift_id', 'null')}, name:'{name}', "
         f"sprint:{sprint}, oneMin:{oneMin}, fiveMin:{fiveMin}, twentyMin:{twentyMin}, "
         f"watt:{watt}, weight:{weight}, selected: false, "
         f"w5s:{w5s}, w10s:{w10s}, w15s:{w15s}, w30s:{w30s}, "
         f"w1min:{w1min}, w2min:{w2min}, w5min:{w5min}, w10min:{w10min}, "
-        f"w20min:{w20min}, w30min:{w30min}, "
-        f"velo_sprint:{vs}, velo_punch:{vpu}, velo_climb:{vcl}, "
-        f"velo_pursuit:{vpr}, velo_endurance:{ven}, velo_tt:{vtt} }}"
+        f"w20min:{w20min}, w30min:{w30min} }}"
     )
 
-def rider_to_opponent_js(d, velo=None):
+def rider_to_opponent_js(d):
     opp_name = d.get('name', 'Unknown').replace('"', '').replace("'", '')
-    v = velo or {}
-    vs  = v.get('velo_sprint',    'null')
-    vpu = v.get('velo_punch',     'null')
-    vcl = v.get('velo_climb',     'null')
-    vpr = v.get('velo_pursuit',   'null')
-    ven = v.get('velo_endurance', 'null')
-    vtt = v.get('velo_tt',        'null')
     return (
         f"      {{ id: {d.get('zwift_id')}, name: \"{opp_name}\", weight: {d.get('weight')}, watt: {d.get('w20min')}, wkg: {d.get('wkg20min')}, "
         f"w5s: {d.get('w5s')}, w10s: {d.get('w10s')}, w15s: {d.get('w15s')}, w30s: {d.get('w30s')}, w1min: {d.get('w1min')}, "
         f"w2min: {d.get('w2min')}, w5min: {d.get('w5min')}, w10min: {d.get('w10min')}, w20min: {d.get('w20min')}, w30min: {d.get('w30min')}, "
         f"wkg5s: {d.get('wkg5s')}, wkg10s: {d.get('wkg10s')}, wkg15s: {d.get('wkg15s')}, wkg30s: {d.get('wkg30s')}, wkg1min: {d.get('wkg1min')}, "
-        f"wkg2min: {d.get('wkg2min')}, wkg5min: {d.get('wkg5min')}, wkg10min: {d.get('wkg10min')}, wkg20min: {d.get('wkg20min')}, wkg30min: {d.get('wkg30min')}, "
-        f"velo_sprint: {vs}, velo_punch: {vpu}, velo_climb: {vcl}, "
-        f"velo_pursuit: {vpr}, velo_endurance: {ven}, velo_tt: {vtt} }}"
+        f"wkg2min: {d.get('wkg2min')}, wkg5min: {d.get('wkg5min')}, wkg10min: {d.get('wkg10min')}, wkg20min: {d.get('wkg20min')}, wkg30min: {d.get('wkg30min')} }}"
     )
 
 def filename_to_key(filename):
@@ -404,18 +357,15 @@ def retry_failed_riders():
     time.sleep(15)
     still_failed = []
     for entry in _failed_riders:
-        rid, kind, idx, riders_js, *extra = entry
-        velo = extra[0] if extra else None
+        rid, kind, idx, riders_js = entry
         d = fetch_rider(rid, retries=5)
-        if not velo:
-            velo = fetch_velo(rid)
         if d:
             if kind == 'my':
                 d['zwift_id'] = rid
-                riders_js.append(rider_to_my_team_js(d, idx, velo=velo))
+                riders_js.append(rider_to_my_team_js(d, idx))
             else:
                 d['zwift_id'] = rid
-                riders_js.append(rider_to_opponent_js(d, velo=velo))
+                riders_js.append(rider_to_opponent_js(d))
             print(f"  RETRY OK: {d.get('name')} ({rid})")
         else:
             print(f"  RETRY FEJL: {rid} -- opgiver")
@@ -464,19 +414,17 @@ def update_my_teams(content):
 
         # Ryttere
         rider_ids = extract_exact_roster_ids(file_path)
-        velo_map = fetch_velo_batch(rider_ids)
         riders_js = []
         for i, rid in enumerate(rider_ids, start=1):
             d = fetch_rider(rid)
-            velo = velo_map.get(str(rid)) or velo_map.get(rid)
             if d:
                 d['zwift_id'] = rid
                 _rider_cache[str(rid)] = d
-                riders_js.append(rider_to_my_team_js(d, i, velo=velo))
-                print(f"    OK: {d.get('name')}{' [vELO]' if velo else ''}")
+                riders_js.append(rider_to_my_team_js(d, i))
+                print(f"    OK: {d.get('name')}")
             else:
                 print(f"    WARNING: Kunne ikke hente rytter {rid} -- tilfojer til retry-liste")
-                _failed_riders.append((rid, 'my', i, riders_js, velo))
+                _failed_riders.append((rid, 'my', i, riders_js))
 
         team_block = (
             f'  "{team_key}": {{\n'
@@ -628,18 +576,16 @@ def update_opponents(content):
         print(f"\nHenter modstander: {team_name}")
 
         rider_ids = extract_exact_roster_ids(file_path)
-        velo_map = fetch_velo_batch(rider_ids)
         riders_js = []
         for rid in rider_ids:
             d = fetch_rider(rid)
-            velo = velo_map.get(str(rid)) or velo_map.get(rid)
             if d:
                 d['zwift_id'] = rid
-                riders_js.append(rider_to_opponent_js(d, velo=velo))
-                print(f"  OK: {d.get('name')}{' [vELO]' if velo else ''}")
+                riders_js.append(rider_to_opponent_js(d))
+                print(f"  OK: {d.get('name')}")
             else:
                 print(f"  WARNING: Could not fetch rider {rid} -- tilfojer til retry-liste")
-                _failed_riders.append((rid, 'opp', None, riders_js, velo))
+                _failed_riders.append((rid, 'opp', None, riders_js))
 
         rung, ladder_pos, pos_in_rung = extract_rung(file_path, filename)
         pos_field      = f"\n    ladderPosition: {ladder_pos},"  if ladder_pos  is not None else ""

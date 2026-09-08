@@ -1,8 +1,8 @@
 # API (main.py)
 fastapi
 uvicorn[standard]
-zpdatafetch          # leverer OGSAA modulet zrdatafetch (ZRRiderFetch) - ingen separat pakke
-keyring
+zpdatafetch
+keyring              # bruges af zpdatafetch til credential-lagring
 
 # Scraping / datahentning
 requests             # get_data.py, fetch_leqp_members.py, scrape_results.py
