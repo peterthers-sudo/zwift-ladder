@@ -21,12 +21,17 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from webdriver_manager.chrome import ChromeDriverManager
 import os, re, time, argparse, subprocess, sys
+from dotenv import load_dotenv
 
 # ==============================================================
 # KONFIGURATION
 # ==============================================================
-USERNAME   = "peterthers@gmail.com"
-PASSWORD   = "kopenHagen17A"
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+# ladder.cycleracing.club har sin egen konto — IKKE Zwift-login.
+USERNAME   = os.getenv("LADDER_USERNAME")
+PASSWORD   = os.getenv("LADDER_PASSWORD")
+if not USERNAME or not PASSWORD:
+    raise SystemExit("Mangler LADDER_USERNAME / LADDER_PASSWORD (sæt dem i .env)")
 SOURCE_DIR = r"C:\zwiftpower-api-main\source_code"
 BASE_URL   = "https://ladder.cycleracing.club"
 # ==============================================================

@@ -7,9 +7,25 @@ set LOG_FILE=%PROJECT_DIR%\update_data_only_log.txt
 set PYTHONIOENCODING=utf-8
 chcp 65001 > nul
 
-:: ZwiftPower login
-set ZWIFTPOWER_USERNAME=peterthers@gmail.com
-set ZWIFTPOWER_PASSWORD=kopenHagen17A
+:: ZwiftPower login - laeses fra .env (som er gitignored)
+if not exist "%PROJECT_DIR%\.env" (
+    echo FEJL: %PROJECT_DIR%\.env mangler - opret den med ZWIFTPOWER_USERNAME og ZWIFTPOWER_PASSWORD.
+    timeout /t 30 /nobreak > nul
+    exit /b 1
+)
+for /f "usebackq eol=# tokens=1,* delims==" %%a in ("%PROJECT_DIR%\.env") do (
+    if not "%%a"=="" set "%%a=%%b"
+)
+if not defined ZWIFTPOWER_USERNAME (
+    echo FEJL: ZWIFTPOWER_USERNAME ikke fundet i .env
+    timeout /t 30 /nobreak > nul
+    exit /b 1
+)
+if not defined ZWIFTPOWER_PASSWORD (
+    echo FEJL: ZWIFTPOWER_PASSWORD ikke fundet i .env
+    timeout /t 30 /nobreak > nul
+    exit /b 1
+)
 
 :: Start log
 python -c "open(r'%LOG_FILE%', 'w', encoding='utf-8').write('==========================================\n   ZWIFT LADDER DATA UPDATE (ingen scraping)\n   %DATE% %TIME%\n==========================================\n')"
@@ -35,7 +51,7 @@ echo.
 echo [1/3] Starter API og henter rider-data (get_data.py)...
 echo       Dette tager ca. 2 timer...
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[1/3] Starter API...\n')"
-start "Zwift API (Motor)" cmd /k "set ZWIFTPOWER_USERNAME=peterthers@gmail.com&& set ZWIFTPOWER_PASSWORD=kopenHagen17A&& cd /d %PROJECT_DIR%&& uvicorn main:app --reload"
+start "Zwift API (Motor)" cmd /k "cd /d %PROJECT_DIR%&& uvicorn main:app --reload"
 echo Venter 30 sekunder pa API-opstart...
 timeout /t 30 /nobreak > nul
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: API klar.\n')"
