@@ -113,6 +113,7 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
 
     riders = {}
     total_races_in_window = 0
+    missing_result_cells = 0
     results = []     # "W" or "L" per race within cutoff, newest first
     all_results = [] # alle races med dato uanset cutoff, nyeste først
 
@@ -128,7 +129,22 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
 
             within_window = date_ms >= cutoff_ms
             race_date = datetime.fromtimestamp(date_ms / 1000, tz=timezone.utc).date().isoformat()
-            race_won = False  # True if any team rider finished 1st
+
+            # Holdets resultat staar eksplicit i raekken:
+            #   <td class="text-center fw-bold" style="...">W</td>
+            # Udled det ALDRIG af rytterplaceringer. Et hold vinder paa samlede
+            # point, saa en foersteplads er hverken noedvendig eller tilstraekkelig
+            # for en holdsejr.
+            race_result = None
+            for rtd in tr.find_all("td"):
+                cls = rtd.get("class") or []
+                if "fw-bold" in cls and "text-center" in cls and not rtd.get("data-open"):
+                    txt = rtd.get_text(strip=True)
+                    if txt in ("W", "L", "D"):
+                        race_result = txt
+                        break
+
+            race_won = False  # kun fallback hvis resultatcellen mangler
 
             # Alle openRider-celler i denne række
             for rtd in tr.find_all("td"):
@@ -183,10 +199,21 @@ def parse_team_stats_file(path, cutoff_ms, include_season=False):
                     if rname and len(rname) > len(r["name"]):
                         r["name"] = rname
 
-            all_results.append({"d": race_date, "r": "W" if race_won else "L"})
+            if race_result is None:
+                race_result = "W" if race_won else "L"
+                missing_result_cells += 1
+
+            all_results.append({"d": race_date, "r": race_result})
             if within_window:
                 total_races_in_window += 1
-                results.append("W" if race_won else "L")
+                results.append(race_result)
+
+    if missing_result_cells:
+        log(
+            f"{team_name}: {missing_result_cells} loeb manglede resultatcelle - "
+            f"faldt tilbage til placeringsgaet (kan vaere forkert)",
+            "WARN",
+        )
 
     result = {
         "team_name": team_name,
