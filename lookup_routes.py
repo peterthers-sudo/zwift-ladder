@@ -12,6 +12,11 @@ import os
 import re
 import sys
 
+from dotenv import load_dotenv
+
+# Credentials laeses her, ikke af .bat-filerne - se full_update.bat
+load_dotenv(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".env"))
+
 ROUTES_JS = os.path.join(os.path.dirname(__file__), "data", "routes.js")
 
 # ── Load existing routes database ─────────────────────────────────────────────
@@ -75,7 +80,7 @@ async def main():
     username = os.getenv("ZWIFTPOWER_USERNAME", "")
     password = os.getenv("ZWIFTPOWER_PASSWORD", "")
     if not username or not password:
-        print("FEJL: Sæt ZWIFTPOWER_USERNAME og ZWIFTPOWER_PASSWORD som miljøvariabler")
+        print("FEJL: ZWIFTPOWER_USERNAME / ZWIFTPOWER_PASSWORD mangler i .env")
         sys.exit(1)
 
     existing = load_routes_db()
