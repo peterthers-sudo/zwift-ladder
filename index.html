@@ -260,6 +260,17 @@
   .ctx-label { font-size: 0.55rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
   .ctx-value { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ctx-value.has-data { color: var(--accent3); }
+  /* Holdvaelger i kontekstbaren - ser ud som .ctx-value, men er en select.
+     Pilen er URL-encodet (%3C/%3E), saa attribut- og regexparsing ikke braekker. */
+  .ctx-select {
+    background: transparent; border: none; outline: none; padding: 0 14px 0 0;
+    font-family: inherit; cursor: pointer; max-width: 100%;
+    appearance: none; -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%237fffbf' d='M0 2l4 4 4-4z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: right 2px center;
+  }
+  .ctx-select:hover { filter: brightness(1.25); }
+  .ctx-select option { background: var(--surface2); color: var(--text); }
   .ctx-value.warning  { color: var(--red); }
   .ctx-value.vs-active { color: var(--accent2); }
   .ctx-vs {
@@ -742,7 +753,13 @@
   <div class="context-bar" id="context-bar">
     <div class="ctx-block">
       <span class="ctx-label">My Team</span>
-      <span class="ctx-value" id="ctx-myteam">No riders selected</span>
+      <div style="display:flex;align-items:baseline;gap:5px;min-width:0">
+        <select class="ctx-value ctx-select" id="ctx-myteam-select"
+          onchange="switchMyTeam(this.value); updateContextBar();"
+          title="Skift LEQP-hold"></select>
+        <span class="ctx-value" id="ctx-myteam-count"
+          style="flex-shrink:0;font-weight:400;color:var(--text-dim)"></span>
+      </div>
     </div>
     <div class="ctx-vs" id="ctx-vs">VS</div>
     <div class="ctx-block">

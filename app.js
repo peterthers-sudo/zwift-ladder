@@ -2192,15 +2192,17 @@ function updateContextBar() {
   const teamSize = parseInt(document.getElementById('team-size')?.value) || 5;
 
   // My team block
-  const myTeamEl = document.getElementById('ctx-myteam');
-  if (myTeamEl) {
-    const teamName = (document.getElementById('my-team-select')?.selectedOptions[0]?.text || '').replace('● ','').replace('LEQP ','');
-    if (teamName && teamName !== '— Select your team —') {
-      myTeamEl.textContent = `${teamName} · ${selectedRiders.length} riders`;
-      myTeamEl.className = selectedRiders.length > 0 ? 'ctx-value has-data' : 'ctx-value warning';
-    } else {
-      myTeamEl.textContent = 'No team selected';
-      myTeamEl.className = 'ctx-value warning';
+  const myTeamSelEl = document.getElementById('ctx-myteam-select');
+  const myTeamCntEl = document.getElementById('ctx-myteam-count');
+  if (myTeamSelEl) {
+    // Hold select'en i sync med det aktive hold, uanset om skiftet kom herfra
+    // eller fra TEAM ROSTER.
+    const key = (activeMyTeamKey && MY_TEAMS[activeMyTeamKey]) ? activeMyTeamKey : '';
+    if (myTeamSelEl.value !== key) myTeamSelEl.value = key;
+    myTeamSelEl.className = 'ctx-value ctx-select ' +
+      (key && selectedRiders.length > 0 ? 'has-data' : 'warning');
+    if (myTeamCntEl) {
+      myTeamCntEl.textContent = key ? `· ${selectedRiders.length} riders` : '';
     }
   }
 
@@ -2707,6 +2709,16 @@ window.onload = function() {
         `<option value="${key}">● ${team.name}</option>`
       ).join('');
     myTeamSel.value = activeMyTeamKey || '';
+  }
+  // Populate my-team dropdown i kontekstbaren (samme kilde: MY_TEAMS).
+  // Kort navn uden "LEQP "-praefiks, saa baren fylder det samme som foer.
+  const ctxTeamSel = document.getElementById('ctx-myteam-select');
+  if (ctxTeamSel) {
+    ctxTeamSel.innerHTML = '<option value="">No team selected</option>' +
+      Object.entries(MY_TEAMS).map(([key, team]) =>
+        `<option value="${key}">${team.name.replace(/^LEQP /, '')}</option>`
+      ).join('');
+    ctxTeamSel.value = activeMyTeamKey || '';
   }
   // Populate standings team dropdown
   const standingsSel = document.getElementById('standings-team-select');
