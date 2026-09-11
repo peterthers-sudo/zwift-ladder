@@ -1,9 +1,9 @@
 // DATA_LIBRARY_START
 const OPPONENT_LIBRARY = {
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_ACTINIDES": {
-    rung: 6,
-    ladderPosition: 102,
-    positionInRung: 17,
+    rung: 7,
+    ladderPosition: 103,
+    positionInRung: 1,
     name: "ART Actinides",
     riders: [
       { id: 320125, name: "Gary McGeehin (ART)", weight: 98.0, watt: 271, wkg: 2.8, w5s: 1142, w10s: 0, w15s: 975, w30s: 686, w1min: 544, w2min: 447, w5min: 341, w10min: 0, w20min: 271, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.0, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -11,7 +11,7 @@ const OPPONENT_LIBRARY = {
       { id: 1209191, name: "Jason Byles (ART)", weight: 76.1, watt: 221, wkg: 2.9, w5s: 795, w10s: 0, w15s: 727, w30s: 489, w1min: 405, w2min: 325, w5min: 261, w10min: 0, w20min: 221, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 2021735, name: "D. aZ[ART]", weight: 87.2, watt: 250, wkg: 2.9, w5s: 461, w10s: 0, w15s: 396, w30s: 380, w1min: 341, w2min: 295, w5min: 270, w10min: 0, w20min: 250, w30min: 0, wkg5s: 5.3, wkg10s: 0.0, wkg15s: 4.5, wkg30s: 4.4, wkg1min: 3.9, wkg2min: 3.4, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 2309653, name: "Paul Bezzant (ART)", weight: 95.0, watt: 251, wkg: 2.6, w5s: 836, w10s: 0, w15s: 810, w30s: 655, w1min: 515, w2min: 364, w5min: 311, w10min: 0, w20min: 251, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 6.9, wkg1min: 5.4, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
-      { id: 2629714, name: "Doug Curtis (ART)", weight: 79.0, watt: 244, wkg: 3.1, w5s: 629, w10s: 0, w15s: 489, w30s: 396, w1min: 364, w2min: 345, w5min: 272, w10min: 0, w20min: 244, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 6.2, wkg30s: 5.0, wkg1min: 4.6, wkg2min: 4.4, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 2629714, name: "Doug Curtis (ART)", weight: 79.0, watt: 244, wkg: 3.1, w5s: 629, w10s: 0, w15s: 489, w30s: 396, w1min: 364, w2min: 345, w5min: 281, w10min: 0, w20min: 244, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 6.2, wkg30s: 5.0, wkg1min: 4.6, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 3705250, name: "Stuart Taylor (ART)", weight: 77.5, watt: 224, wkg: 2.9, w5s: 816, w10s: 0, w15s: 677, w30s: 558, w1min: 405, w2min: 326, w5min: 252, w10min: 0, w20min: 224, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.2, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 4297568, name: "P D (ART)", weight: 72.4, watt: 243, wkg: 3.4, w5s: 667, w10s: 0, w15s: 637, w30s: 464, w1min: 358, w2min: 304, w5min: 265, w10min: 0, w20min: 243, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.4, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 4643553, name: "Harry Stromberg [ART]&#127467;&#127470;", weight: 88.0, watt: 259, wkg: 2.9, w5s: 1196, w10s: 0, w15s: 1066, w30s: 782, w1min: 534, w2min: 410, w5min: 318, w10min: 0, w20min: 259, w30min: 0, wkg5s: 13.6, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 8.9, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -27,7 +27,7 @@ const OPPONENT_LIBRARY = {
       { id: 1402263, name: "Graeme Buckman (ART) ", weight: 97.0, watt: 323, wkg: 3.3, w5s: 1090, w10s: 0, w15s: 998, w30s: 849, w1min: 605, w2min: 458, w5min: 371, w10min: 0, w20min: 323, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.8, wkg1min: 6.2, wkg2min: 4.7, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 3195726, name: "Matt Price", weight: 78.5, watt: 254, wkg: 3.2, w5s: 664, w10s: 0, w15s: 641, w30s: 532, w1min: 489, w2min: 365, w5min: 304, w10min: 0, w20min: 254, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.8, wkg1min: 6.2, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 3449821, name: "Chris Cook (ART)", weight: 86.4, watt: 294, wkg: 3.4, w5s: 1002, w10s: 0, w15s: 807, w30s: 691, w1min: 544, w2min: 444, w5min: 347, w10min: 0, w20min: 294, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.9, wkg1min: 6.3, wkg2min: 5.1, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 3803406, name: "Lee Mitchell (ART)", weight: 90.0, watt: 297, wkg: 3.3, w5s: 1106, w10s: 0, w15s: 1033, w30s: 822, w1min: 594, w2min: 453, w5min: 359, w10min: 0, w20min: 297, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.1, wkg1min: 6.6, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 3803406, name: "Lee Mitchell (ART)", weight: 90.0, watt: 297, wkg: 3.3, w5s: 1169, w10s: 0, w15s: 1050, w30s: 899, w1min: 614, w2min: 453, w5min: 359, w10min: 0, w20min: 297, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 10.0, wkg1min: 6.8, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 4155000, name: "    &#127988;&#917607;&#917602;&#917619;&#917603;&#917620;&#917631; James (ART) ", weight: 95.0, watt: 305, wkg: 3.2, w5s: 1068, w10s: 0, w15s: 940, w30s: 775, w1min: 511, w2min: 386, w5min: 352, w10min: 0, w20min: 305, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.2, wkg1min: 5.4, wkg2min: 4.1, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 4291552, name: "Rhys Smith (ART)", weight: 89.2, watt: 284, wkg: 3.2, w5s: 1049, w10s: 0, w15s: 1011, w30s: 774, w1min: 561, w2min: 414, w5min: 329, w10min: 0, w20min: 284, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.6, wkg1min: 6.5, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 6001213, name: "Gout Man (ART) (Cuatro Bolas)", weight: 89.2, watt: 261, wkg: 2.9, w5s: 1074, w10s: 0, w15s: 981, w30s: 736, w1min: 508, w2min: 363, w5min: 314, w10min: 0, w20min: 261, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.3, wkg1min: 5.7, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -36,8 +36,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_OSMIUM": {
     rung: 9,
-    ladderPosition: 137,
-    positionInRung: 1,
+    ladderPosition: 140,
+    positionInRung: 4,
     name: "ART Osmium",
     riders: [
       { id: 78090, name: "Chris Marshall (ART)", weight: 0.0, watt: 212, wkg: 2.6, w5s: 441, w10s: 0, w15s: 428, w30s: 371, w1min: 294, w2min: 288, w5min: 228, w10min: 0, w20min: 212, w30min: 0, wkg5s: 5.5, wkg10s: 0.0, wkg15s: 5.3, wkg30s: 4.6, wkg1min: 3.6, wkg2min: 3.6, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
@@ -45,7 +45,7 @@ const OPPONENT_LIBRARY = {
       { id: 398496, name: "Tomasz Zak", weight: 83.7, watt: 232, wkg: 2.8, w5s: 786, w10s: 0, w15s: 701, w30s: 611, w1min: 446, w2min: 330, w5min: 272, w10min: 0, w20min: 232, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.8, wkg1min: 5.0, wkg2min: 3.7, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 404834, name: "Simon Halson (ART)", weight: 70.5, watt: 190, wkg: 2.7, w5s: 374, w10s: 0, w15s: 368, w30s: 344, w1min: 313, w2min: 262, w5min: 226, w10min: 0, w20min: 190, w30min: 0, wkg5s: 5.3, wkg10s: 0.0, wkg15s: 5.2, wkg30s: 4.9, wkg1min: 4.4, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 439176, name: "P.aul Boyce (ART)", weight: 79.0, watt: 206, wkg: 2.6, w5s: 578, w10s: 0, w15s: 493, w30s: 418, w1min: 314, w2min: 257, w5min: 246, w10min: 0, w20min: 206, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.2, wkg30s: 5.3, wkg1min: 4.0, wkg2min: 3.3, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
-      { id: 871728, name: "Cookie   ART", weight: 83.0, watt: 261, wkg: 3.1, w5s: 908, w10s: 0, w15s: 818, w30s: 636, w1min: 384, w2min: 319, w5min: 292, w10min: 0, w20min: 261, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.7, wkg1min: 4.6, wkg2min: 3.8, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 871728, name: "Cookie   ART", weight: 83.0, watt: 261, wkg: 3.1, w5s: 908, w10s: 0, w15s: 818, w30s: 636, w1min: 384, w2min: 331, w5min: 296, w10min: 0, w20min: 261, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.7, wkg1min: 4.6, wkg2min: 4.0, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 2217260, name: "Mark Sanders (ART JLP)", weight: 85.0, watt: 255, wkg: 2.9, w5s: 673, w10s: 0, w15s: 623, w30s: 545, w1min: 445, w2min: 327, w5min: 275, w10min: 0, w20min: 255, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 6.2, wkg1min: 5.1, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 2464460, name: "Steve Burrell", weight: 73.3, watt: 227, wkg: 3.1, w5s: 508, w10s: 0, w15s: 425, w30s: 334, w1min: 313, w2min: 285, w5min: 257, w10min: 0, w20min: 227, w30min: 0, wkg5s: 6.9, wkg10s: 0.0, wkg15s: 5.7, wkg30s: 4.6, wkg1min: 4.3, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 2734726, name: "Adrian Bach (ART &#9883;&#65039;)", weight: 112.1, watt: 264, wkg: 2.4, w5s: 813, w10s: 0, w15s: 666, w30s: 585, w1min: 494, w2min: 386, w5min: 315, w10min: 0, w20min: 264, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 5.9, wkg30s: 5.2, wkg1min: 4.4, wkg2min: 3.4, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
@@ -56,8 +56,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ATGNI_ALLOY": {
     rung: 8,
-    ladderPosition: 130,
-    positionInRung: 11,
+    ladderPosition: 132,
+    positionInRung: 13,
     name: "ATGNI Alloy",
     riders: [
       { id: 829903, name: "Aleman (ATGNI)", weight: 75.0, watt: 174, wkg: 2.3, w5s: 431, w10s: 0, w15s: 349, w30s: 333, w1min: 300, w2min: 244, w5min: 209, w10min: 0, w20min: 174, w30min: 0, wkg5s: 5.7, wkg10s: 0.0, wkg15s: 4.7, wkg30s: 4.4, wkg1min: 4.0, wkg2min: 3.3, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
@@ -73,8 +73,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_A_WHOLE_LOT_OF_DANES": {
     rung: 5,
-    ladderPosition: 78,
-    positionInRung: 10,
+    ladderPosition: 79,
+    positionInRung: 11,
     name: "A whole lot of Danes",
     riders: [
       { id: 227881, name: "Ole Nissen  #DZR#", weight: 70.0, watt: 251, wkg: 3.5, w5s: 672, w10s: 0, w15s: 624, w30s: 587, w1min: 519, w2min: 403, w5min: 309, w10min: 0, w20min: 251, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 8.4, wkg1min: 7.4, wkg2min: 5.7, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -110,39 +110,39 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_BAKPDL_C": {
     rung: 5,
-    ladderPosition: 83,
-    positionInRung: 15,
+    ladderPosition: 84,
+    positionInRung: 16,
     name: "BAKPDL C",
     riders: [
       { id: 56854, name: "Mark Newnham", weight: 80.0, watt: 277, wkg: 3.5, w5s: 1001, w10s: 0, w15s: 849, w30s: 607, w1min: 384, w2min: 362, w5min: 303, w10min: 0, w20min: 277, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 7.6, wkg1min: 4.8, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 419853, name: "Ian Brewer #17 [BAKPDL]", weight: 65.0, watt: 230, wkg: 3.5, w5s: 605, w10s: 0, w15s: 522, w30s: 436, w1min: 390, w2min: 329, w5min: 267, w10min: 0, w20min: 230, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 6.7, wkg1min: 6.0, wkg2min: 5.1, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
-      { id: 841975, name: "James Cheetham", weight: 84.2, watt: 264, wkg: 3.1, w5s: 753, w10s: 0, w15s: 708, w30s: 632, w1min: 481, w2min: 399, w5min: 299, w10min: 0, w20min: 264, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.5, wkg1min: 5.7, wkg2min: 4.7, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 841975, name: "James Cheetham", weight: 84.2, watt: 264, wkg: 3.1, w5s: 753, w10s: 0, w15s: 708, w30s: 632, w1min: 481, w2min: 399, w5min: 299, w10min: 0, w20min: 264, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.5, wkg1min: 5.7, wkg2min: 4.7, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 1413884, name: "# littleian (BAKPDL)", weight: 66.0, watt: 222, wkg: 3.4, w5s: 565, w10s: 0, w15s: 519, w30s: 500, w1min: 386, w2min: 324, w5min: 267, w10min: 0, w20min: 222, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.8, wkg1min: 5.9, wkg2min: 5.1, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 1445924, name: "Stephen Brophy", weight: 69.0, watt: 213, wkg: 3.1, w5s: 704, w10s: 0, w15s: 615, w30s: 448, w1min: 362, w2min: 302, w5min: 241, w10min: 0, w20min: 213, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.5, wkg1min: 5.2, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 2093759, name: "Nick Hewitt (BAKPDL)", weight: 89.7, watt: 283, wkg: 3.2, w5s: 912, w10s: 0, w15s: 675, w30s: 560, w1min: 445, w2min: 390, w5min: 327, w10min: 0, w20min: 283, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 6.2, wkg1min: 5.0, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 1445924, name: "Stephen Brophy", weight: 69.0, watt: 217, wkg: 3.1, w5s: 704, w10s: 0, w15s: 615, w30s: 448, w1min: 362, w2min: 302, w5min: 243, w10min: 0, w20min: 217, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.5, wkg1min: 5.2, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 2093759, name: "Nick Hewitt (BAKPDL)", weight: 89.7, watt: 290, wkg: 3.2, w5s: 912, w10s: 0, w15s: 675, w30s: 560, w1min: 445, w2min: 390, w5min: 327, w10min: 0, w20min: 290, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 6.2, wkg1min: 5.0, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 3425871, name: "Glen Groves (BAKPDL)", weight: 70.5, watt: 219, wkg: 3.0, w5s: 576, w10s: 0, w15s: 547, w30s: 460, w1min: 338, w2min: 278, w5min: 250, w10min: 0, w20min: 219, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 6.4, wkg1min: 4.7, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 5184358, name: "Rob Larsen [BAKPDL]", weight: 85.5, watt: 264, wkg: 3.1, w5s: 1639, w10s: 0, w15s: 1279, w30s: 974, w1min: 660, w2min: 466, w5min: 321, w10min: 0, w20min: 264, w30min: 0, wkg5s: 19.1, wkg10s: 0.0, wkg15s: 14.9, wkg30s: 11.3, wkg1min: 7.7, wkg2min: 5.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 5804361, name: ". WILLETTS", weight: 96.1, watt: 332, wkg: 3.5, w5s: 997, w10s: 0, w15s: 871, w30s: 644, w1min: 576, w2min: 463, w5min: 385, w10min: 0, w20min: 332, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 6.7, wkg1min: 6.0, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_BAKPDL_D": {
-    rung: 8,
-    ladderPosition: 136,
-    positionInRung: 17,
+    rung: 9,
+    ladderPosition: 139,
+    positionInRung: 3,
     name: "BAKPDL D",
     riders: [
       { id: 51518, name: "Julie Brownbill [BAKPDL]", weight: 49.0, watt: 124, wkg: 2.5, w5s: 210, w10s: 0, w15s: 190, w30s: 170, w1min: 153, w2min: 145, w5min: 136, w10min: 0, w20min: 124, w30min: 0, wkg5s: 4.3, wkg10s: 0.0, wkg15s: 3.9, wkg30s: 3.5, wkg1min: 3.1, wkg2min: 3.0, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
-      { id: 55089, name: "Wes Davies", weight: 79.8, watt: 207, wkg: 2.6, w5s: 718, w10s: 0, w15s: 649, w30s: 562, w1min: 389, w2min: 333, w5min: 262, w10min: 0, w20min: 207, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.0, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
+      { id: 55089, name: "Wes Davies", weight: 79.8, watt: 207, wkg: 2.6, w5s: 756, w10s: 0, w15s: 721, w30s: 562, w1min: 389, w2min: 333, w5min: 262, w10min: 0, w20min: 207, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.0, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
       { id: 1302992, name: "Steve MacMillan", weight: 84.7, watt: 207, wkg: 2.4, w5s: 480, w10s: 0, w15s: 449, w30s: 413, w1min: 365, w2min: 288, w5min: 242, w10min: 0, w20min: 207, w30min: 0, wkg5s: 5.7, wkg10s: 0.0, wkg15s: 5.3, wkg30s: 4.9, wkg1min: 4.3, wkg2min: 3.4, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
       { id: 1752593, name: "Paul Boreham BAKPDL", weight: 95.0, watt: 236, wkg: 2.5, w5s: 871, w10s: 0, w15s: 724, w30s: 549, w1min: 348, w2min: 311, w5min: 269, w10min: 0, w20min: 236, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 5.8, wkg1min: 3.7, wkg2min: 3.3, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
-      { id: 5234626, name: "Matt Wood ", weight: 89.8, watt: 249, wkg: 2.8, w5s: 819, w10s: 0, w15s: 697, w30s: 490, w1min: 394, w2min: 310, w5min: 277, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 5.5, wkg1min: 4.4, wkg2min: 3.5, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
+      { id: 5234626, name: "Matt Wood ", weight: 89.8, watt: 249, wkg: 2.8, w5s: 819, w10s: 0, w15s: 697, w30s: 543, w1min: 398, w2min: 310, w5min: 277, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.0, wkg1min: 4.4, wkg2min: 3.5, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 6237249, name: "Jordy Laseur [BAKPDL/LRP]", weight: 104.5, watt: 268, wkg: 2.6, w5s: 908, w10s: 0, w15s: 839, w30s: 562, w1min: 447, w2min: 347, w5min: 294, w10min: 0, w20min: 268, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 5.4, wkg1min: 4.3, wkg2min: 3.3, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_CLS_CHASERS": {
     rung: 6,
-    ladderPosition: 90,
-    positionInRung: 5,
+    ladderPosition: 91,
+    positionInRung: 6,
     name: "CLS Chasers",
     riders: [
       { id: 108645, name: "Rune Endresen-Graneng (Team CLS)", weight: 84.0, watt: 276, wkg: 3.4, w5s: 826, w10s: 0, w15s: 778, w30s: 651, w1min: 492, w2min: 394, w5min: 342, w10min: 0, w20min: 276, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.7, wkg1min: 5.9, wkg2min: 4.7, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -161,9 +161,9 @@ const OPPONENT_LIBRARY = {
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_QYRON": {
-    rung: 9,
-    ladderPosition: 139,
-    positionInRung: 3,
+    rung: 8,
+    ladderPosition: 134,
+    positionInRung: 15,
     name: "COALITION Qyron",
     riders: [
       { id: 183308, name: "Nev Spowage", weight: 70.2, watt: 171, wkg: 2.4, w5s: 416, w10s: 0, w15s: 327, w30s: 284, w1min: 272, w2min: 232, w5min: 195, w10min: 0, w20min: 171, w30min: 0, wkg5s: 5.9, wkg10s: 0.0, wkg15s: 4.7, wkg30s: 4.0, wkg1min: 3.9, wkg2min: 3.3, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
@@ -172,7 +172,7 @@ const OPPONENT_LIBRARY = {
       { id: 1815701, name: "M artin S Gorilla", weight: 68.8, watt: 220, wkg: 3.2, w5s: 550, w10s: 0, w15s: 515, w30s: 462, w1min: 352, w2min: 297, w5min: 249, w10min: 0, w20min: 220, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 6.8, wkg1min: 5.1, wkg2min: 4.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 3120646, name: "Andy Wagner", weight: 71.7, watt: 228, wkg: 3.1, w5s: 446, w10s: 0, w15s: 395, w30s: 376, w1min: 341, w2min: 311, w5min: 269, w10min: 0, w20min: 228, w30min: 0, wkg5s: 6.2, wkg10s: 0.0, wkg15s: 5.5, wkg30s: 5.0, wkg1min: 4.6, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 4670445, name: "Jack Bolton", weight: 87.0, watt: 203, wkg: 2.3, w5s: 929, w10s: 0, w15s: 709, w30s: 506, w1min: 365, w2min: 285, w5min: 228, w10min: 0, w20min: 203, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.0, wkg1min: 4.3, wkg2min: 3.3, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
-      { id: 6050903, name: "Mike P (COALITION)", weight: 79.6, watt: 243, wkg: 3.1, w5s: 796, w10s: 0, w15s: 750, w30s: 616, w1min: 413, w2min: 340, w5min: 296, w10min: 0, w20min: 243, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.7, wkg1min: 5.2, wkg2min: 4.3, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 6050903, name: "Mike P (COALITION)", weight: 79.6, watt: 243, wkg: 3.1, w5s: 796, w10s: 0, w15s: 750, w30s: 616, w1min: 413, w2min: 337, w5min: 295, w10min: 0, w20min: 243, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.7, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 6699984, name: "Hong Phuc Vo (COALITION)", weight: 78.9, watt: 240, wkg: 3.0, w5s: 853, w10s: 0, w15s: 761, w30s: 576, w1min: 410, w2min: 344, w5min: 287, w10min: 0, w20min: 240, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.1, wkg1min: 5.2, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 7060775, name: "G.Chaplow  (COALITION)", weight: 79.4, watt: 253, wkg: 3.2, w5s: 630, w10s: 0, w15s: 584, w30s: 524, w1min: 443, w2min: 364, w5min: 298, w10min: 0, w20min: 253, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 6.6, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 7582040, name: "Daniel Furrer (COALITION)", weight: 76.8, watt: 230, wkg: 3.0, w5s: 761, w10s: 0, w15s: 721, w30s: 593, w1min: 486, w2min: 362, w5min: 294, w10min: 0, w20min: 230, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.8, wkg1min: 6.4, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -181,8 +181,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_CHONKY_CHASER": {
     rung: 2,
-    ladderPosition: 21,
-    positionInRung: 4,
+    ladderPosition: 22,
+    positionInRung: 5,
     name: "Chonky Chaser",
     riders: [
       { id: 303296, name: "Steen Bang-Madsen [DZR]", weight: 84.0, watt: 364, wkg: 4.3, w5s: 1276, w10s: 0, w15s: 1102, w30s: 851, w1min: 683, w2min: 539, w5min: 434, w10min: 0, w20min: 364, w30min: 0, wkg5s: 15.2, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.1, wkg1min: 8.0, wkg2min: 6.4, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
@@ -199,8 +199,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_NEZERIUM": {
     rung: 4,
-    ladderPosition: 60,
-    positionInRung: 9,
+    ladderPosition: 61,
+    positionInRung: 10,
     name: "Coalition Nezerium",
     riders: [
       { id: 107566, name: "Mike Gloyne (Coalition)", weight: 83.3, watt: 293, wkg: 3.5, w5s: 870, w10s: 0, w15s: 776, w30s: 626, w1min: 510, w2min: 414, w5min: 342, w10min: 0, w20min: 293, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.5, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -221,34 +221,34 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_SYTHENE": {
     rung: 1,
-    ladderPosition: 11,
-    positionInRung: 11,
+    ladderPosition: 16,
+    positionInRung: 16,
     name: "Coalition Sythene",
     riders: [
       { id: 67144, name: "Anders Gunnarsson (COALITION) ", weight: 61.8, watt: 282, wkg: 4.5, w5s: 718, w10s: 0, w15s: 680, w30s: 520, w1min: 405, w2min: 360, w5min: 319, w10min: 0, w20min: 282, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.4, wkg1min: 6.6, wkg2min: 5.8, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
-      { id: 723953, name: "Chris Koch | ZwiftRaceCraft | YouTube ", weight: 79.6, watt: 327, wkg: 4.1, w5s: 1236, w10s: 0, w15s: 991, w30s: 736, w1min: 593, w2min: 527, w5min: 395, w10min: 0, w20min: 327, w30min: 0, wkg5s: 15.6, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.3, wkg1min: 7.4, wkg2min: 6.6, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
+      { id: 723953, name: "Chris Koch | ZwiftRaceCraft | YouTube ", weight: 81.0, watt: 327, wkg: 4.1, w5s: 1236, w10s: 0, w15s: 991, w30s: 736, w1min: 593, w2min: 527, w5min: 395, w10min: 0, w20min: 327, w30min: 0, wkg5s: 15.6, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.3, wkg1min: 7.4, wkg2min: 6.6, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 805369, name: "Ben Goldberg (Coalition)", weight: 80.2, watt: 340, wkg: 4.2, w5s: 1132, w10s: 0, w15s: 1047, w30s: 802, w1min: 622, w2min: 514, w5min: 391, w10min: 0, w20min: 340, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 9.9, wkg1min: 7.7, wkg2min: 6.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 1246463, name: "Adrian Montanez ", weight: 72.6, watt: 270, wkg: 3.7, w5s: 1025, w10s: 0, w15s: 947, w30s: 738, w1min: 507, w2min: 405, w5min: 345, w10min: 0, w20min: 270, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 10.2, wkg1min: 7.0, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1340145, name: "Jan vD", weight: 67.3, watt: 287, wkg: 4.2, w5s: 730, w10s: 0, w15s: 667, w30s: 590, w1min: 507, w2min: 394, w5min: 327, w10min: 0, w20min: 287, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 8.8, wkg1min: 7.5, wkg2min: 5.8, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
-      { id: 1713188, name: "Andreas Lindebner (COALITION)", weight: 67.9, watt: 264, wkg: 3.9, w5s: 659, w10s: 0, w15s: 645, w30s: 607, w1min: 437, w2min: 379, w5min: 323, w10min: 0, w20min: 264, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 8.9, wkg1min: 6.4, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 1713188, name: "Andreas Lindebner (COALITION)", weight: 66.9, watt: 268, wkg: 4.0, w5s: 659, w10s: 0, w15s: 645, w30s: 607, w1min: 437, w2min: 379, w5min: 323, w10min: 0, w20min: 268, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 8.9, wkg1min: 6.4, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 2855916, name: "Nils Hagendorf (COALITION) &#129449;&#129449;&#129449;", weight: 70.1, watt: 295, wkg: 4.3, w5s: 962, w10s: 0, w15s: 873, w30s: 636, w1min: 479, w2min: 419, w5min: 353, w10min: 0, w20min: 295, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 12.7, wkg30s: 9.2, wkg1min: 7.0, wkg2min: 6.1, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 3110074, name: "Mark Day ", weight: 72.5, watt: 337, wkg: 4.6, w5s: 767, w10s: 0, w15s: 720, w30s: 661, w1min: 522, w2min: 432, w5min: 381, w10min: 0, w20min: 337, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 9.1, wkg1min: 7.2, wkg2min: 6.0, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
       { id: 3850868, name: "Manuel Gil (COALITION) &#127464;&#127476; &#127809;", weight: 67.9, watt: 304, wkg: 4.5, w5s: 904, w10s: 0, w15s: 839, w30s: 666, w1min: 556, w2min: 463, w5min: 364, w10min: 0, w20min: 304, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 9.7, wkg1min: 8.1, wkg2min: 6.8, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { id: 4010525, name: ". Chris F.(Coalition)", weight: 93.8, watt: 400, wkg: 4.2, w5s: 1085, w10s: 0, w15s: 894, w30s: 686, w1min: 610, w2min: 539, w5min: 434, w10min: 0, w20min: 400, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.2, wkg1min: 6.5, wkg2min: 5.7, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 5457596, name: "Rasmus Fischer", weight: 68.3, watt: 278, wkg: 4.0, w5s: 932, w10s: 0, w15s: 845, w30s: 644, w1min: 469, w2min: 429, w5min: 334, w10min: 0, w20min: 278, w30min: 0, wkg5s: 14.2, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 9.6, wkg1min: 7.2, wkg2min: 6.5, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 6856783, name: "Chris Blake (Coalition)", weight: 72.2, watt: 332, wkg: 4.5, w5s: 1130, w10s: 0, w15s: 1023, w30s: 788, w1min: 576, w2min: 503, w5min: 409, w10min: 0, w20min: 332, w30min: 0, wkg5s: 15.5, wkg10s: 0.0, wkg15s: 14.0, wkg30s: 10.8, wkg1min: 8.0, wkg2min: 6.9, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
-      { id: 6960102, name: "Julius Ad (COALITION)", weight: 96.0, watt: 337, wkg: 3.5, w5s: 726, w10s: 0, w15s: 607, w30s: 540, w1min: 520, w2min: 451, w5min: 435, w10min: 0, w20min: 337, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.6, wkg1min: 5.4, wkg2min: 4.7, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 6960102, name: "Julius Ad (COALITION)", weight: 94.0, watt: 357, wkg: 3.8, w5s: 832, w10s: 0, w15s: 826, w30s: 740, w1min: 528, w2min: 484, w5min: 435, w10min: 0, w20min: 357, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 7.9, wkg1min: 5.6, wkg2min: 5.1, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 7171561, name: "M att W (COALITION)", weight: 74.0, watt: 290, wkg: 3.9, w5s: 1129, w10s: 0, w15s: 981, w30s: 773, w1min: 556, w2min: 439, w5min: 346, w10min: 0, w20min: 290, w30min: 0, wkg5s: 15.1, wkg10s: 0.0, wkg15s: 13.4, wkg30s: 10.6, wkg1min: 7.7, wkg2min: 6.1, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_TARAXYL": {
     rung: 5,
-    ladderPosition: 73,
-    positionInRung: 5,
+    ladderPosition: 76,
+    positionInRung: 8,
     name: "Coalition Taraxyl",
     riders: [
       { id: 40824, name: "Neil Allonby", weight: 79.5, watt: 291, wkg: 3.7, w5s: 536, w10s: 0, w15s: 495, w30s: 402, w1min: 345, w2min: 328, w5min: 308, w10min: 0, w20min: 291, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.1, wkg1min: 4.4, wkg2min: 4.2, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 104310, name: "Jo Grogan (COALITION)", weight: 64.2, watt: 230, wkg: 3.6, w5s: 674, w10s: 0, w15s: 586, w30s: 458, w1min: 391, w2min: 328, w5min: 280, w10min: 0, w20min: 230, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.1, wkg1min: 6.1, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 104310, name: "Jo Grogan (COALITION)", weight: 63.9, watt: 230, wkg: 3.6, w5s: 674, w10s: 0, w15s: 586, w30s: 458, w1min: 391, w2min: 328, w5min: 280, w10min: 0, w20min: 230, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.1, wkg1min: 6.1, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 128734, name: "Beccah Niesen (COALITION)", weight: 75.3, watt: 248, wkg: 3.3, w5s: 689, w10s: 0, w15s: 660, w30s: 548, w1min: 483, w2min: 372, w5min: 307, w10min: 0, w20min: 248, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.3, wkg1min: 6.4, wkg2min: 4.9, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 835438, name: "Chris McKenna", weight: 96.0, watt: 296, wkg: 3.1, w5s: 1088, w10s: 0, w15s: 967, w30s: 594, w1min: 456, w2min: 400, w5min: 334, w10min: 0, w20min: 296, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 6.2, wkg1min: 4.8, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 919661, name: "Ryan Green (COALITION)", weight: 79.0, watt: 229, wkg: 2.9, w5s: 532, w10s: 0, w15s: 480, w30s: 452, w1min: 419, w2min: 392, w5min: 290, w10min: 0, w20min: 229, w30min: 0, wkg5s: 6.7, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.7, wkg1min: 5.3, wkg2min: 5.0, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -265,8 +265,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_COALITION_ZEON": {
     rung: 2,
-    ladderPosition: 23,
-    positionInRung: 6,
+    ladderPosition: 24,
+    positionInRung: 7,
     name: "Coalition Zeon",
     riders: [
       { id: 367987, name: "Darrin S. Mackie", weight: 75.4, watt: 263, wkg: 3.5, w5s: 710, w10s: 0, w15s: 635, w30s: 557, w1min: 472, w2min: 384, w5min: 307, w10min: 0, w20min: 263, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.4, wkg1min: 6.3, wkg2min: 5.1, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -295,7 +295,7 @@ const OPPONENT_LIBRARY = {
       { id: 221671, name: "Peter Poulsen [DBR]", weight: 102.0, watt: 274, wkg: 2.7, w5s: 822, w10s: 0, w15s: 735, w30s: 592, w1min: 493, w2min: 406, w5min: 344, w10min: 0, w20min: 274, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 5.8, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 556802, name: "Rene&rsquo; Olsen (DBR)", weight: 92.0, watt: 286, wkg: 3.1, w5s: 773, w10s: 0, w15s: 745, w30s: 528, w1min: 460, w2min: 366, w5min: 316, w10min: 0, w20min: 286, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 5.7, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 1206812, name: "Rasmus Mollerup [DBR]", weight: 78.0, watt: 238, wkg: 3.1, w5s: 989, w10s: 0, w15s: 799, w30s: 580, w1min: 425, w2min: 335, w5min: 277, w10min: 0, w20min: 238, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.4, wkg1min: 5.4, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 3321984, name: "  Alsted [DBR]", weight: 100.4, watt: 292, wkg: 2.9, w5s: 696, w10s: 0, w15s: 672, w30s: 583, w1min: 468, w2min: 393, w5min: 338, w10min: 0, w20min: 292, w30min: 0, wkg5s: 6.9, wkg10s: 0.0, wkg15s: 6.6, wkg30s: 5.8, wkg1min: 4.7, wkg2min: 3.9, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 3321984, name: "  Alsted [DBR]", weight: 100.4, watt: 292, wkg: 2.9, w5s: 696, w10s: 0, w15s: 672, w30s: 583, w1min: 479, w2min: 406, w5min: 338, w10min: 0, w20min: 292, w30min: 0, wkg5s: 6.9, wkg10s: 0.0, wkg15s: 6.6, wkg30s: 5.8, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 4082842, name: "Lars J&oslash;rgensen [DBR]", weight: 92.0, watt: 293, wkg: 3.2, w5s: 892, w10s: 0, w15s: 836, w30s: 743, w1min: 517, w2min: 419, w5min: 358, w10min: 0, w20min: 293, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 8.3, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 4857102, name: "Mike Christensen", weight: 102.0, watt: 333, wkg: 3.3, w5s: 1041, w10s: 0, w15s: 854, w30s: 748, w1min: 586, w2min: 471, w5min: 408, w10min: 0, w20min: 333, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.3, wkg1min: 5.7, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 6702065, name: "Hassan Sheta", weight: 72.0, watt: 249, wkg: 3.5, w5s: 701, w10s: 0, w15s: 671, w30s: 587, w1min: 428, w2min: 360, w5min: 306, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 8.2, wkg1min: 5.9, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -307,7 +307,7 @@ const OPPONENT_LIBRARY = {
     rung: 2,
     ladderPosition: 33,
     positionInRung: 16,
-    name: "yo-Gen Derailleur Dynasty",
+    name: "Cryo-Gen Derailleur Dynas",
     riders: [
       { id: 67788, name: "Sander Pricker [CRYO-GEN]", weight: 79.1, watt: 277, wkg: 3.5, w5s: 1170, w10s: 0, w15s: 1011, w30s: 826, w1min: 483, w2min: 395, w5min: 320, w10min: 0, w20min: 277, w30min: 0, wkg5s: 15.0, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 10.6, wkg1min: 6.2, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 75758, name: "Simon The Chimp Aldridge [CRYO-GEN]", weight: 80.9, watt: 318, wkg: 4.0, w5s: 867, w10s: 0, w15s: 725, w30s: 590, w1min: 506, w2min: 420, w5min: 350, w10min: 0, w20min: 318, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.3, wkg1min: 6.3, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
@@ -333,11 +333,11 @@ const OPPONENT_LIBRARY = {
       { id: 9625, name: "Marshall Witkowski", weight: 105.0, watt: 440, wkg: 4.2, w5s: 1147, w10s: 0, w15s: 951, w30s: 783, w1min: 661, w2min: 575, w5min: 485, w10min: 0, w20min: 440, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.5, wkg1min: 6.3, wkg2min: 5.5, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 304632, name: "Tom Monta (DIRT)&#128016;", weight: 77.0, watt: 303, wkg: 3.9, w5s: 1093, w10s: 0, w15s: 923, w30s: 757, w1min: 507, w2min: 409, w5min: 335, w10min: 0, w20min: 303, w30min: 0, wkg5s: 14.2, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 9.8, wkg1min: 6.6, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 449149, name: "Ollie Compton", weight: 81.2, watt: 360, wkg: 4.5, w5s: 928, w10s: 0, w15s: 832, w30s: 728, w1min: 517, w2min: 439, w5min: 403, w10min: 0, w20min: 360, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 9.1, wkg1min: 6.4, wkg2min: 5.4, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
-      { id: 579296, name: "Jochem Koolhaas  ", weight: 57.5, watt: 262, wkg: 4.6, w5s: 658, w10s: 0, w15s: 597, w30s: 557, w1min: 434, w2min: 353, w5min: 313, w10min: 0, w20min: 262, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 9.7, wkg1min: 7.5, wkg2min: 6.1, wkg5min: 5.4, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
+      { id: 579296, name: "Jochem Koolhaas  ", weight: 57.5, watt: 267, wkg: 4.6, w5s: 658, w10s: 0, w15s: 597, w30s: 557, w1min: 434, w2min: 353, w5min: 313, w10min: 0, w20min: 267, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 9.7, wkg1min: 7.5, wkg2min: 6.1, wkg5min: 5.4, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
       { id: 1366959, name: "Snowy Pruett &#128016;&#9889;&#65039;&#129421;", weight: 85.0, watt: 350, wkg: 4.1, w5s: 1118, w10s: 0, w15s: 1050, w30s: 921, w1min: 651, w2min: 480, w5min: 397, w10min: 0, w20min: 350, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 10.8, wkg1min: 7.7, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 1645497, name: "Graeme Millar &#128016;", weight: 84.0, watt: 360, wkg: 4.3, w5s: 1184, w10s: 0, w15s: 1095, w30s: 897, w1min: 729, w2min: 478, w5min: 409, w10min: 0, w20min: 360, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 10.7, wkg1min: 8.7, wkg2min: 5.6, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 2008571, name: "John Davey (Beasts)", weight: 77.0, watt: 354, wkg: 4.6, w5s: 918, w10s: 0, w15s: 819, w30s: 739, w1min: 561, w2min: 471, w5min: 423, w10min: 0, w20min: 354, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 9.6, wkg1min: 7.3, wkg2min: 6.1, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
-      { id: 2633618, name: "   Ben Mayers BEASTs", weight: 71.0, watt: 325, wkg: 4.6, w5s: 927, w10s: 0, w15s: 884, w30s: 701, w1min: 629, w2min: 472, w5min: 379, w10min: 0, w20min: 325, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.9, wkg1min: 8.9, wkg2min: 6.6, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
+      { id: 2633618, name: "   2 Ben Mayers (Beasts)", weight: 71.0, watt: 325, wkg: 4.6, w5s: 927, w10s: 0, w15s: 884, w30s: 701, w1min: 629, w2min: 472, w5min: 379, w10min: 0, w20min: 325, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.9, wkg1min: 8.9, wkg2min: 6.6, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
       { id: 2811358, name: "Doug Obermann [DIRT]", weight: 78.4, watt: 323, wkg: 4.1, w5s: 1185, w10s: 0, w15s: 1142, w30s: 912, w1min: 661, w2min: 502, w5min: 412, w10min: 0, w20min: 323, w30min: 0, wkg5s: 15.1, wkg10s: 0.0, wkg15s: 14.6, wkg30s: 11.6, wkg1min: 8.4, wkg2min: 6.4, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 2876234, name: "Eric Barnhorst", weight: 79.0, watt: 350, wkg: 4.4, w5s: 993, w10s: 0, w15s: 921, w30s: 815, w1min: 614, w2min: 502, w5min: 405, w10min: 0, w20min: 350, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 10.3, wkg1min: 7.8, wkg2min: 6.4, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 3159617, name: "Peter Horning [MITTEN]", weight: 85.4, watt: 363, wkg: 4.3, w5s: 901, w10s: 0, w15s: 820, w30s: 726, w1min: 589, w2min: 487, w5min: 422, w10min: 0, w20min: 363, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.5, wkg1min: 6.9, wkg2min: 5.7, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
@@ -346,8 +346,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_CYCOS": {
     rung: 7,
-    ladderPosition: 104,
-    positionInRung: 2,
+    ladderPosition: 105,
+    positionInRung: 3,
     name: "DIRTy Cycos",
     riders: [
       { id: 557678, name: "Jordan Pitts ", weight: 85.5, watt: 270, wkg: 3.2, w5s: 994, w10s: 0, w15s: 895, w30s: 715, w1min: 471, w2min: 405, w5min: 322, w10min: 0, w20min: 270, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.4, wkg1min: 5.5, wkg2min: 4.7, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -369,8 +369,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_FRENZY": {
     rung: 5,
-    ladderPosition: 70,
-    positionInRung: 2,
+    ladderPosition: 72,
+    positionInRung: 4,
     name: "DIRTy Frenzy",
     riders: [
       { id: 74207, name: "Peter Phelan", weight: 75.0, watt: 243, wkg: 3.2, w5s: 919, w10s: 0, w15s: 786, w30s: 711, w1min: 452, w2min: 372, w5min: 291, w10min: 0, w20min: 243, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 9.5, wkg1min: 6.0, wkg2min: 5.0, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -379,7 +379,7 @@ const OPPONENT_LIBRARY = {
       { id: 354912, name: "Dave Edmonds", weight: 71.8, watt: 230, wkg: 3.3, w5s: 984, w10s: 0, w15s: 854, w30s: 625, w1min: 491, w2min: 367, w5min: 292, w10min: 0, w20min: 230, w30min: 0, wkg5s: 13.7, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 8.7, wkg1min: 6.9, wkg2min: 5.2, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 751042, name: "B.Smith (DIRT)", weight: 81.1, watt: 262, wkg: 3.2, w5s: 1043, w10s: 0, w15s: 977, w30s: 766, w1min: 499, w2min: 371, w5min: 305, w10min: 0, w20min: 262, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.4, wkg1min: 6.2, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 1338946, name: "Chris Hill (DIRT)", weight: 81.8, watt: 264, wkg: 3.2, w5s: 1003, w10s: 0, w15s: 866, w30s: 738, w1min: 542, w2min: 404, w5min: 322, w10min: 0, w20min: 264, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 9.0, wkg1min: 6.6, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
-      { id: 1699206, name: "D. De Groot", weight: 83.0, watt: 286, wkg: 3.4, w5s: 830, w10s: 0, w15s: 696, w30s: 533, w1min: 389, w2min: 343, w5min: 310, w10min: 0, w20min: 286, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.4, wkg1min: 4.7, wkg2min: 4.1, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 1699206, name: "D. De Groot", weight: 83.0, watt: 286, wkg: 3.4, w5s: 830, w10s: 0, w15s: 696, w30s: 533, w1min: 456, w2min: 354, w5min: 310, w10min: 0, w20min: 286, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.4, wkg1min: 5.5, wkg2min: 4.3, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 2497831, name: "B. Reiffer", weight: 88.0, watt: 290, wkg: 3.3, w5s: 835, w10s: 0, w15s: 787, w30s: 697, w1min: 483, w2min: 387, w5min: 329, w10min: 0, w20min: 290, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.9, wkg1min: 5.5, wkg2min: 4.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 2557787, name: "Grumpy Muppet", weight: 93.9, watt: 315, wkg: 3.2, w5s: 1107, w10s: 0, w15s: 992, w30s: 775, w1min: 511, w2min: 399, w5min: 341, w10min: 0, w20min: 315, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.9, wkg1min: 5.2, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 2884399, name: "M. Dicko (Frenzy)", weight: 90.0, watt: 267, wkg: 3.0, w5s: 1274, w10s: 0, w15s: 1188, w30s: 984, w1min: 633, w2min: 412, w5min: 330, w10min: 0, w20min: 267, w30min: 0, wkg5s: 14.2, wkg10s: 0.0, wkg15s: 13.2, wkg30s: 10.9, wkg1min: 7.0, wkg2min: 4.6, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -392,17 +392,17 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_PYRITES": {
     rung: 7,
-    ladderPosition: 109,
-    positionInRung: 7,
+    ladderPosition: 110,
+    positionInRung: 8,
     name: "DIRTy Pyrites",
     riders: [
-      { id: 579625, name: "Nicole Koolhaas", weight: 74.4, watt: 242, wkg: 3.3, w5s: 564, w10s: 0, w15s: 516, w30s: 437, w1min: 355, w2min: 296, w5min: 274, w10min: 0, w20min: 242, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 5.9, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 579625, name: "Nicole Koolhaas", weight: 74.4, watt: 242, wkg: 3.3, w5s: 564, w10s: 0, w15s: 523, w30s: 437, w1min: 355, w2min: 296, w5min: 274, w10min: 0, w20min: 242, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 5.9, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 946975, name: "Stuart Cook", weight: 74.0, watt: 253, wkg: 3.4, w5s: 514, w10s: 0, w15s: 474, w30s: 427, w1min: 364, w2min: 325, w5min: 289, w10min: 0, w20min: 253, w30min: 0, wkg5s: 6.9, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 5.8, wkg1min: 4.9, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 1137146, name: "Nolan Rogers", weight: 93.0, watt: 285, wkg: 3.1, w5s: 666, w10s: 0, w15s: 606, w30s: 551, w1min: 443, w2min: 383, w5min: 333, w10min: 0, w20min: 285, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.9, wkg1min: 4.8, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 1137146, name: "Nolan Rogers", weight: 93.0, watt: 285, wkg: 3.1, w5s: 699, w10s: 0, w15s: 628, w30s: 551, w1min: 443, w2min: 383, w5min: 333, w10min: 0, w20min: 285, w30min: 0, wkg5s: 7.5, wkg10s: 0.0, wkg15s: 6.8, wkg30s: 5.9, wkg1min: 4.8, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 2524919, name: "Ally [DIRT] &#9889;&#128642;&#9881;&#65039;", weight: 94.5, watt: 278, wkg: 2.9, w5s: 821, w10s: 0, w15s: 628, w30s: 474, w1min: 455, w2min: 372, w5min: 334, w10min: 0, w20min: 278, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 6.7, wkg30s: 5.0, wkg1min: 4.8, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 2710554, name: "Paul Millard (PYRITES)", weight: 98.4, watt: 298, wkg: 3.0, w5s: 1098, w10s: 0, w15s: 865, w30s: 692, w1min: 509, w2min: 415, w5min: 346, w10min: 0, w20min: 298, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 7.0, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 2974731, name: "Kurt Stueber [DIRT]", weight: 82.0, watt: 257, wkg: 3.1, w5s: 904, w10s: 0, w15s: 824, w30s: 649, w1min: 434, w2min: 331, w5min: 286, w10min: 0, w20min: 257, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.9, wkg1min: 5.3, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 3632608, name: "5 Paul (HECTOS)", weight: 77.3, watt: 228, wkg: 3.0, w5s: 807, w10s: 0, w15s: 709, w30s: 624, w1min: 425, w2min: 312, w5min: 276, w10min: 0, w20min: 228, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.1, wkg1min: 5.5, wkg2min: 4.0, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 3632608, name: "5 Paul (KILOS)", weight: 77.3, watt: 228, wkg: 3.0, w5s: 807, w10s: 0, w15s: 709, w30s: 624, w1min: 425, w2min: 312, w5min: 276, w10min: 0, w20min: 228, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.1, wkg1min: 5.5, wkg2min: 4.0, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 3669559, name: ". Rob (PYRITES) ", weight: 74.8, watt: 232, wkg: 3.1, w5s: 981, w10s: 0, w15s: 872, w30s: 596, w1min: 377, w2min: 300, w5min: 254, w10min: 0, w20min: 232, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 8.0, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 4333597, name: "T. Joe [Sabs]", weight: 81.1, watt: 241, wkg: 3.0, w5s: 794, w10s: 0, w15s: 707, w30s: 555, w1min: 459, w2min: 340, w5min: 281, w10min: 0, w20min: 241, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.8, wkg1min: 5.7, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 7260086, name: " # Greg C&#127797; [PYRITES]", weight: 85.0, watt: 287, wkg: 3.3, w5s: 775, w10s: 0, w15s: 718, w30s: 588, w1min: 432, w2min: 396, w5min: 324, w10min: 0, w20min: 287, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.8, wkg1min: 5.0, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 }
@@ -410,8 +410,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_SPELLBOUND": {
     rung: 3,
-    ladderPosition: 37,
-    positionInRung: 3,
+    ladderPosition: 41,
+    positionInRung: 7,
     name: "DIRTy Spellbound",
     riders: [
       { id: 259634, name: "Kieren McKenna (DiRT)", weight: 75.7, watt: 287, wkg: 3.8, w5s: 663, w10s: 0, w15s: 639, w30s: 572, w1min: 452, w2min: 408, w5min: 326, w10min: 0, w20min: 287, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 7.6, wkg1min: 6.0, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
@@ -431,8 +431,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_STRANGERS": {
     rung: 9,
-    ladderPosition: 140,
-    positionInRung: 4,
+    ladderPosition: 141,
+    positionInRung: 5,
     name: "DIRTy Strangers",
     riders: [
       { id: 550564, name: "Doug Morris [TeamDIRT.racing]", weight: 98.0, watt: 281, wkg: 2.9, w5s: 716, w10s: 0, w15s: 629, w30s: 536, w1min: 438, w2min: 359, w5min: 319, w10min: 0, w20min: 281, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 5.5, wkg1min: 4.5, wkg2min: 3.7, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -441,10 +441,10 @@ const OPPONENT_LIBRARY = {
       { id: 2397374, name: "Stephen Harman (DIRT)", weight: 88.5, watt: 233, wkg: 2.6, w5s: 786, w10s: 0, w15s: 653, w30s: 556, w1min: 412, w2min: 315, w5min: 276, w10min: 0, w20min: 233, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.2, wkg1min: 4.6, wkg2min: 3.5, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
       { id: 3166961, name: "Erik Holmlund (DIRT)", weight: 114.0, watt: 250, wkg: 2.2, w5s: 577, w10s: 0, w15s: 479, w30s: 425, w1min: 418, w2min: 341, w5min: 277, w10min: 0, w20min: 250, w30min: 0, wkg5s: 5.1, wkg10s: 0.0, wkg15s: 4.2, wkg30s: 3.7, wkg1min: 3.7, wkg2min: 3.0, wkg5min: 2.4, wkg10min: 0.0, wkg20min: 2.2, wkg30min: 0.0 },
       { id: 4789073, name: "Graham  Rooke", weight: 80.4, watt: 212, wkg: 2.6, w5s: 820, w10s: 0, w15s: 573, w30s: 490, w1min: 400, w2min: 301, w5min: 237, w10min: 0, w20min: 212, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.2, wkg1min: 5.0, wkg2min: 3.7, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
-      { id: 6506190, name: "J beanman (DIRT) TTV", weight: 89.0, watt: 205, wkg: 2.3, w5s: 689, w10s: 0, w15s: 626, w30s: 525, w1min: 357, w2min: 301, w5min: 235, w10min: 0, w20min: 205, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 5.9, wkg1min: 4.0, wkg2min: 3.4, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
+      { id: 6506190, name: "J Beanman (DIRT) (Stranger)", weight: 89.0, watt: 206, wkg: 2.3, w5s: 689, w10s: 0, w15s: 653, w30s: 577, w1min: 444, w2min: 322, w5min: 241, w10min: 0, w20min: 206, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.5, wkg1min: 5.0, wkg2min: 3.6, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
       { id: 7536082, name: "Scott Holmes", weight: 91.0, watt: 243, wkg: 2.7, w5s: 994, w10s: 0, w15s: 928, w30s: 725, w1min: 468, w2min: 351, w5min: 278, w10min: 0, w20min: 243, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.0, wkg1min: 5.1, wkg2min: 3.9, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 7618072, name: "Harold Wright", weight: 91.6, watt: 263, wkg: 2.9, w5s: 757, w10s: 0, w15s: 658, w30s: 557, w1min: 391, w2min: 318, w5min: 291, w10min: 0, w20min: 263, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 6.1, wkg1min: 4.3, wkg2min: 3.5, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
-      { id: 7736037, name: "Roland Kuipers ", weight: 89.3, watt: 241, wkg: 2.7, w5s: 662, w10s: 0, w15s: 561, w30s: 489, w1min: 450, w2min: 357, w5min: 288, w10min: 0, w20min: 241, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.5, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
+      { id: 7736037, name: "Roland [DIRT - Strangers]", weight: 89.7, watt: 241, wkg: 2.7, w5s: 662, w10s: 0, w15s: 561, w30s: 489, w1min: 450, w2min: 357, w5min: 288, w10min: 0, w20min: 241, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.5, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 7817017, name: "Christopher Mast [AVC]", weight: 76.6, watt: 160, wkg: 2.1, w5s: 374, w10s: 0, w15s: 338, w30s: 282, w1min: 223, w2min: 193, w5min: 176, w10min: 0, w20min: 160, w30min: 0, wkg5s: 4.9, wkg10s: 0.0, wkg15s: 4.4, wkg30s: 3.7, wkg1min: 2.9, wkg2min: 2.5, wkg5min: 2.3, wkg10min: 0.0, wkg20min: 2.1, wkg30min: 0.0 }
     ]
   },
@@ -470,8 +470,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DEVIL_DOGS__DBR_": {
     rung: 1,
-    ladderPosition: 12,
-    positionInRung: 12,
+    ladderPosition: 11,
+    positionInRung: 11,
     name: "Devil Dogs [DBR]",
     riders: [
       { id: 223252, name: "Peter Ryberg", weight: 80.0, watt: 360, wkg: 4.5, w5s: 797, w10s: 0, w15s: 720, w30s: 657, w1min: 625, w2min: 501, w5min: 440, w10min: 0, w20min: 360, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 8.2, wkg1min: 7.8, wkg2min: 6.3, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
@@ -486,8 +486,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DIRTY_SABOTEURS": {
     rung: 8,
-    ladderPosition: 124,
-    positionInRung: 5,
+    ladderPosition: 125,
+    positionInRung: 6,
     name: "DiRTy Saboteurs",
     riders: [
       { id: 1825946, name: "Phil Smith (DIRT) &#128481;&#65039;", weight: 70.9, watt: 187, wkg: 2.6, w5s: 693, w10s: 0, w15s: 644, w30s: 509, w1min: 370, w2min: 295, w5min: 223, w10min: 0, w20min: 187, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.2, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
@@ -495,7 +495,8 @@ const OPPONENT_LIBRARY = {
       { id: 4092272, name: "Luke uke", weight: 107.2, watt: 305, wkg: 2.8, w5s: 944, w10s: 0, w15s: 864, w30s: 610, w1min: 457, w2min: 436, w5min: 354, w10min: 0, w20min: 305, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 5.7, wkg1min: 4.3, wkg2min: 4.1, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 4149947, name: "Bl&auml;ir H (DIRT)", weight: 71.0, watt: 213, wkg: 3.0, w5s: 703, w10s: 0, w15s: 612, w30s: 496, w1min: 343, w2min: 304, w5min: 254, w10min: 0, w20min: 213, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.0, wkg1min: 4.8, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 4462961, name: "Nick Rougz {Dirt}", weight: 92.0, watt: 260, wkg: 2.8, w5s: 622, w10s: 0, w15s: 601, w30s: 438, w1min: 357, w2min: 329, w5min: 307, w10min: 0, w20min: 260, w30min: 0, wkg5s: 7.1, wkg10s: 0.0, wkg15s: 6.8, wkg30s: 5.0, wkg1min: 3.9, wkg2min: 3.6, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
-      { id: 5512895, name: "6. D@V&euro; {HECTOS)", weight: 83.5, watt: 249, wkg: 3.0, w5s: 798, w10s: 0, w15s: 654, w30s: 514, w1min: 437, w2min: 331, w5min: 281, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.2, wkg1min: 5.2, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 5320327, name: "Alistair Sherlock (CCR)", weight: 85.0, watt: 255, wkg: 3.0, w5s: 899, w10s: 0, w15s: 804, w30s: 611, w1min: 483, w2min: 376, w5min: 298, w10min: 0, w20min: 255, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 7.2, wkg1min: 5.7, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 5512895, name: "4. D@V&euro; {KILOS)", weight: 83.5, watt: 249, wkg: 3.0, w5s: 798, w10s: 0, w15s: 654, w30s: 514, w1min: 437, w2min: 331, w5min: 281, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.2, wkg1min: 5.2, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 6135817, name: "Chris Clarke (Saboteurs)", weight: 73.0, watt: 207, wkg: 2.8, w5s: 528, w10s: 0, w15s: 458, w30s: 395, w1min: 359, w2min: 287, w5min: 258, w10min: 0, w20min: 207, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.4, wkg1min: 4.9, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 7574336, name: "TessGames  Tessachka (DIRT)", weight: 49.9, watt: 173, wkg: 3.5, w5s: 378, w10s: 0, w15s: 349, w30s: 319, w1min: 282, w2min: 247, w5min: 195, w10min: 0, w20min: 173, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 6.4, wkg1min: 5.6, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 7903886, name: "Will  Davies", weight: 88.9, watt: 240, wkg: 2.7, w5s: 985, w10s: 0, w15s: 867, w30s: 632, w1min: 429, w2min: 345, w5min: 287, w10min: 0, w20min: 240, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.1, wkg1min: 4.8, wkg2min: 3.9, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 }
@@ -510,7 +511,7 @@ const OPPONENT_LIBRARY = {
       { id: 90272, name: "Graham McCrindle (DIRTy)", weight: 92.0, watt: 287, wkg: 3.1, w5s: 942, w10s: 0, w15s: 942, w30s: 657, w1min: 449, w2min: 352, w5min: 314, w10min: 0, w20min: 287, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 7.4, wkg1min: 5.0, wkg2min: 3.8, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 207124, name: "Pau Ferrara ", weight: 68.0, watt: 269, wkg: 4.0, w5s: 820, w10s: 0, w15s: 775, w30s: 615, w1min: 478, w2min: 404, w5min: 319, w10min: 0, w20min: 269, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 9.2, wkg1min: 7.0, wkg2min: 5.9, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 214490, name: "Jari Leino [DIRT]", weight: 75.0, watt: 231, wkg: 3.1, w5s: 841, w10s: 0, w15s: 761, w30s: 669, w1min: 430, w2min: 320, w5min: 284, w10min: 0, w20min: 231, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.9, wkg1min: 5.7, wkg2min: 4.3, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 431634, name: "First Goodlad (DnD Buteos)", weight: 79.0, watt: 295, wkg: 3.7, w5s: 819, w10s: 0, w15s: 702, w30s: 634, w1min: 554, w2min: 456, w5min: 357, w10min: 0, w20min: 295, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 8.0, wkg1min: 7.0, wkg2min: 5.8, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 431634, name: "  Goodlad (DnD Buteos)", weight: 79.0, watt: 295, wkg: 3.7, w5s: 819, w10s: 0, w15s: 702, w30s: 634, w1min: 554, w2min: 456, w5min: 357, w10min: 0, w20min: 295, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 8.0, wkg1min: 7.0, wkg2min: 5.8, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 702791, name: "Lee Hasbury  (DIRT)", weight: 83.5, watt: 281, wkg: 3.4, w5s: 885, w10s: 0, w15s: 816, w30s: 736, w1min: 593, w2min: 463, w5min: 356, w10min: 0, w20min: 281, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.8, wkg1min: 7.1, wkg2min: 5.6, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 901874, name: "Ronald Damme", weight: 98.0, watt: 335, wkg: 3.3, w5s: 914, w10s: 0, w15s: 741, w30s: 566, w1min: 477, w2min: 402, w5min: 365, w10min: 0, w20min: 335, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 5.8, wkg1min: 4.9, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 1121198, name: "Carlos Cubas ", weight: 55.9, watt: 254, wkg: 4.5, w5s: 704, w10s: 0, w15s: 611, w30s: 523, w1min: 419, w2min: 343, w5min: 295, w10min: 0, w20min: 254, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.4, wkg1min: 7.5, wkg2min: 6.1, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
@@ -524,40 +525,56 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DOWN_N_DIRTY_CONDORS": {
     rung: 7,
-    ladderPosition: 110,
-    positionInRung: 8,
+    ladderPosition: 111,
+    positionInRung: 9,
     name: "Down n DIRTy Condors",
     riders: [
-      { id: 88920, name: "Brendan Audis (PAZ Racing)", weight: 77.3, watt: 232, wkg: 3.0, w5s: 1032, w10s: 0, w15s: 870, w30s: 656, w1min: 407, w2min: 331, w5min: 274, w10min: 0, w20min: 232, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.5, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 620827, name: "Martin Harris [DIRT]", weight: 84.3, watt: 241, wkg: 2.9, w5s: 928, w10s: 0, w15s: 873, w30s: 570, w1min: 354, w2min: 339, w5min: 295, w10min: 0, w20min: 241, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 6.8, wkg1min: 4.2, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 88920, name: "Brendan Audis (PAZ Racing)", weight: 77.3, watt: 232, wkg: 3.0, w5s: 1032, w10s: 0, w15s: 870, w30s: 656, w1min: 410, w2min: 331, w5min: 274, w10min: 0, w20min: 232, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.5, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 620827, name: "Martin Harris [DIRT]", weight: 83.0, watt: 245, wkg: 3.0, w5s: 928, w10s: 0, w15s: 873, w30s: 570, w1min: 425, w2min: 351, w5min: 295, w10min: 0, w20min: 245, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 6.8, wkg1min: 5.1, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 1090650, name: "Larry Webb(Falcons)", weight: 60.8, watt: 209, wkg: 3.4, w5s: 545, w10s: 0, w15s: 487, w30s: 374, w1min: 312, w2min: 284, w5min: 234, w10min: 0, w20min: 209, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 6.2, wkg1min: 5.1, wkg2min: 4.7, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 2612903, name: " 4 Dan (Condors)", weight: 98.0, watt: 285, wkg: 2.9, w5s: 1042, w10s: 0, w15s: 866, w30s: 614, w1min: 466, w2min: 389, w5min: 322, w10min: 0, w20min: 285, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.3, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
-      { id: 2641379, name: "Andrew Spranger (Down N DIRTy)", weight: 89.5, watt: 249, wkg: 2.8, w5s: 598, w10s: 0, w15s: 479, w30s: 414, w1min: 355, w2min: 331, w5min: 286, w10min: 0, w20min: 249, w30min: 0, wkg5s: 6.7, wkg10s: 0.0, wkg15s: 5.4, wkg30s: 4.6, wkg1min: 4.0, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
+      { id: 2641379, name: "Andrew Spranger (Down N DIRTy)", weight: 89.5, watt: 249, wkg: 2.8, w5s: 598, w10s: 0, w15s: 509, w30s: 484, w1min: 438, w2min: 352, w5min: 286, w10min: 0, w20min: 249, w30min: 0, wkg5s: 6.7, wkg10s: 0.0, wkg15s: 5.7, wkg30s: 5.4, wkg1min: 4.9, wkg2min: 3.9, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 2643057, name: "Chris Temple", weight: 78.5, watt: 240, wkg: 3.1, w5s: 838, w10s: 0, w15s: 754, w30s: 570, w1min: 435, w2min: 360, w5min: 302, w10min: 0, w20min: 240, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.3, wkg1min: 5.5, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 2722256, name: "Paul Hickman", weight: 81.7, watt: 246, wkg: 3.0, w5s: 625, w10s: 0, w15s: 529, w30s: 456, w1min: 400, w2min: 332, w5min: 293, w10min: 0, w20min: 246, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.6, wkg1min: 4.8, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 2722256, name: "Paul Hickman", weight: 82.0, watt: 246, wkg: 3.0, w5s: 801, w10s: 0, w15s: 727, w30s: 532, w1min: 458, w2min: 356, w5min: 293, w10min: 0, w20min: 246, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.5, wkg1min: 5.6, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 2888366, name: "Mick Ronald (DIRT/GXY)", weight: 85.0, watt: 258, wkg: 3.1, w5s: 999, w10s: 0, w15s: 911, w30s: 746, w1min: 467, w2min: 379, w5min: 295, w10min: 0, w20min: 258, w30min: 0, wkg5s: 12.1, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.0, wkg1min: 5.7, wkg2min: 4.6, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 3328207, name: ". Clive (Condors)", weight: 82.0, watt: 243, wkg: 3.0, w5s: 680, w10s: 0, w15s: 649, w30s: 465, w1min: 347, w2min: 305, w5min: 268, w10min: 0, w20min: 243, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 5.7, wkg1min: 4.2, wkg2min: 3.7, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 3328207, name: ". Clive (Condors)", weight: 82.0, watt: 243, wkg: 3.0, w5s: 680, w10s: 0, w15s: 649, w30s: 465, w1min: 386, w2min: 317, w5min: 268, w10min: 0, w20min: 243, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 5.7, wkg1min: 4.7, wkg2min: 3.9, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 4317416, name: "Jem Randell", weight: 67.8, watt: 239, wkg: 3.5, w5s: 507, w10s: 0, w15s: 432, w30s: 380, w1min: 317, w2min: 277, w5min: 261, w10min: 0, w20min: 239, w30min: 0, wkg5s: 7.5, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 5.6, wkg1min: 4.7, wkg2min: 4.1, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5535384, name: "Tony Bennett", weight: 70.3, watt: 232, wkg: 3.2, w5s: 703, w10s: 0, w15s: 592, w30s: 427, w1min: 329, w2min: 300, w5min: 256, w10min: 0, w20min: 232, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.0, wkg1min: 4.7, wkg2min: 4.2, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DOWN_N_DIRTY_VULTURES": {
     rung: 1,
-    ladderPosition: 16,
-    positionInRung: 16,
+    ladderPosition: 15,
+    positionInRung: 15,
     name: "Down n DIRTy Vultures",
     riders: [
       { id: 38554, name: "Matt Brewer", weight: 74.0, watt: 300, wkg: 4.0, w5s: 794, w10s: 0, w15s: 707, w30s: 614, w1min: 502, w2min: 420, w5min: 338, w10min: 0, w20min: 300, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.3, wkg1min: 6.7, wkg2min: 5.7, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 335164, name: "Tiago Barreira (Eat DIRT)", weight: 77.1, watt: 309, wkg: 4.0, w5s: 795, w10s: 0, w15s: 665, w30s: 621, w1min: 524, w2min: 441, w5min: 361, w10min: 0, w20min: 309, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 8.2, wkg1min: 6.9, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 513566, name: "Jon Poole", weight: 68.3, watt: 270, wkg: 4.0, w5s: 706, w10s: 0, w15s: 620, w30s: 546, w1min: 422, w2min: 373, w5min: 301, w10min: 0, w20min: 270, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.0, wkg1min: 6.2, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
+      { id: 676023, name: "Matt Lawrence (DIRT)", weight: 69.0, watt: 303, wkg: 4.4, w5s: 819, w10s: 0, w15s: 635, w30s: 530, w1min: 483, w2min: 433, w5min: 377, w10min: 0, w20min: 303, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.7, wkg1min: 7.0, wkg2min: 6.3, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 1099918, name: "Joe Urbanski ", weight: 55.7, watt: 274, wkg: 4.9, w5s: 674, w10s: 0, w15s: 645, w30s: 526, w1min: 415, w2min: 365, w5min: 315, w10min: 0, w20min: 274, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 9.5, wkg1min: 7.5, wkg2min: 6.6, wkg5min: 5.7, wkg10min: 0.0, wkg20min: 4.9, wkg30min: 0.0 },
       { id: 1182884, name: "Patrick Breen", weight: 83.3, watt: 379, wkg: 4.5, w5s: 968, w10s: 0, w15s: 799, w30s: 703, w1min: 549, w2min: 459, w5min: 404, w10min: 0, w20min: 379, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.4, wkg1min: 6.6, wkg2min: 5.5, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { id: 1972471, name: "Clive Vallance [ElectricSpirit]", weight: 78.5, watt: 395, wkg: 5.0, w5s: 1087, w10s: 0, w15s: 970, w30s: 813, w1min: 635, w2min: 565, w5min: 445, w10min: 0, w20min: 395, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 10.4, wkg1min: 8.1, wkg2min: 7.2, wkg5min: 5.7, wkg10min: 0.0, wkg20min: 5.0, wkg30min: 0.0 },
       { id: 2340067, name: "Andy C", weight: 75.5, watt: 337, wkg: 4.4, w5s: 894, w10s: 0, w15s: 787, w30s: 694, w1min: 565, w2min: 491, w5min: 384, w10min: 0, w20min: 337, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 9.2, wkg1min: 7.3, wkg2min: 6.3, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 2708344, name: "Batu Yildiz", weight: 80.0, watt: 348, wkg: 4.3, w5s: 1013, w10s: 0, w15s: 785, w30s: 775, w1min: 658, w2min: 546, w5min: 419, w10min: 0, w20min: 348, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 9.7, wkg1min: 8.2, wkg2min: 6.8, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 3659440, name: "Matthew Wight", weight: 72.2, watt: 293, wkg: 4.1, w5s: 980, w10s: 0, w15s: 942, w30s: 845, w1min: 581, w2min: 451, w5min: 350, w10min: 0, w20min: 293, w30min: 0, wkg5s: 13.6, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 11.7, wkg1min: 8.1, wkg2min: 6.3, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { id: 4493823, name: "Stevie Cobb", weight: 63.5, watt: 257, wkg: 4.0, w5s: 852, w10s: 0, w15s: 724, w30s: 610, w1min: 392, w2min: 359, w5min: 293, w10min: 0, w20min: 257, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.6, wkg1min: 6.2, wkg2min: 5.7, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
+      { id: 4493823, name: "6 Stevie (BBirds)", weight: 63.5, watt: 257, wkg: 4.0, w5s: 852, w10s: 0, w15s: 724, w30s: 610, w1min: 392, w2min: 359, w5min: 293, w10min: 0, w20min: 257, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.6, wkg1min: 6.2, wkg2min: 5.7, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 5409752, name: "Tommy Dawson", weight: 92.4, watt: 359, wkg: 4.0, w5s: 1358, w10s: 0, w15s: 1284, w30s: 987, w1min: 664, w2min: 535, w5min: 415, w10min: 0, w20min: 359, w30min: 0, wkg5s: 15.1, wkg10s: 0.0, wkg15s: 14.3, wkg30s: 11.0, wkg1min: 7.4, wkg2min: 5.9, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 }
+    ]
+  },
+  "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DUCKED_LEGS": {
+    rung: 8,
+    ladderPosition: 128,
+    positionInRung: 9,
+    name: "Ducked Legs",
+    riders: [
+      { id: 470049, name: "Manuel Henry [Evolve]", weight: 72.0, watt: 216, wkg: 3.0, w5s: 523, w10s: 0, w15s: 468, w30s: 403, w1min: 335, w2min: 288, w5min: 246, w10min: 0, w20min: 216, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.6, wkg1min: 4.7, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 1842649, name: "Steve Patterson", weight: 84.5, watt: 246, wkg: 2.9, w5s: 512, w10s: 0, w15s: 471, w30s: 432, w1min: 381, w2min: 315, w5min: 275, w10min: 0, w20min: 246, w30min: 0, wkg5s: 6.1, wkg10s: 0.0, wkg15s: 5.6, wkg30s: 5.1, wkg1min: 4.5, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 2766409, name: "James Elgar | EVOLVE", weight: 78.0, watt: 288, wkg: 3.8, w5s: 866, w10s: 0, w15s: 753, w30s: 491, w1min: 400, w2min: 344, w5min: 315, w10min: 0, w20min: 288, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 6.3, wkg1min: 5.3, wkg2min: 4.6, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { id: 4826655, name: "Scott  Mitchell_Evolve", weight: 71.0, watt: 249, wkg: 3.5, w5s: 601, w10s: 0, w15s: 459, w30s: 421, w1min: 371, w2min: 317, w5min: 264, w10min: 0, w20min: 249, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.9, wkg1min: 5.2, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 6214886, name: "Mathieu dB | EVOLVE", weight: 79.7, watt: 236, wkg: 3.0, w5s: 493, w10s: 0, w15s: 354, w30s: 325, w1min: 296, w2min: 267, w5min: 250, w10min: 0, w20min: 236, w30min: 0, wkg5s: 6.2, wkg10s: 0.0, wkg15s: 4.4, wkg30s: 4.1, wkg1min: 3.7, wkg2min: 3.4, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 6783910, name: "Joe Lenthall | Evolve", weight: 101.4, watt: 240, wkg: 2.5, w5s: 922, w10s: 0, w15s: 730, w30s: 554, w1min: 395, w2min: 307, w5min: 265, w10min: 0, w20min: 240, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 5.7, wkg1min: 4.1, wkg2min: 3.2, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
+      { id: 7049197, name: "Regis Nhili", weight: 73.0, watt: 228, wkg: 3.1, w5s: 752, w10s: 0, w15s: 645, w30s: 462, w1min: 349, w2min: 319, w5min: 267, w10min: 0, w20min: 228, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.3, wkg1min: 4.8, wkg2min: 4.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_DUNKING_TEABAGS": {
@@ -574,7 +591,7 @@ const OPPONENT_LIBRARY = {
       { id: 5083506, name: "Andrew Mc", weight: 77.0, watt: 281, wkg: 3.7, w5s: 961, w10s: 0, w15s: 790, w30s: 617, w1min: 511, w2min: 425, w5min: 357, w10min: 0, w20min: 281, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 8.0, wkg1min: 6.7, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 5639087, name: "L.", weight: 85.0, watt: 296, wkg: 3.5, w5s: 975, w10s: 0, w15s: 878, w30s: 713, w1min: 503, w2min: 433, w5min: 333, w10min: 0, w20min: 296, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.4, wkg1min: 5.9, wkg2min: 5.1, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5879996, name: "Gerard Corr", weight: 94.0, watt: 279, wkg: 3.0, w5s: 1114, w10s: 0, w15s: 790, w30s: 566, w1min: 434, w2min: 377, w5min: 316, w10min: 0, w20min: 279, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.0, wkg1min: 4.6, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 5913482, name: "Sean Waples [T&S]", weight: 74.0, watt: 267, wkg: 3.6, w5s: 1203, w10s: 0, w15s: 1072, w30s: 664, w1min: 538, w2min: 414, w5min: 325, w10min: 0, w20min: 267, w30min: 0, wkg5s: 16.3, wkg10s: 0.0, wkg15s: 14.5, wkg30s: 9.0, wkg1min: 7.3, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 5913482, name: "Sean Waples [T&S]", weight: 74.0, watt: 270, wkg: 3.6, w5s: 1203, w10s: 0, w15s: 1072, w30s: 664, w1min: 538, w2min: 414, w5min: 325, w10min: 0, w20min: 270, w30min: 0, wkg5s: 16.3, wkg10s: 0.0, wkg15s: 14.5, wkg30s: 9.0, wkg1min: 7.3, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 6120611, name: "Sam Nettel", weight: 77.3, watt: 288, wkg: 3.7, w5s: 996, w10s: 0, w15s: 832, w30s: 673, w1min: 530, w2min: 473, w5min: 346, w10min: 0, w20min: 288, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.6, wkg1min: 6.8, wkg2min: 6.0, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 7329763, name: "Steve D", weight: 67.3, watt: 250, wkg: 3.7, w5s: 817, w10s: 0, w15s: 669, w30s: 550, w1min: 407, w2min: 324, w5min: 286, w10min: 0, w20min: 250, w30min: 0, wkg5s: 12.1, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.2, wkg1min: 6.0, wkg2min: 4.8, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 8073072, name: "Charlie Bendall (T&S)", weight: 80.5, watt: 282, wkg: 3.5, w5s: 843, w10s: 0, w15s: 741, w30s: 594, w1min: 457, w2min: 413, w5min: 329, w10min: 0, w20min: 282, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.5, wkg1min: 5.7, wkg2min: 5.2, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 }
@@ -582,8 +599,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ESCO_BOHEMIAN": {
     rung: 4,
-    ladderPosition: 58,
-    positionInRung: 7,
+    ladderPosition: 59,
+    positionInRung: 8,
     name: "ESCO Bohemian",
     riders: [
       { id: 161597, name: "Gavin Spiers", weight: 72.7, watt: 275, wkg: 3.8, w5s: 843, w10s: 0, w15s: 761, w30s: 560, w1min: 463, w2min: 388, w5min: 326, w10min: 0, w20min: 275, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 7.7, wkg1min: 6.4, wkg2min: 5.4, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
@@ -599,8 +616,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ESCO_FIENDTINI": {
     rung: 7,
-    ladderPosition: 106,
-    positionInRung: 4,
+    ladderPosition: 107,
+    positionInRung: 5,
     name: "ESCO Fiendtini",
     riders: [
       { id: 64890, name: "Douglas Cook", weight: 82.5, watt: 228, wkg: 2.8, w5s: 810, w10s: 0, w15s: 747, w30s: 701, w1min: 560, w2min: 351, w5min: 280, w10min: 0, w20min: 228, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 8.5, wkg1min: 6.8, wkg2min: 4.3, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -612,13 +629,13 @@ const OPPONENT_LIBRARY = {
       { id: 1610770, name: "Richard Britton", weight: 0.0, watt: 0, wkg: 0.0, w5s: 0, w10s: 0, w15s: 0, w30s: 0, w1min: 0, w2min: 0, w5min: 0, w10min: 0, w20min: 0, w30min: 0, wkg5s: 0.0, wkg10s: 0.0, wkg15s: 0.0, wkg30s: 0.0, wkg1min: 0.0, wkg2min: 0.0, wkg5min: 0.0, wkg10min: 0.0, wkg20min: 0.0, wkg30min: 0.0 },
       { id: 2217661, name: "Sam Boocock [ElectricSpirit]", weight: 91.9, watt: 274, wkg: 3.0, w5s: 1031, w10s: 0, w15s: 962, w30s: 734, w1min: 552, w2min: 425, w5min: 353, w10min: 0, w20min: 274, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.0, wkg1min: 6.0, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 2875688, name: "Susan Lyle [Electricspirit.co]", weight: 53.8, watt: 204, wkg: 3.8, w5s: 407, w10s: 0, w15s: 384, w30s: 363, w1min: 313, w2min: 256, w5min: 220, w10min: 0, w20min: 204, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 6.7, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 6383916, name: "Simon Chilli [Electricspirit]", weight: 73.7, watt: 247, wkg: 3.3, w5s: 775, w10s: 0, w15s: 636, w30s: 575, w1min: 450, w2min: 343, w5min: 314, w10min: 0, w20min: 247, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.8, wkg1min: 6.1, wkg2min: 4.6, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 }
+      { id: 6383916, name: "Simon Chilli [Electricspirit]", weight: 73.7, watt: 247, wkg: 3.3, w5s: 775, w10s: 0, w15s: 636, w30s: 575, w1min: 450, w2min: 370, w5min: 314, w10min: 0, w20min: 247, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.8, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_EVOLVE_MIGHTY_DUCKS": {
     rung: 8,
-    ladderPosition: 131,
-    positionInRung: 12,
+    ladderPosition: 133,
+    positionInRung: 14,
     name: "Evolve Mighty Ducks",
     riders: [
       { id: 18415, name: "Seb Donjon | EVOLVE", weight: 74.0, watt: 197, wkg: 2.7, w5s: 399, w10s: 0, w15s: 355, w30s: 326, w1min: 295, w2min: 267, w5min: 234, w10min: 0, w20min: 197, w30min: 0, wkg5s: 5.4, wkg10s: 0.0, wkg15s: 4.8, wkg30s: 4.4, wkg1min: 4.0, wkg2min: 3.6, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
@@ -634,17 +651,17 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_EXTRAORDINARY_GENTLEWATTS": {
     rung: 7,
-    ladderPosition: 103,
-    positionInRung: 1,
+    ladderPosition: 104,
+    positionInRung: 2,
     name: "Extraordinary GentleWaTTs",
     riders: [
-      { id: 526007, name: "EDELHELFER [WATTFabrik]", weight: 80.0, watt: 249, wkg: 3.1, w5s: 794, w10s: 0, w15s: 706, w30s: 540, w1min: 431, w2min: 339, w5min: 294, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.7, wkg1min: 5.4, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 526007, name: "EDELHELFER [WATTFabrik]", weight: 80.0, watt: 249, wkg: 3.1, w5s: 840, w10s: 0, w15s: 787, w30s: 540, w1min: 431, w2min: 339, w5min: 294, w10min: 0, w20min: 249, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 6.7, wkg1min: 5.4, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 583096, name: "Andreas Josmann", weight: 93.0, watt: 297, wkg: 3.2, w5s: 499, w10s: 0, w15s: 487, w30s: 443, w1min: 427, w2min: 381, w5min: 340, w10min: 0, w20min: 297, w30min: 0, wkg5s: 5.4, wkg10s: 0.0, wkg15s: 5.2, wkg30s: 4.8, wkg1min: 4.6, wkg2min: 4.1, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 783022, name: "Gisela Beele [WATTFabrik]", weight: 58.0, watt: 209, wkg: 3.6, w5s: 458, w10s: 0, w15s: 434, w30s: 379, w1min: 287, w2min: 259, w5min: 241, w10min: 0, w20min: 209, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 6.5, wkg1min: 4.9, wkg2min: 4.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 1460634, name: "Christoph K&uuml;mmel-Schulte [WATTFabrik]&#128017;", weight: 82.3, watt: 221, wkg: 2.7, w5s: 545, w10s: 0, w15s: 497, w30s: 362, w1min: 309, w2min: 280, w5min: 244, w10min: 0, w20min: 221, w30min: 0, wkg5s: 6.6, wkg10s: 0.0, wkg15s: 6.0, wkg30s: 4.4, wkg1min: 3.8, wkg2min: 3.4, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
+      { id: 1460634, name: "Christoph K&uuml;mmel-Schulte [WATTFabrik]&#128017;", weight: 82.3, watt: 231, wkg: 2.8, w5s: 545, w10s: 0, w15s: 497, w30s: 362, w1min: 309, w2min: 280, w5min: 245, w10min: 0, w20min: 231, w30min: 0, wkg5s: 6.6, wkg10s: 0.0, wkg15s: 6.0, wkg30s: 4.4, wkg1min: 3.8, wkg2min: 3.4, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 2888578, name: "H.  K&ouml;tti [WATTFabrik]", weight: 64.0, watt: 211, wkg: 3.3, w5s: 423, w10s: 0, w15s: 389, w30s: 355, w1min: 308, w2min: 269, w5min: 250, w10min: 0, w20min: 211, w30min: 0, wkg5s: 6.6, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.5, wkg1min: 4.8, wkg2min: 4.2, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 3046431, name: "Matthias Zeh [WATTFabrik]", weight: 89.0, watt: 295, wkg: 3.3, w5s: 837, w10s: 0, w15s: 808, w30s: 705, w1min: 547, w2min: 447, w5min: 357, w10min: 0, w20min: 295, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.9, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { id: 3677560, name: "E. Dietmar [WATTFabrik]", weight: 84.0, watt: 293, wkg: 3.5, w5s: 706, w10s: 0, w15s: 634, w30s: 562, w1min: 414, w2min: 368, w5min: 316, w10min: 0, w20min: 293, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 6.8, wkg1min: 5.0, wkg2min: 4.4, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 3677560, name: "E. Dietmar [WATTFabrik]", weight: 83.0, watt: 293, wkg: 3.5, w5s: 742, w10s: 0, w15s: 688, w30s: 562, w1min: 454, w2min: 372, w5min: 316, w10min: 0, w20min: 293, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.8, wkg1min: 5.5, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5284756, name: "Tobi Jarst [WATTFabrik]", weight: 71.5, watt: 187, wkg: 2.5, w5s: 637, w10s: 0, w15s: 545, w30s: 426, w1min: 297, w2min: 257, w5min: 231, w10min: 0, w20min: 187, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 5.8, wkg1min: 4.1, wkg2min: 3.5, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
       { id: 5612518, name: "Dennis S. [WATTFabrik]", weight: 79.0, watt: 266, wkg: 3.4, w5s: 706, w10s: 0, w15s: 637, w30s: 579, w1min: 450, w2min: 362, w5min: 298, w10min: 0, w20min: 266, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.3, wkg1min: 5.7, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 7044422, name: "C hris B. [WaTTFabrik]", weight: 87.5, watt: 236, wkg: 2.7, w5s: 741, w10s: 0, w15s: 630, w30s: 502, w1min: 369, w2min: 315, w5min: 279, w10min: 0, w20min: 236, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 5.8, wkg1min: 4.2, wkg2min: 3.6, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
@@ -657,7 +674,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 17,
     name: "Fellowship Berserker Rage",
     riders: [
-      { id: 136951, name: "Matthew Hooker &ndash; &#127909; (Twitch/YT: @hardclaws)", weight: 82.6, watt: 320, wkg: 3.9, w5s: 1393, w10s: 0, w15s: 1206, w30s: 834, w1min: 558, w2min: 458, w5min: 373, w10min: 0, w20min: 320, w30min: 0, wkg5s: 17.4, wkg10s: 0.0, wkg15s: 14.9, wkg30s: 10.3, wkg1min: 6.9, wkg2min: 5.7, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 136951, name: "Matthew Hooker &ndash; &#127909; (Twitch/YT: @hardclaws)", weight: 82.6, watt: 320, wkg: 3.9, w5s: 1393, w10s: 0, w15s: 1206, w30s: 834, w1min: 558, w2min: 445, w5min: 373, w10min: 0, w20min: 320, w30min: 0, wkg5s: 17.4, wkg10s: 0.0, wkg15s: 14.9, wkg30s: 10.3, wkg1min: 6.9, wkg2min: 5.5, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 1193021, name: "T obi [Fellowship]", weight: 69.0, watt: 257, wkg: 3.7, w5s: 695, w10s: 0, w15s: 648, w30s: 553, w1min: 412, w2min: 387, w5min: 310, w10min: 0, w20min: 257, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.0, wkg1min: 6.0, wkg2min: 5.6, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 4612716, name: "Matthijs Van Den Bergh [Fellowship]", weight: 72.4, watt: 286, wkg: 4.0, w5s: 933, w10s: 0, w15s: 877, w30s: 675, w1min: 527, w2min: 432, w5min: 360, w10min: 0, w20min: 286, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.3, wkg1min: 7.3, wkg2min: 6.0, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 4750587, name: "Alex Rishty", weight: 71.4, watt: 296, wkg: 4.1, w5s: 1172, w10s: 0, w15s: 991, w30s: 766, w1min: 564, w2min: 439, w5min: 360, w10min: 0, w20min: 296, w30min: 0, wkg5s: 16.4, wkg10s: 0.0, wkg15s: 13.9, wkg30s: 10.7, wkg1min: 7.9, wkg2min: 6.1, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -674,8 +691,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_FELLOWSHIP_CHAIN_LIGHTNING": {
     rung: 7,
-    ladderPosition: 114,
-    positionInRung: 12,
+    ladderPosition: 115,
+    positionInRung: 13,
     name: "ellowship Chain Lightning",
     riders: [
       { id: 939734, name: "David Thompson", weight: 76.4, watt: 256, wkg: 3.3, w5s: 910, w10s: 0, w15s: 780, w30s: 647, w1min: 443, w2min: 339, w5min: 302, w10min: 0, w20min: 256, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.4, wkg1min: 5.8, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -695,8 +712,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_FELLOWSHIP_MANA_SURGE": {
     rung: 5,
-    ladderPosition: 79,
-    positionInRung: 11,
+    ladderPosition: 80,
+    positionInRung: 12,
     name: "Fellowship Mana Surge",
     riders: [
       { id: 1300996, name: "Willy Warbucks (Fellowship)", weight: 76.0, watt: 264, wkg: 3.5, w5s: 1033, w10s: 0, w15s: 945, w30s: 746, w1min: 510, w2min: 368, w5min: 304, w10min: 0, w20min: 264, w30min: 0, wkg5s: 13.6, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 9.8, wkg1min: 6.6, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -706,6 +723,7 @@ const OPPONENT_LIBRARY = {
       { id: 7583564, name: "Ole M&uuml;ller (FELLOWSHIP)", weight: 71.0, watt: 269, wkg: 3.8, w5s: 795, w10s: 0, w15s: 715, w30s: 646, w1min: 508, w2min: 383, w5min: 304, w10min: 0, w20min: 269, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 9.0, wkg1min: 7.1, wkg2min: 5.3, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 7628498, name: "Brad Tarrant", weight: 80.5, watt: 279, wkg: 3.5, w5s: 1154, w10s: 0, w15s: 956, w30s: 688, w1min: 456, w2min: 372, w5min: 315, w10min: 0, w20min: 279, w30min: 0, wkg5s: 14.3, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 8.5, wkg1min: 5.7, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 7829111, name: "Chase Manhattan", weight: 84.7, watt: 337, wkg: 3.9, w5s: 1088, w10s: 0, w15s: 1000, w30s: 754, w1min: 496, w2min: 409, w5min: 348, w10min: 0, w20min: 337, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 8.8, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 7908312, name: "Marc Bussat [Fellowship]", weight: 92.0, watt: 310, wkg: 3.4, w5s: 1170, w10s: 0, w15s: 1123, w30s: 793, w1min: 627, w2min: 479, w5min: 387, w10min: 0, w20min: 310, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 8.4, wkg1min: 6.6, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 7923487, name: "Joe Voltaire", weight: 78.5, watt: 225, wkg: 2.9, w5s: 523, w10s: 0, w15s: 507, w30s: 465, w1min: 377, w2min: 324, w5min: 296, w10min: 0, w20min: 225, w30min: 0, wkg5s: 6.7, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 6.0, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 7965630, name: "Dexter Nguyen [Fellowship]", weight: 73.9, watt: 269, wkg: 3.6, w5s: 962, w10s: 0, w15s: 846, w30s: 653, w1min: 448, w2min: 382, w5min: 324, w10min: 0, w20min: 269, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 8.8, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 8322217, name: ". AndyPandy (Fellowship)", weight: 74.2, watt: 297, wkg: 4.0, w5s: 1265, w10s: 0, w15s: 1077, w30s: 814, w1min: 489, w2min: 386, w5min: 330, w10min: 0, w20min: 297, w30min: 0, wkg5s: 16.9, wkg10s: 0.0, wkg15s: 14.4, wkg30s: 10.9, wkg1min: 6.5, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 }
@@ -713,8 +731,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_FELLOWSHIP_SHADOWSTEP": {
     rung: 8,
-    ladderPosition: 126,
-    positionInRung: 7,
+    ladderPosition: 127,
+    positionInRung: 8,
     name: "Fellowship Shadowstep",
     riders: [
       { id: 444959, name: "Skyler Rivera", weight: 94.4, watt: 249, wkg: 2.6, w5s: 851, w10s: 0, w15s: 778, w30s: 579, w1min: 415, w2min: 340, w5min: 268, w10min: 0, w20min: 249, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.1, wkg1min: 4.4, wkg2min: 3.6, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
@@ -730,17 +748,17 @@ const OPPONENT_LIBRARY = {
       { id: 8336590, name: "Wouter de Steenhuijsen", weight: 79.5, watt: 242, wkg: 3.0, w5s: 840, w10s: 0, w15s: 724, w30s: 554, w1min: 378, w2min: 316, w5min: 287, w10min: 0, w20min: 242, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 6.9, wkg1min: 4.7, wkg2min: 4.0, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 8382911, name: "Dan McInnes [Fellowship]", weight: 124.0, watt: 276, wkg: 2.2, w5s: 1009, w10s: 0, w15s: 670, w30s: 520, w1min: 407, w2min: 333, w5min: 310, w10min: 0, w20min: 276, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 5.4, wkg30s: 4.2, wkg1min: 3.3, wkg2min: 2.7, wkg5min: 2.5, wkg10min: 0.0, wkg20min: 2.2, wkg30min: 0.0 },
       { id: 8392975, name: "Miguel Serrano", weight: 91.0, watt: 215, wkg: 2.4, w5s: 892, w10s: 0, w15s: 686, w30s: 509, w1min: 390, w2min: 304, w5min: 273, w10min: 0, w20min: 215, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 5.6, wkg1min: 4.3, wkg2min: 3.3, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
-      { id: 8439578, name: "Dank G", weight: 98.0, watt: 236, wkg: 2.4, w5s: 467, w10s: 0, w15s: 378, w30s: 346, w1min: 316, w2min: 295, w5min: 258, w10min: 0, w20min: 236, w30min: 0, wkg5s: 4.8, wkg10s: 0.0, wkg15s: 3.9, wkg30s: 3.5, wkg1min: 3.2, wkg2min: 3.0, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 }
+      { id: 8439578, name: "Dank G [Fellowship]", weight: 98.0, watt: 236, wkg: 2.4, w5s: 467, w10s: 0, w15s: 378, w30s: 346, w1min: 316, w2min: 295, w5min: 258, w10min: 0, w20min: 236, w30min: 0, wkg5s: 4.8, wkg10s: 0.0, wkg15s: 3.9, wkg30s: 3.5, wkg1min: 3.2, wkg2min: 3.0, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_FOUDRE_PICODON": {
     rung: 2,
-    ladderPosition: 22,
-    positionInRung: 5,
+    ladderPosition: 23,
+    positionInRung: 6,
     name: "Foudre Picodon",
     riders: [
       { id: 61717, name: "Florian Wou &#9889;&#65039; [Foudre] ", weight: 80.0, watt: 288, wkg: 3.6, w5s: 1271, w10s: 0, w15s: 1080, w30s: 751, w1min: 561, w2min: 404, w5min: 343, w10min: 0, w20min: 288, w30min: 0, wkg5s: 15.9, wkg10s: 0.0, wkg15s: 13.5, wkg30s: 9.4, wkg1min: 7.0, wkg2min: 5.0, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 160069, name: "Roba Steve (Foudre)", weight: 70.0, watt: 226, wkg: 3.2, w5s: 748, w10s: 0, w15s: 546, w30s: 478, w1min: 423, w2min: 322, w5min: 295, w10min: 0, w20min: 226, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.8, wkg1min: 6.0, wkg2min: 4.6, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 160069, name: "Roba Steve (Foudre)", weight: 70.0, watt: 264, wkg: 3.8, w5s: 799, w10s: 0, w15s: 602, w30s: 558, w1min: 442, w2min: 384, w5min: 295, w10min: 0, w20min: 264, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 8.0, wkg1min: 6.3, wkg2min: 5.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 173438, name: "Amaury Chaidron (Foudre)", weight: 73.9, watt: 304, wkg: 4.1, w5s: 990, w10s: 0, w15s: 937, w30s: 710, w1min: 511, w2min: 428, w5min: 346, w10min: 0, w20min: 304, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 9.5, wkg1min: 6.8, wkg2min: 5.8, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 1242636, name: "jf morfin [Foudre]", weight: 62.5, watt: 259, wkg: 4.1, w5s: 792, w10s: 0, w15s: 713, w30s: 603, w1min: 433, w2min: 361, w5min: 311, w10min: 0, w20min: 259, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 9.5, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 1401599, name: "Marc Dagry (foudre)", weight: 64.0, watt: 280, wkg: 4.5, w5s: 746, w10s: 0, w15s: 675, w30s: 554, w1min: 436, w2min: 369, w5min: 315, w10min: 0, w20min: 280, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.9, wkg1min: 7.0, wkg2min: 5.9, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
@@ -761,22 +779,22 @@ const OPPONENT_LIBRARY = {
     riders: [
       { id: 697017, name: "3182 graffin anthony (Isa Forever cycling team)", weight: 62.0, watt: 252, wkg: 4.1, w5s: 622, w10s: 0, w15s: 594, w30s: 495, w1min: 396, w2min: 378, w5min: 320, w10min: 0, w20min: 252, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.0, wkg1min: 6.4, wkg2min: 6.1, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 758553, name: "Jonathan Lebouvier | Foudre ", weight: 60.2, watt: 287, wkg: 4.8, w5s: 798, w10s: 0, w15s: 769, w30s: 687, w1min: 508, w2min: 434, w5min: 330, w10min: 0, w20min: 287, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.8, wkg30s: 11.4, wkg1min: 8.4, wkg2min: 7.2, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.8, wkg30min: 0.0 },
-      { id: 933632, name: "Fred Nicaise", weight: 80.0, watt: 341, wkg: 4.3, w5s: 1065, w10s: 0, w15s: 1026, w30s: 818, w1min: 610, w2min: 501, w5min: 398, w10min: 0, w20min: 341, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.8, wkg30s: 10.2, wkg1min: 7.6, wkg2min: 6.3, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
+      { id: 933632, name: "Fred Nicaise", weight: 80.0, watt: 342, wkg: 4.3, w5s: 1065, w10s: 0, w15s: 1026, w30s: 818, w1min: 610, w2min: 501, w5min: 398, w10min: 0, w20min: 342, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.8, wkg30s: 10.2, wkg1min: 7.6, wkg2min: 6.3, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 1022352, name: " Patrick Gitton&#9889;&#65039;(FOUDRE ) ", weight: 58.0, watt: 274, wkg: 4.7, w5s: 603, w10s: 0, w15s: 567, w30s: 483, w1min: 405, w2min: 346, w5min: 323, w10min: 0, w20min: 274, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.3, wkg1min: 7.0, wkg2min: 6.0, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.7, wkg30min: 0.0 },
       { id: 1145939, name: "Cyrus Macaigne (Foudre)", weight: 55.0, watt: 245, wkg: 4.5, w5s: 651, w10s: 0, w15s: 620, w30s: 483, w1min: 423, w2min: 356, w5min: 287, w10min: 0, w20min: 245, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.8, wkg1min: 7.7, wkg2min: 6.5, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { id: 1595068, name: "Julien AUVRAY [FOUDRE -issy Tri]", weight: 65.5, watt: 263, wkg: 4.0, w5s: 658, w10s: 0, w15s: 588, w30s: 473, w1min: 435, w2min: 361, w5min: 303, w10min: 0, w20min: 263, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.2, wkg1min: 6.6, wkg2min: 5.5, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 1898646, name: "Antoine", weight: 69.0, watt: 303, wkg: 4.4, w5s: 737, w10s: 0, w15s: 698, w30s: 596, w1min: 476, w2min: 391, w5min: 366, w10min: 0, w20min: 303, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.6, wkg1min: 6.9, wkg2min: 5.7, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 3206638, name: "Martin Renard [Foudre&#9889;&#65039;]", weight: 71.8, watt: 327, wkg: 4.5, w5s: 1001, w10s: 0, w15s: 951, w30s: 854, w1min: 610, w2min: 455, w5min: 382, w10min: 0, w20min: 327, w30min: 0, wkg5s: 13.7, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 11.6, wkg1min: 8.3, wkg2min: 6.3, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
-      { id: 4865071, name: "David Robyr (Foudre)", weight: 69.0, watt: 288, wkg: 4.2, w5s: 1017, w10s: 0, w15s: 961, w30s: 768, w1min: 579, w2min: 404, w5min: 348, w10min: 0, w20min: 288, w30min: 0, wkg5s: 14.5, wkg10s: 0.0, wkg15s: 13.7, wkg30s: 11.1, wkg1min: 8.4, wkg2min: 5.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { id: 4865071, name: "David Robyr (Foudre)", weight: 69.0, watt: 289, wkg: 4.2, w5s: 1027, w10s: 0, w15s: 981, w30s: 768, w1min: 579, w2min: 404, w5min: 348, w10min: 0, w20min: 289, w30min: 0, wkg5s: 14.9, wkg10s: 0.0, wkg15s: 14.2, wkg30s: 11.1, wkg1min: 8.4, wkg2min: 5.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 5946436, name: "Adrien Hassala", weight: 83.7, watt: 327, wkg: 3.9, w5s: 1225, w10s: 0, w15s: 1108, w30s: 795, w1min: 551, w2min: 446, w5min: 369, w10min: 0, w20min: 327, w30min: 0, wkg5s: 14.5, wkg10s: 0.0, wkg15s: 13.2, wkg30s: 9.5, wkg1min: 6.6, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 6226029, name: "David Sanchez", weight: 70.0, watt: 295, wkg: 4.2, w5s: 1032, w10s: 0, w15s: 866, w30s: 690, w1min: 535, w2min: 448, w5min: 344, w10min: 0, w20min: 295, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 9.9, wkg1min: 7.6, wkg2min: 6.4, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
-      { id: 7961658, name: "S&eacute;bastien lessire&#9889;[Foudre]", weight: 72.5, watt: 308, wkg: 4.2, w5s: 970, w10s: 0, w15s: 883, w30s: 786, w1min: 559, w2min: 430, w5min: 358, w10min: 0, w20min: 308, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 10.8, wkg1min: 7.7, wkg2min: 5.9, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 }
+      { id: 7961658, name: "S&eacute;bastien lessire&#9889;[Foudre]", weight: 72.5, watt: 308, wkg: 4.2, w5s: 970, w10s: 0, w15s: 883, w30s: 786, w1min: 559, w2min: 430, w5min: 359, w10min: 0, w20min: 308, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 10.8, wkg1min: 7.7, wkg2min: 5.9, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GTR_GRIFFINS": {
     rung: 8,
-    ladderPosition: 127,
-    positionInRung: 8,
+    ladderPosition: 129,
+    positionInRung: 10,
     name: "GTR Griffins",
     riders: [
       { id: 538131, name: "Peter  Castrop (GTR)", weight: 86.0, watt: 233, wkg: 2.7, w5s: 789, w10s: 0, w15s: 737, w30s: 531, w1min: 388, w2min: 322, w5min: 279, w10min: 0, w20min: 233, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 6.2, wkg1min: 4.5, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
@@ -794,8 +812,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GTR_KRAKENS": {
     rung: 4,
-    ladderPosition: 64,
-    positionInRung: 13,
+    ladderPosition: 65,
+    positionInRung: 14,
     name: "GTR Krakens",
     riders: [
       { id: 443094, name: "  Steven", weight: 0.0, watt: 276, wkg: 3.4, w5s: 1186, w10s: 0, w15s: 1103, w30s: 747, w1min: 455, w2min: 388, w5min: 332, w10min: 0, w20min: 276, w30min: 0, wkg5s: 14.8, wkg10s: 0.0, wkg15s: 13.7, wkg30s: 9.3, wkg1min: 5.7, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -805,16 +823,16 @@ const OPPONENT_LIBRARY = {
       { id: 4187561, name: "Alex Murphy (GTR)", weight: 86.0, watt: 285, wkg: 3.3, w5s: 1491, w10s: 0, w15s: 1329, w30s: 1118, w1min: 791, w2min: 539, w5min: 360, w10min: 0, w20min: 285, w30min: 0, wkg5s: 17.3, wkg10s: 0.0, wkg15s: 15.5, wkg30s: 13.0, wkg1min: 9.2, wkg2min: 6.3, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 4695707, name: "Steve Foster (GTR] [ATGNI)", weight: 73.2, watt: 255, wkg: 3.5, w5s: 882, w10s: 0, w15s: 797, w30s: 569, w1min: 404, w2min: 338, w5min: 292, w10min: 0, w20min: 255, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 7.8, wkg1min: 5.5, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5392886, name: "Horst Stroh (GTR)", weight: 75.0, watt: 278, wkg: 3.7, w5s: 1053, w10s: 0, w15s: 978, w30s: 747, w1min: 549, w2min: 397, w5min: 326, w10min: 0, w20min: 278, w30min: 0, wkg5s: 14.0, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 10.0, wkg1min: 7.4, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 5871693, name: "Ion Rodriguez [GTR]", weight: 70.0, watt: 256, wkg: 3.7, w5s: 777, w10s: 0, w15s: 697, w30s: 579, w1min: 405, w2min: 362, w5min: 298, w10min: 0, w20min: 256, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.2, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 5871693, name: "Ion Rodriguez [GTR]", weight: 70.0, watt: 256, wkg: 3.7, w5s: 777, w10s: 0, w15s: 708, w30s: 579, w1min: 405, w2min: 362, w5min: 298, w10min: 0, w20min: 256, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.2, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 5920035, name: "Erik Einmo (GTR)", weight: 80.0, watt: 242, wkg: 3.0, w5s: 692, w10s: 0, w15s: 660, w30s: 605, w1min: 407, w2min: 313, w5min: 278, w10min: 0, w20min: 242, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.6, wkg1min: 5.1, wkg2min: 3.9, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 5963582, name: "Roel van Amelsfort  (GTR)", weight: 79.0, watt: 272, wkg: 3.4, w5s: 838, w10s: 0, w15s: 761, w30s: 616, w1min: 474, w2min: 389, w5min: 311, w10min: 0, w20min: 272, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.8, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 6757469, name: "Bart Withaar (GTR)", weight: 107.0, watt: 324, wkg: 3.0, w5s: 1249, w10s: 0, w15s: 1159, w30s: 865, w1min: 580, w2min: 510, w5min: 405, w10min: 0, w20min: 324, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.1, wkg1min: 5.4, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 }
+      { id: 6757469, name: "Bart Withaar (GTR)", weight: 107.0, watt: 324, wkg: 3.0, w5s: 1252, w10s: 0, w15s: 1184, w30s: 865, w1min: 580, w2min: 510, w5min: 405, w10min: 0, w20min: 324, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 8.1, wkg1min: 5.4, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GTR_MINOTAURS": {
     rung: 7,
-    ladderPosition: 107,
-    positionInRung: 5,
+    ladderPosition: 108,
+    positionInRung: 6,
     name: "GTR Minotaurs",
     riders: [
       { id: 317845, name: "Francis Gryson (GTR)", weight: 89.0, watt: 274, wkg: 3.1, w5s: 861, w10s: 0, w15s: 792, w30s: 697, w1min: 466, w2min: 374, w5min: 336, w10min: 0, w20min: 274, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.8, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -848,8 +866,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_ASTRA": {
     rung: 6,
-    ladderPosition: 92,
-    positionInRung: 7,
+    ladderPosition: 93,
+    positionInRung: 8,
     name: "Galaxy Astra",
     riders: [
       { id: 98230, name: "Chris Glover", weight: 77.0, watt: 251, wkg: 3.3, w5s: 609, w10s: 0, w15s: 569, w30s: 490, w1min: 385, w2min: 365, w5min: 279, w10min: 0, w20min: 251, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 6.4, wkg1min: 5.0, wkg2min: 4.7, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -889,8 +907,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_HYPERION": {
     rung: 7,
-    ladderPosition: 118,
-    positionInRung: 16,
+    ladderPosition: 119,
+    positionInRung: 17,
     name: "Galaxy Hyperion",
     riders: [
       { id: 67337, name: "Bryn Burson", weight: 72.0, watt: 206, wkg: 2.9, w5s: 612, w10s: 0, w15s: 518, w30s: 423, w1min: 340, w2min: 274, w5min: 234, w10min: 0, w20min: 206, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 5.9, wkg1min: 4.7, wkg2min: 3.8, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -907,8 +925,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_INTERSTELLAR": {
     rung: 9,
-    ladderPosition: 138,
-    positionInRung: 2,
+    ladderPosition: 142,
+    positionInRung: 6,
     name: "Galaxy Interstellar",
     riders: [
       { id: 228443, name: "Phil Ward [GXY]", weight: 63.5, watt: 178, wkg: 2.8, w5s: 641, w10s: 0, w15s: 491, w30s: 376, w1min: 289, w2min: 229, w5min: 195, w10min: 0, w20min: 178, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 5.9, wkg1min: 4.5, wkg2min: 3.6, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -921,7 +939,7 @@ const OPPONENT_LIBRARY = {
       { id: 5238074, name: "Michael Smith", weight: 74.0, watt: 199, wkg: 2.7, w5s: 520, w10s: 0, w15s: 394, w30s: 376, w1min: 287, w2min: 245, w5min: 218, w10min: 0, w20min: 199, w30min: 0, wkg5s: 7.0, wkg10s: 0.0, wkg15s: 5.3, wkg30s: 5.1, wkg1min: 3.9, wkg2min: 3.3, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 5649477, name: "M  Beama [GXY]", weight: 77.5, watt: 196, wkg: 2.4, w5s: 608, w10s: 0, w15s: 528, w30s: 474, w1min: 351, w2min: 284, w5min: 230, w10min: 0, w20min: 196, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 6.3, wkg1min: 4.7, wkg2min: 3.8, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
       { id: 5900206, name: "S teven Feline [GXY]", weight: 95.5, watt: 202, wkg: 2.1, w5s: 582, w10s: 0, w15s: 459, w30s: 363, w1min: 293, w2min: 262, w5min: 236, w10min: 0, w20min: 202, w30min: 0, wkg5s: 6.1, wkg10s: 0.0, wkg15s: 4.8, wkg30s: 3.8, wkg1min: 3.1, wkg2min: 2.7, wkg5min: 2.5, wkg10min: 0.0, wkg20min: 2.1, wkg30min: 0.0 },
-      { id: 5996498, name: "Phillip Weller [GXY]", weight: 97.0, watt: 270, wkg: 2.7, w5s: 1140, w10s: 0, w15s: 910, w30s: 613, w1min: 430, w2min: 362, w5min: 302, w10min: 0, w20min: 270, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 6.3, wkg1min: 4.4, wkg2min: 3.6, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
+      { id: 5996498, name: "Phillip Weller [GXY]", weight: 97.1, watt: 270, wkg: 2.7, w5s: 1140, w10s: 0, w15s: 910, w30s: 626, w1min: 482, w2min: 362, w5min: 302, w10min: 0, w20min: 270, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 6.4, wkg1min: 5.0, wkg2min: 3.6, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 7424159, name: "Diego Diaz Ramirez", weight: 64.1, watt: 191, wkg: 3.0, w5s: 671, w10s: 0, w15s: 570, w30s: 453, w1min: 316, w2min: 262, w5min: 206, w10min: 0, w20min: 191, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.1, wkg1min: 5.0, wkg2min: 4.1, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 }
     ]
   },
@@ -932,13 +950,13 @@ const OPPONENT_LIBRARY = {
     name: "Galaxy Rockets",
     riders: [
       { id: 202549, name: "Ronny Streubig [GXY]", weight: 74.0, watt: 283, wkg: 3.8, w5s: 789, w10s: 0, w15s: 748, w30s: 506, w1min: 419, w2min: 399, w5min: 313, w10min: 0, w20min: 283, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 6.8, wkg1min: 5.7, wkg2min: 5.4, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 571813, name: "Matthew Sutcliffe", weight: 95.3, watt: 337, wkg: 3.5, w5s: 1098, w10s: 0, w15s: 960, w30s: 793, w1min: 567, w2min: 448, w5min: 392, w10min: 0, w20min: 337, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.3, wkg1min: 6.0, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 571813, name: "Matthew Sutcliffe", weight: 95.3, watt: 337, wkg: 3.5, w5s: 1098, w10s: 0, w15s: 960, w30s: 793, w1min: 567, w2min: 451, w5min: 392, w10min: 0, w20min: 337, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.3, wkg1min: 6.0, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 597478, name: "Paul Morrison (GXY)", weight: 70.0, watt: 286, wkg: 4.1, w5s: 754, w10s: 0, w15s: 695, w30s: 608, w1min: 497, w2min: 428, w5min: 341, w10min: 0, w20min: 286, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.7, wkg1min: 7.1, wkg2min: 6.1, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 877920, name: "Jonathan Hunt (GXY)", weight: 80.3, watt: 328, wkg: 4.0, w5s: 958, w10s: 0, w15s: 820, w30s: 716, w1min: 565, w2min: 470, w5min: 388, w10min: 0, w20min: 328, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.8, wkg1min: 7.0, wkg2min: 5.8, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 1478348, name: "Steve Cole [GXY]", weight: 83.0, watt: 287, wkg: 3.5, w5s: 612, w10s: 0, w15s: 540, w30s: 480, w1min: 414, w2min: 367, w5min: 330, w10min: 0, w20min: 287, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.8, wkg1min: 5.0, wkg2min: 4.4, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 1615643, name: "K Singh [GXY]", weight: 59.0, watt: 236, wkg: 4.0, w5s: 642, w10s: 0, w15s: 564, w30s: 515, w1min: 441, w2min: 347, w5min: 284, w10min: 0, w20min: 236, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.7, wkg1min: 7.5, wkg2min: 5.9, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 3099103, name: "Janne McQuaad", weight: 70.0, watt: 281, wkg: 4.0, w5s: 820, w10s: 0, w15s: 806, w30s: 707, w1min: 553, w2min: 430, w5min: 326, w10min: 0, w20min: 281, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 10.1, wkg1min: 7.9, wkg2min: 6.1, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 3405001, name: "Stuart Day", weight: 80.5, watt: 314, wkg: 3.9, w5s: 1014, w10s: 0, w15s: 802, w30s: 561, w1min: 449, w2min: 407, w5min: 341, w10min: 0, w20min: 314, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.0, wkg1min: 5.6, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 3405001, name: "Stuart Day", weight: 80.5, watt: 314, wkg: 3.9, w5s: 1014, w10s: 0, w15s: 802, w30s: 625, w1min: 473, w2min: 446, w5min: 341, w10min: 0, w20min: 314, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.8, wkg1min: 5.9, wkg2min: 5.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 4369637, name: "jamie taylor", weight: 81.6, watt: 308, wkg: 3.8, w5s: 1077, w10s: 0, w15s: 959, w30s: 826, w1min: 544, w2min: 411, w5min: 358, w10min: 0, w20min: 308, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 10.0, wkg1min: 6.6, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 5145129, name: "Mitchell Fletcher", weight: 82.1, watt: 315, wkg: 3.8, w5s: 1102, w10s: 0, w15s: 1017, w30s: 780, w1min: 553, w2min: 461, w5min: 374, w10min: 0, w20min: 315, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 9.5, wkg1min: 6.7, wkg2min: 5.6, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 6253176, name: "Andrew Smith", weight: 84.0, watt: 294, wkg: 3.5, w5s: 774, w10s: 0, w15s: 682, w30s: 622, w1min: 514, w2min: 423, w5min: 366, w10min: 0, w20min: 294, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.4, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -947,8 +965,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_SUPERSONIC": {
     rung: 7,
-    ladderPosition: 105,
-    positionInRung: 3,
+    ladderPosition: 106,
+    positionInRung: 4,
     name: "Galaxy Supersonic",
     riders: [
       { id: 40315, name: "Julien Beijer ", weight: 103.6, watt: 283, wkg: 2.7, w5s: 943, w10s: 0, w15s: 894, w30s: 761, w1min: 571, w2min: 457, w5min: 356, w10min: 0, w20min: 283, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.4, wkg1min: 5.5, wkg2min: 4.4, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
@@ -959,7 +977,7 @@ const OPPONENT_LIBRARY = {
       { id: 2286718, name: "Darren Byers", weight: 64.9, watt: 226, wkg: 3.5, w5s: 478, w10s: 0, w15s: 424, w30s: 403, w1min: 348, w2min: 290, w5min: 249, w10min: 0, w20min: 226, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 6.2, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 4326884, name: "Sean McLellan [GXY]", weight: 97.2, watt: 265, wkg: 2.7, w5s: 1065, w10s: 0, w15s: 907, w30s: 682, w1min: 515, w2min: 391, w5min: 337, w10min: 0, w20min: 265, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.0, wkg1min: 5.3, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 5170569, name: "Taylor Mobberley (GXY) 1", weight: 90.0, watt: 295, wkg: 3.3, w5s: 897, w10s: 0, w15s: 750, w30s: 577, w1min: 479, w2min: 378, w5min: 360, w10min: 0, w20min: 295, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.2, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { id: 6830250, name: "Jason Ozenberger (GXY)", weight: 88.9, watt: 247, wkg: 2.8, w5s: 1162, w10s: 0, w15s: 968, w30s: 806, w1min: 487, w2min: 376, w5min: 303, w10min: 0, w20min: 247, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.1, wkg1min: 5.5, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
+      { id: 6830250, name: "Jason Ozenberger (GXY)", weight: 88.9, watt: 247, wkg: 2.8, w5s: 1162, w10s: 0, w15s: 968, w30s: 806, w1min: 487, w2min: 376, w5min: 295, w10min: 0, w20min: 247, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.1, wkg1min: 5.5, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 6869175, name: ". Gary[GXY] ", weight: 84.0, watt: 246, wkg: 2.9, w5s: 851, w10s: 0, w15s: 766, w30s: 562, w1min: 432, w2min: 357, w5min: 301, w10min: 0, w20min: 246, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 6.7, wkg1min: 5.1, wkg2min: 4.2, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 6963639, name: "Marvin the Imp (GXY)", weight: 65.0, watt: 233, wkg: 3.6, w5s: 746, w10s: 0, w15s: 702, w30s: 559, w1min: 432, w2min: 317, w5min: 276, w10min: 0, w20min: 233, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.5, wkg1min: 6.6, wkg2min: 4.8, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 7178919, name: "Max Scagliotti", weight: 84.0, watt: 275, wkg: 3.3, w5s: 581, w10s: 0, w15s: 567, w30s: 488, w1min: 448, w2min: 365, w5min: 315, w10min: 0, w20min: 275, w30min: 0, wkg5s: 6.9, wkg10s: 0.0, wkg15s: 6.7, wkg30s: 5.7, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 }
@@ -967,22 +985,22 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_GALAXY_TITANS": {
     rung: 4,
-    ladderPosition: 66,
-    positionInRung: 15,
+    ladderPosition: 54,
+    positionInRung: 3,
     name: "Galaxy Titans",
     riders: [
-      { id: 7829, name: "Stein Lid ", weight: 87.0, watt: 290, wkg: 3.5, w5s: 923, w10s: 0, w15s: 862, w30s: 668, w1min: 460, w2min: 393, w5min: 325, w10min: 0, w20min: 290, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.9, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 7829, name: "Stein Lid ", weight: 87.0, watt: 291, wkg: 3.3, w5s: 923, w10s: 0, w15s: 862, w30s: 668, w1min: 460, w2min: 393, w5min: 325, w10min: 0, w20min: 291, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.9, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 38770, name: "Mike Thomas [GXY]", weight: 76.2, watt: 266, wkg: 3.5, w5s: 701, w10s: 0, w15s: 638, w30s: 523, w1min: 406, w2min: 372, w5min: 317, w10min: 0, w20min: 266, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.4, wkg30s: 6.9, wkg1min: 5.3, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 50207, name: "Allan Robinson  (GXY)", weight: 77.1, watt: 267, wkg: 3.5, w5s: 794, w10s: 0, w15s: 695, w30s: 586, w1min: 424, w2min: 372, w5min: 307, w10min: 0, w20min: 267, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.6, wkg1min: 5.5, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 51905, name: "Mark Taylor( RAF Tri)", weight: 88.0, watt: 305, wkg: 3.5, w5s: 1169, w10s: 0, w15s: 945, w30s: 738, w1min: 498, w2min: 411, w5min: 332, w10min: 0, w20min: 305, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.4, wkg1min: 5.7, wkg2min: 4.7, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 170621, name: "Rory Florence [GXY]", weight: 84.0, watt: 308, wkg: 3.6, w5s: 930, w10s: 0, w15s: 861, w30s: 744, w1min: 513, w2min: 442, w5min: 365, w10min: 0, w20min: 308, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.9, wkg1min: 6.0, wkg2min: 5.2, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 212407, name: "...  Steelo [GXY] ", weight: 92.6, watt: 319, wkg: 3.4, w5s: 1227, w10s: 0, w15s: 1012, w30s: 896, w1min: 580, w2min: 491, w5min: 384, w10min: 0, w20min: 319, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.8, wkg1min: 6.3, wkg2min: 5.3, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 844226, name: "Chris Jones [GXY]", weight: 95.0, watt: 352, wkg: 3.7, w5s: 968, w10s: 0, w15s: 828, w30s: 724, w1min: 606, w2min: 513, w5min: 409, w10min: 0, w20min: 352, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.6, wkg1min: 6.4, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 844226, name: "Chris Jones [GXY]", weight: 95.0, watt: 352, wkg: 3.7, w5s: 968, w10s: 0, w15s: 848, w30s: 726, w1min: 606, w2min: 513, w5min: 409, w10min: 0, w20min: 352, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.6, wkg1min: 6.4, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1402673, name: "Luk.e [GXY]", weight: 76.0, watt: 289, wkg: 3.8, w5s: 831, w10s: 0, w15s: 708, w30s: 589, w1min: 439, w2min: 395, w5min: 322, w10min: 0, w20min: 289, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.7, wkg1min: 5.8, wkg2min: 5.2, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 2104090, name: "Luke Mattocks", weight: 79.0, watt: 266, wkg: 3.4, w5s: 1146, w10s: 0, w15s: 988, w30s: 829, w1min: 559, w2min: 416, w5min: 315, w10min: 0, w20min: 266, w30min: 0, wkg5s: 14.6, wkg10s: 0.0, wkg15s: 12.6, wkg30s: 10.6, wkg1min: 7.1, wkg2min: 5.3, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 4394770, name: "Tom Shaw [GXY]", weight: 69.0, watt: 262, wkg: 3.8, w5s: 854, w10s: 0, w15s: 737, w30s: 577, w1min: 447, w2min: 380, w5min: 304, w10min: 0, w20min: 262, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.4, wkg1min: 6.5, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { id: 4394770, name: "Tom Shaw [GXY]", weight: 69.0, watt: 262, wkg: 3.8, w5s: 854, w10s: 0, w15s: 737, w30s: 577, w1min: 482, w2min: 380, w5min: 304, w10min: 0, w20min: 262, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.4, wkg1min: 7.0, wkg2min: 5.5, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 5999891, name: "Ryan Graham", weight: 77.5, watt: 268, wkg: 3.6, w5s: 756, w10s: 0, w15s: 715, w30s: 603, w1min: 460, w2min: 392, w5min: 297, w10min: 0, w20min: 268, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 8.0, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 6918121, name: "Richard Aldous", weight: 65.0, watt: 243, wkg: 3.7, w5s: 595, w10s: 0, w15s: 568, w30s: 515, w1min: 402, w2min: 338, w5min: 288, w10min: 0, w20min: 243, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.9, wkg1min: 6.2, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 6918121, name: "Richard Aldous", weight: 66.0, watt: 243, wkg: 3.7, w5s: 598, w10s: 0, w15s: 568, w30s: 515, w1min: 402, w2min: 338, w5min: 288, w10min: 0, w20min: 243, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.9, wkg1min: 6.2, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 7488942, name: "Mike Hurtley [GXY]", weight: 84.0, watt: 288, wkg: 3.6, w5s: 741, w10s: 0, w15s: 673, w30s: 588, w1min: 480, w2min: 394, w5min: 347, w10min: 0, w20min: 288, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.3, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 }
     ]
   },
@@ -1007,8 +1025,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HCT_TRACERS": {
     rung: 4,
-    ladderPosition: 59,
-    positionInRung: 8,
+    ladderPosition: 60,
+    positionInRung: 9,
     name: "HCT Tracers",
     riders: [
       { id: 193335, name: "Chris Gregory (HCT)", weight: 78.2, watt: 229, wkg: 2.9, w5s: 701, w10s: 0, w15s: 634, w30s: 542, w1min: 399, w2min: 349, w5min: 278, w10min: 0, w20min: 229, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.9, wkg1min: 5.1, wkg2min: 4.5, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1018,7 +1036,7 @@ const OPPONENT_LIBRARY = {
       { id: 2409303, name: "Dan Clarke (HCT) - YT @D.ClarkeHCT", weight: 69.6, watt: 244, wkg: 3.5, w5s: 1165, w10s: 0, w15s: 976, w30s: 619, w1min: 475, w2min: 377, w5min: 298, w10min: 0, w20min: 244, w30min: 0, wkg5s: 16.7, wkg10s: 0.0, wkg15s: 14.0, wkg30s: 8.9, wkg1min: 6.8, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 3058775, name: "Richard Craddock (HCT)", weight: 68.8, watt: 267, wkg: 3.9, w5s: 450, w10s: 0, w15s: 409, w30s: 389, w1min: 382, w2min: 333, w5min: 307, w10min: 0, w20min: 267, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 5.9, wkg30s: 5.7, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 3131279, name: "Darrin Dexter (HCT)", weight: 73.0, watt: 287, wkg: 3.9, w5s: 872, w10s: 0, w15s: 725, w30s: 599, w1min: 464, w2min: 394, w5min: 352, w10min: 0, w20min: 287, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.2, wkg1min: 6.4, wkg2min: 5.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
-      { id: 3373053, name: "Kevin Walden", weight: 71.1, watt: 275, wkg: 3.9, w5s: 646, w10s: 0, w15s: 575, w30s: 471, w1min: 406, w2min: 365, w5min: 348, w10min: 0, w20min: 275, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.6, wkg1min: 5.7, wkg2min: 5.1, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 3373053, name: "Kevin Walden", weight: 71.1, watt: 275, wkg: 3.9, w5s: 681, w10s: 0, w15s: 681, w30s: 546, w1min: 423, w2min: 365, w5min: 348, w10min: 0, w20min: 275, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 7.7, wkg1min: 5.9, wkg2min: 5.1, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 3589459, name: "Paul Graham", weight: 85.0, watt: 274, wkg: 3.2, w5s: 1017, w10s: 0, w15s: 880, w30s: 675, w1min: 472, w2min: 413, w5min: 322, w10min: 0, w20min: 274, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 7.9, wkg1min: 5.6, wkg2min: 4.9, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 3652996, name: "Davide Alves", weight: 70.5, watt: 237, wkg: 3.3, w5s: 1053, w10s: 0, w15s: 946, w30s: 661, w1min: 427, w2min: 357, w5min: 310, w10min: 0, w20min: 237, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.2, wkg30s: 9.2, wkg1min: 6.0, wkg2min: 5.0, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 3993707, name: "Kieran Roberts (HCT)", weight: 72.0, watt: 254, wkg: 3.5, w5s: 828, w10s: 0, w15s: 776, w30s: 639, w1min: 472, w2min: 390, w5min: 316, w10min: 0, w20min: 254, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.8, wkg1min: 6.5, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -1027,8 +1045,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_HAMMERHEADS": {
     rung: 8,
-    ladderPosition: 129,
-    positionInRung: 10,
+    ladderPosition: 131,
+    positionInRung: 12,
     name: "Herd of Hammerheads",
     riders: [
       { id: 53583, name: "Paul Williams (Hammerheads)", weight: 67.8, watt: 196, wkg: 2.9, w5s: 600, w10s: 0, w15s: 411, w30s: 336, w1min: 302, w2min: 269, w5min: 227, w10min: 0, w20min: 196, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.0, wkg1min: 4.5, wkg2min: 4.0, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1069,8 +1087,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_SEATAURS": {
     rung: 7,
-    ladderPosition: 116,
-    positionInRung: 14,
+    ladderPosition: 117,
+    positionInRung: 15,
     name: "Herd of Seataurs",
     riders: [
       { id: 105243, name: "Kevin Paget  HERD", weight: 77.0, watt: 246, wkg: 3.2, w5s: 656, w10s: 0, w15s: 611, w30s: 445, w1min: 364, w2min: 326, w5min: 288, w10min: 0, w20min: 246, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 5.7, wkg1min: 4.7, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -1090,8 +1108,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_SLEEPY_SLOTHS": {
     rung: 9,
-    ladderPosition: 141,
-    positionInRung: 5,
+    ladderPosition: 143,
+    positionInRung: 7,
     name: "Herd of Sleepy Sloths",
     riders: [
       { id: 2240, name: "Greg Hilton (Herd)", weight: 76.3, watt: 156, wkg: 2.0, w5s: 444, w10s: 0, w15s: 382, w30s: 307, w1min: 257, w2min: 236, w5min: 198, w10min: 0, w20min: 156, w30min: 0, wkg5s: 5.8, wkg10s: 0.0, wkg15s: 5.0, wkg30s: 4.0, wkg1min: 3.4, wkg2min: 3.1, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.0, wkg30min: 0.0 },
@@ -1108,8 +1126,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_SPEEDY_SQUIRRELS": {
     rung: 5,
-    ladderPosition: 84,
-    positionInRung: 16,
+    ladderPosition: 85,
+    positionInRung: 17,
     name: "Herd of Speedy Squirrels",
     riders: [
       { id: 174799, name: "Martin Raven Herd ", weight: 77.4, watt: 263, wkg: 3.4, w5s: 953, w10s: 0, w15s: 881, w30s: 660, w1min: 466, w2min: 372, w5min: 301, w10min: 0, w20min: 263, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 8.6, wkg1min: 6.1, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1131,8 +1149,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_HERD_OF_TASMANIAN_DEVILS": {
     rung: 5,
-    ladderPosition: 82,
-    positionInRung: 14,
+    ladderPosition: 83,
+    positionInRung: 15,
     name: "Herd of Tasmanian Devils",
     riders: [
       { id: 15833, name: "Simon Copping(HERD)", weight: 79.4, watt: 262, wkg: 3.3, w5s: 670, w10s: 0, w15s: 609, w30s: 480, w1min: 421, w2min: 367, w5min: 315, w10min: 0, w20min: 262, w30min: 0, wkg5s: 8.4, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.0, wkg1min: 5.3, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -1151,8 +1169,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_BAZOOKAS": {
     rung: 8,
-    ladderPosition: 123,
-    positionInRung: 4,
+    ladderPosition: 124,
+    positionInRung: 5,
     name: "KLUB Bazookas",
     riders: [
       { id: 86467, name: "Andreas Kasperek (AVC)", weight: 93.0, watt: 277, wkg: 3.0, w5s: 899, w10s: 0, w15s: 812, w30s: 688, w1min: 487, w2min: 408, w5min: 339, w10min: 0, w20min: 277, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.4, wkg1min: 5.2, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -1172,9 +1190,9 @@ const OPPONENT_LIBRARY = {
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_CRACKERS": {
-    rung: 5,
-    ladderPosition: 85,
-    positionInRung: 17,
+    rung: 6,
+    ladderPosition: 86,
+    positionInRung: 1,
     name: "KLUB Crackers",
     riders: [
       { id: 450032, name: "Dirk Ehrmantraut (KLUB)(AVC)", weight: 79.0, watt: 254, wkg: 3.2, w5s: 768, w10s: 0, w15s: 637, w30s: 547, w1min: 460, w2min: 386, w5min: 342, w10min: 0, w20min: 254, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.9, wkg1min: 5.8, wkg2min: 4.9, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -1184,14 +1202,14 @@ const OPPONENT_LIBRARY = {
       { id: 5103356, name: "Thomas Schubsky", weight: 66.0, watt: 245, wkg: 3.7, w5s: 742, w10s: 0, w15s: 633, w30s: 556, w1min: 420, w2min: 325, w5min: 278, w10min: 0, w20min: 245, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.2, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 6387028, name: "Timo Nowak (KLUB) ", weight: 76.0, watt: 283, wkg: 3.7, w5s: 1059, w10s: 0, w15s: 993, w30s: 705, w1min: 485, w2min: 399, w5min: 339, w10min: 0, w20min: 283, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 9.3, wkg1min: 6.4, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 6477017, name: "# Thorsten [KLUB]", weight: 80.0, watt: 260, wkg: 3.2, w5s: 752, w10s: 0, w15s: 688, w30s: 602, w1min: 518, w2min: 445, w5min: 347, w10min: 0, w20min: 260, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.5, wkg1min: 6.5, wkg2min: 5.6, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
-      { id: 6572384, name: ". Denny [KLUB] ", weight: 70.1, watt: 220, wkg: 3.1, w5s: 827, w10s: 0, w15s: 755, w30s: 586, w1min: 394, w2min: 303, w5min: 259, w10min: 0, w20min: 220, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.4, wkg1min: 5.6, wkg2min: 4.3, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
+      { id: 6572384, name: ". Denny [KLUB] ", weight: 70.1, watt: 220, wkg: 3.1, w5s: 1023, w10s: 0, w15s: 865, w30s: 661, w1min: 405, w2min: 323, w5min: 265, w10min: 0, w20min: 220, w30min: 0, wkg5s: 14.6, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 9.4, wkg1min: 5.8, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 6751203, name: "Stefan PTRS [KLUB]", weight: 82.0, watt: 287, wkg: 3.5, w5s: 1037, w10s: 0, w15s: 929, w30s: 775, w1min: 552, w2min: 417, w5min: 344, w10min: 0, w20min: 287, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.5, wkg1min: 6.7, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_OREOS": {
     rung: 7,
-    ladderPosition: 115,
-    positionInRung: 13,
+    ladderPosition: 116,
+    positionInRung: 14,
     name: "KLUB Oreos",
     riders: [
       { id: 251853, name: "Ronald Rolle", weight: 68.0, watt: 197, wkg: 2.9, w5s: 638, w10s: 0, w15s: 601, w30s: 431, w1min: 306, w2min: 247, w5min: 215, w10min: 0, w20min: 197, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.3, wkg1min: 4.5, wkg2min: 3.6, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1207,26 +1225,41 @@ const OPPONENT_LIBRARY = {
       { id: 7562518, name: "Chris Topper", weight: 74.0, watt: 234, wkg: 3.2, w5s: 559, w10s: 0, w15s: 482, w30s: 447, w1min: 381, w2min: 325, w5min: 275, w10min: 0, w20min: 234, w30min: 0, wkg5s: 7.5, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 6.0, wkg1min: 5.1, wkg2min: 4.3, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
   },
+  "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_RAIDERS": {
+    rung: 5,
+    ladderPosition: 69,
+    positionInRung: 1,
+    name: "KLUB Raiders",
+    riders: [
+      { id: 588232, name: "Dennis Viertl", weight: 0.0, watt: 0, wkg: 0.0, w5s: 0, w10s: 0, w15s: 0, w30s: 0, w1min: 0, w2min: 0, w5min: 0, w10min: 0, w20min: 0, w30min: 0, wkg5s: 0.0, wkg10s: 0.0, wkg15s: 0.0, wkg30s: 0.0, wkg1min: 0.0, wkg2min: 0.0, wkg5min: 0.0, wkg10min: 0.0, wkg20min: 0.0, wkg30min: 0.0 },
+      { id: 4545555, name: "Hubert Ellinger", weight: 79.0, watt: 277, wkg: 3.5, w5s: 851, w10s: 0, w15s: 779, w30s: 612, w1min: 476, w2min: 388, w5min: 335, w10min: 0, w20min: 277, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.7, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 5690277, name: "Alexander Gorski [KLUB]", weight: 73.4, watt: 258, wkg: 3.5, w5s: 1072, w10s: 0, w15s: 1021, w30s: 883, w1min: 572, w2min: 378, w5min: 328, w10min: 0, w20min: 258, w30min: 0, wkg5s: 14.6, wkg10s: 0.0, wkg15s: 13.9, wkg30s: 12.0, wkg1min: 7.8, wkg2min: 5.1, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 5948648, name: "Simon Mader[KLUB]", weight: 73.8, watt: 273, wkg: 3.7, w5s: 980, w10s: 0, w15s: 889, w30s: 674, w1min: 507, w2min: 395, w5min: 329, w10min: 0, w20min: 273, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 9.1, wkg1min: 6.9, wkg2min: 5.4, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 6790204, name: "Alex Tilz [KLUB]", weight: 73.0, watt: 316, wkg: 4.3, w5s: 1095, w10s: 0, w15s: 1012, w30s: 802, w1min: 524, w2min: 438, w5min: 366, w10min: 0, w20min: 316, w30min: 0, wkg5s: 15.0, wkg10s: 0.0, wkg15s: 13.9, wkg30s: 11.0, wkg1min: 7.1, wkg2min: 5.9, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
+      { id: 6882738, name: "Johannes Jacob [KLUB]", weight: 78.0, watt: 327, wkg: 4.2, w5s: 783, w10s: 0, w15s: 773, w30s: 627, w1min: 455, w2min: 421, w5min: 388, w10min: 0, w20min: 327, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.0, wkg1min: 5.8, wkg2min: 5.4, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { id: 7608887, name: "Ciar&aacute;n Power [KLUB]", weight: 76.5, watt: 309, wkg: 4.0, w5s: 1058, w10s: 0, w15s: 911, w30s: 666, w1min: 441, w2min: 366, w5min: 344, w10min: 0, w20min: 309, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 8.7, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 }
+    ]
+  },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_KLUB_SMARTIES": {
     rung: 5,
-    ladderPosition: 74,
-    positionInRung: 6,
+    ladderPosition: 75,
+    positionInRung: 7,
     name: "KLUB Smarties",
     riders: [
       { id: 1019413, name: "h. elness [KLUB]", weight: 68.0, watt: 253, wkg: 3.7, w5s: 492, w10s: 0, w15s: 454, w30s: 391, w1min: 316, w2min: 303, w5min: 273, w10min: 0, w20min: 253, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.7, wkg30s: 5.7, wkg1min: 4.6, wkg2min: 4.5, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1379711, name: "Martin Herold [KLUB]", weight: 80.5, watt: 303, wkg: 3.7, w5s: 682, w10s: 0, w15s: 613, w30s: 529, w1min: 391, w2min: 338, w5min: 308, w10min: 0, w20min: 303, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 6.5, wkg1min: 4.8, wkg2min: 4.1, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1705274, name: "Michael Sendner (Eintracht/KLUB)", weight: 69.6, watt: 229, wkg: 3.3, w5s: 919, w10s: 0, w15s: 813, w30s: 643, w1min: 407, w2min: 330, w5min: 271, w10min: 0, w20min: 229, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 9.2, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 1748315, name: "Bernd Schurig", weight: 66.0, watt: 244, wkg: 3.7, w5s: 839, w10s: 0, w15s: 699, w30s: 545, w1min: 413, w2min: 329, w5min: 292, w10min: 0, w20min: 244, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.2, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 1902051, name: "Pit Conrad [Klub]", weight: 75.5, watt: 259, wkg: 3.4, w5s: 814, w10s: 0, w15s: 617, w30s: 558, w1min: 398, w2min: 328, w5min: 289, w10min: 0, w20min: 259, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.4, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 1902051, name: "Pit Conrad [Klub]", weight: 75.5, watt: 259, wkg: 3.4, w5s: 814, w10s: 0, w15s: 617, w30s: 558, w1min: 398, w2min: 328, w5min: 296, w10min: 0, w20min: 259, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.4, wkg1min: 5.3, wkg2min: 4.3, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 3219713, name: "Jakob Zellinger", weight: 62.0, watt: 244, wkg: 4.0, w5s: 445, w10s: 0, w15s: 387, w30s: 362, w1min: 311, w2min: 278, w5min: 261, w10min: 0, w20min: 244, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.9, wkg1min: 5.1, wkg2min: 4.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 3758737, name: "Chris K [KLUB]", weight: 84.0, watt: 276, wkg: 3.3, w5s: 857, w10s: 0, w15s: 781, w30s: 608, w1min: 468, w2min: 389, w5min: 353, w10min: 0, w20min: 276, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.2, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 4310844, name: "Ren&eacute; Kowalsky [SRT]", weight: 83.0, watt: 275, wkg: 3.3, w5s: 1152, w10s: 0, w15s: 1050, w30s: 700, w1min: 513, w2min: 403, w5min: 322, w10min: 0, w20min: 275, w30min: 0, wkg5s: 13.7, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 8.3, wkg1min: 6.2, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 4511184, name: "Jan-Ole Sch&uuml;ring [KLUB]", weight: 87.0, watt: 250, wkg: 2.9, w5s: 786, w10s: 0, w15s: 575, w30s: 459, w1min: 420, w2min: 348, w5min: 308, w10min: 0, w20min: 250, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 6.6, wkg30s: 5.3, wkg1min: 4.8, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 4580781, name: "Markus Clever - Der Hohenlimburger", weight: 75.9, watt: 237, wkg: 3.1, w5s: 968, w10s: 0, w15s: 706, w30s: 486, w1min: 405, w2min: 364, w5min: 288, w10min: 0, w20min: 237, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 5241299, name: "Ron Falk [KLUB]", weight: 72.0, watt: 235, wkg: 3.3, w5s: 819, w10s: 0, w15s: 710, w30s: 593, w1min: 416, w2min: 364, w5min: 307, w10min: 0, w20min: 235, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.2, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { id: 5870854, name: "Christian H. [KLUB]", weight: 67.6, watt: 229, wkg: 3.5, w5s: 713, w10s: 0, w15s: 615, w30s: 516, w1min: 394, w2min: 317, w5min: 273, w10min: 0, w20min: 229, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.9, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 5870854, name: "Christian H. [KLUB]", weight: 68.1, watt: 229, wkg: 3.5, w5s: 713, w10s: 0, w15s: 615, w30s: 516, w1min: 394, w2min: 317, w5min: 273, w10min: 0, w20min: 229, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.9, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5905720, name: "Sven N.[KLUB]", weight: 90.0, watt: 279, wkg: 3.1, w5s: 998, w10s: 0, w15s: 825, w30s: 622, w1min: 453, w2min: 354, w5min: 303, w10min: 0, w20min: 279, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 6.9, wkg1min: 5.0, wkg2min: 3.9, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 5988896, name: ".  Steven[KLUB]", weight: 82.0, watt: 270, wkg: 3.3, w5s: 848, w10s: 0, w15s: 789, w30s: 661, w1min: 473, w2min: 386, w5min: 332, w10min: 0, w20min: 270, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.1, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 5988896, name: ".  Steven[KLUB]", weight: 82.0, watt: 270, wkg: 3.3, w5s: 848, w10s: 0, w15s: 789, w30s: 661, w1min: 473, w2min: 386, w5min: 334, w10min: 0, w20min: 270, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.1, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 6586106, name: "Lukas [SRT]", weight: 93.0, watt: 301, wkg: 3.2, w5s: 1248, w10s: 0, w15s: 1020, w30s: 729, w1min: 547, w2min: 461, w5min: 366, w10min: 0, w20min: 301, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 7.8, wkg1min: 5.9, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
   },
@@ -1269,14 +1302,14 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_HAUTACAM": {
     rung: 6,
-    ladderPosition: 98,
-    positionInRung: 13,
+    ladderPosition: 99,
+    positionInRung: 14,
     name: "LEQP Hautacam",
     riders: [
       { id: 391442, name: "Matthew Poole | LEQP", weight: 73.0, watt: 227, wkg: 3.1, w5s: 499, w10s: 0, w15s: 471, w30s: 398, w1min: 344, w2min: 306, w5min: 255, w10min: 0, w20min: 227, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.5, wkg1min: 4.7, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 543081, name: "Kendra Hall (LEQP)", weight: 62.0, watt: 170, wkg: 2.7, w5s: 384, w10s: 0, w15s: 340, w30s: 306, w1min: 274, w2min: 229, w5min: 199, w10min: 0, w20min: 170, w30min: 0, wkg5s: 6.2, wkg10s: 0.0, wkg15s: 5.5, wkg30s: 4.9, wkg1min: 4.4, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 828013, name: "Leigh  Greenwood | LEQP", weight: 71.9, watt: 244, wkg: 3.4, w5s: 807, w10s: 0, w15s: 752, w30s: 607, w1min: 404, w2min: 345, w5min: 279, w10min: 0, w20min: 244, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.4, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 1005339, name: "Evelyn Desmet", weight: 53.0, watt: 157, wkg: 3.0, w5s: 556, w10s: 0, w15s: 470, w30s: 371, w1min: 240, w2min: 205, w5min: 178, w10min: 0, w20min: 157, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.0, wkg1min: 4.4, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 1005339, name: "Evelyn Desmet", weight: 53.0, watt: 157, wkg: 3.0, w5s: 556, w10s: 0, w15s: 470, w30s: 371, w1min: 240, w2min: 205, w5min: 180, w10min: 0, w20min: 157, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.0, wkg1min: 4.4, wkg2min: 3.8, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 1426577, name: "Tom West", weight: 85.0, watt: 254, wkg: 3.0, w5s: 836, w10s: 0, w15s: 731, w30s: 542, w1min: 419, w2min: 366, w5min: 290, w10min: 0, w20min: 254, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 6.4, wkg1min: 4.9, wkg2min: 4.3, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 3827213, name: "Ross Brown | LEQP", weight: 90.0, watt: 300, wkg: 3.4, w5s: 801, w10s: 0, w15s: 767, w30s: 695, w1min: 495, w2min: 395, w5min: 331, w10min: 0, w20min: 300, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.9, wkg1min: 5.6, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 4578513, name: "Lisa Blackley | LEQP", weight: 68.0, watt: 217, wkg: 3.2, w5s: 718, w10s: 0, w15s: 621, w30s: 534, w1min: 371, w2min: 314, w5min: 268, w10min: 0, w20min: 217, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.9, wkg1min: 5.5, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -1287,8 +1320,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE": {
     rung: 5,
-    ladderPosition: 81,
-    positionInRung: 13,
+    ladderPosition: 82,
+    positionInRung: 14,
     name: "LEQP Madeleine",
     riders: [
       { id: 1132683, name: "Thomas Bultjer (LEQP) ", weight: 89.0, watt: 275, wkg: 3.1, w5s: 845, w10s: 0, w15s: 770, w30s: 574, w1min: 395, w2min: 374, w5min: 302, w10min: 0, w20min: 275, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.4, wkg1min: 4.4, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -1347,7 +1380,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 15,
     name: "Leap&amp;Destroy",
     riders: [
-      { id: 340149, name: "Toni Clau&szlig;ner [WATTFabrik]", weight: 76.9, watt: 313, wkg: 4.1, w5s: 963, w10s: 0, w15s: 897, w30s: 706, w1min: 537, w2min: 418, w5min: 354, w10min: 0, w20min: 313, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 9.1, wkg1min: 7.0, wkg2min: 5.4, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
+      { id: 340149, name: "Toni Clau&szlig;ner [WATTFabrik]", weight: 77.7, watt: 313, wkg: 4.1, w5s: 963, w10s: 0, w15s: 897, w30s: 710, w1min: 537, w2min: 432, w5min: 354, w10min: 0, w20min: 313, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.6, wkg30s: 9.1, wkg1min: 7.0, wkg2min: 5.6, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 363792, name: "Heinrich Oldenburger [WATTFabrik]", weight: 75.7, watt: 289, wkg: 3.8, w5s: 842, w10s: 0, w15s: 671, w30s: 570, w1min: 461, w2min: 408, w5min: 352, w10min: 0, w20min: 289, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 7.5, wkg1min: 6.1, wkg2min: 5.4, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 908255, name: "Pierre Jabow[WATTFabrik]", weight: 71.5, watt: 304, wkg: 4.3, w5s: 925, w10s: 0, w15s: 880, w30s: 767, w1min: 544, w2min: 394, w5min: 330, w10min: 0, w20min: 304, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 10.7, wkg1min: 7.6, wkg2min: 5.5, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 966742, name: "Michael Witzel [WATTFabrik]", weight: 66.5, watt: 247, wkg: 3.7, w5s: 756, w10s: 0, w15s: 667, w30s: 500, w1min: 440, w2min: 335, w5min: 277, w10min: 0, w20min: 247, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.5, wkg1min: 6.6, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -1355,8 +1388,8 @@ const OPPONENT_LIBRARY = {
       { id: 1448130, name: "Lars Schleinhege [WATTFabrik]", weight: 82.6, watt: 336, wkg: 4.1, w5s: 848, w10s: 0, w15s: 697, w30s: 535, w1min: 455, w2min: 431, w5min: 370, w10min: 0, w20min: 336, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 6.6, wkg1min: 5.7, wkg2min: 5.4, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 2862792, name: "Jens Schumann [WATTFabrik]", weight: 63.5, watt: 254, wkg: 4.0, w5s: 729, w10s: 0, w15s: 699, w30s: 613, w1min: 452, w2min: 410, w5min: 330, w10min: 0, w20min: 254, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.7, wkg1min: 7.1, wkg2min: 6.5, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 2953521, name: "Michael Frater [WATTFabrik]", weight: 72.1, watt: 269, wkg: 3.8, w5s: 696, w10s: 0, w15s: 670, w30s: 555, w1min: 472, w2min: 377, w5min: 298, w10min: 0, w20min: 269, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.8, wkg1min: 6.7, wkg2min: 5.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 2961157, name: "Felix K. [WATTFabrik]", weight: 77.0, watt: 305, wkg: 4.0, w5s: 919, w10s: 0, w15s: 756, w30s: 717, w1min: 558, w2min: 457, w5min: 352, w10min: 0, w20min: 305, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 9.3, wkg1min: 7.2, wkg2min: 5.9, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 6898733, name: "Christian Stuhlmann [WATTFabrik]", weight: 63.7, watt: 271, wkg: 4.2, w5s: 605, w10s: 0, w15s: 509, w30s: 433, w1min: 387, w2min: 342, w5min: 311, w10min: 0, w20min: 271, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.7, wkg1min: 6.0, wkg2min: 5.3, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 }
+      { id: 2961157, name: "Felix K. [WATTFabrik]", weight: 77.0, watt: 305, wkg: 4.0, w5s: 919, w10s: 0, w15s: 773, w30s: 717, w1min: 558, w2min: 457, w5min: 352, w10min: 0, w20min: 305, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 9.3, wkg1min: 7.2, wkg2min: 5.9, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
+      { id: 6898733, name: "Christian Stuhlmann [WATTFabrik]", weight: 63.7, watt: 271, wkg: 4.2, w5s: 605, w10s: 0, w15s: 527, w30s: 454, w1min: 387, w2min: 342, w5min: 311, w10min: 0, w20min: 271, w30min: 0, wkg5s: 9.2, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 7.1, wkg1min: 6.0, wkg2min: 5.3, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_MAD_DOGS__DBR_": {
@@ -1366,10 +1399,9 @@ const OPPONENT_LIBRARY = {
     name: "Mad Dogs (DBR)",
     riders: [
       { id: 48403, name: "Caspar  Christensen [DBR]", weight: 81.7, watt: 329, wkg: 4.0, w5s: 1036, w10s: 0, w15s: 865, w30s: 699, w1min: 514, w2min: 445, w5min: 407, w10min: 0, w20min: 329, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.6, wkg1min: 6.3, wkg2min: 5.4, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 77017, name: "Thomas M. Larsen (DBR)", weight: 72.0, watt: 297, wkg: 4.1, w5s: 623, w10s: 0, w15s: 590, w30s: 548, w1min: 482, w2min: 381, w5min: 340, w10min: 0, w20min: 297, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.6, wkg1min: 6.7, wkg2min: 5.3, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
+      { id: 77017, name: "Thomas M. Larsen (DBR)", weight: 72.0, watt: 297, wkg: 4.1, w5s: 667, w10s: 0, w15s: 590, w30s: 548, w1min: 482, w2min: 381, w5min: 340, w10min: 0, w20min: 297, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.6, wkg1min: 6.7, wkg2min: 5.3, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 897287, name: "Mikkel Christensen  (DBR4)", weight: 79.0, watt: 351, wkg: 4.4, w5s: 767, w10s: 0, w15s: 678, w30s: 591, w1min: 496, w2min: 439, w5min: 393, w10min: 0, w20min: 351, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.5, wkg1min: 6.3, wkg2min: 5.6, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 1044375, name: "Marc Nyvang // SR", weight: 62.0, watt: 257, wkg: 4.1, w5s: 754, w10s: 0, w15s: 695, w30s: 568, w1min: 440, w2min: 358, w5min: 294, w10min: 0, w20min: 257, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 9.2, wkg1min: 7.1, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { id: 1177920, name: "Morten Muusmann", weight: 74.0, watt: 281, wkg: 3.8, w5s: 898, w10s: 0, w15s: 823, w30s: 738, w1min: 487, w2min: 404, w5min: 343, w10min: 0, w20min: 281, w30min: 0, wkg5s: 12.1, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.9, wkg1min: 6.5, wkg2min: 5.4, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 1460126, name: "Martin Vissing [DBR]#HAC#", weight: 85.0, watt: 300, wkg: 3.5, w5s: 545, w10s: 0, w15s: 516, w30s: 443, w1min: 415, w2min: 399, w5min: 340, w10min: 0, w20min: 300, w30min: 0, wkg5s: 6.4, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.2, wkg1min: 4.9, wkg2min: 4.7, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 1664605, name: "Anton Moller Christensen [DBR]", weight: 78.0, watt: 323, wkg: 4.1, w5s: 848, w10s: 0, w15s: 704, w30s: 607, w1min: 488, w2min: 414, w5min: 362, w10min: 0, w20min: 323, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.8, wkg1min: 6.3, wkg2min: 5.4, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 2877514, name: "Frederik Holt(TND) ", weight: 83.0, watt: 336, wkg: 4.0, w5s: 1129, w10s: 0, w15s: 1099, w30s: 807, w1min: 590, w2min: 501, w5min: 382, w10min: 0, w20min: 336, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 13.4, wkg30s: 9.8, wkg1min: 7.2, wkg2min: 6.1, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
@@ -1378,17 +1410,17 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_OTR_MORNING_CREW": {
     rung: 2,
-    ladderPosition: 25,
-    positionInRung: 8,
+    ladderPosition: 19,
+    positionInRung: 2,
     name: "OTR Morning Crew",
     riders: [
       { id: 102179, name: "David Williams (OTR)", weight: 73.1, watt: 299, wkg: 4.1, w5s: 923, w10s: 0, w15s: 832, w30s: 663, w1min: 496, w2min: 438, w5min: 372, w10min: 0, w20min: 299, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.1, wkg1min: 6.8, wkg2min: 6.0, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 298282, name: "Peter H Williams (OTR)", weight: 72.0, watt: 268, wkg: 3.7, w5s: 731, w10s: 0, w15s: 554, w30s: 435, w1min: 355, w2min: 326, w5min: 286, w10min: 0, w20min: 268, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.0, wkg1min: 4.9, wkg2min: 4.5, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 798491, name: "Lead_Belly (OTR)", weight: 89.8, watt: 372, wkg: 4.1, w5s: 1173, w10s: 0, w15s: 1074, w30s: 751, w1min: 519, w2min: 461, w5min: 399, w10min: 0, w20min: 372, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 8.4, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { id: 888657, name: "Adam Vogt (OTR)", weight: 72.0, watt: 327, wkg: 4.5, w5s: 1058, w10s: 0, w15s: 946, w30s: 736, w1min: 598, w2min: 492, w5min: 398, w10min: 0, w20min: 327, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.2, wkg1min: 8.2, wkg2min: 6.8, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
+      { id: 888657, name: "Adam Vogt (OTR)", weight: 71.8, watt: 327, wkg: 4.5, w5s: 1058, w10s: 0, w15s: 946, w30s: 736, w1min: 598, w2min: 492, w5min: 398, w10min: 0, w20min: 327, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.2, wkg1min: 8.2, wkg2min: 6.8, wkg5min: 5.5, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
       { id: 1022725, name: "Kevin Orlowski [OTR]", weight: 64.0, watt: 238, wkg: 3.7, w5s: 817, w10s: 0, w15s: 765, w30s: 572, w1min: 387, w2min: 330, w5min: 294, w10min: 0, w20min: 238, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 8.9, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1183684, name: "Howard  DeVennish (OTR)", weight: 78.2, watt: 281, wkg: 3.6, w5s: 1149, w10s: 0, w15s: 1002, w30s: 699, w1min: 539, w2min: 448, w5min: 350, w10min: 0, w20min: 281, w30min: 0, wkg5s: 14.8, wkg10s: 0.0, wkg15s: 12.9, wkg30s: 9.0, wkg1min: 6.9, wkg2min: 5.7, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 1500127, name: "Andrew Huffaker [OTR]", weight: 77.1, watt: 315, wkg: 4.1, w5s: 661, w10s: 0, w15s: 620, w30s: 568, w1min: 477, w2min: 423, w5min: 377, w10min: 0, w20min: 315, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.4, wkg1min: 6.2, wkg2min: 5.5, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
+      { id: 1500127, name: "Andrew Huffaker [OTR]", weight: 77.1, watt: 315, wkg: 4.1, w5s: 874, w10s: 0, w15s: 814, w30s: 671, w1min: 541, w2min: 427, w5min: 377, w10min: 0, w20min: 315, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.7, wkg1min: 7.0, wkg2min: 5.5, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 1783217, name: "Douglas Cameron ", weight: 80.3, watt: 296, wkg: 3.7, w5s: 1510, w10s: 0, w15s: 1275, w30s: 1012, w1min: 705, w2min: 462, w5min: 355, w10min: 0, w20min: 296, w30min: 0, wkg5s: 18.8, wkg10s: 0.0, wkg15s: 15.9, wkg30s: 12.6, wkg1min: 8.8, wkg2min: 5.8, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 2689194, name: "Mark Baker ", weight: 72.1, watt: 312, wkg: 4.3, w5s: 1059, w10s: 0, w15s: 989, w30s: 691, w1min: 461, w2min: 446, w5min: 380, w10min: 0, w20min: 312, w30min: 0, wkg5s: 14.7, wkg10s: 0.0, wkg15s: 13.7, wkg30s: 9.6, wkg1min: 6.4, wkg2min: 6.2, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
       { id: 3888984, name: "Dan Manalo (OTR)", weight: 77.2, watt: 307, wkg: 4.0, w5s: 1163, w10s: 0, w15s: 976, w30s: 831, w1min: 606, w2min: 459, w5min: 379, w10min: 0, w20min: 307, w30min: 0, wkg5s: 15.1, wkg10s: 0.0, wkg15s: 12.6, wkg30s: 10.8, wkg1min: 7.9, wkg2min: 5.9, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
@@ -1398,8 +1430,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_PAMPILHO": {
     rung: 6,
-    ladderPosition: 100,
-    positionInRung: 15,
+    ladderPosition: 101,
+    positionInRung: 16,
     name: "Pampilho",
     riders: [
       { id: 279426, name: "Rog&eacute;rio Cavaleiro", weight: 103.0, watt: 294, wkg: 2.9, w5s: 1146, w10s: 0, w15s: 1030, w30s: 673, w1min: 470, w2min: 384, w5min: 325, w10min: 0, w20min: 294, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 6.5, wkg1min: 4.6, wkg2min: 3.7, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1407,7 +1439,7 @@ const OPPONENT_LIBRARY = {
       { id: 2670471, name: "D. Cruz (TugaZ)", weight: 106.0, watt: 331, wkg: 3.2, w5s: 902, w10s: 0, w15s: 806, w30s: 677, w1min: 542, w2min: 434, w5min: 352, w10min: 0, w20min: 331, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.4, wkg1min: 5.2, wkg2min: 4.1, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 2853247, name: "Luis Marques", weight: 81.3, watt: 267, wkg: 3.3, w5s: 742, w10s: 0, w15s: 643, w30s: 594, w1min: 433, w2min: 370, w5min: 307, w10min: 0, w20min: 267, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.4, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 2879262, name: "Vitor Daniel Pires", weight: 72.0, watt: 226, wkg: 3.0, w5s: 543, w10s: 0, w15s: 473, w30s: 391, w1min: 335, w2min: 273, w5min: 248, w10min: 0, w20min: 226, w30min: 0, wkg5s: 7.5, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.2, wkg1min: 4.5, wkg2min: 3.7, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 3785241, name: "Carlos Monteiro (Cycle Nation)", weight: 78.0, watt: 247, wkg: 3.2, w5s: 949, w10s: 0, w15s: 858, w30s: 691, w1min: 452, w2min: 342, w5min: 272, w10min: 0, w20min: 247, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.9, wkg1min: 5.8, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 3785241, name: "Carlos Monteiro (Cycle Nation)", weight: 78.0, watt: 247, wkg: 3.2, w5s: 949, w10s: 0, w15s: 858, w30s: 691, w1min: 452, w2min: 342, w5min: 275, w10min: 0, w20min: 247, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.9, wkg1min: 5.8, wkg2min: 4.4, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 4383394, name: "S&eacute;rgio Proen&ccedil;a [TugaZ]", weight: 80.0, watt: 216, wkg: 2.7, w5s: 624, w10s: 0, w15s: 543, w30s: 439, w1min: 351, w2min: 326, w5min: 251, w10min: 0, w20min: 216, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 6.8, wkg30s: 5.5, wkg1min: 4.4, wkg2min: 4.1, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
       { id: 4392521, name: "Marcio Santos [Tugaz]", weight: 76.6, watt: 244, wkg: 3.2, w5s: 799, w10s: 0, w15s: 685, w30s: 477, w1min: 343, w2min: 316, w5min: 276, w10min: 0, w20min: 244, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 6.4, wkg1min: 4.5, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 4691237, name: "Jose Mendes [TugaZ]", weight: 85.0, watt: 239, wkg: 2.8, w5s: 458, w10s: 0, w15s: 418, w30s: 336, w1min: 307, w2min: 292, w5min: 264, w10min: 0, w20min: 239, w30min: 0, wkg5s: 5.4, wkg10s: 0.0, wkg15s: 4.9, wkg30s: 4.0, wkg1min: 3.6, wkg2min: 3.4, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -1434,8 +1466,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROC_RACE_TEAM": {
     rung: 6,
-    ladderPosition: 94,
-    positionInRung: 9,
+    ladderPosition: 95,
+    positionInRung: 10,
     name: "ROC RACE TEAM",
     riders: [
       { id: 161615, name: "Sean Casson [ECC]", weight: 71.0, watt: 253, wkg: 3.4, w5s: 697, w10s: 0, w15s: 643, w30s: 489, w1min: 387, w2min: 335, w5min: 291, w10min: 0, w20min: 253, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.9, wkg1min: 5.2, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1453,9 +1485,9 @@ const OPPONENT_LIBRARY = {
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROC_THUNDERCATS": {
-    rung: 8,
-    ladderPosition: 135,
-    positionInRung: 16,
+    rung: 9,
+    ladderPosition: 138,
+    positionInRung: 2,
     name: "ROC Thundercats",
     riders: [
       { id: 132666, name: "Libby Marsden", weight: 71.7, watt: 208, wkg: 2.9, w5s: 397, w10s: 0, w15s: 386, w30s: 338, w1min: 315, w2min: 271, w5min: 244, w10min: 0, w20min: 208, w30min: 0, wkg5s: 5.6, wkg10s: 0.0, wkg15s: 5.4, wkg30s: 4.7, wkg1min: 4.4, wkg2min: 3.8, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1494,8 +1526,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROARING_RHINOS": {
     rung: 3,
-    ladderPosition: 39,
-    positionInRung: 5,
+    ladderPosition: 38,
+    positionInRung: 4,
     name: "Roaring Rhinos",
     riders: [
       { id: 232041, name: "Dominic  Sherman [RHINO]", weight: 78.0, watt: 265, wkg: 3.4, w5s: 999, w10s: 0, w15s: 896, w30s: 769, w1min: 539, w2min: 395, w5min: 340, w10min: 0, w20min: 265, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.9, wkg1min: 6.9, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1512,8 +1544,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROLLCO_CIABATTA": {
     rung: 5,
-    ladderPosition: 71,
-    positionInRung: 3,
+    ladderPosition: 73,
+    positionInRung: 5,
     name: "RollCo Ciabatta",
     riders: [
       { id: 1235118, name: "Bradley Kruse", weight: 85.0, watt: 305, wkg: 3.5, w5s: 833, w10s: 0, w15s: 770, w30s: 649, w1min: 543, w2min: 414, w5min: 335, w10min: 0, w20min: 305, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.5, wkg1min: 6.3, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -1533,8 +1565,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ROLLCO_GALETTE": {
     rung: 7,
-    ladderPosition: 112,
-    positionInRung: 10,
+    ladderPosition: 113,
+    positionInRung: 11,
     name: "RollCo Galette",
     riders: [
       { id: 903445, name: "Tom Wachtler", weight: 83.9, watt: 211, wkg: 2.5, w5s: 467, w10s: 0, w15s: 330, w30s: 297, w1min: 263, w2min: 246, w5min: 235, w10min: 0, w20min: 211, w30min: 0, wkg5s: 5.6, wkg10s: 0.0, wkg15s: 3.9, wkg30s: 3.5, wkg1min: 3.1, wkg2min: 2.9, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
@@ -1557,12 +1589,12 @@ const OPPONENT_LIBRARY = {
     positionInRung: 2,
     name: "RollCo Pumpernickel",
     riders: [
-      { id: 288644, name: "_ Craig (Spellbound) ", weight: 81.1, watt: 311, wkg: 3.7, w5s: 1076, w10s: 0, w15s: 860, w30s: 698, w1min: 538, w2min: 480, w5min: 395, w10min: 0, w20min: 311, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.3, wkg1min: 6.4, wkg2min: 5.7, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 637568, name: "Jizza", weight: 82.4, watt: 324, wkg: 3.9, w5s: 898, w10s: 0, w15s: 787, w30s: 705, w1min: 480, w2min: 420, w5min: 364, w10min: 0, w20min: 324, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.6, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 288644, name: "_ Craig (Spellbound) ", weight: 80.2, watt: 311, wkg: 3.7, w5s: 1076, w10s: 0, w15s: 860, w30s: 698, w1min: 538, w2min: 480, w5min: 395, w10min: 0, w20min: 311, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.3, wkg1min: 6.4, wkg2min: 5.7, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 637568, name: "Jizza", weight: 81.8, watt: 324, wkg: 3.9, w5s: 898, w10s: 0, w15s: 787, w30s: 705, w1min: 480, w2min: 420, w5min: 364, w10min: 0, w20min: 324, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.6, wkg1min: 5.8, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 4442340, name: "Gareth Brewer (RollCo)", weight: 80.8, watt: 284, wkg: 3.8, w5s: 981, w10s: 0, w15s: 865, w30s: 678, w1min: 565, w2min: 428, w5min: 337, w10min: 0, w20min: 284, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.0, wkg1min: 7.5, wkg2min: 5.7, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 6127271, name: "First JENSOR (RtB)", weight: 86.7, watt: 366, wkg: 4.2, w5s: 1404, w10s: 0, w15s: 1314, w30s: 927, w1min: 708, w2min: 595, w5min: 438, w10min: 0, w20min: 366, w30min: 0, wkg5s: 16.2, wkg10s: 0.0, wkg15s: 15.2, wkg30s: 10.7, wkg1min: 8.2, wkg2min: 6.9, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 6593437, name: "Steven Olander (RollCo)", weight: 77.0, watt: 285, wkg: 3.8, w5s: 666, w10s: 0, w15s: 555, w30s: 435, w1min: 386, w2min: 343, w5min: 320, w10min: 0, w20min: 285, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 5.8, wkg1min: 5.1, wkg2min: 4.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 6724122, name: "Robert Hartwig", weight: 79.0, watt: 348, wkg: 4.4, w5s: 1250, w10s: 0, w15s: 1101, w30s: 866, w1min: 655, w2min: 548, w5min: 407, w10min: 0, w20min: 348, w30min: 0, wkg5s: 14.9, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.3, wkg1min: 8.3, wkg2min: 6.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
+      { id: 6724122, name: "Robert Hartwig", weight: 77.8, watt: 348, wkg: 4.4, w5s: 1250, w10s: 0, w15s: 1101, w30s: 866, w1min: 655, w2min: 548, w5min: 407, w10min: 0, w20min: 348, w30min: 0, wkg5s: 14.9, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.3, wkg1min: 8.3, wkg2min: 6.8, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 6852352, name: "ANTOINE B.", weight: 69.0, watt: 293, wkg: 4.2, w5s: 738, w10s: 0, w15s: 696, w30s: 567, w1min: 421, w2min: 390, w5min: 344, w10min: 0, w20min: 293, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 8.2, wkg1min: 6.1, wkg2min: 5.7, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 7027834, name: "1. mark [HERC]", weight: 79.0, watt: 329, wkg: 4.2, w5s: 878, w10s: 0, w15s: 833, w30s: 655, w1min: 549, w2min: 440, w5min: 392, w10min: 0, w20min: 329, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 8.3, wkg1min: 6.9, wkg2min: 5.6, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 7046559, name: "Shane McAloon (RollCo)", weight: 87.0, watt: 316, wkg: 3.6, w5s: 1209, w10s: 0, w15s: 1067, w30s: 804, w1min: 564, w2min: 468, w5min: 370, w10min: 0, w20min: 316, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 9.2, wkg1min: 6.5, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
@@ -1595,8 +1627,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SNOW_STORM": {
     rung: 6,
-    ladderPosition: 95,
-    positionInRung: 10,
+    ladderPosition: 96,
+    positionInRung: 11,
     name: "SNOW Storm",
     riders: [
       { id: 130023, name: "Simon Stromberg [SNOW]", weight: 74.8, watt: 221, wkg: 3.1, w5s: 417, w10s: 0, w15s: 392, w30s: 378, w1min: 340, w2min: 296, w5min: 255, w10min: 0, w20min: 221, w30min: 0, wkg5s: 5.7, wkg10s: 0.0, wkg15s: 5.3, wkg30s: 5.2, wkg1min: 4.8, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -1612,8 +1644,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_ELAKINGAR": {
     rung: 4,
-    ladderPosition: 63,
-    positionInRung: 12,
+    ladderPosition: 64,
+    positionInRung: 13,
     name: "SRT Elakingar",
     riders: [
       { id: 1346339, name: "Matt Higgins (SRT)", weight: 79.4, watt: 271, wkg: 3.4, w5s: 898, w10s: 0, w15s: 828, w30s: 663, w1min: 494, w2min: 401, w5min: 317, w10min: 0, w20min: 271, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 8.4, wkg1min: 6.2, wkg2min: 5.1, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1627,8 +1659,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_GLADIATORS": {
     rung: 4,
-    ladderPosition: 65,
-    positionInRung: 14,
+    ladderPosition: 66,
+    positionInRung: 15,
     name: "SRT Gladiators",
     riders: [
       { id: 420763, name: "Dom Norton [SRT]", weight: 81.0, watt: 272, wkg: 3.4, w5s: 768, w10s: 0, w15s: 649, w30s: 569, w1min: 478, w2min: 385, w5min: 310, w10min: 0, w20min: 272, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.0, wkg1min: 5.9, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1647,8 +1679,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_GOLD_DIGGERS": {
     rung: 6,
-    ladderPosition: 89,
-    positionInRung: 4,
+    ladderPosition: 90,
+    positionInRung: 5,
     name: "SRT Gold Diggers",
     riders: [
       { id: 180372, name: "Andy Biggs [Durham Tri]", weight: 71.3, watt: 232, wkg: 3.3, w5s: 621, w10s: 0, w15s: 553, w30s: 465, w1min: 347, w2min: 302, w5min: 252, w10min: 0, w20min: 232, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.5, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -1666,8 +1698,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_PLONKERS": {
     rung: 4,
-    ladderPosition: 61,
-    positionInRung: 10,
+    ladderPosition: 62,
+    positionInRung: 11,
     name: "SRT Plonkers",
     riders: [
       { id: 896248, name: "Graham  Turner [SRT]", weight: 77.0, watt: 262, wkg: 3.4, w5s: 980, w10s: 0, w15s: 749, w30s: 604, w1min: 447, w2min: 383, w5min: 318, w10min: 0, w20min: 262, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.8, wkg1min: 5.8, wkg2min: 5.0, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
@@ -1686,28 +1718,28 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_STORBOSKAP": {
     rung: 2,
-    ladderPosition: 19,
-    positionInRung: 2,
+    ladderPosition: 20,
+    positionInRung: 3,
     name: "SRT Storboskap",
     riders: [
       { id: 561438, name: "huw Williams", weight: 65.9, watt: 281, wkg: 4.3, w5s: 771, w10s: 0, w15s: 704, w30s: 613, w1min: 467, w2min: 371, w5min: 307, w10min: 0, w20min: 281, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 9.3, wkg1min: 7.1, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
-      { id: 941300, name: " Rich Smith [SRT]", weight: 69.9, watt: 290, wkg: 4.2, w5s: 930, w10s: 0, w15s: 808, w30s: 659, w1min: 493, w2min: 404, w5min: 337, w10min: 0, w20min: 290, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.4, wkg1min: 7.0, wkg2min: 5.7, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { id: 941300, name: " Rich Smith [SRT]", weight: 69.9, watt: 290, wkg: 4.2, w5s: 930, w10s: 0, w15s: 808, w30s: 677, w1min: 532, w2min: 404, w5min: 337, w10min: 0, w20min: 290, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.7, wkg1min: 7.6, wkg2min: 5.7, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 942404, name: "Firms [SRT]", weight: 80.5, watt: 284, wkg: 3.5, w5s: 839, w10s: 0, w15s: 798, w30s: 701, w1min: 512, w2min: 441, w5min: 335, w10min: 0, w20min: 284, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.7, wkg1min: 6.4, wkg2min: 5.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 1364611, name: "Yannick Janssens (SRT)", weight: 67.5, watt: 273, wkg: 4.0, w5s: 983, w10s: 0, w15s: 900, w30s: 635, w1min: 510, w2min: 447, w5min: 342, w10min: 0, w20min: 273, w30min: 0, wkg5s: 14.6, wkg10s: 0.0, wkg15s: 13.3, wkg30s: 9.4, wkg1min: 7.6, wkg2min: 6.6, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 1369386, name: "Graham HORTON [SRT]", weight: 76.0, watt: 299, wkg: 3.9, w5s: 1189, w10s: 0, w15s: 872, w30s: 743, w1min: 579, w2min: 452, w5min: 360, w10min: 0, w20min: 299, w30min: 0, wkg5s: 15.6, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.8, wkg1min: 7.6, wkg2min: 5.9, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
-      { id: 2300270, name: "Nick Brackenbury [SRT]", weight: 70.5, watt: 266, wkg: 3.8, w5s: 1090, w10s: 0, w15s: 879, w30s: 603, w1min: 480, w2min: 412, w5min: 328, w10min: 0, w20min: 266, w30min: 0, wkg5s: 15.4, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 8.4, wkg1min: 6.8, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { id: 1369386, name: "Graham HORTON [SRT]", weight: 74.7, watt: 299, wkg: 3.9, w5s: 1189, w10s: 0, w15s: 879, w30s: 743, w1min: 579, w2min: 452, w5min: 360, w10min: 0, w20min: 299, w30min: 0, wkg5s: 15.6, wkg10s: 0.0, wkg15s: 11.8, wkg30s: 9.8, wkg1min: 7.6, wkg2min: 5.9, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 2300270, name: "Nick Brackenbury [SRT]", weight: 70.5, watt: 266, wkg: 3.8, w5s: 1090, w10s: 0, w15s: 879, w30s: 663, w1min: 519, w2min: 412, w5min: 328, w10min: 0, w20min: 266, w30min: 0, wkg5s: 15.4, wkg10s: 0.0, wkg15s: 12.4, wkg30s: 9.4, wkg1min: 7.4, wkg2min: 5.8, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 2959017, name: "Ryan Cole (SRTs Rhino)", weight: 81.6, watt: 329, wkg: 4.0, w5s: 979, w10s: 0, w15s: 887, w30s: 674, w1min: 500, w2min: 459, w5min: 350, w10min: 0, w20min: 329, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 8.2, wkg1min: 6.1, wkg2min: 5.6, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
       { id: 3418758, name: "5 Alex Fox [SRT]", weight: 73.5, watt: 310, wkg: 4.2, w5s: 797, w10s: 0, w15s: 749, w30s: 606, w1min: 482, w2min: 421, w5min: 353, w10min: 0, w20min: 310, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.2, wkg1min: 6.6, wkg2min: 5.7, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 3800026, name: "Ant Davis [SRT]", weight: 73.0, watt: 292, wkg: 4.0, w5s: 968, w10s: 0, w15s: 839, w30s: 673, w1min: 504, w2min: 435, w5min: 358, w10min: 0, w20min: 292, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.2, wkg1min: 6.9, wkg2min: 6.0, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 5063411, name: "James Wong [SRT] ", weight: 76.0, watt: 293, wkg: 3.9, w5s: 828, w10s: 0, w15s: 755, w30s: 643, w1min: 441, w2min: 341, w5min: 314, w10min: 0, w20min: 293, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.5, wkg1min: 5.8, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 5063411, name: "James Wong [SRT] ", weight: 76.0, watt: 293, wkg: 3.9, w5s: 843, w10s: 0, w15s: 784, w30s: 670, w1min: 536, w2min: 429, w5min: 333, w10min: 0, w20min: 293, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.8, wkg1min: 7.1, wkg2min: 5.6, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 5064719, name: "Justin van der Nest [SRT]", weight: 93.5, watt: 318, wkg: 3.4, w5s: 715, w10s: 0, w15s: 594, w30s: 554, w1min: 469, w2min: 390, w5min: 359, w10min: 0, w20min: 318, w30min: 0, wkg5s: 7.6, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 5.9, wkg1min: 5.0, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 5564085, name: "Andrew Goddard [SRT]", weight: 83.5, watt: 366, wkg: 4.4, w5s: 981, w10s: 0, w15s: 855, w30s: 755, w1min: 630, w2min: 518, w5min: 442, w10min: 0, w20min: 366, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 9.0, wkg1min: 7.5, wkg2min: 6.3, wkg5min: 5.4, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_SURFERS": {
     rung: 8,
-    ladderPosition: 133,
-    positionInRung: 14,
+    ladderPosition: 135,
+    positionInRung: 16,
     name: "SRT Surfers",
     riders: [
       { id: 162704, name: "Tracy Clark(SRT/RAD)", weight: 55.3, watt: 185, wkg: 3.3, w5s: 443, w10s: 0, w15s: 417, w30s: 384, w1min: 315, w2min: 252, w5min: 210, w10min: 0, w20min: 185, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.6, wkg30s: 6.9, wkg1min: 5.7, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -1720,7 +1752,7 @@ const OPPONENT_LIBRARY = {
       { id: 2660068, name: "Tony Close (SRT)", weight: 83.4, watt: 234, wkg: 2.8, w5s: 736, w10s: 0, w15s: 608, w30s: 455, w1min: 402, w2min: 319, w5min: 258, w10min: 0, w20min: 234, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 5.2, wkg1min: 4.8, wkg2min: 3.8, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 4595868, name: "Shaun Brereton (SRT)", weight: 0.0, watt: 0, wkg: 0.0, w5s: 0, w10s: 0, w15s: 0, w30s: 0, w1min: 0, w2min: 0, w5min: 0, w10min: 0, w20min: 0, w30min: 0, wkg5s: 0.0, wkg10s: 0.0, wkg15s: 0.0, wkg30s: 0.0, wkg1min: 0.0, wkg2min: 0.0, wkg5min: 0.0, wkg10min: 0.0, wkg20min: 0.0, wkg30min: 0.0 },
       { id: 6918413, name: "SEBASTIEN Grizard [SRT]", weight: 87.0, watt: 238, wkg: 2.7, w5s: 777, w10s: 0, w15s: 690, w30s: 545, w1min: 400, w2min: 316, w5min: 262, w10min: 0, w20min: 238, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.3, wkg1min: 4.6, wkg2min: 3.6, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
-      { id: 7575529, name: "A SchleckLegDay [SRT]", weight: 79.0, watt: 238, wkg: 3.0, w5s: 639, w10s: 0, w15s: 548, w30s: 504, w1min: 414, w2min: 336, w5min: 279, w10min: 0, w20min: 238, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 6.4, wkg1min: 5.2, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 }
+      { id: 7575529, name: "A SchleckLegDay [SRT]", weight: 79.0, watt: 247, wkg: 3.1, w5s: 639, w10s: 0, w15s: 548, w30s: 504, w1min: 414, w2min: 336, w5min: 279, w10min: 0, w20min: 247, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 6.4, wkg1min: 5.2, wkg2min: 4.3, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SRT_THUNDERCATS_HOO_": {
@@ -1743,8 +1775,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_BRUTE_FORCE": {
     rung: 7,
-    ladderPosition: 111,
-    positionInRung: 9,
+    ladderPosition: 112,
+    positionInRung: 10,
     name: "SZR Brute Force",
     riders: [
       { id: 90959, name: "Mikael Aronsson [SZR]", weight: 73.0, watt: 227, wkg: 3.1, w5s: 682, w10s: 0, w15s: 630, w30s: 447, w1min: 344, w2min: 301, w5min: 266, w10min: 0, w20min: 227, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 6.1, wkg1min: 4.7, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -1762,8 +1794,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_CYCLONE_FORCE": {
     rung: 8,
-    ladderPosition: 121,
-    positionInRung: 2,
+    ladderPosition: 122,
+    positionInRung: 3,
     name: "SZR Cyclone Force",
     riders: [
       { id: 15197, name: "Martin Bj&ouml;rgvik [SZR]", weight: 110.0, watt: 258, wkg: 2.3, w5s: 1041, w10s: 0, w15s: 705, w30s: 441, w1min: 389, w2min: 329, w5min: 289, w10min: 0, w20min: 258, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 6.4, wkg30s: 4.0, wkg1min: 3.5, wkg2min: 3.0, wkg5min: 2.6, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
@@ -1780,19 +1812,19 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_DELTA_FORCE": {
     rung: 4,
-    ladderPosition: 54,
-    positionInRung: 3,
+    ladderPosition: 55,
+    positionInRung: 4,
     name: "SZR Delta Force",
     riders: [
       { id: 88077, name: "Tomas Arebo [SZR]", weight: 77.5, watt: 256, wkg: 3.3, w5s: 932, w10s: 0, w15s: 823, w30s: 630, w1min: 450, w2min: 362, w5min: 306, w10min: 0, w20min: 256, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.1, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 167741, name: "Olly Gray [SZR]", weight: 87.2, watt: 303, wkg: 3.5, w5s: 1082, w10s: 0, w15s: 795, w30s: 661, w1min: 505, w2min: 412, w5min: 364, w10min: 0, w20min: 303, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.6, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
-      { id: 465249, name: "Charles Van Loo [SZR]", weight: 69.3, watt: 296, wkg: 4.2, w5s: 738, w10s: 0, w15s: 688, w30s: 553, w1min: 452, w2min: 390, w5min: 330, w10min: 0, w20min: 296, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.0, wkg1min: 6.5, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { id: 465249, name: "Charles Van Loo [SZR]", weight: 69.3, watt: 296, wkg: 4.2, w5s: 851, w10s: 0, w15s: 714, w30s: 601, w1min: 452, w2min: 390, w5min: 330, w10min: 0, w20min: 296, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.7, wkg1min: 6.5, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 929848, name: "Mikael Bergqvist [SZR]", weight: 74.0, watt: 274, wkg: 3.7, w5s: 1022, w10s: 0, w15s: 840, w30s: 607, w1min: 394, w2min: 350, w5min: 317, w10min: 0, w20min: 274, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 8.2, wkg1min: 5.3, wkg2min: 4.7, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 963487, name: "Rikard T&ouml;rna [SZR]", weight: 80.0, watt: 247, wkg: 3.1, w5s: 745, w10s: 0, w15s: 645, w30s: 503, w1min: 379, w2min: 354, w5min: 316, w10min: 0, w20min: 247, w30min: 0, wkg5s: 9.3, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.3, wkg1min: 4.7, wkg2min: 4.4, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 1358781, name: "Mikael Olsson [SZR]", weight: 76.0, watt: 287, wkg: 3.8, w5s: 1004, w10s: 0, w15s: 915, w30s: 801, w1min: 497, w2min: 395, w5min: 329, w10min: 0, w20min: 287, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 10.4, wkg1min: 6.4, wkg2min: 5.1, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 1676378, name: "Mattias Svensson [SZR]", weight: 78.0, watt: 277, wkg: 3.6, w5s: 1078, w10s: 0, w15s: 888, w30s: 614, w1min: 473, w2min: 382, w5min: 330, w10min: 0, w20min: 277, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 7.9, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 1698986, name: "Peter Eriksson [SZR]", weight: 62.8, watt: 238, wkg: 3.8, w5s: 563, w10s: 0, w15s: 503, w30s: 462, w1min: 348, w2min: 301, w5min: 271, w10min: 0, w20min: 238, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.4, wkg1min: 5.5, wkg2min: 4.8, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 2850530, name: "Mikael Bergholts [SZR]", weight: 72.0, watt: 234, wkg: 3.3, w5s: 772, w10s: 0, w15s: 687, w30s: 526, w1min: 406, w2min: 347, w5min: 284, w10min: 0, w20min: 234, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.3, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 1698986, name: "Peter Eriksson [SZR]", weight: 62.8, watt: 238, wkg: 3.8, w5s: 563, w10s: 0, w15s: 504, w30s: 462, w1min: 348, w2min: 301, w5min: 271, w10min: 0, w20min: 238, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.0, wkg30s: 7.4, wkg1min: 5.5, wkg2min: 4.8, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { id: 2850530, name: "Mikael Bergholts [SZR]", weight: 72.0, watt: 235, wkg: 3.3, w5s: 858, w10s: 0, w15s: 722, w30s: 562, w1min: 419, w2min: 347, w5min: 284, w10min: 0, w20min: 235, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.8, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 4352882, name: "Johan Ros&eacute;n [SZR]", weight: 80.0, watt: 291, wkg: 3.6, w5s: 868, w10s: 0, w15s: 829, w30s: 620, w1min: 463, w2min: 380, w5min: 352, w10min: 0, w20min: 291, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 7.7, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 6102196, name: "Mattias Halvarsson [SZR]", weight: 67.0, watt: 263, wkg: 3.9, w5s: 948, w10s: 0, w15s: 809, w30s: 662, w1min: 488, w2min: 393, w5min: 308, w10min: 0, w20min: 263, w30min: 0, wkg5s: 14.1, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.9, wkg1min: 7.3, wkg2min: 5.9, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 6574455, name: "Stefan Pernetta (FS) - [SZR]  ", weight: 67.0, watt: 277, wkg: 4.1, w5s: 828, w10s: 0, w15s: 786, w30s: 612, w1min: 472, w2min: 411, w5min: 321, w10min: 0, w20min: 277, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 9.1, wkg1min: 7.0, wkg2min: 6.1, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -1802,19 +1834,19 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZR_G_FORCE": {
     rung: 6,
-    ladderPosition: 88,
-    positionInRung: 3,
+    ladderPosition: 89,
+    positionInRung: 4,
     name: "SZR G-force",
     riders: [
       { id: 212190, name: "H&aring;kan Axelsson [SZR]", weight: 76.6, watt: 222, wkg: 2.9, w5s: 822, w10s: 0, w15s: 769, w30s: 513, w1min: 416, w2min: 299, w5min: 251, w10min: 0, w20min: 222, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 6.7, wkg1min: 5.4, wkg2min: 3.9, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 285403, name: "Magnus von Schenck [SZR]", weight: 108.0, watt: 323, wkg: 3.0, w5s: 1086, w10s: 0, w15s: 1044, w30s: 862, w1min: 596, w2min: 446, w5min: 377, w10min: 0, w20min: 323, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.0, wkg1min: 5.5, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 436189, name: "Daniel DS Biking [SZR]", weight: 95.0, watt: 301, wkg: 3.2, w5s: 1028, w10s: 0, w15s: 974, w30s: 687, w1min: 575, w2min: 419, w5min: 345, w10min: 0, w20min: 301, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 7.2, wkg1min: 6.1, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 436189, name: "Daniel DS Biking [SZR]", weight: 95.0, watt: 301, wkg: 3.2, w5s: 1028, w10s: 0, w15s: 974, w30s: 709, w1min: 575, w2min: 462, w5min: 360, w10min: 0, w20min: 301, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 7.5, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 557644, name: "Fredrik Landers  [SZR] /Norrk&ouml;pingscykel", weight: 84.0, watt: 285, wkg: 3.4, w5s: 1049, w10s: 0, w15s: 862, w30s: 700, w1min: 489, w2min: 394, w5min: 329, w10min: 0, w20min: 285, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.3, wkg1min: 5.8, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 836413, name: "Leif Alriksson[SZR] ", weight: 78.0, watt: 224, wkg: 2.8, w5s: 765, w10s: 0, w15s: 713, w30s: 524, w1min: 391, w2min: 312, w5min: 251, w10min: 0, w20min: 224, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.5, wkg1min: 4.9, wkg2min: 3.9, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
+      { id: 836413, name: "Leif Alriksson[SZR] ", weight: 78.0, watt: 224, wkg: 2.8, w5s: 765, w10s: 0, w15s: 713, w30s: 524, w1min: 391, w2min: 318, w5min: 251, w10min: 0, w20min: 224, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.5, wkg1min: 4.9, wkg2min: 4.1, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 1375946, name: "Fredrik Johannesson [SZR] #IMFC", weight: 82.0, watt: 254, wkg: 3.1, w5s: 913, w10s: 0, w15s: 846, w30s: 636, w1min: 488, w2min: 364, w5min: 305, w10min: 0, w20min: 254, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 7.9, wkg1min: 6.0, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 1378377, name: "Mats Nilsson [SZR] ", weight: 86.0, watt: 264, wkg: 3.1, w5s: 1118, w10s: 0, w15s: 954, w30s: 687, w1min: 509, w2min: 386, w5min: 320, w10min: 0, w20min: 264, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 7.9, wkg1min: 5.9, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 2883566, name: "Niclas Agn&eacute; [SZR]", weight: 102.0, watt: 309, wkg: 3.1, w5s: 998, w10s: 0, w15s: 837, w30s: 637, w1min: 490, w2min: 393, w5min: 366, w10min: 0, w20min: 309, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.2, wkg1min: 4.8, wkg2min: 3.8, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 2903186, name: "K Knekta [SZR]", weight: 72.0, watt: 299, wkg: 4.2, w5s: 803, w10s: 0, w15s: 714, w30s: 549, w1min: 447, w2min: 399, w5min: 336, w10min: 0, w20min: 299, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.3, wkg1min: 6.2, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
+      { id: 2903186, name: "K Knekta [SZR]", weight: 72.0, watt: 299, wkg: 4.2, w5s: 803, w10s: 0, w15s: 714, w30s: 549, w1min: 447, w2min: 403, w5min: 338, w10min: 0, w20min: 299, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.3, wkg1min: 6.2, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
       { id: 4350486, name: "Mathias Kangas [SZR]", weight: 78.0, watt: 229, wkg: 2.9, w5s: 983, w10s: 0, w15s: 768, w30s: 508, w1min: 450, w2min: 358, w5min: 282, w10min: 0, w20min: 229, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 6.5, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 4732097, name: "Jonas Johansson [SZR]", weight: 87.0, watt: 259, wkg: 3.0, w5s: 743, w10s: 0, w15s: 710, w30s: 599, w1min: 521, w2min: 393, w5min: 320, w10min: 0, w20min: 259, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.9, wkg1min: 6.0, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 7276976, name: "Timmi Rask [SZR]", weight: 78.0, watt: 260, wkg: 3.3, w5s: 915, w10s: 0, w15s: 760, w30s: 568, w1min: 452, w2min: 355, w5min: 301, w10min: 0, w20min: 260, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.3, wkg1min: 5.8, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -1828,15 +1860,15 @@ const OPPONENT_LIBRARY = {
     name: "SZR Phantom Force",
     riders: [
       { id: 52997, name: "Dennis Larsson [SZR]", weight: 81.0, watt: 326, wkg: 4.0, w5s: 1003, w10s: 0, w15s: 969, w30s: 844, w1min: 534, w2min: 441, w5min: 373, w10min: 0, w20min: 326, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 10.4, wkg1min: 6.6, wkg2min: 5.4, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 63948, name: "Peter Seigner [SZR]", weight: 74.0, watt: 272, wkg: 3.7, w5s: 486, w10s: 0, w15s: 459, w30s: 439, w1min: 424, w2min: 355, w5min: 303, w10min: 0, w20min: 272, w30min: 0, wkg5s: 6.6, wkg10s: 0.0, wkg15s: 6.2, wkg30s: 5.9, wkg1min: 5.7, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 63948, name: "Peter Seigner [SZR]", weight: 74.0, watt: 272, wkg: 3.7, w5s: 607, w10s: 0, w15s: 540, w30s: 473, w1min: 424, w2min: 355, w5min: 303, w10min: 0, w20min: 272, w30min: 0, wkg5s: 8.2, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 6.4, wkg1min: 5.7, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 170422, name: "Magnus Hoff [SZR]", weight: 78.0, watt: 301, wkg: 4.0, w5s: 1041, w10s: 0, w15s: 926, w30s: 772, w1min: 516, w2min: 417, w5min: 347, w10min: 0, w20min: 301, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 11.9, wkg30s: 9.9, wkg1min: 6.6, wkg2min: 5.5, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 423669, name: "Anders Magnusson [SZR]", weight: 80.0, watt: 290, wkg: 3.6, w5s: 903, w10s: 0, w15s: 650, w30s: 589, w1min: 489, w2min: 416, w5min: 330, w10min: 0, w20min: 290, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.4, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 423669, name: "Anders Magnusson [SZR]", weight: 80.0, watt: 290, wkg: 3.6, w5s: 903, w10s: 0, w15s: 650, w30s: 589, w1min: 489, w2min: 416, w5min: 331, w10min: 0, w20min: 290, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.4, wkg1min: 6.1, wkg2min: 5.2, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 842196, name: "Daniel J&ouml;nsson [SZR]", weight: 73.0, watt: 287, wkg: 3.9, w5s: 559, w10s: 0, w15s: 527, w30s: 489, w1min: 410, w2min: 354, w5min: 309, w10min: 0, w20min: 287, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 7.2, wkg30s: 6.7, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 842711, name: "Tony Martinsson [SZR]", weight: 83.0, watt: 304, wkg: 3.7, w5s: 1260, w10s: 0, w15s: 1015, w30s: 828, w1min: 527, w2min: 435, w5min: 349, w10min: 0, w20min: 304, w30min: 0, wkg5s: 15.2, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 10.0, wkg1min: 6.3, wkg2min: 5.2, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 987298, name: "Mikael Hansson [SZR] ", weight: 86.0, watt: 327, wkg: 3.9, w5s: 707, w10s: 0, w15s: 645, w30s: 550, w1min: 459, w2min: 438, w5min: 379, w10min: 0, w20min: 327, w30min: 0, wkg5s: 8.2, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 6.4, wkg1min: 5.5, wkg2min: 5.1, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
-      { id: 3310636, name: "Bj&ouml;rn Kullberg [SZR]", weight: 85.0, watt: 306, wkg: 3.6, w5s: 1073, w10s: 0, w15s: 958, w30s: 762, w1min: 529, w2min: 452, w5min: 364, w10min: 0, w20min: 306, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.0, wkg1min: 6.2, wkg2min: 5.3, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 5909145, name: "Pontus Drugge [SZR]", weight: 85.0, watt: 310, wkg: 3.6, w5s: 628, w10s: 0, w15s: 603, w30s: 596, w1min: 527, w2min: 415, w5min: 351, w10min: 0, w20min: 310, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 7.0, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 7061891, name: "Oscar Sobel [SZR]", weight: 96.0, watt: 365, wkg: 3.8, w5s: 1378, w10s: 0, w15s: 1172, w30s: 893, w1min: 645, w2min: 551, w5min: 441, w10min: 0, w20min: 365, w30min: 0, wkg5s: 14.4, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.3, wkg1min: 6.7, wkg2min: 5.7, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
+      { id: 3310636, name: "Bj&ouml;rn Kullberg [SZR]", weight: 85.0, watt: 306, wkg: 3.6, w5s: 1073, w10s: 0, w15s: 958, w30s: 762, w1min: 554, w2min: 460, w5min: 364, w10min: 0, w20min: 306, w30min: 0, wkg5s: 12.6, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 9.0, wkg1min: 6.5, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 5909145, name: "Pontus Drugge [SZR]", weight: 85.0, watt: 310, wkg: 3.6, w5s: 1025, w10s: 0, w15s: 898, w30s: 759, w1min: 564, w2min: 446, w5min: 362, w10min: 0, w20min: 310, w30min: 0, wkg5s: 12.1, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 8.9, wkg1min: 6.6, wkg2min: 5.2, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 7061891, name: "Oscar Sobel [SZR]", weight: 96.0, watt: 365, wkg: 3.8, w5s: 1378, w10s: 0, w15s: 1172, w30s: 897, w1min: 687, w2min: 556, w5min: 441, w10min: 0, w20min: 365, w30min: 0, wkg5s: 14.4, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.3, wkg1min: 7.2, wkg2min: 5.8, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 7735504, name: "Hannes Mattsson [SZR]", weight: 88.0, watt: 410, wkg: 4.6, w5s: 716, w10s: 0, w15s: 706, w30s: 613, w1min: 569, w2min: 500, w5min: 457, w10min: 0, w20min: 410, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.9, wkg1min: 6.5, wkg2min: 5.7, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 }
     ]
   },
@@ -1862,8 +1894,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZ_LOKI": {
     rung: 6,
-    ladderPosition: 86,
-    positionInRung: 1,
+    ladderPosition: 87,
+    positionInRung: 2,
     name: "SZ Loki",
     riders: [
       { id: 407270, name: "Anders Peters&eacute;n [SZ]", weight: 85.3, watt: 275, wkg: 3.2, w5s: 984, w10s: 0, w15s: 880, w30s: 622, w1min: 415, w2min: 347, w5min: 327, w10min: 0, w20min: 275, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.2, wkg1min: 4.9, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -1871,7 +1903,7 @@ const OPPONENT_LIBRARY = {
       { id: 454707, name: "Sara Corrigox [SZ] ", weight: 63.0, watt: 238, wkg: 3.8, w5s: 780, w10s: 0, w15s: 694, w30s: 553, w1min: 412, w2min: 316, w5min: 264, w10min: 0, w20min: 238, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 8.8, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 768045, name: "Daniel Lundberg [SZ]", weight: 90.0, watt: 286, wkg: 3.2, w5s: 1146, w10s: 0, w15s: 1103, w30s: 849, w1min: 584, w2min: 425, w5min: 332, w10min: 0, w20min: 286, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 12.3, wkg30s: 9.4, wkg1min: 6.5, wkg2min: 4.7, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 818481, name: "H&aring;kan Ohlsson [SZ]", weight: 80.0, watt: 269, wkg: 3.4, w5s: 783, w10s: 0, w15s: 688, w30s: 558, w1min: 489, w2min: 374, w5min: 334, w10min: 0, w20min: 269, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.0, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 960887, name: "Patrik Ha", weight: 90.0, watt: 267, wkg: 3.0, w5s: 965, w10s: 0, w15s: 870, w30s: 630, w1min: 459, w2min: 358, w5min: 306, w10min: 0, w20min: 267, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.2, wkg1min: 5.2, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 960887, name: "Patrik Ha", weight: 90.0, watt: 267, wkg: 3.0, w5s: 965, w10s: 0, w15s: 870, w30s: 630, w1min: 467, w2min: 366, w5min: 308, w10min: 0, w20min: 267, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.2, wkg1min: 5.2, wkg2min: 4.1, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 1332512, name: "David Lindberg [SZ]", weight: 62.0, watt: 222, wkg: 3.6, w5s: 541, w10s: 0, w15s: 506, w30s: 406, w1min: 336, w2min: 286, w5min: 248, w10min: 0, w20min: 222, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 6.5, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 1468169, name: "Niklas Heinermark [SZ] (CRP)", weight: 74.5, watt: 235, wkg: 3.2, w5s: 1033, w10s: 0, w15s: 871, w30s: 546, w1min: 453, w2min: 354, w5min: 304, w10min: 0, w20min: 235, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 7.3, wkg1min: 6.2, wkg2min: 4.8, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 1631315, name: "Andreas Wikman [SZ] ", weight: 89.0, watt: 268, wkg: 3.0, w5s: 1064, w10s: 0, w15s: 1009, w30s: 669, w1min: 579, w2min: 391, w5min: 319, w10min: 0, w20min: 268, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 7.5, wkg1min: 6.5, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -1884,8 +1916,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZ_RAGNAR_C3_B6K": {
     rung: 1,
-    ladderPosition: 13,
-    positionInRung: 13,
+    ladderPosition: 12,
+    positionInRung: 12,
     name: "SZ Ragnarök",
     riders: [
       { id: 201796, name: "Jonas Bj&auml;rehed [SZ]", weight: 68.5, watt: 326, wkg: 4.8, w5s: 887, w10s: 0, w15s: 819, w30s: 696, w1min: 505, w2min: 438, w5min: 381, w10min: 0, w20min: 326, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 10.2, wkg1min: 7.4, wkg2min: 6.4, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.8, wkg30min: 0.0 },
@@ -1901,18 +1933,18 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SZ_SN_C3_B6": {
     rung: 7,
-    ladderPosition: 108,
-    positionInRung: 6,
+    ladderPosition: 109,
+    positionInRung: 7,
     name: "SZ Snö",
     riders: [
-      { id: 43317, name: "Moises Clemente [SZ] (TTT)", weight: 79.0, watt: 266, wkg: 3.4, w5s: 722, w10s: 0, w15s: 627, w30s: 542, w1min: 397, w2min: 354, w5min: 292, w10min: 0, w20min: 266, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.9, wkg1min: 5.0, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 96850, name: "Per Jansson [SZ]", weight: 73.0, watt: 251, wkg: 3.4, w5s: 472, w10s: 0, w15s: 397, w30s: 365, w1min: 330, w2min: 312, w5min: 280, w10min: 0, w20min: 251, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 5.4, wkg30s: 5.0, wkg1min: 4.5, wkg2min: 4.3, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 43317, name: "Moises Clemente [SZ] (TTT)", weight: 79.0, watt: 266, wkg: 3.4, w5s: 809, w10s: 0, w15s: 745, w30s: 542, w1min: 397, w2min: 354, w5min: 292, w10min: 0, w20min: 266, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 6.9, wkg1min: 5.0, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 96850, name: "Per Jansson [SZ]", weight: 73.0, watt: 251, wkg: 3.4, w5s: 525, w10s: 0, w15s: 419, w30s: 365, w1min: 330, w2min: 312, w5min: 280, w10min: 0, w20min: 251, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 5.7, wkg30s: 5.0, wkg1min: 4.5, wkg2min: 4.3, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 452921, name: "Hasse Gustafsson [SZ]", weight: 85.5, watt: 255, wkg: 2.9, w5s: 679, w10s: 0, w15s: 610, w30s: 509, w1min: 405, w2min: 341, w5min: 300, w10min: 0, w20min: 255, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 6.0, wkg1min: 4.7, wkg2min: 4.0, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 638468, name: "Kennet S&ouml;derena [SZ]", weight: 88.0, watt: 251, wkg: 2.9, w5s: 733, w10s: 0, w15s: 713, w30s: 491, w1min: 424, w2min: 371, w5min: 297, w10min: 0, w20min: 251, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 5.6, wkg1min: 4.8, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 872287, name: "Daniel Bj&ouml;rkman [SZ]", weight: 79.0, watt: 233, wkg: 2.9, w5s: 1009, w10s: 0, w15s: 901, w30s: 597, w1min: 411, w2min: 312, w5min: 276, w10min: 0, w20min: 233, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 7.6, wkg1min: 5.2, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 1420471, name: "Matz Kr&aring;ngh [SZ]", weight: 85.0, watt: 261, wkg: 3.1, w5s: 615, w10s: 0, w15s: 555, w30s: 487, w1min: 378, w2min: 324, w5min: 280, w10min: 0, w20min: 261, w30min: 0, wkg5s: 7.2, wkg10s: 0.0, wkg15s: 6.5, wkg30s: 5.7, wkg1min: 4.4, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 3186269, name: "J&ouml;rgen Aker [SZ]", weight: 83.0, watt: 231, wkg: 2.7, w5s: 748, w10s: 0, w15s: 657, w30s: 508, w1min: 391, w2min: 347, w5min: 272, w10min: 0, w20min: 231, w30min: 0, wkg5s: 8.9, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.0, wkg1min: 4.6, wkg2min: 4.1, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 },
-      { id: 3228170, name: "Michael Canderhed  [SZ]", weight: 87.0, watt: 256, wkg: 2.9, w5s: 554, w10s: 0, w15s: 544, w30s: 512, w1min: 378, w2min: 334, w5min: 280, w10min: 0, w20min: 256, w30min: 0, wkg5s: 6.4, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.9, wkg1min: 4.3, wkg2min: 3.8, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 3228170, name: "Michael Canderhed  [SZ]", weight: 87.0, watt: 256, wkg: 2.9, w5s: 705, w10s: 0, w15s: 633, w30s: 512, w1min: 378, w2min: 334, w5min: 280, w10min: 0, w20min: 256, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.3, wkg30s: 5.9, wkg1min: 4.3, wkg2min: 3.8, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 4294263, name: "Pontus Scherp [SZ]", weight: 84.0, watt: 256, wkg: 3.0, w5s: 837, w10s: 0, w15s: 782, w30s: 613, w1min: 457, w2min: 382, w5min: 303, w10min: 0, w20min: 256, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.3, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 5901340, name: "Martin Bengtsson [SZ]", weight: 82.0, watt: 275, wkg: 3.4, w5s: 775, w10s: 0, w15s: 642, w30s: 531, w1min: 440, w2min: 401, w5min: 319, w10min: 0, w20min: 275, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.5, wkg1min: 5.4, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 6780305, name: "Hank Solo", weight: 78.0, watt: 241, wkg: 3.1, w5s: 805, w10s: 0, w15s: 689, w30s: 535, w1min: 413, w2min: 347, w5min: 283, w10min: 0, w20min: 241, w30min: 0, wkg5s: 10.3, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.9, wkg1min: 5.3, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 }
@@ -1920,8 +1952,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_SMASHING_RHINOS": {
     rung: 6,
-    ladderPosition: 96,
-    positionInRung: 11,
+    ladderPosition: 97,
+    positionInRung: 12,
     name: "Smashing Rhinos",
     riders: [
       { id: 62744, name: "Seb Sayer (Rhino)", weight: 90.2, watt: 288, wkg: 3.1, w5s: 977, w10s: 0, w15s: 884, w30s: 776, w1min: 547, w2min: 425, w5min: 351, w10min: 0, w20min: 288, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.5, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -1929,7 +1961,7 @@ const OPPONENT_LIBRARY = {
       { id: 810554, name: "Tim Ferguson (Rhino) ", weight: 74.0, watt: 242, wkg: 3.3, w5s: 774, w10s: 0, w15s: 693, w30s: 499, w1min: 374, w2min: 334, w5min: 272, w10min: 0, w20min: 242, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 6.7, wkg1min: 5.1, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 882956, name: "Adrien Benusiglio (Rhino)", weight: 62.0, watt: 199, wkg: 3.3, w5s: 575, w10s: 0, w15s: 537, w30s: 495, w1min: 399, w2min: 303, w5min: 241, w10min: 0, w20min: 199, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 8.1, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 910535, name: "Helena Karlsson ", weight: 66.0, watt: 215, wkg: 3.3, w5s: 839, w10s: 0, w15s: 599, w30s: 514, w1min: 381, w2min: 316, w5min: 242, w10min: 0, w20min: 215, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 7.8, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { id: 1396154, name: "George Williams (RHINO)", weight: 102.5, watt: 285, wkg: 2.9, w5s: 1104, w10s: 0, w15s: 1021, w30s: 678, w1min: 517, w2min: 418, w5min: 334, w10min: 0, w20min: 285, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 6.6, wkg1min: 5.0, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 1396154, name: "George Williams (RHINO)", weight: 102.5, watt: 285, wkg: 2.8, w5s: 1104, w10s: 0, w15s: 1021, w30s: 678, w1min: 517, w2min: 418, w5min: 334, w10min: 0, w20min: 285, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 6.6, wkg1min: 5.0, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
       { id: 1799768, name: "D. H.W-(Rhino)", weight: 84.0, watt: 266, wkg: 3.2, w5s: 943, w10s: 0, w15s: 825, w30s: 726, w1min: 504, w2min: 413, w5min: 333, w10min: 0, w20min: 266, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.6, wkg1min: 6.0, wkg2min: 4.9, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 2174211, name: "Stefanos Ntousis (Paros Cycling)", weight: 78.2, watt: 259, wkg: 3.3, w5s: 843, w10s: 0, w15s: 783, w30s: 618, w1min: 456, w2min: 375, w5min: 317, w10min: 0, w20min: 259, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.9, wkg1min: 5.7, wkg2min: 4.8, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 2460567, name: " Tom Fitton (Rhino)", weight: 84.6, watt: 283, wkg: 3.3, w5s: 830, w10s: 0, w15s: 717, w30s: 577, w1min: 459, w2min: 377, w5min: 322, w10min: 0, w20min: 283, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.8, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -1942,8 +1974,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TBR_OUTCASTS": {
     rung: 6,
-    ladderPosition: 97,
-    positionInRung: 12,
+    ladderPosition: 98,
+    positionInRung: 13,
     name: "TBR Outcasts",
     riders: [
       { id: 7311, name: "Peter Kitching", weight: 83.0, watt: 237, wkg: 2.9, w5s: 365, w10s: 0, w15s: 324, w30s: 300, w1min: 280, w2min: 268, w5min: 260, w10min: 0, w20min: 237, w30min: 0, wkg5s: 4.4, wkg10s: 0.0, wkg15s: 3.9, wkg30s: 3.6, wkg1min: 3.4, wkg2min: 3.2, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -1965,8 +1997,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TFC_FIREBIRDS": {
     rung: 5,
-    ladderPosition: 69,
-    positionInRung: 1,
+    ladderPosition: 71,
+    positionInRung: 3,
     name: "TFC Firebirds",
     riders: [
       { id: 319222, name: "Jonathan Smith (TFC)", weight: 75.8, watt: 265, wkg: 3.5, w5s: 735, w10s: 0, w15s: 667, w30s: 492, w1min: 378, w2min: 338, w5min: 305, w10min: 0, w20min: 265, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.5, wkg1min: 5.0, wkg2min: 4.5, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -1983,8 +2015,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TFC_HULK": {
     rung: 3,
-    ladderPosition: 42,
-    positionInRung: 8,
+    ladderPosition: 43,
+    positionInRung: 9,
     name: "TFC Hulk",
     riders: [
       { id: 96086, name: "Dean Hardie The Wolf", weight: 68.0, watt: 285, wkg: 4.1, w5s: 838, w10s: 0, w15s: 757, w30s: 707, w1min: 569, w2min: 393, w5min: 362, w10min: 0, w20min: 285, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 10.1, wkg1min: 8.1, wkg2min: 5.6, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -2003,8 +2035,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TFC_OMEGA": {
     rung: 7,
-    ladderPosition: 113,
-    positionInRung: 11,
+    ladderPosition: 114,
+    positionInRung: 12,
     name: "TFC Omega",
     riders: [
       { id: 13571, name: "Ken Holley (TFC)", weight: 80.7, watt: 249, wkg: 3.2, w5s: 763, w10s: 0, w15s: 719, w30s: 590, w1min: 445, w2min: 379, w5min: 296, w10min: 0, w20min: 249, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.4, wkg1min: 5.7, wkg2min: 4.8, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -2026,8 +2058,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TT1_GOLD_GLUCOSE_RUSH": {
     rung: 6,
-    ladderPosition: 101,
-    positionInRung: 16,
+    ladderPosition: 102,
+    positionInRung: 17,
     name: "TT1 Gold Glucose Rush",
     riders: [
       { id: 44249, name: "Gareth Hay // TT1D", weight: 93.1, watt: 290, wkg: 3.1, w5s: 1044, w10s: 0, w15s: 828, w30s: 637, w1min: 468, w2min: 393, w5min: 346, w10min: 0, w20min: 290, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 6.8, wkg1min: 5.0, wkg2min: 4.2, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -2058,8 +2090,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAMNL_CLOUD9_SPARK": {
     rung: 5,
-    ladderPosition: 76,
-    positionInRung: 8,
+    ladderPosition: 70,
+    positionInRung: 2,
     name: "TeamNL Cloud9 Spark",
     riders: [
       { id: 315362, name: "Hans Van Gool", weight: 77.0, watt: 301, wkg: 3.9, w5s: 610, w10s: 0, w15s: 596, w30s: 555, w1min: 489, w2min: 403, w5min: 346, w10min: 0, w20min: 301, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 7.2, wkg1min: 6.4, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
@@ -2092,6 +2124,7 @@ const OPPONENT_LIBRARY = {
       { id: 1175748, name: "Jos Castelijns(TeamNL)", weight: 71.0, watt: 350, wkg: 4.9, w5s: 900, w10s: 0, w15s: 817, w30s: 645, w1min: 539, w2min: 446, w5min: 402, w10min: 0, w20min: 350, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.1, wkg1min: 7.6, wkg2min: 6.3, wkg5min: 5.7, wkg10min: 0.0, wkg20min: 4.9, wkg30min: 0.0 },
       { id: 3137561, name: "Robert van Dam", weight: 78.5, watt: 371, wkg: 4.7, w5s: 1079, w10s: 0, w15s: 904, w30s: 806, w1min: 611, w2min: 532, w5min: 451, w10min: 0, w20min: 371, w30min: 0, wkg5s: 13.7, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 10.3, wkg1min: 7.8, wkg2min: 6.8, wkg5min: 5.7, wkg10min: 0.0, wkg20min: 4.7, wkg30min: 0.0 },
       { id: 3827466, name: "Emiel Oosterkamp", weight: 80.0, watt: 343, wkg: 4.3, w5s: 842, w10s: 0, w15s: 824, w30s: 632, w1min: 527, w2min: 494, w5min: 392, w10min: 0, w20min: 343, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 7.9, wkg1min: 6.6, wkg2min: 6.2, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
+      { id: 4197724, name: "Robbert Klein", weight: 65.2, watt: 307, wkg: 4.7, w5s: 850, w10s: 0, w15s: 780, w30s: 707, w1min: 533, w2min: 443, w5min: 346, w10min: 0, w20min: 307, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 10.8, wkg1min: 8.2, wkg2min: 6.8, wkg5min: 5.3, wkg10min: 0.0, wkg20min: 4.7, wkg30min: 0.0 },
       { id: 4385347, name: "Jasper Slootmans (TNL)", weight: 70.0, watt: 294, wkg: 4.1, w5s: 693, w10s: 0, w15s: 670, w30s: 617, w1min: 483, w2min: 390, w5min: 347, w10min: 0, w20min: 294, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.7, wkg1min: 6.8, wkg2min: 5.6, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
       { id: 4471698, name: "Bram Agema", weight: 63.1, watt: 320, wkg: 5.1, w5s: 805, w10s: 0, w15s: 702, w30s: 637, w1min: 524, w2min: 435, w5min: 371, w10min: 0, w20min: 320, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 10.0, wkg1min: 8.3, wkg2min: 6.9, wkg5min: 5.9, wkg10min: 0.0, wkg20min: 5.1, wkg30min: 0.0 },
       { id: 4582417, name: "Fer Windau (TeamNL Cloud9)", weight: 71.5, watt: 288, wkg: 4.0, w5s: 950, w10s: 0, w15s: 875, w30s: 660, w1min: 473, w2min: 402, w5min: 338, w10min: 0, w20min: 288, w30min: 0, wkg5s: 13.3, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.2, wkg1min: 6.6, wkg2min: 5.6, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
@@ -2102,14 +2135,14 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAMNL_STORM": {
     rung: 8,
-    ladderPosition: 125,
-    positionInRung: 6,
+    ladderPosition: 126,
+    positionInRung: 7,
     name: "TeamNL Storm",
     riders: [
       { id: 150437, name: ". JR&oslash;ne  (TeamNL) @YouTube", weight: 79.0, watt: 239, wkg: 3.1, w5s: 953, w10s: 0, w15s: 830, w30s: 590, w1min: 395, w2min: 353, w5min: 298, w10min: 0, w20min: 239, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.3, wkg1min: 5.1, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
-      { id: 233070, name: "Kevin Lebis", weight: 65.0, watt: 197, wkg: 3.0, w5s: 913, w10s: 0, w15s: 733, w30s: 496, w1min: 361, w2min: 271, w5min: 228, w10min: 0, w20min: 197, w30min: 0, wkg5s: 14.0, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 7.6, wkg1min: 5.6, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 396624, name: "Sverre Oelen", weight: 104.5, watt: 309, wkg: 3.0, w5s: 1205, w10s: 0, w15s: 1059, w30s: 788, w1min: 531, w2min: 427, w5min: 377, w10min: 0, w20min: 309, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.5, wkg1min: 5.1, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 728814, name: "Jelmer Hitzert", weight: 64.0, watt: 210, wkg: 3.3, w5s: 613, w10s: 0, w15s: 531, w30s: 426, w1min: 327, w2min: 292, w5min: 258, w10min: 0, w20min: 210, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.7, wkg1min: 5.1, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 233070, name: "Kevin Lebis", weight: 65.0, watt: 208, wkg: 3.2, w5s: 929, w10s: 0, w15s: 788, w30s: 514, w1min: 361, w2min: 280, w5min: 231, w10min: 0, w20min: 208, w30min: 0, wkg5s: 14.3, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 7.9, wkg1min: 5.6, wkg2min: 4.3, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 396624, name: "Sverre Oelen", weight: 104.5, watt: 308, wkg: 2.9, w5s: 1205, w10s: 0, w15s: 1059, w30s: 788, w1min: 531, w2min: 427, w5min: 377, w10min: 0, w20min: 308, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 10.1, wkg30s: 7.5, wkg1min: 5.1, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 728814, name: "Jelmer Hitzert", weight: 64.0, watt: 210, wkg: 3.3, w5s: 677, w10s: 0, w15s: 601, w30s: 458, w1min: 347, w2min: 292, w5min: 258, w10min: 0, w20min: 210, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 7.2, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 2930317, name: "Richard Veenman [Team NL]", weight: 94.0, watt: 283, wkg: 3.0, w5s: 614, w10s: 0, w15s: 595, w30s: 542, w1min: 413, w2min: 387, w5min: 326, w10min: 0, w20min: 283, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 5.8, wkg1min: 4.4, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 3879843, name: "Lieke Elands", weight: 59.0, watt: 218, wkg: 3.6, w5s: 601, w10s: 0, w15s: 506, w30s: 404, w1min: 290, w2min: 265, w5min: 244, w10min: 0, w20min: 218, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.7, wkg1min: 4.9, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 4479255, name: "Bouke Ceelen", weight: 81.8, watt: 267, wkg: 3.3, w5s: 824, w10s: 0, w15s: 715, w30s: 560, w1min: 473, w2min: 369, w5min: 299, w10min: 0, w20min: 267, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.9, wkg1min: 5.8, wkg2min: 4.5, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -2121,8 +2154,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAMNL_VACMASTERS": {
     rung: 2,
-    ladderPosition: 20,
-    positionInRung: 3,
+    ladderPosition: 21,
+    positionInRung: 4,
     name: "TeamNL VacMasters",
     riders: [
       { id: 1495, name: "Onno Aphinan", weight: 88.0, watt: 346, wkg: 4.1, w5s: 1034, w10s: 0, w15s: 900, w30s: 695, w1min: 627, w2min: 570, w5min: 431, w10min: 0, w20min: 346, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 8.2, wkg1min: 7.1, wkg2min: 6.5, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -2132,7 +2165,7 @@ const OPPONENT_LIBRARY = {
       { id: 1406356, name: "Dylan van der Westen ( Team NL )", weight: 84.0, watt: 316, wkg: 3.8, w5s: 1404, w10s: 0, w15s: 1090, w30s: 751, w1min: 579, w2min: 449, w5min: 371, w10min: 0, w20min: 316, w30min: 0, wkg5s: 16.7, wkg10s: 0.0, wkg15s: 13.0, wkg30s: 8.9, wkg1min: 6.9, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 1574398, name: "Gido Crutzen (TeamNL)", weight: 75.0, watt: 292, wkg: 3.9, w5s: 928, w10s: 0, w15s: 825, w30s: 690, w1min: 493, w2min: 418, w5min: 365, w10min: 0, w20min: 292, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 9.2, wkg1min: 6.6, wkg2min: 5.6, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 1813927, name: "Dylan Smink5849", weight: 77.0, watt: 315, wkg: 4.1, w5s: 1074, w10s: 0, w15s: 1008, w30s: 777, w1min: 529, w2min: 439, w5min: 363, w10min: 0, w20min: 315, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 13.1, wkg30s: 10.1, wkg1min: 6.9, wkg2min: 5.7, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
-      { id: 5052527, name: "Jeroen Rijnders", weight: 77.0, watt: 304, wkg: 3.9, w5s: 914, w10s: 0, w15s: 824, w30s: 671, w1min: 520, w2min: 463, w5min: 357, w10min: 0, w20min: 304, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.7, wkg1min: 6.8, wkg2min: 6.0, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 5052527, name: "Jeroen Rijnders", weight: 77.0, watt: 304, wkg: 3.9, w5s: 914, w10s: 0, w15s: 831, w30s: 680, w1min: 520, w2min: 463, w5min: 357, w10min: 0, w20min: 304, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.8, wkg30s: 8.8, wkg1min: 6.8, wkg2min: 6.0, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 5070891, name: "Lennart Eigenbrood", weight: 62.0, watt: 279, wkg: 4.4, w5s: 772, w10s: 0, w15s: 721, w30s: 593, w1min: 501, w2min: 413, w5min: 319, w10min: 0, w20min: 279, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.4, wkg1min: 8.0, wkg2min: 6.6, wkg5min: 5.1, wkg10min: 0.0, wkg20min: 4.4, wkg30min: 0.0 },
       { id: 6161991, name: ". The Cycling Brewer[TeamNL]", weight: 80.0, watt: 298, wkg: 3.5, w5s: 898, w10s: 0, w15s: 827, w30s: 646, w1min: 499, w2min: 410, w5min: 348, w10min: 0, w20min: 298, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.7, wkg1min: 6.1, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 6237718, name: "Niek K.", weight: 66.0, watt: 274, wkg: 4.2, w5s: 719, w10s: 0, w15s: 686, w30s: 564, w1min: 407, w2min: 340, w5min: 296, w10min: 0, w20min: 274, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 10.4, wkg30s: 8.5, wkg1min: 6.2, wkg2min: 5.2, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
@@ -2142,13 +2175,13 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_CLS_CASUALS": {
     rung: 2,
-    ladderPosition: 24,
-    positionInRung: 7,
+    ladderPosition: 25,
+    positionInRung: 8,
     name: "Team CLS Casuals",
     riders: [
       { id: 33929, name: "Mike Widdowson (Team CLS) &#128667;", weight: 69.0, watt: 258, wkg: 3.7, w5s: 891, w10s: 0, w15s: 790, w30s: 656, w1min: 463, w2min: 379, w5min: 300, w10min: 0, w20min: 258, w30min: 0, wkg5s: 12.9, wkg10s: 0.0, wkg15s: 11.4, wkg30s: 9.5, wkg1min: 6.7, wkg2min: 5.5, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 40180, name: "Kestas .", weight: 88.0, watt: 323, wkg: 3.7, w5s: 975, w10s: 0, w15s: 903, w30s: 704, w1min: 556, w2min: 477, w5min: 376, w10min: 0, w20min: 323, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.0, wkg1min: 6.3, wkg2min: 5.4, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 241787, name: "Kris Painter (Team CLS B-52s)", weight: 91.0, watt: 305, wkg: 3.4, w5s: 963, w10s: 0, w15s: 891, w30s: 718, w1min: 524, w2min: 417, w5min: 369, w10min: 0, w20min: 305, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.9, wkg1min: 5.8, wkg2min: 4.6, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 241787, name: "Kris Painter (Team CLS B-52s)", weight: 91.0, watt: 305, wkg: 3.4, w5s: 963, w10s: 0, w15s: 891, w30s: 767, w1min: 538, w2min: 417, w5min: 369, w10min: 0, w20min: 305, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 8.4, wkg1min: 5.9, wkg2min: 4.6, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 428394, name: "Andrew Dodds (Team CLS B-52s)", weight: 71.0, watt: 272, wkg: 3.8, w5s: 847, w10s: 0, w15s: 775, w30s: 647, w1min: 464, w2min: 381, w5min: 301, w10min: 0, w20min: 272, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.1, wkg1min: 6.5, wkg2min: 5.4, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 841039, name: "Emma Wingrove [Team CLS]", weight: 50.0, watt: 185, wkg: 3.7, w5s: 452, w10s: 0, w15s: 431, w30s: 384, w1min: 332, w2min: 282, w5min: 216, w10min: 0, w20min: 185, w30min: 0, wkg5s: 9.0, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.7, wkg1min: 6.6, wkg2min: 5.6, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 1360679, name: "James P", weight: 69.0, watt: 264, wkg: 3.8, w5s: 606, w10s: 0, w15s: 559, w30s: 486, w1min: 406, w2min: 339, w5min: 309, w10min: 0, w20min: 264, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.0, wkg1min: 5.9, wkg2min: 4.9, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
@@ -2163,9 +2196,9 @@ const OPPONENT_LIBRARY = {
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_CLS_CHILL": {
-    rung: 7,
-    ladderPosition: 119,
-    positionInRung: 17,
+    rung: 8,
+    ladderPosition: 120,
+    positionInRung: 1,
     name: "Team CLS Chill",
     riders: [
       { id: 411665, name: "Philip Johnson [Team CLS]", weight: 87.0, watt: 243, wkg: 2.8, w5s: 918, w10s: 0, w15s: 848, w30s: 649, w1min: 449, w2min: 333, w5min: 275, w10min: 0, w20min: 243, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.5, wkg1min: 5.2, wkg2min: 3.8, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -2180,8 +2213,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_ITALY_EAT_WATT": {
     rung: 8,
-    ladderPosition: 132,
-    positionInRung: 13,
+    ladderPosition: 136,
+    positionInRung: 17,
     name: "Team Italy Eat&amp;Watt",
     riders: [
       { id: 18843, name: "Daniel Scharpe [Eat4Watt C]", weight: 87.1, watt: 228, wkg: 2.6, w5s: 916, w10s: 0, w15s: 853, w30s: 557, w1min: 392, w2min: 342, w5min: 270, w10min: 0, w20min: 228, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 6.3, wkg1min: 4.4, wkg2min: 3.9, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
@@ -2191,11 +2224,11 @@ const OPPONENT_LIBRARY = {
       { id: 1887239, name: "Paolo Cairoli [Eat+Watt]", weight: 119.1, watt: 290, wkg: 2.5, w5s: 909, w10s: 0, w15s: 820, w30s: 600, w1min: 466, w2min: 377, w5min: 314, w10min: 0, w20min: 290, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 5.1, wkg1min: 3.9, wkg2min: 3.2, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
       { id: 2259786, name: "Jose Luis Conversano", weight: 94.3, watt: 279, wkg: 3.0, w5s: 1029, w10s: 0, w15s: 894, w30s: 633, w1min: 520, w2min: 398, w5min: 338, w10min: 0, w20min: 279, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 6.7, wkg1min: 5.5, wkg2min: 4.2, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 2387374, name: "Franco Dan [Team Italy]", weight: 76.3, watt: 215, wkg: 2.8, w5s: 755, w10s: 0, w15s: 622, w30s: 533, w1min: 378, w2min: 327, w5min: 253, w10min: 0, w20min: 215, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.0, wkg1min: 5.0, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
-      { id: 3307256, name: "Gianni Corradini ", weight: 92.0, watt: 223, wkg: 2.4, w5s: 641, w10s: 0, w15s: 465, w30s: 428, w1min: 335, w2min: 287, w5min: 274, w10min: 0, w20min: 223, w30min: 0, wkg5s: 7.0, wkg10s: 0.0, wkg15s: 5.1, wkg30s: 4.7, wkg1min: 3.6, wkg2min: 3.1, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
+      { id: 3307256, name: "Gianni Corradini ", weight: 92.0, watt: 230, wkg: 2.5, w5s: 641, w10s: 0, w15s: 465, w30s: 428, w1min: 335, w2min: 292, w5min: 274, w10min: 0, w20min: 230, w30min: 0, wkg5s: 7.0, wkg10s: 0.0, wkg15s: 5.1, wkg30s: 4.7, wkg1min: 3.6, wkg2min: 3.2, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
       { id: 4354777, name: "Salvatore  Canna  [Team Italy E&W]", weight: 95.0, watt: 231, wkg: 2.4, w5s: 619, w10s: 0, w15s: 573, w30s: 416, w1min: 337, w2min: 305, w5min: 266, w10min: 0, w20min: 231, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.3, wkg30s: 4.6, wkg1min: 3.7, wkg2min: 3.2, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
       { id: 6166336, name: "Adriano Testa[Devo&Watt]", weight: 102.5, watt: 261, wkg: 2.5, w5s: 974, w10s: 0, w15s: 900, w30s: 648, w1min: 461, w2min: 370, w5min: 301, w10min: 0, w20min: 261, w30min: 0, wkg5s: 9.5, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 6.3, wkg1min: 4.5, wkg2min: 3.6, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
       { id: 6749896, name: "Stefano La Pietra", weight: 63.0, watt: 204, wkg: 3.3, w5s: 465, w10s: 0, w15s: 364, w30s: 328, w1min: 298, w2min: 264, w5min: 238, w10min: 0, w20min: 204, w30min: 0, wkg5s: 7.5, wkg10s: 0.0, wkg15s: 5.9, wkg30s: 5.3, wkg1min: 4.8, wkg2min: 4.2, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
-      { id: 6833512, name: "Samuele Rovini [ITADevo&Watt]", weight: 90.0, watt: 232, wkg: 2.6, w5s: 787, w10s: 0, w15s: 662, w30s: 507, w1min: 379, w2min: 348, w5min: 271, w10min: 0, w20min: 232, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 5.7, wkg1min: 4.2, wkg2min: 3.9, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 }
+      { id: 6833512, name: "Samuele Rovini [ITADevo&Watt]", weight: 90.0, watt: 232, wkg: 2.6, w5s: 787, w10s: 0, w15s: 662, w30s: 507, w1min: 389, w2min: 348, w5min: 274, w10min: 0, w20min: 232, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 5.7, wkg1min: 4.3, wkg2min: 3.9, wkg5min: 3.0, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_ITALY_GHOST": {
@@ -2219,20 +2252,20 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_NOT_POGI_AMSTEL": {
     rung: 6,
-    ladderPosition: 87,
-    positionInRung: 2,
+    ladderPosition: 88,
+    positionInRung: 3,
     name: "Team Not Pogi Amstel",
     riders: [
       { id: 9152, name: "Simon Baker", weight: 77.1, watt: 259, wkg: 3.4, w5s: 747, w10s: 0, w15s: 646, w30s: 556, w1min: 455, w2min: 351, w5min: 292, w10min: 0, w20min: 259, w30min: 0, wkg5s: 9.9, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.2, wkg1min: 5.9, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 40379, name: "Anthony Tatasciore", weight: 85.3, watt: 295, wkg: 3.5, w5s: 954, w10s: 0, w15s: 854, w30s: 692, w1min: 485, w2min: 429, w5min: 366, w10min: 0, w20min: 295, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 8.1, wkg1min: 5.7, wkg2min: 5.0, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 197902, name: "Pete L (TNP)", weight: 80.4, watt: 303, wkg: 3.8, w5s: 645, w10s: 0, w15s: 598, w30s: 548, w1min: 490, w2min: 388, w5min: 347, w10min: 0, w20min: 303, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 6.8, wkg1min: 6.1, wkg2min: 4.8, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 327660, name: "Tim Williams (TNP)", weight: 68.5, watt: 257, wkg: 3.8, w5s: 782, w10s: 0, w15s: 680, w30s: 543, w1min: 438, w2min: 327, w5min: 291, w10min: 0, w20min: 257, w30min: 0, wkg5s: 11.3, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.9, wkg1min: 6.4, wkg2min: 4.8, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 680991, name: "Russ Miller (ACU)", weight: 78.0, watt: 255, wkg: 3.3, w5s: 841, w10s: 0, w15s: 763, w30s: 553, w1min: 417, w2min: 342, w5min: 290, w10min: 0, w20min: 255, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.1, wkg1min: 5.3, wkg2min: 4.4, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 680991, name: "Russ Miller (ACU)", weight: 78.0, watt: 255, wkg: 3.3, w5s: 841, w10s: 0, w15s: 763, w30s: 553, w1min: 428, w2min: 374, w5min: 294, w10min: 0, w20min: 255, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.8, wkg30s: 7.1, wkg1min: 5.5, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 1323455, name: "Anthony Hambelton", weight: 71.9, watt: 276, wkg: 3.8, w5s: 691, w10s: 0, w15s: 615, w30s: 481, w1min: 428, w2min: 374, w5min: 312, w10min: 0, w20min: 276, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 6.7, wkg1min: 5.9, wkg2min: 5.2, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 3843791, name: "Sven Meyer (TNP)", weight: 82.0, watt: 278, wkg: 3.4, w5s: 1159, w10s: 0, w15s: 1054, w30s: 687, w1min: 445, w2min: 333, w5min: 300, w10min: 0, w20min: 278, w30min: 0, wkg5s: 13.8, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 8.2, wkg1min: 5.3, wkg2min: 4.1, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 4071304, name: "Paul McCafferty", weight: 64.4, watt: 239, wkg: 3.8, w5s: 641, w10s: 0, w15s: 620, w30s: 526, w1min: 376, w2min: 326, w5min: 292, w10min: 0, w20min: 239, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 8.2, wkg1min: 5.8, wkg2min: 5.2, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
       { id: 6627918, name: "Liam Mckeever", weight: 80.8, watt: 283, wkg: 3.5, w5s: 1107, w10s: 0, w15s: 951, w30s: 777, w1min: 570, w2min: 466, w5min: 365, w10min: 0, w20min: 283, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 11.8, wkg30s: 9.6, wkg1min: 7.1, wkg2min: 5.8, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
-      { id: 6784336, name: "Paul Fisk (TNP)", weight: 60.8, watt: 215, wkg: 3.5, w5s: 1016, w10s: 0, w15s: 857, w30s: 622, w1min: 422, w2min: 354, w5min: 268, w10min: 0, w20min: 215, w30min: 0, wkg5s: 16.8, wkg10s: 0.0, wkg15s: 14.2, wkg30s: 10.3, wkg1min: 6.9, wkg2min: 5.9, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 6784336, name: "Paul Fisk (TNP)", weight: 61.0, watt: 215, wkg: 3.5, w5s: 1016, w10s: 0, w15s: 857, w30s: 622, w1min: 422, w2min: 354, w5min: 268, w10min: 0, w20min: 215, w30min: 0, wkg5s: 16.8, wkg10s: 0.0, wkg15s: 14.2, wkg30s: 10.3, wkg1min: 6.9, wkg2min: 5.9, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 6786487, name: "Roberto Delgado Hynes", weight: 89.0, watt: 295, wkg: 3.3, w5s: 962, w10s: 0, w15s: 768, w30s: 641, w1min: 472, w2min: 397, w5min: 346, w10min: 0, w20min: 295, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.2, wkg1min: 5.3, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
       { id: 6798547, name: "Dan Davey ", weight: 88.0, watt: 267, wkg: 3.0, w5s: 860, w10s: 0, w15s: 746, w30s: 573, w1min: 468, w2min: 365, w5min: 298, w10min: 0, w20min: 267, w30min: 0, wkg5s: 9.8, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 6.5, wkg1min: 5.3, wkg2min: 4.1, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 6991072, name: "Jorge Fernandez Fernandez", weight: 65.0, watt: 229, wkg: 3.5, w5s: 555, w10s: 0, w15s: 531, w30s: 506, w1min: 418, w2min: 318, w5min: 267, w10min: 0, w20min: 229, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 8.2, wkg30s: 7.8, wkg1min: 6.4, wkg2min: 4.9, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
@@ -2242,8 +2275,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_NOT_POGI_FLANDERS": {
     rung: 8,
-    ladderPosition: 128,
-    positionInRung: 9,
+    ladderPosition: 130,
+    positionInRung: 11,
     name: "Team Not Pogi Flanders",
     riders: [
       { id: 101296, name: "Adam Churchill (FWP/HERD)", weight: 70.0, watt: 196, wkg: 2.8, w5s: 538, w10s: 0, w15s: 459, w30s: 405, w1min: 305, w2min: 271, w5min: 220, w10min: 0, w20min: 196, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 6.6, wkg30s: 5.8, wkg1min: 4.4, wkg2min: 3.9, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
@@ -2252,10 +2285,10 @@ const OPPONENT_LIBRARY = {
       { id: 3791286, name: "Andrew  Black TNP ", weight: 74.0, watt: 234, wkg: 3.2, w5s: 551, w10s: 0, w15s: 519, w30s: 385, w1min: 317, w2min: 285, w5min: 253, w10min: 0, w20min: 234, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 5.2, wkg1min: 4.3, wkg2min: 3.9, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 4248316, name: "Daniel Langwell(TNP)", weight: 79.0, watt: 234, wkg: 3.0, w5s: 971, w10s: 0, w15s: 829, w30s: 607, w1min: 393, w2min: 313, w5min: 278, w10min: 0, w20min: 234, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 10.5, wkg30s: 7.7, wkg1min: 5.0, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
       { id: 4744093, name: "Ian Lovely", weight: 85.7, watt: 239, wkg: 2.8, w5s: 699, w10s: 0, w15s: 630, w30s: 500, w1min: 344, w2min: 316, w5min: 269, w10min: 0, w20min: 239, w30min: 0, wkg5s: 8.6, wkg10s: 0.0, wkg15s: 7.8, wkg30s: 6.2, wkg1min: 4.2, wkg2min: 3.7, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
-      { id: 6269112, name: "Rob Wilson [TNP]", weight: 92.0, watt: 226, wkg: 2.5, w5s: 652, w10s: 0, w15s: 518, w30s: 420, w1min: 331, w2min: 288, w5min: 246, w10min: 0, w20min: 226, w30min: 0, wkg5s: 7.1, wkg10s: 0.0, wkg15s: 5.6, wkg30s: 4.6, wkg1min: 3.6, wkg2min: 3.1, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
+      { id: 6269112, name: "Rob Wilson [TNP]", weight: 92.0, watt: 231, wkg: 2.5, w5s: 652, w10s: 0, w15s: 518, w30s: 421, w1min: 331, w2min: 288, w5min: 250, w10min: 0, w20min: 231, w30min: 0, wkg5s: 7.1, wkg10s: 0.0, wkg15s: 5.6, wkg30s: 4.6, wkg1min: 3.6, wkg2min: 3.1, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.5, wkg30min: 0.0 },
       { id: 6763157, name: "Glen Martin (TNP)", weight: 96.0, watt: 226, wkg: 2.4, w5s: 626, w10s: 0, w15s: 514, w30s: 444, w1min: 348, w2min: 312, w5min: 268, w10min: 0, w20min: 226, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 5.4, wkg30s: 4.6, wkg1min: 3.6, wkg2min: 3.2, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
       { id: 7291113, name: "Ian Stokes", weight: 83.0, watt: 252, wkg: 3.0, w5s: 1340, w10s: 0, w15s: 1113, w30s: 680, w1min: 429, w2min: 349, w5min: 293, w10min: 0, w20min: 252, w30min: 0, wkg5s: 16.1, wkg10s: 0.0, wkg15s: 13.4, wkg30s: 8.2, wkg1min: 5.2, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 7469343, name: "Ammar Alaranji", weight: 97.0, watt: 264, wkg: 2.6, w5s: 1043, w10s: 0, w15s: 899, w30s: 690, w1min: 463, w2min: 380, w5min: 314, w10min: 0, w20min: 264, w30min: 0, wkg5s: 10.6, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.0, wkg1min: 4.7, wkg2min: 3.9, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
+      { id: 7469343, name: "Ammar Alaranji", weight: 97.0, watt: 264, wkg: 2.6, w5s: 1107, w10s: 0, w15s: 899, w30s: 690, w1min: 463, w2min: 380, w5min: 317, w10min: 0, w20min: 264, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.0, wkg1min: 4.7, wkg2min: 3.9, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.6, wkg30min: 0.0 },
       { id: 8149174, name: "Alex Stiene &#127482;&#127462; (TNP)", weight: 80.0, watt: 263, wkg: 3.2, w5s: 792, w10s: 0, w15s: 744, w30s: 556, w1min: 419, w2min: 332, w5min: 290, w10min: 0, w20min: 263, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.1, wkg30s: 6.8, wkg1min: 5.1, wkg2min: 4.0, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 8280664, name: "Matteo Achleitner", weight: 72.0, watt: 234, wkg: 3.2, w5s: 844, w10s: 0, w15s: 558, w30s: 476, w1min: 406, w2min: 332, w5min: 277, w10min: 0, w20min: 234, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.6, wkg1min: 5.6, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
       { id: 8317973, name: "Fatih Eroglu (TNP)", weight: 79.5, watt: 425, wkg: 5.2, w5s: 808, w10s: 0, w15s: 698, w30s: 637, w1min: 564, w2min: 508, w5min: 473, w10min: 0, w20min: 425, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.9, wkg1min: 7.0, wkg2min: 6.3, wkg5min: 5.8, wkg10min: 0.0, wkg20min: 5.2, wkg30min: 0.0 }
@@ -2284,8 +2317,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TEAM_NOT_POGI_VUELTA": {
     rung: 3,
-    ladderPosition: 43,
-    positionInRung: 9,
+    ladderPosition: 44,
+    positionInRung: 10,
     name: "Team Not Pogi Vuelta",
     riders: [
       { id: 139204, name: "David Hinojosa", weight: 81.3, watt: 297, wkg: 3.7, w5s: 940, w10s: 0, w15s: 786, w30s: 604, w1min: 480, w2min: 432, w5min: 350, w10min: 0, w20min: 297, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 7.5, wkg1min: 5.9, wkg2min: 5.3, wkg5min: 4.3, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -2306,8 +2339,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_THE_WATT_SQUAD_2": {
     rung: 1,
-    ladderPosition: 14,
-    positionInRung: 14,
+    ladderPosition: 13,
+    positionInRung: 13,
     name: "The Watt Squad 2",
     riders: [
       { id: 7220, name: "Gert Leus ", weight: 87.0, watt: 324, wkg: 3.7, w5s: 721, w10s: 0, w15s: 597, w30s: 525, w1min: 481, w2min: 422, w5min: 382, w10min: 0, w20min: 324, w30min: 0, wkg5s: 8.3, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 6.0, wkg1min: 5.5, wkg2min: 4.9, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -2327,8 +2360,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TUGAZ_TSUNAMI": {
     rung: 3,
-    ladderPosition: 40,
-    positionInRung: 6,
+    ladderPosition: 39,
+    positionInRung: 5,
     name: "TugaZ Tsunami",
     riders: [
       { id: 1773763, name: "Beto Barros [TugaZ]", weight: 71.0, watt: 275, wkg: 3.9, w5s: 951, w10s: 0, w15s: 661, w30s: 632, w1min: 466, w2min: 422, w5min: 327, w10min: 0, w20min: 275, w30min: 0, wkg5s: 13.4, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 8.8, wkg1min: 6.5, wkg2min: 5.9, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
@@ -2345,8 +2378,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_TURBO_RHINOS": {
     rung: 8,
-    ladderPosition: 120,
-    positionInRung: 1,
+    ladderPosition: 121,
+    positionInRung: 2,
     name: "Turbo Rhinos",
     riders: [
       { id: 57724, name: "Ant Mitchell (RHINO)", weight: 86.2, watt: 262, wkg: 3.0, w5s: 753, w10s: 0, w15s: 681, w30s: 602, w1min: 460, w2min: 360, w5min: 302, w10min: 0, w20min: 262, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 7.0, wkg1min: 5.3, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -2368,8 +2401,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VALHALLA_GARMR": {
     rung: 5,
-    ladderPosition: 80,
-    positionInRung: 12,
+    ladderPosition: 81,
+    positionInRung: 13,
     name: "Valhalla Garmr",
     riders: [
       { id: 168285, name: "Sjoerd Wildschut [TV]", weight: 90.0, watt: 272, wkg: 3.0, w5s: 847, w10s: 0, w15s: 787, w30s: 624, w1min: 496, w2min: 394, w5min: 323, w10min: 0, w20min: 272, w30min: 0, wkg5s: 9.4, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 6.9, wkg1min: 5.5, wkg2min: 4.4, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
@@ -2402,8 +2435,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VALHALLA_THORIR": {
     rung: 8,
-    ladderPosition: 122,
-    positionInRung: 3,
+    ladderPosition: 123,
+    positionInRung: 4,
     name: "Valhalla Thorir",
     riders: [
       { id: 91987, name: "Florian Fuchs [ATN] [TV] ", weight: 94.0, watt: 211, wkg: 2.2, w5s: 765, w10s: 0, w15s: 707, w30s: 659, w1min: 424, w2min: 285, w5min: 227, w10min: 0, w20min: 211, w30min: 0, wkg5s: 8.1, wkg10s: 0.0, wkg15s: 7.5, wkg30s: 7.0, wkg1min: 4.5, wkg2min: 3.0, wkg5min: 2.4, wkg10min: 0.0, wkg20min: 2.2, wkg30min: 0.0 },
@@ -2422,8 +2455,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VEGAN_BLACKBIRDS": {
     rung: 4,
-    ladderPosition: 55,
-    positionInRung: 4,
+    ladderPosition: 56,
+    positionInRung: 5,
     name: "Vegan Blackbirds",
     riders: [
       { id: 609290, name: "Carl Krystek [Team Vegan]", weight: 71.0, watt: 290, wkg: 4.1, w5s: 812, w10s: 0, w15s: 703, w30s: 574, w1min: 438, w2min: 389, w5min: 349, w10min: 0, w20min: 290, w30min: 0, wkg5s: 11.4, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.1, wkg1min: 6.2, wkg2min: 5.5, wkg5min: 4.9, wkg10min: 0.0, wkg20min: 4.1, wkg30min: 0.0 },
@@ -2438,8 +2471,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VEGAN_OUTLAWS": {
     rung: 4,
-    ladderPosition: 56,
-    positionInRung: 5,
+    ladderPosition: 57,
+    positionInRung: 6,
     name: "Vegan Outlaws",
     riders: [
       { id: 47047, name: "Jim Griffin", weight: 78.5, watt: 256, wkg: 3.3, w5s: 688, w10s: 0, w15s: 666, w30s: 503, w1min: 416, w2min: 360, w5min: 299, w10min: 0, w20min: 256, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 8.5, wkg30s: 6.4, wkg1min: 5.3, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -2474,8 +2507,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_VIKINGS_RYGJAFYLKI": {
     rung: 6,
-    ladderPosition: 93,
-    positionInRung: 8,
+    ladderPosition: 94,
+    positionInRung: 9,
     name: "Vikings Rygjafylki",
     riders: [
       { id: 122186, name: "Stein Johansen [V]", weight: 74.0, watt: 247, wkg: 3.3, w5s: 828, w10s: 0, w15s: 658, w30s: 434, w1min: 331, w2min: 309, w5min: 296, w10min: 0, w20min: 247, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 8.9, wkg30s: 5.9, wkg1min: 4.5, wkg2min: 4.2, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -2488,8 +2521,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WCC_AXLE_GRINDERS": {
     rung: 5,
-    ladderPosition: 72,
-    positionInRung: 4,
+    ladderPosition: 74,
+    positionInRung: 6,
     name: "WCC Axle Grinders",
     riders: [
       { id: 214214, name: "Mark Darnell (WCC) Lead/Sweep ", weight: 82.0, watt: 270, wkg: 3.3, w5s: 1017, w10s: 0, w15s: 981, w30s: 804, w1min: 518, w2min: 404, w5min: 313, w10min: 0, w20min: 270, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 12.0, wkg30s: 9.8, wkg1min: 6.3, wkg2min: 4.9, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -2503,14 +2536,14 @@ const OPPONENT_LIBRARY = {
       { id: 4646740, name: "Russ Bevan (WCC)", weight: 75.0, watt: 281, wkg: 3.7, w5s: 817, w10s: 0, w15s: 713, w30s: 538, w1min: 436, w2min: 362, w5min: 343, w10min: 0, w20min: 281, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 7.2, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 4727320, name: "Thomas Payne (WCC)", weight: 60.0, watt: 176, wkg: 2.9, w5s: 659, w10s: 0, w15s: 525, w30s: 427, w1min: 306, w2min: 264, w5min: 231, w10min: 0, w20min: 176, w30min: 0, wkg5s: 11.0, wkg10s: 0.0, wkg15s: 8.7, wkg30s: 7.1, wkg1min: 5.1, wkg2min: 4.4, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
       { id: 5437799, name: "Lars Rosenqvist Hansen", weight: 88.0, watt: 350, wkg: 4.0, w5s: 1051, w10s: 0, w15s: 1006, w30s: 795, w1min: 582, w2min: 465, w5min: 390, w10min: 0, w20min: 350, w30min: 0, wkg5s: 11.8, wkg10s: 0.0, wkg15s: 11.3, wkg30s: 8.9, wkg1min: 6.5, wkg2min: 5.2, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 5977504, name: "Chris Freeman", weight: 83.0, watt: 294, wkg: 3.5, w5s: 864, w10s: 0, w15s: 686, w30s: 618, w1min: 502, w2min: 384, w5min: 324, w10min: 0, w20min: 294, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 7.4, wkg1min: 6.0, wkg2min: 4.6, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 5977504, name: "Chris Freeman", weight: 83.0, watt: 294, wkg: 3.5, w5s: 864, w10s: 0, w15s: 710, w30s: 618, w1min: 502, w2min: 390, w5min: 324, w10min: 0, w20min: 294, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 8.6, wkg30s: 7.4, wkg1min: 6.0, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 6078462, name: "Rocket Man", weight: 87.0, watt: 279, wkg: 3.2, w5s: 1108, w10s: 0, w15s: 973, w30s: 683, w1min: 548, w2min: 398, w5min: 323, w10min: 0, w20min: 279, w30min: 0, wkg5s: 12.7, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 7.9, wkg1min: 6.3, wkg2min: 4.6, wkg5min: 3.7, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WCC_CADENCE_CREW": {
     rung: 9,
-    ladderPosition: 142,
-    positionInRung: 6,
+    ladderPosition: 144,
+    positionInRung: 8,
     name: "WCC Cadence Crew",
     riders: [
       { id: 220978, name: "Alan Sherwin (WCC)", weight: 70.0, watt: 167, wkg: 2.4, w5s: 457, w10s: 0, w15s: 432, w30s: 380, w1min: 292, w2min: 226, w5min: 196, w10min: 0, w20min: 167, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 6.2, wkg30s: 5.4, wkg1min: 4.2, wkg2min: 3.2, wkg5min: 2.8, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
@@ -2530,26 +2563,26 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WCC_FALCONS": {
     rung: 3,
-    ladderPosition: 41,
-    positionInRung: 7,
+    ladderPosition: 40,
+    positionInRung: 6,
     name: "WCC Falcons",
     riders: [
       { id: 424860, name: "Trevor Jarrett", weight: 77.6, watt: 286, wkg: 3.7, w5s: 1075, w10s: 0, w15s: 937, w30s: 741, w1min: 455, w2min: 381, w5min: 328, w10min: 0, w20min: 286, w30min: 0, wkg5s: 13.9, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.6, wkg1min: 5.9, wkg2min: 4.9, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 990876, name: "Pete Connor (WCC) ", weight: 84.0, watt: 328, wkg: 3.9, w5s: 818, w10s: 0, w15s: 775, w30s: 667, w1min: 554, w2min: 451, w5min: 372, w10min: 0, w20min: 328, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.9, wkg1min: 6.6, wkg2min: 5.4, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 1066534, name: "Matthew Menlove  (WCC)", weight: 68.0, watt: 254, wkg: 3.8, w5s: 886, w10s: 0, w15s: 828, w30s: 659, w1min: 493, w2min: 386, w5min: 320, w10min: 0, w20min: 254, w30min: 0, wkg5s: 13.0, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.8, wkg1min: 7.2, wkg2min: 5.7, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.8, wkg30min: 0.0 },
-      { id: 1357707, name: "Mike Cowell (WCC)", weight: 73.5, watt: 265, wkg: 3.6, w5s: 900, w10s: 0, w15s: 847, w30s: 697, w1min: 505, w2min: 381, w5min: 300, w10min: 0, w20min: 265, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.5, wkg1min: 6.9, wkg2min: 5.2, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 3296000, name: "Duncan Caskey", weight: 72.0, watt: 263, wkg: 3.7, w5s: 899, w10s: 0, w15s: 800, w30s: 686, w1min: 525, w2min: 397, w5min: 300, w10min: 0, w20min: 263, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 9.5, wkg1min: 7.3, wkg2min: 5.5, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 1357707, name: "Mike Cowell (WCC)", weight: 73.5, watt: 265, wkg: 3.6, w5s: 900, w10s: 0, w15s: 847, w30s: 697, w1min: 505, w2min: 391, w5min: 322, w10min: 0, w20min: 265, w30min: 0, wkg5s: 12.2, wkg10s: 0.0, wkg15s: 11.5, wkg30s: 9.5, wkg1min: 6.9, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 3296000, name: "Duncan Caskey", weight: 72.0, watt: 263, wkg: 3.7, w5s: 899, w10s: 0, w15s: 800, w30s: 686, w1min: 525, w2min: 402, w5min: 300, w10min: 0, w20min: 263, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 9.5, wkg1min: 7.3, wkg2min: 5.6, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 3957440, name: "Alex Damms", weight: 76.0, watt: 278, wkg: 3.7, w5s: 659, w10s: 0, w15s: 617, w30s: 572, w1min: 476, w2min: 375, w5min: 340, w10min: 0, w20min: 278, w30min: 0, wkg5s: 8.7, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.5, wkg1min: 6.1, wkg2min: 4.9, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 4423394, name: "James Eddiford (WCC)", weight: 0.0, watt: 0, wkg: 0.0, w5s: 0, w10s: 0, w15s: 0, w30s: 0, w1min: 0, w2min: 0, w5min: 0, w10min: 0, w20min: 0, w30min: 0, wkg5s: 0.0, wkg10s: 0.0, wkg15s: 0.0, wkg30s: 0.0, wkg1min: 0.0, wkg2min: 0.0, wkg5min: 0.0, wkg10min: 0.0, wkg20min: 0.0, wkg30min: 0.0 },
-      { id: 5418925, name: "Paul Reed (WCC)", weight: 86.0, watt: 312, wkg: 3.6, w5s: 907, w10s: 0, w15s: 813, w30s: 723, w1min: 573, w2min: 465, w5min: 362, w10min: 0, w20min: 312, w30min: 0, wkg5s: 10.5, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 8.4, wkg1min: 6.7, wkg2min: 5.4, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 5418925, name: "Paul Reed (WCC)", weight: 86.0, watt: 312, wkg: 3.6, w5s: 922, w10s: 0, w15s: 814, w30s: 734, w1min: 573, w2min: 465, w5min: 362, w10min: 0, w20min: 312, w30min: 0, wkg5s: 10.7, wkg10s: 0.0, wkg15s: 9.5, wkg30s: 8.5, wkg1min: 6.7, wkg2min: 5.4, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 7711130, name: "David Sparrow (WCC)", weight: 74.1, watt: 293, wkg: 3.9, w5s: 994, w10s: 0, w15s: 921, w30s: 685, w1min: 532, w2min: 468, w5min: 377, w10min: 0, w20min: 293, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.1, wkg1min: 7.1, wkg2min: 6.3, wkg5min: 5.0, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
       { id: 8193860, name: "Shaun Hutchinson", weight: 86.0, watt: 348, wkg: 4.0, w5s: 1422, w10s: 0, w15s: 1170, w30s: 953, w1min: 666, w2min: 555, w5min: 410, w10min: 0, w20min: 348, w30min: 0, wkg5s: 16.5, wkg10s: 0.0, wkg15s: 13.6, wkg30s: 11.1, wkg1min: 7.7, wkg2min: 6.5, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WCC_THE_SPINNING_DISCS": {
     rung: 7,
-    ladderPosition: 117,
-    positionInRung: 15,
+    ladderPosition: 118,
+    positionInRung: 16,
     name: "WCC The Spinning Discs",
     riders: [
       { id: 454614, name: "Budgie Bird  WCC", weight: 66.0, watt: 203, wkg: 3.1, w5s: 435, w10s: 0, w15s: 410, w30s: 341, w1min: 281, w2min: 254, w5min: 230, w10min: 0, w20min: 203, w30min: 0, wkg5s: 6.4, wkg10s: 0.0, wkg15s: 6.0, wkg30s: 5.2, wkg1min: 4.3, wkg2min: 3.8, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
@@ -2570,8 +2603,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WCC_THE_SPROCKET_ROCKETS": {
     rung: 6,
-    ladderPosition: 99,
-    positionInRung: 14,
+    ladderPosition: 100,
+    positionInRung: 15,
     name: "WCC The Sprocket Rockets",
     riders: [
       { id: 123241, name: "M Kerry (WCC)", weight: 77.4, watt: 246, wkg: 3.2, w5s: 959, w10s: 0, w15s: 855, w30s: 625, w1min: 481, w2min: 376, w5min: 299, w10min: 0, w20min: 246, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 11.0, wkg30s: 8.1, wkg1min: 6.2, wkg2min: 4.9, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -2591,8 +2624,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_WHITE_RHINOS": {
     rung: 5,
-    ladderPosition: 75,
-    positionInRung: 7,
+    ladderPosition: 77,
+    positionInRung: 9,
     name: "White Rhinos",
     riders: [
       { id: 584996, name: "dy Mc [Rhino] (Cov Tri)", weight: 79.0, watt: 294, wkg: 3.7, w5s: 881, w10s: 0, w15s: 808, w30s: 601, w1min: 482, w2min: 394, w5min: 330, w10min: 0, w20min: 294, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.2, wkg30s: 7.6, wkg1min: 6.1, wkg2min: 5.0, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -2610,8 +2643,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZABI__C3_93NIX": {
     rung: 5,
-    ladderPosition: 77,
-    positionInRung: 9,
+    ladderPosition: 78,
+    positionInRung: 10,
     name: "ZABI Ónix",
     riders: [
       { id: 198921, name: "Jorge Taboas", weight: 76.0, watt: 219, wkg: 2.9, w5s: 894, w10s: 0, w15s: 797, w30s: 543, w1min: 400, w2min: 338, w5min: 284, w10min: 0, w20min: 219, w30min: 0, wkg5s: 11.9, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 7.2, wkg1min: 5.3, wkg2min: 4.5, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
@@ -2632,8 +2665,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZABI_COBALTO": {
     rung: 3,
-    ladderPosition: 38,
-    positionInRung: 4,
+    ladderPosition: 37,
+    positionInRung: 3,
     name: "ZABI Cobalto",
     riders: [
       { id: 1132368, name: "Mar&ccedil;al Gode ", weight: 65.2, watt: 278, wkg: 4.3, w5s: 859, w10s: 0, w15s: 793, w30s: 625, w1min: 498, w2min: 398, w5min: 342, w10min: 0, w20min: 278, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.6, wkg1min: 7.6, wkg2min: 6.0, wkg5min: 5.2, wkg10min: 0.0, wkg20min: 4.3, wkg30min: 0.0 },
@@ -2649,8 +2682,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_HARRIERS": {
     rung: 6,
-    ladderPosition: 91,
-    positionInRung: 6,
+    ladderPosition: 92,
+    positionInRung: 7,
     name: "ZSUNR Harriers",
     riders: [
       { id: 34042, name: "Hugh Johnson (ZSUNR)", weight: 97.0, watt: 311, wkg: 3.2, w5s: 1048, w10s: 0, w15s: 894, w30s: 718, w1min: 599, w2min: 487, w5min: 375, w10min: 0, w20min: 311, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.4, wkg1min: 6.2, wkg2min: 5.0, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -2668,8 +2701,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_TOMCAT": {
     rung: 4,
-    ladderPosition: 57,
-    positionInRung: 6,
+    ladderPosition: 58,
+    positionInRung: 7,
     name: "ZSUNR Tomcat",
     riders: [
       { id: 93830, name: "Adam Woby (ZSUNR)", weight: 92.0, watt: 308, wkg: 3.3, w5s: 1213, w10s: 0, w15s: 1153, w30s: 802, w1min: 537, w2min: 445, w5min: 347, w10min: 0, w20min: 308, w30min: 0, wkg5s: 13.2, wkg10s: 0.0, wkg15s: 12.5, wkg30s: 8.7, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
@@ -2689,8 +2722,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_TYPHOONS": {
     rung: 3,
-    ladderPosition: 44,
-    positionInRung: 10,
+    ladderPosition: 42,
+    positionInRung: 8,
     name: "ZSUNR Typhoons",
     riders: [
       { id: 135491, name: "Dylan Jones  (ZsunR)", weight: 73.0, watt: 328, wkg: 4.5, w5s: 789, w10s: 0, w15s: 723, w30s: 574, w1min: 540, w2min: 460, w5min: 397, w10min: 0, w20min: 328, w30min: 0, wkg5s: 10.8, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.9, wkg1min: 7.4, wkg2min: 6.3, wkg5min: 5.4, wkg10min: 0.0, wkg20min: 4.5, wkg30min: 0.0 },
@@ -2700,9 +2733,9 @@ const OPPONENT_LIBRARY = {
       { id: 274804, name: "Thomas Neugebauer (ZSUNR)", weight: 95.0, watt: 349, wkg: 3.7, w5s: 1182, w10s: 0, w15s: 1154, w30s: 979, w1min: 747, w2min: 520, w5min: 444, w10min: 0, w20min: 349, w30min: 0, wkg5s: 12.4, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 10.3, wkg1min: 7.9, wkg2min: 5.5, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 448756, name: "Sjoerd Delnooz (ZSUNR)", weight: 86.0, watt: 320, wkg: 3.7, w5s: 1176, w10s: 0, w15s: 1047, w30s: 782, w1min: 502, w2min: 412, w5min: 378, w10min: 0, w20min: 320, w30min: 0, wkg5s: 13.7, wkg10s: 0.0, wkg15s: 12.2, wkg30s: 9.1, wkg1min: 5.8, wkg2min: 4.8, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 2419188, name: "Xander Crawshaw (ZSUNR)", weight: 71.0, watt: 282, wkg: 4.0, w5s: 849, w10s: 0, w15s: 771, w30s: 660, w1min: 507, w2min: 379, w5min: 328, w10min: 0, w20min: 282, w30min: 0, wkg5s: 12.0, wkg10s: 0.0, wkg15s: 10.9, wkg30s: 9.3, wkg1min: 7.1, wkg2min: 5.3, wkg5min: 4.6, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 2705238, name: "Sjors van Liempt (ZSUNR)", weight: 93.0, watt: 362, wkg: 3.9, w5s: 1036, w10s: 0, w15s: 834, w30s: 734, w1min: 604, w2min: 496, w5min: 413, w10min: 0, w20min: 362, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.9, wkg1min: 6.5, wkg2min: 5.3, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
-      { id: 2873877, name: "Rick Porteous (ZSUNR)", weight: 91.0, watt: 327, wkg: 3.6, w5s: 908, w10s: 0, w15s: 853, w30s: 739, w1min: 568, w2min: 465, w5min: 383, w10min: 0, w20min: 327, w30min: 0, wkg5s: 10.0, wkg10s: 0.0, wkg15s: 9.4, wkg30s: 8.1, wkg1min: 6.2, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
-      { id: 4724654, name: "Tim Knigge [ZSUNR]", weight: 83.7, watt: 291, wkg: 3.5, w5s: 1026, w10s: 0, w15s: 940, w30s: 757, w1min: 507, w2min: 392, w5min: 341, w10min: 0, w20min: 291, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 9.0, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
+      { id: 2705238, name: "Sjors van Liempt (ZSUNR)", weight: 93.0, watt: 362, wkg: 3.9, w5s: 1036, w10s: 0, w15s: 834, w30s: 734, w1min: 604, w2min: 496, w5min: 419, w10min: 0, w20min: 362, w30min: 0, wkg5s: 11.1, wkg10s: 0.0, wkg15s: 9.0, wkg30s: 7.9, wkg1min: 6.5, wkg2min: 5.3, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.9, wkg30min: 0.0 },
+      { id: 2873877, name: "Rick Porteous (ZSUNR)", weight: 91.0, watt: 327, wkg: 3.6, w5s: 924, w10s: 0, w15s: 900, w30s: 739, w1min: 568, w2min: 465, w5min: 383, w10min: 0, w20min: 327, w30min: 0, wkg5s: 10.2, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.1, wkg1min: 6.2, wkg2min: 5.1, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
+      { id: 4724654, name: "Tim Knigge [ZSUNR]", weight: 83.7, watt: 291, wkg: 3.5, w5s: 1026, w10s: 0, w15s: 940, w30s: 757, w1min: 507, w2min: 392, w5min: 343, w10min: 0, w20min: 291, w30min: 0, wkg5s: 12.3, wkg10s: 0.0, wkg15s: 11.2, wkg30s: 9.0, wkg1min: 6.1, wkg2min: 4.7, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.5, wkg30min: 0.0 },
       { id: 5116897, name: "Simon Dickson", weight: 80.0, watt: 252, wkg: 3.1, w5s: 897, w10s: 0, w15s: 797, w30s: 623, w1min: 436, w2min: 374, w5min: 315, w10min: 0, w20min: 252, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 7.8, wkg1min: 5.4, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.1, wkg30min: 0.0 },
       { id: 5300769, name: "Tim Witte", weight: 82.0, watt: 304, wkg: 3.7, w5s: 748, w10s: 0, w15s: 628, w30s: 500, w1min: 442, w2min: 372, w5min: 337, w10min: 0, w20min: 304, w30min: 0, wkg5s: 9.1, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.1, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 4.1, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 5504254, name: "Kenneth Schnelle (ZSUNR)", weight: 80.0, watt: 336, wkg: 4.2, w5s: 927, w10s: 0, w15s: 800, w30s: 696, w1min: 481, w2min: 416, w5min: 380, w10min: 0, w20min: 336, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 10.0, wkg30s: 8.7, wkg1min: 6.0, wkg2min: 5.2, wkg5min: 4.7, wkg10min: 0.0, wkg20min: 4.2, wkg30min: 0.0 },
@@ -2710,9 +2743,9 @@ const OPPONENT_LIBRARY = {
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ZSUNR_WILDCATS": {
-    rung: 8,
-    ladderPosition: 134,
-    positionInRung: 15,
+    rung: 9,
+    ladderPosition: 137,
+    positionInRung: 1,
     name: "ZSUNR Wildcats",
     riders: [
       { id: 327463, name: "Sally White [ZSUNR]", weight: 60.0, watt: 192, wkg: 3.2, w5s: 438, w10s: 0, w15s: 414, w30s: 350, w1min: 271, w2min: 231, w5min: 205, w10min: 0, w20min: 192, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 6.9, wkg30s: 5.8, wkg1min: 4.5, wkg2min: 3.8, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
@@ -2729,15 +2762,15 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW__DBR__UNDERDOGS": {
     rung: 4,
-    ladderPosition: 62,
-    positionInRung: 11,
+    ladderPosition: 63,
+    positionInRung: 12,
     name: "[DBR] Underdogs",
     riders: [
       { id: 773888, name: "C. Trier [DBR]", weight: 96.0, watt: 356, wkg: 3.7, w5s: 1199, w10s: 0, w15s: 1163, w30s: 955, w1min: 668, w2min: 546, w5min: 424, w10min: 0, w20min: 356, w30min: 0, wkg5s: 12.5, wkg10s: 0.0, wkg15s: 12.1, wkg30s: 9.9, wkg1min: 7.0, wkg2min: 5.7, wkg5min: 4.4, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
-      { id: 794481, name: "Morten  K [DBR](Underdogs)", weight: 87.6, watt: 298, wkg: 3.4, w5s: 1010, w10s: 0, w15s: 812, w30s: 624, w1min: 489, w2min: 419, w5min: 346, w10min: 0, w20min: 298, w30min: 0, wkg5s: 11.5, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.1, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
+      { id: 794481, name: "Morten  K [DBR](Underdogs)", weight: 87.6, watt: 298, wkg: 3.4, w5s: 1144, w10s: 0, w15s: 1026, w30s: 683, w1min: 489, w2min: 419, w5min: 346, w10min: 0, w20min: 298, w30min: 0, wkg5s: 13.1, wkg10s: 0.0, wkg15s: 11.7, wkg30s: 7.8, wkg1min: 5.6, wkg2min: 4.8, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 830994, name: "Steen Gottlieb [DBR]", weight: 75.0, watt: 267, wkg: 3.6, w5s: 827, w10s: 0, w15s: 789, w30s: 633, w1min: 492, w2min: 401, w5min: 313, w10min: 0, w20min: 267, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.7, wkg30s: 8.6, wkg1min: 6.6, wkg2min: 5.4, wkg5min: 4.2, wkg10min: 0.0, wkg20min: 3.6, wkg30min: 0.0 },
       { id: 896247, name: "Niels Christensen [DBR]", weight: 81.0, watt: 325, wkg: 4.0, w5s: 907, w10s: 0, w15s: 833, w30s: 751, w1min: 522, w2min: 427, w5min: 371, w10min: 0, w20min: 325, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 9.3, wkg1min: 6.4, wkg2min: 5.3, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 4.0, wkg30min: 0.0 },
-      { id: 1987605, name: "Jarry Th&oslash;gersen ( DBR)  ", weight: 95.0, watt: 352, wkg: 3.7, w5s: 917, w10s: 0, w15s: 679, w30s: 601, w1min: 512, w2min: 440, w5min: 384, w10min: 0, w20min: 352, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 7.1, wkg30s: 6.3, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
+      { id: 1987605, name: "Jarry Th&oslash;gersen ( DBR)  ", weight: 95.0, watt: 352, wkg: 3.7, w5s: 917, w10s: 0, w15s: 785, w30s: 601, w1min: 512, w2min: 440, w5min: 384, w10min: 0, w20min: 352, w30min: 0, wkg5s: 9.7, wkg10s: 0.0, wkg15s: 8.3, wkg30s: 6.3, wkg1min: 5.4, wkg2min: 4.6, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 2662836, name: "Thomas Dose [DBR]", weight: 82.1, watt: 298, wkg: 3.7, w5s: 836, w10s: 0, w15s: 723, w30s: 618, w1min: 527, w2min: 436, w5min: 370, w10min: 0, w20min: 298, w30min: 0, wkg5s: 10.1, wkg10s: 0.0, wkg15s: 8.8, wkg30s: 7.6, wkg1min: 6.4, wkg2min: 5.3, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
       { id: 3363611, name: "Jesper Bak [DBR]", weight: 70.0, watt: 238, wkg: 3.4, w5s: 728, w10s: 0, w15s: 676, w30s: 583, w1min: 415, w2min: 376, w5min: 338, w10min: 0, w20min: 238, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.7, wkg30s: 8.3, wkg1min: 5.9, wkg2min: 5.4, wkg5min: 4.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
       { id: 5174161, name: "Kaspar R Soerensen [DBR]", weight: 70.0, watt: 258, wkg: 3.7, w5s: 815, w10s: 0, w15s: 693, w30s: 599, w1min: 433, w2min: 374, w5min: 316, w10min: 0, w20min: 258, w30min: 0, wkg5s: 11.6, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 8.6, wkg1min: 6.2, wkg2min: 5.3, wkg5min: 4.5, wkg10min: 0.0, wkg20min: 3.7, wkg30min: 0.0 },
@@ -2747,8 +2780,8 @@ const OPPONENT_LIBRARY = {
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ESRT_CLOUD_CHASERS": {
     rung: 1,
-    ladderPosition: 15,
-    positionInRung: 15,
+    ladderPosition: 14,
+    positionInRung: 14,
     name: "eSRT CLOUD CHASERS",
     riders: [
       { id: 197543, name: "Christer Sehlstedt [eSRT]", weight: 72.0, watt: 331, wkg: 4.6, w5s: 1198, w10s: 0, w15s: 1027, w30s: 798, w1min: 630, w2min: 457, w5min: 406, w10min: 0, w20min: 331, w30min: 0, wkg5s: 16.6, wkg10s: 0.0, wkg15s: 14.3, wkg30s: 11.1, wkg1min: 8.7, wkg2min: 6.3, wkg5min: 5.6, wkg10min: 0.0, wkg20min: 4.6, wkg30min: 0.0 },
