@@ -297,7 +297,29 @@ const ZWIFT_ROUTES = [
   { name: "Queen's Highway After Party", world: 'Yorkshire', distance: 17.1, elevation: 259, leadIn: 2.8, profile: 'Hilly', sprint: 0, punch: 31, climb: 15, pursuit: 22, endurance: 31 },
   { name: 'Royal Pump Room 8', world: 'Yorkshire', distance: 27.7, elevation: 491, leadIn: 0.0, profile: 'Hilly', sprint: 7, punch: 13, climb: 19, pursuit: 0, endurance: 61 },
   { name: 'Tour Of Tewit Well', world: 'Yorkshire', distance: 10.9, elevation: 205, leadIn: 0.0, profile: 'Hilly', sprint: 10, punch: 22, climb: 21, pursuit: 41, endurance: 7 },
-  { name: 'Yorkshire Double Loop', world: 'Yorkshire', distance: 29.6, elevation: 547, leadIn: 0.0, profile: 'Hilly', sprint: 0, punch: 22, climb: 15, pursuit: 0, endurance: 62 }
+  { name: 'Yorkshire Double Loop', world: 'Yorkshire', distance: 29.6, elevation: 547, leadIn: 0.0, profile: 'Hilly', sprint: 0, punch: 22, climb: 15, pursuit: 0, endurance: 62 },
+  // --- Tilfoejet automatisk af fetch_zwift_insider_routes.py ---
+  // Uden velo-vaegte: app.js beregner fingerprint ud fra distance/hoejdemeter.
+  { name: 'Gravel Mountain', world: 'Gravel Mountain', distance: 5.2, elevation: 51, leadIn: 0.0, profile: 'Rolling', flatKm: 3.1 },
+  { name: 'Red Rock Loop Reverse', world: 'Gravel Mountain', distance: 2.1, elevation: 21, leadIn: 0.1, profile: 'Rolling', flatKm: 1.3 },
+  { name: 'The PRL Full', world: 'London', distance: 173.0, elevation: 2621, leadIn: 0.5, profile: 'Hilly', flatKm: 76.1 },
+  { name: 'Mech Isle Mayhem', world: 'Makuri Islands', distance: 18.4, elevation: 116, leadIn: 2.0, profile: 'Flat', flatKm: 15.5 },
+  { name: 'Twilight Crit', world: 'Makuri Islands', distance: 3.9, elevation: 20, leadIn: 1.8, profile: 'Flat', flatKm: 3.3 },
+  { name: 'Urumaze', world: 'Makuri Islands', distance: 24.8, elevation: 194, leadIn: 2.0, profile: 'Rolling', flatKm: 14.9 },
+  { name: "WhatYumeziWe'reLost?", world: 'Makuri Islands', distance: 17.4, elevation: 280, leadIn: 0.1, profile: 'Hilly', flatKm: 7.7 },
+  { name: 'Yumezi Grit', world: 'Makuri Islands', distance: 7.5, elevation: 78, leadIn: 4.1, profile: 'Rolling', flatKm: 4.5 },
+  { name: 'Cirque du Suffer', world: 'Paris', distance: 20.9, elevation: 29, leadIn: 0.0, profile: 'Flat', flatKm: 17.6 },
+  { name: 'Crêpe Escape', world: 'Paris', distance: 16.4, elevation: 117, leadIn: 3.1, profile: 'Rolling', flatKm: 9.8 },
+  { name: 'Double Espresso', world: 'Paris', distance: 30.4, elevation: 198, leadIn: 3.1, profile: 'Flat', flatKm: 25.5 },
+  { name: 'Heart of Montmartre', world: 'Paris', distance: 74.5, elevation: 500, leadIn: 3.1, profile: 'Flat', flatKm: 62.6 },
+  { name: 'La Boucle', world: 'Paris', distance: 16.0, elevation: 118, leadIn: 3.1, profile: 'Rolling', flatKm: 9.6 },
+  { name: 'Loop de loop de loop', world: 'Paris', distance: 7.2, elevation: 36, leadIn: 3.1, profile: 'Flat', flatKm: 6.0 },
+  { name: 'Montmartre Mixer', world: 'Paris', distance: 25.1, elevation: 190, leadIn: 2.4, profile: 'Rolling', flatKm: 15.1 },
+  { name: 'Paris Toujours', world: 'Paris', distance: 69.2, elevation: 448, leadIn: 3.1, profile: 'Flat', flatKm: 58.1 },
+  { name: '2015 Worlds Course', world: 'Richmond', distance: 16.3, elevation: 127, leadIn: 0.2, profile: 'Rolling', flatKm: 9.8 },
+  { name: 'Spiral Summit', world: 'Watopia', distance: 24.0, elevation: 283, leadIn: 0.0, profile: 'Hilly', flatKm: 10.6 },
+  { name: 'The Pretzel', world: 'Watopia', distance: 72.9, elevation: 1362, leadIn: 0.0, profile: 'Mountainous', flatKm: 21.1 },
+  { name: 'The Über Pretzel', world: 'Watopia', distance: 128.3, elevation: 2335, leadIn: 0.5, profile: 'Mountainous', flatKm: 37.2 },
 ];
 
 // Give each route an id and initialize as selected
@@ -2251,7 +2273,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.242'; // bump this on every update
+const APP_VERSION = 'v1.3.243'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
