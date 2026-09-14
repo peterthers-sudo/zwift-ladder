@@ -98,6 +98,9 @@ def fetch_routes():
 
 ARRAY_RE = re.compile(rb"(const ZWIFT_ROUTES = \[\r?\n)(.*?)(\r?\n\];)", re.S)
 
+# Kendetegn paa at scriptet allerede har skrevet sin kommentarblok.
+HEADER_MARK = b"Tilfoejet automatisk af fetch_zwift_insider_routes.py"
+
 
 def read_app():
     """Returnerer (raw_bytes, match, eol) - binaert, saa CRLF bevares."""
@@ -293,10 +296,15 @@ def main():
     tail = m.group(2).rstrip()
     lead = "," if not tail.endswith(b",") else ""
 
-    lines = [
+    # Headeren skrives kun foerste gang. Scriptet koerer hver nat, og uden
+    # den her kontrol ville arrayet samle en ny ens kommentarblok hver gang
+    # der dukkede nye ruter op.
+    header = [
         "  // --- Tilfoejet automatisk af fetch_zwift_insider_routes.py ---",
         "  // Uden velo-vaegte: app.js beregner fingerprint ud fra distance/hoejdemeter.",
-    ] + [format_entry(r) for r in ordered]
+    ]
+    already = HEADER_MARK in m.group(2)
+    lines = ([] if already else header) + [format_entry(r) for r in ordered]
     addition = (lead + eol_s + eol_s.join(lines)).encode("utf-8")
 
     out = raw[:m.end(2)] + addition + raw[m.end(2):]
