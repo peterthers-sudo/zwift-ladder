@@ -270,6 +270,21 @@
     background-repeat: no-repeat; background-position: right 4px center;
   }
   .ctx-select:hover { filter: brightness(1.25); }
+  /* Kontrollerne i rutevaelgerens raekke skal staa lige hoeje. En select
+     og en number-input renderer forskelligt og faar ikke samme hoejde af
+     ens padding alene, saa hoejden saettes eksplicit. */
+  .ctx-route-ctl {
+    height: 38px; box-sizing: border-box; padding: 0 10px;
+    font-family: 'JetBrains Mono', monospace; font-size: 0.95rem;
+    background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); outline: none; border-radius: 3px;
+  }
+  .ctx-route-ctl:focus { border-color: var(--accent2); }
+  #matchup-route-search { width: 130px; flex-shrink: 0; font-size: 0.85rem; }
+  #matchup-route-select { flex: 1; min-width: 0; font-weight: 700;
+                          border-color: var(--accent2); }
+  #matchup-laps { width: 70px; flex-shrink: 0; text-align: center;
+                  font-weight: 700; }
   .ctx-selectwrap { display: inline-grid; min-width: 0; }
   .ctx-selectwrap > * { grid-area: 1 / 1; }
   .ctx-sizer {
@@ -806,18 +821,14 @@
         <span class="ctx-label" style="margin:0;color:var(--accent2);letter-spacing:1.5px;">🗺 RACE ROUTE</span>
         <label style="font-size:0.55rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
       </div>
-      <div style="display:flex; align-items:center; gap:6px;">
-        <input type="text" id="matchup-route-search" placeholder="Search..." oninput="filterMatchupRoutes()"
-          style="width:130px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:6px 9px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
-        <select id="matchup-route-select" onchange="onMatchupRouteChange()"
-          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.95rem; font-weight:700; padding:6px 9px; background:var(--bg); border:1px solid var(--accent2); color:var(--text); outline:none;">
+      <div style="display:flex; align-items:center; gap:8px;">
+        <input type="text" id="matchup-route-search" class="ctx-route-ctl"
+          placeholder="Search..." oninput="filterMatchupRoutes()">
+        <select id="matchup-route-select" class="ctx-route-ctl" onchange="onMatchupRouteChange()">
           <option value="">— No specific route selected —</option>
         </select>
-        <input id="matchup-laps" type="number" min="1" max="10" value="1"
-              onblur="clampMatchupLaps(this)" oninput="clampMatchupLaps(this)"
-              style="width:40px;padding:3px 4px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;
-                     background:var(--bg);border:1px solid var(--border);color:var(--text);
-                     border-radius:3px;text-align:center;flex-shrink:0;">
+        <input id="matchup-laps" type="number" min="1" max="10" value="1" class="ctx-route-ctl"
+              onblur="clampMatchupLaps(this)" oninput="clampMatchupLaps(this)">
         <span id="matchup-route-tag" style="font-family:'JetBrains Mono',monospace; font-size:0.6rem; letter-spacing:1px; padding:3px 8px; border-radius:2px; display:none;"></span>
       </div>
     </div>
