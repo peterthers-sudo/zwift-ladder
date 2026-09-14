@@ -253,33 +253,47 @@
     border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
   .ctx-block {
-    padding: 10px 16px; display: flex; flex-direction: column; gap: 2px;
-    border-right: 1px solid var(--border); flex: 1; min-width: 120px;
+    padding: 14px 20px; display: flex; flex-direction: column; gap: 5px;
+    border-right: 1px solid var(--border); flex: 1 1 0; min-width: 150px;
   }
   .ctx-block:last-child { border-right: none; }
-  .ctx-label { font-size: 0.55rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
-  .ctx-value { font-size: 0.78rem; font-weight: 600; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .ctx-label { font-size: 0.62rem; letter-spacing: 2px; color: var(--text-dim); text-transform: uppercase; }
+  .ctx-value { font-size: 1.05rem; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .ctx-value.has-data { color: var(--accent3); }
   /* Holdvaelger i kontekstbaren - ser ud som .ctx-value, men er en select.
      Pilen er URL-encodet (%3C/%3E), saa attribut- og regexparsing ikke braekker. */
   .ctx-select {
-    background: transparent; border: none; outline: none; padding: 0 14px 0 0;
+    background: transparent; border: none; outline: none; padding: 0 18px 0 0;
     font-family: inherit; cursor: pointer; max-width: 100%;
     appearance: none; -webkit-appearance: none;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8' viewBox='0 0 8 8'%3E%3Cpath fill='%237fffbf' d='M0 2l4 4 4-4z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat; background-position: right 2px center;
+    background-repeat: no-repeat; background-position: right 4px center;
   }
   .ctx-select:hover { filter: brightness(1.25); }
+  .ctx-selectwrap { display: inline-grid; min-width: 0; }
+  .ctx-selectwrap > * { grid-area: 1 / 1; }
+  .ctx-sizer {
+    visibility: hidden; height: 0; white-space: pre; padding-right: 18px;
+    font-weight: 700; font-size: 1.05rem; font-family: inherit;
+  }
   .ctx-select option { background: var(--surface2); color: var(--text); }
   .ctx-value.warning  { color: var(--red); }
   .ctx-value.vs-active { color: var(--accent2); }
   .ctx-vs {
-    padding: 0 14px; font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem;
+    padding: 0 18px; font-family: 'Bebas Neue', sans-serif; font-size: 2.2rem;
     color: var(--border); align-self: stretch; display: flex; align-items: center;
     background: var(--surface2); border-right: 1px solid var(--border);
     transition: color 0.3s;
   }
   .ctx-vs.active { color: var(--accent2); }
+
+  /* Rutevaelgeren bryder til sin egen raekke under de tre felter og fylder
+     hele bredden. Uden flex-basis 100% klemmes den ind ved siden af dem. */
+  #ctx-raceroute-block {
+    flex: 1 1 100%; min-width: 100%; border-right: none;
+    border-top: 2px solid var(--accent2);
+    background: rgba(255,107,53,0.07);
+  }
 
   /* ── MOBILE RESPONSIVENESS (320-480px) ── */
   @media (max-width: 480px) {
@@ -754,9 +768,12 @@
     <div class="ctx-block">
       <span class="ctx-label">My Team</span>
       <div style="display:flex;align-items:baseline;gap:5px;min-width:0">
-        <select class="ctx-value ctx-select" id="ctx-myteam-select"
-          onchange="switchMyTeam(this.value); updateContextBar();"
-          title="Skift LEQP-hold"></select>
+        <span class="ctx-selectwrap">
+          <select class="ctx-value ctx-select" id="ctx-myteam-select"
+            onchange="switchMyTeam(this.value); updateContextBar();"
+            title="Skift LEQP-hold"></select>
+          <span class="ctx-sizer" id="ctx-myteam-sizer" aria-hidden="true"></span>
+        </span>
         <span class="ctx-value" id="ctx-myteam-count"
           style="flex-shrink:0;font-weight:400;color:var(--text-dim)"></span>
       </div>
@@ -772,11 +789,11 @@
       <span class="ctx-label">Routes in pool</span>
       <span class="ctx-value" id="ctx-routes">0 routes</span>
     </div>
-    <div class="ctx-block" id="ctx-teamsize-block" style="cursor:pointer; flex:0 0 auto; min-width:0; padding:8px 12px;">
-      <span class="ctx-label" style="font-size:0.5rem;">Size</span>
+    <div class="ctx-block" id="ctx-teamsize-block" style="cursor:pointer;">
+      <span class="ctx-label">Size</span>
       <select id="team-size" onchange="updateContextBar();runMatch()"
         style="background:transparent;border:none;color:var(--text);font-family:'JetBrains Mono',monospace;
-               font-size:0.72rem;font-weight:600;cursor:pointer;outline:none;padding:0;width:100%">
+               font-size:1.05rem;font-weight:700;cursor:pointer;outline:none;padding:0;width:100%">
         <option value="5" selected>5 vs 5</option>
         <option value="4">4 vs 4</option>
         <option value="3">3 vs 3</option>
@@ -784,16 +801,16 @@
     </div>
 
     <!-- Vis KUN på Matchup (Analyze) -->
-    <div class="ctx-block" id="ctx-raceroute-block" style="display:none; flex:3; border-right:none; background:rgba(255,107,53,0.07); border-left:2px solid var(--accent2); align-items:stretch; justify-content:center;">
+    <div class="ctx-block" id="ctx-raceroute-block" style="display:none; align-items:stretch; justify-content:center;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
         <span class="ctx-label" style="margin:0;color:var(--accent2);letter-spacing:1.5px;">🗺 RACE ROUTE</span>
         <label style="font-size:0.55rem;letter-spacing:1px;color:var(--text-dim);text-transform:uppercase">Laps</label>
       </div>
       <div style="display:flex; align-items:center; gap:6px;">
         <input type="text" id="matchup-route-search" placeholder="Search..." oninput="filterMatchupRoutes()"
-          style="width:72px; font-family:'JetBrains Mono',monospace; font-size:0.68rem; padding:4px 7px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
+          style="width:130px; font-family:'JetBrains Mono',monospace; font-size:0.8rem; padding:6px 9px; background:var(--bg); border:1px solid var(--border); color:var(--text); outline:none; flex-shrink:0;">
         <select id="matchup-route-select" onchange="onMatchupRouteChange()"
-          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.82rem; font-weight:600; padding:4px 6px; background:var(--bg); border:1px solid var(--accent2); color:var(--text); outline:none;">
+          style="flex:1; min-width:0; font-family:'JetBrains Mono',monospace; font-size:0.95rem; font-weight:700; padding:6px 9px; background:var(--bg); border:1px solid var(--accent2); color:var(--text); outline:none;">
           <option value="">— No specific route selected —</option>
         </select>
         <input id="matchup-laps" type="number" min="1" max="10" value="1"

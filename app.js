@@ -2226,6 +2226,11 @@ function updateContextBar() {
     if (myTeamCntEl) {
       myTeamCntEl.textContent = key ? `· ${selectedRiders.length} riders` : '';
     }
+    // Giv select'en bredde efter den VALGTE option. En native select er
+    // ellers saa bred som sin laengste option, saa pilen staar langt fra
+    // et kort holdnavn.
+    const sizer = document.getElementById('ctx-myteam-sizer');
+    if (sizer) sizer.textContent = myTeamSelEl.selectedOptions[0]?.text || '';
   }
 
   // VS block
@@ -2273,7 +2278,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.243'; // bump this on every update
+const APP_VERSION = 'v1.3.244'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
@@ -2736,7 +2741,7 @@ window.onload = function() {
   // Kort navn uden "LEQP "-praefiks, saa baren fylder det samme som foer.
   const ctxTeamSel = document.getElementById('ctx-myteam-select');
   if (ctxTeamSel) {
-    ctxTeamSel.innerHTML = '<option value="">No team selected</option>' +
+    ctxTeamSel.innerHTML = '<option value="">- None -</option>' +
       Object.entries(MY_TEAMS).map(([key, team]) =>
         `<option value="${key}">${team.name.replace(/^LEQP /, '')}</option>`
       ).join('');
