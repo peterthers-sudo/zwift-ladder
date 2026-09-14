@@ -188,6 +188,24 @@ def classify(distance, elevation):
     return "Mountainous"
 
 
+VERSION_RE = re.compile(rb"(const APP_VERSION = 'v\d+\.\d+\.)(\d+)(';)")
+
+
+def bump_version(raw):
+    """Haever patch-nummeret i APP_VERSION.
+
+    Scriptet aendrer app.js, og versionen er cache-noegle for
+    zwift_courses_version i localStorage. Uden bump ser tilbagevendende
+    brugere deres gamle cachede rutevalg som aktuelt.
+    """
+    m = VERSION_RE.search(raw)
+    if not m:
+        log("APP_VERSION ikke fundet - springer versionsbump over.", "WARN")
+        return raw, None
+    new = str(int(m.group(2)) + 1).encode()
+    return VERSION_RE.sub(m.group(1) + new + m.group(3), raw, count=1), new.decode()
+
+
 def js_str(s):
     """Foelg filens egen konvention: dobbeltcitationstegn naar teksten
     indeholder en apostrof, ellers enkelt."""
@@ -282,7 +300,10 @@ def main():
     addition = (lead + eol_s + eol_s.join(lines)).encode("utf-8")
 
     out = raw[:m.end(2)] + addition + raw[m.end(2):]
+    out, new_patch = bump_version(out)
     open(APP_JS, "wb").write(out)
+    if new_patch:
+        log(f"APP_VERSION bumpet (patch -> {new_patch}).", "OK")
 
     check = open(APP_JS, "rb").read()
     crlf = check.count(b"\r\n")

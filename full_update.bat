@@ -119,6 +119,21 @@ python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: Rutenavne opdat
 echo OK: Rutenavne opdateret.
 echo.
 
+:: TRIN 5c: Hent nye ruter fra Zwift Insider ind i ZWIFT_ROUTES i app.js.
+:: Skriver kun hvis der faktisk er nye ruter, og bumper selv APP_VERSION.
+:: Fejler sjaeldent, men et udfald hos Zwift Insider maa ikke stoppe uploaden.
+echo [5c/6] Henter nye ruter (fetch_zwift_insider_routes.py)...
+python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[5c/6] Nye ruter...\n')"
+python fetch_zwift_insider_routes.py --write >> "%LOG_FILE%" 2>&1
+if errorlevel 1 (
+    echo ADVARSEL: fetch_zwift_insider_routes.py fejlede - fortsaetter med eksisterende ruter
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('ADVARSEL: fetch_zwift_insider_routes fejlede.\n')"
+) else (
+    python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('OK: Ruter opdateret.\n')"
+    echo OK: Ruter opdateret.
+)
+echo.
+
 :: TRIN 6: Git commit + push
 echo [6/6] Uploader til GitHub...
 python -c "open(r'%LOG_FILE%', 'a', encoding='utf-8').write('[6/6] Uploader til GitHub...\n')"
