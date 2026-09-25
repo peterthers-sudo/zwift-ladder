@@ -320,6 +320,7 @@ const ZWIFT_ROUTES = [
   { name: 'Spiral Summit', world: 'Watopia', distance: 24.0, elevation: 283, leadIn: 0.0, profile: 'Hilly', flatKm: 10.6 },
   { name: 'The Pretzel', world: 'Watopia', distance: 72.9, elevation: 1362, leadIn: 0.0, profile: 'Mountainous', flatKm: 21.1 },
   { name: 'The Über Pretzel', world: 'Watopia', distance: 128.3, elevation: 2335, leadIn: 0.5, profile: 'Mountainous', flatKm: 37.2 },
+  { name: 'Red Rock Loop Arcade', world: 'Gravel Mountain', distance: 2.6, elevation: 29, leadIn: 0.1, profile: 'Hilly', flatKm: 1.1 },
 ];
 
 // Give each route an id and initialize as selected
@@ -2278,7 +2279,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.246'; // bump this on every update
+const APP_VERSION = 'v1.3.247'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
