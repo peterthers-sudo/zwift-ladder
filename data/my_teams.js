@@ -11,7 +11,7 @@ const MY_TEAMS = {
       { id:4, zwift_id:4013675, name:'jonas ruffer', sprint:7.4, oneMin:4.3, fiveMin:3.7, twentyMin:3.2, watt:273, weight:85.0, selected: false, w5s:629, w10s:0, w15s:543, w30s:455, w1min:365, w2min:349, w5min:311, w10min:0, w20min:273, w30min:0 },
       { id:5, zwift_id:4522867, name:'Mojo', sprint:11.5, oneMin:5.9, fiveMin:4.0, twentyMin:3.5, watt:350, weight:100.0, selected: false, w5s:1135, w10s:0, w15s:1001, w30s:781, w1min:591, w2min:505, w5min:404, w10min:0, w20min:350, w30min:0 },
       { id:6, zwift_id:4762368, name:'.  Hajo | LEQP', sprint:11.3, oneMin:6.0, fiveMin:4.4, twentyMin:3.6, watt:273, weight:74.0, selected: false, w5s:834, w10s:0, w15s:702, w30s:604, w1min:444, w2min:385, w5min:328, w10min:0, w20min:273, w30min:0 },
-      { id:7, zwift_id:5369322, name:'James YT@chadrides (CYE)', sprint:10.1, oneMin:5.1, fiveMin:3.6, twentyMin:3.1, watt:273, weight:87.0, selected: false, w5s:880, w10s:0, w15s:717, w30s:536, w1min:448, w2min:374, w5min:307, w10min:0, w20min:273, w30min:0 },
+      { id:7, zwift_id:5369322, name:'James YT@chadrides (CYE/LEQP)', sprint:10.1, oneMin:5.1, fiveMin:3.6, twentyMin:3.1, watt:273, weight:87.0, selected: false, w5s:880, w10s:0, w15s:717, w30s:536, w1min:448, w2min:374, w5min:307, w10min:0, w20min:273, w30min:0 },
       { id:8, zwift_id:6329623, name:'Mike Thomas | LEQP', sprint:10.8, oneMin:5.9, fiveMin:4.3, twentyMin:3.7, watt:293, weight:78.5, selected: false, w5s:847, w10s:0, w15s:695, w30s:571, w1min:461, w2min:398, w5min:340, w10min:0, w20min:293, w30min:0 },
       { id:9, zwift_id:6744146, name:'Marlot Jansen ', sprint:13.1, oneMin:7.4, fiveMin:4.4, twentyMin:3.4, watt:204, weight:60.0, selected: false, w5s:789, w10s:0, w15s:698, w30s:538, w1min:445, w2min:295, w5min:263, w10min:0, w20min:204, w30min:0 }
     ]
@@ -77,7 +77,7 @@ const MY_TEAMS = {
       { id:6, zwift_id:5231467, name:'Dave Greening LEQP', sprint:10.1, oneMin:5.9, fiveMin:3.8, twentyMin:3.4, watt:245, weight:71.5, selected: false, w5s:723, w10s:0, w15s:685, w30s:564, w1min:425, w2min:327, w5min:272, w10min:0, w20min:245, w30min:0 },
       { id:7, zwift_id:6113675, name:'Barry Johns | LEQP', sprint:10.2, oneMin:5.7, fiveMin:3.8, twentyMin:3.3, watt:251, weight:76.0, selected: false, w5s:772, w10s:0, w15s:699, w30s:599, w1min:432, w2min:357, w5min:292, w10min:0, w20min:251, w30min:0 },
       { id:8, zwift_id:6932540, name:'Marlijn (LEQP)', sprint:7.0, oneMin:5.8, fiveMin:4.2, twentyMin:3.7, watt:221, weight:60.0, selected: false, w5s:421, w10s:0, w15s:390, w30s:373, w1min:347, w2min:289, w5min:252, w10min:0, w20min:221, w30min:0 },
-      { id:9, zwift_id:7018982, name:'Barnaby Hall | LEQP ', sprint:14.2, oneMin:5.9, fiveMin:3.9, twentyMin:3.2, watt:248, weight:79.0, selected: false, w5s:1123, w10s:0, w15s:914, w30s:710, w1min:469, w2min:362, w5min:312, w10min:0, w20min:248, w30min:0 }
+      { id:9, zwift_id:7018982, name:'Barnaby Hall | LEQP ', sprint:14.2, oneMin:5.9, fiveMin:3.9, twentyMin:3.2, watt:254, weight:79.0, selected: false, w5s:1123, w10s:0, w15s:914, w30s:710, w1min:469, w2min:362, w5min:312, w10min:0, w20min:254, w30min:0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET": {
@@ -92,7 +92,7 @@ const MY_TEAMS = {
       { id:6, zwift_id:4037223, name:'Maurice van der Meer', sprint:15.1, oneMin:9.2, fiveMin:5.0, twentyMin:4.1, watt:266, weight:65.0, selected: false, w5s:982, w10s:0, w15s:916, w30s:801, w1min:599, w2min:426, w5min:326, w10min:0, w20min:266, w30min:0 },
       { id:7, zwift_id:5395900, name:'Andreas Freshy Benz [LEQP/CN]', sprint:10.2, oneMin:5.7, fiveMin:4.3, twentyMin:3.8, watt:295, weight:77.0, selected: false, w5s:805, w10s:0, w15s:759, w30s:585, w1min:452, w2min:375, w5min:333, w10min:0, w20min:295, w30min:0 },
       { id:8, zwift_id:5872599, name:'First Jacco &#129361; | LEQP', sprint:13.3, oneMin:6.9, fiveMin:4.7, twentyMin:4.1, watt:284, weight:69.0, selected: false, w5s:921, w10s:0, w15s:845, w30s:593, w1min:477, w2min:377, w5min:321, w10min:0, w20min:284, w30min:0 },
-      { id:9, zwift_id:6607348, name:'Steven Smet | LEQP', sprint:11.4, oneMin:6.1, fiveMin:4.4, twentyMin:3.9, watt:286, weight:73.0, selected: false, w5s:834, w10s:0, w15s:786, w30s:616, w1min:443, w2min:391, w5min:321, w10min:0, w20min:286, w30min:0 }
+      { id:9, zwift_id:6607348, name:'Steven Smet | LEQP', sprint:11.4, oneMin:6.4, fiveMin:4.4, twentyMin:3.9, watt:286, weight:73.0, selected: false, w5s:834, w10s:0, w15s:786, w30s:616, w1min:465, w2min:391, w5min:321, w10min:0, w20min:286, w30min:0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_VENTOUX": {
