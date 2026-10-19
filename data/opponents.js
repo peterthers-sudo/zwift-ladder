@@ -6,7 +6,11 @@ const OPPONENT_LIBRARY = {
     positionInRung: 1,
     name: "ART Actinides",
     riders: [
-
+      { id: 320125, name: "Gary McGeehin (ART)", weight: 98.0, watt: 289, wkg: 2.9, w5s: 1142, w10s: 0, w15s: 975, w30s: 739, w1min: 569, w2min: 447, w5min: 368, w10min: 0, w20min: 289, w30min: 0, wkg5s: 11.7, wkg10s: 0.0, wkg15s: 9.9, wkg30s: 7.5, wkg1min: 5.8, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 1055960, name: "Paul Smith (ART)", weight: 88.0, watt: 289, wkg: 3.3, w5s: 1397, w10s: 0, w15s: 1204, w30s: 918, w1min: 580, w2min: 412, w5min: 342, w10min: 0, w20min: 289, w30min: 0, wkg5s: 15.9, wkg10s: 0.0, wkg15s: 13.7, wkg30s: 10.4, wkg1min: 6.6, wkg2min: 4.7, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 },
+      { id: 1209191, name: "Jason Byles (ART)", weight: 76.1, watt: 227, wkg: 3.0, w5s: 795, w10s: 0, w15s: 727, w30s: 523, w1min: 422, w2min: 322, w5min: 261, w10min: 0, w20min: 227, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.6, wkg30s: 6.9, wkg1min: 5.5, wkg2min: 4.2, wkg5min: 3.4, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 2021735, name: "D. aZ[ART]", weight: 87.2, watt: 265, wkg: 3.0, w5s: 587, w10s: 0, w15s: 528, w30s: 473, w1min: 410, w2min: 329, w5min: 284, w10min: 0, w20min: 265, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.4, wkg1min: 4.7, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
+      { id: 2309653, name: "Paul Bezzant (ART)", weight: 95.0, watt: 263, wkg: 2.8, w5s: 832, w10s: 0, w15s: 752, w30s: 642, w1min: 548, w2min: 399, w5min: 311, w10min: 0, w20min: 263, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.8, wkg1min: 5.8, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_CUATRO_BOLAS": {
