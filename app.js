@@ -321,6 +321,14 @@ const ZWIFT_ROUTES = [
   { name: 'The Pretzel', world: 'Watopia', distance: 72.9, elevation: 1362, leadIn: 0.0, profile: 'Mountainous', flatKm: 21.1 },
   { name: 'The Über Pretzel', world: 'Watopia', distance: 128.3, elevation: 2335, leadIn: 0.5, profile: 'Mountainous', flatKm: 37.2 },
   { name: 'Red Rock Loop Arcade', world: 'Gravel Mountain', distance: 2.6, elevation: 29, leadIn: 0.1, profile: 'Hilly', flatKm: 1.1 },
+  { name: 'Caldera Coaster', world: 'Watopia', distance: 4.0, elevation: 12, leadIn: 1.9, profile: 'Flat', flatKm: 3.4 },
+  { name: "California Dreamin'", world: 'Watopia', distance: 19.0, elevation: 106, leadIn: 2.2, profile: 'Flat', flatKm: 16.0 },
+  { name: 'California Roll', world: 'Watopia', distance: 33.2, elevation: 139, leadIn: 0.7, profile: 'Flat', flatKm: 27.9 },
+  { name: 'Four Foalsmen', world: 'Watopia', distance: 67.9, elevation: 578, leadIn: 2.3, profile: 'Rolling', flatKm: 40.7 },
+  { name: 'Laps, Cam, Traction', world: 'Watopia', distance: 25.7, elevation: 217, leadIn: 0.7, profile: 'Rolling', flatKm: 15.4 },
+  { name: 'Pacific Pursuit', world: 'Watopia', distance: 54.0, elevation: 3381, leadIn: 0.2, profile: 'Mountainous', flatKm: 15.7 },
+  { name: 'Seafoam Circuit', world: 'Watopia', distance: 3.5, elevation: 18, leadIn: 0.6, profile: 'Flat', flatKm: 2.9 },
+  { name: 'Watt Goes Up Must Come Down', world: 'Watopia', distance: 60.5, elevation: 776, leadIn: 2.0, profile: 'Hilly', flatKm: 26.6 },
 ];
 
 // Give each route an id and initialize as selected
@@ -2279,7 +2287,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.247'; // bump this on every update
+const APP_VERSION = 'v1.3.248'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {

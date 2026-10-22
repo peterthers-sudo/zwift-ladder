@@ -1,3 +1,3 @@
 // LEQP_FIXTURES_START
-const LEQP_FIXTURES = [{"date": "2026-10-22", "time": "17:30", "home": "LEQP Aubisque", "away": "SRT Gladiators", "route": "Glasgow Crit Circuit", "powerups": []}, {"date": "2026-10-22", "time": "17:30", "home": "LEQP Hautacam", "away": "Extraordinary GentleWaTTs", "route": "Cobbled Crown", "powerups": []}, {"date": "2026-10-22", "time": "17:51", "home": "LEQP Ventoux", "away": "Vikings Valgrind", "route": "Surrey Hills", "powerups": []}, {"date": "2026-10-23", "time": "17:30", "home": "Dunking Teabags", "away": "LEQP Colombiere", "route": "Douce France", "powerups": []}];
+const LEQP_FIXTURES = [{"date": "2026-10-23", "time": "17:30", "home": "Dunking Teabags", "away": "LEQP Colombiere", "route": "Douce France", "powerups": []}, {"date": "2026-10-28", "time": "18:30", "home": "Team Not Pogi Amstel", "away": "LEQP Madeleine", "route": "", "powerups": []}];
 // LEQP_FIXTURES_END
