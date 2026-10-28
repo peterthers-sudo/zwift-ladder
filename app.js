@@ -329,6 +329,7 @@ const ZWIFT_ROUTES = [
   { name: 'Pacific Pursuit', world: 'Watopia', distance: 54.0, elevation: 3381, leadIn: 0.2, profile: 'Mountainous', flatKm: 15.7 },
   { name: 'Seafoam Circuit', world: 'Watopia', distance: 3.5, elevation: 18, leadIn: 0.6, profile: 'Flat', flatKm: 2.9 },
   { name: 'Watt Goes Up Must Come Down', world: 'Watopia', distance: 60.5, elevation: 776, leadIn: 2.0, profile: 'Hilly', flatKm: 26.6 },
+  { name: 'Sacré Trois!', world: 'Paris', distance: 24.1, elevation: 217, leadIn: 3.1, profile: 'Rolling', flatKm: 14.5 },
 ];
 
 // Give each route an id and initialize as selected
@@ -2287,7 +2288,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.248'; // bump this on every update
+const APP_VERSION = 'v1.3.249'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
