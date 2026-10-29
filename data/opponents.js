@@ -6,9 +6,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 1,
     name: "ART Actinides",
     riders: [
-      { id: 2021735, name: "D. aZ[ART]", weight: 87.2, watt: 265, wkg: 3.0, w5s: 587, w10s: 0, w15s: 528, w30s: 473, w1min: 410, w2min: 329, w5min: 284, w10min: 0, w20min: 265, w30min: 0, wkg5s: 6.8, wkg10s: 0.0, wkg15s: 6.1, wkg30s: 5.4, wkg1min: 4.7, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 2309653, name: "Paul Bezzant (ART)", weight: 95.0, watt: 268, wkg: 2.8, w5s: 832, w10s: 0, w15s: 752, w30s: 642, w1min: 548, w2min: 399, w5min: 316, w10min: 0, w20min: 268, w30min: 0, wkg5s: 8.8, wkg10s: 0.0, wkg15s: 7.9, wkg30s: 6.8, wkg1min: 5.8, wkg2min: 4.2, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.8, wkg30min: 0.0 },
-      { id: 2629714, name: "Doug Curtis (ART)", weight: 79.0, watt: 263, wkg: 3.3, w5s: 672, w10s: 0, w15s: 636, w30s: 532, w1min: 418, w2min: 349, w5min: 304, w10min: 0, w20min: 263, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 6.7, wkg1min: 5.3, wkg2min: 4.4, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.3, wkg30min: 0.0 }
+
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_CUATRO_BOLAS": {
@@ -26,7 +24,11 @@ const OPPONENT_LIBRARY = {
     positionInRung: 4,
     name: "ART Osmium",
     riders: [
-
+      { id: 2217260, name: "Mark Sanders (ART JLP)", weight: 85.0, watt: 255, wkg: 2.9, w5s: 673, w10s: 0, w15s: 613, w30s: 545, w1min: 445, w2min: 328, w5min: 275, w10min: 0, w20min: 255, w30min: 0, wkg5s: 7.7, wkg10s: 0.0, wkg15s: 7.0, wkg30s: 6.2, wkg1min: 5.1, wkg2min: 4.0, wkg5min: 3.2, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
+      { id: 2464460, name: "Steve Burrell", weight: 72.4, watt: 231, wkg: 3.2, w5s: 579, w10s: 0, w15s: 545, w30s: 468, w1min: 339, w2min: 298, w5min: 257, w10min: 0, w20min: 231, w30min: 0, wkg5s: 7.9, wkg10s: 0.0, wkg15s: 7.7, wkg30s: 6.6, wkg1min: 4.7, wkg2min: 4.2, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 3.2, wkg30min: 0.0 },
+      { id: 2734726, name: "Adrian Bach (ART &#9883;&#65039;)", weight: 112.1, watt: 264, wkg: 2.4, w5s: 813, w10s: 0, w15s: 666, w30s: 585, w1min: 494, w2min: 386, w5min: 305, w10min: 0, w20min: 264, w30min: 0, wkg5s: 7.3, wkg10s: 0.0, wkg15s: 5.9, wkg30s: 5.2, wkg1min: 4.4, wkg2min: 3.4, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.4, wkg30min: 0.0 },
+      { id: 4395200, name: "Ben Parkes (ART)", weight: 114.0, watt: 240, wkg: 2.1, w5s: 916, w10s: 0, w15s: 846, w30s: 600, w1min: 406, w2min: 330, w5min: 289, w10min: 0, w20min: 240, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 5.3, wkg1min: 3.6, wkg2min: 2.9, wkg5min: 2.5, wkg10min: 0.0, wkg20min: 2.1, wkg30min: 0.0 },
+      { id: 5171056, name: "Duncan Truswell [ART7]", weight: 90.0, watt: 242, wkg: 2.7, w5s: 565, w10s: 0, w15s: 540, w30s: 485, w1min: 409, w2min: 336, w5min: 280, w10min: 0, w20min: 242, w30min: 0, wkg5s: 6.3, wkg10s: 0.0, wkg15s: 6.0, wkg30s: 5.4, wkg1min: 4.5, wkg2min: 3.7, wkg5min: 3.1, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ATGNI_ALLOY": {
