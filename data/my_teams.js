@@ -30,7 +30,7 @@ const MY_TEAMS = {
       { id:8, zwift_id:3061506, name:'5 Ciaran LEQP', sprint:11.4, oneMin:6.9, fiveMin:5.5, twentyMin:4.5, watt:304, weight:67.0, selected: false, w5s:762, w10s:0, w15s:719, w30s:590, w1min:463, w2min:410, w5min:370, w10min:0, w20min:304, w30min:0 },
       { id:9, zwift_id:4080350, name:'Peter Thers-Sonne (LEQP)', sprint:12.7, oneMin:7.7, fiveMin:4.7, twentyMin:4.0, watt:294, weight:73.0, selected: false, w5s:928, w10s:0, w15s:859, w30s:702, w1min:565, w2min:425, w5min:345, w10min:0, w20min:294, w30min:0 },
       { id:10, zwift_id:6455259, name:'Hendo | LEQP', sprint:13.4, oneMin:6.9, fiveMin:4.6, twentyMin:3.8, watt:273, weight:70.9, selected: false, w5s:945, w10s:0, w15s:859, w30s:737, w1min:493, w2min:388, w5min:330, w10min:0, w20min:273, w30min:0 },
-      { id:11, zwift_id:7300270, name:'G. Kivirand  | LEQP   SP', sprint:13.9, oneMin:6.7, fiveMin:4.3, twentyMin:3.8, watt:303, weight:79.0, selected: false, w5s:1095, w10s:0, w15s:927, w30s:640, w1min:526, w2min:417, w5min:343, w10min:0, w20min:303, w30min:0 },
+      { id:11, zwift_id:7300270, name:'Gerret Kivirand  | LEQP ', sprint:13.9, oneMin:6.7, fiveMin:4.3, twentyMin:3.8, watt:303, weight:79.0, selected: false, w5s:1095, w10s:0, w15s:927, w30s:640, w1min:526, w2min:417, w5min:343, w10min:0, w20min:303, w30min:0 },
       { id:12, zwift_id:7524845, name:'Margus Gering', sprint:11.5, oneMin:6.5, fiveMin:4.6, twentyMin:3.7, watt:332, weight:89.0, selected: false, w5s:1024, w10s:0, w15s:979, w30s:761, w1min:582, w2min:478, w5min:408, w10min:0, w20min:332, w30min:0 }
     ]
   },
@@ -57,23 +57,14 @@ const MY_TEAMS = {
       { id:2, zwift_id:543081, name:'Kendra Hall (LEQP)', sprint:6.3, oneMin:4.4, fiveMin:3.2, twentyMin:2.8, watt:176, weight:62.0, selected: false, w5s:390, w10s:0, w15s:370, w30s:341, w1min:275, w2min:234, w5min:199, w10min:0, w20min:176, w30min:0 },
       { id:3, zwift_id:828013, name:'Leigh  Greenwood | LEQP', sprint:10.2, oneMin:5.5, fiveMin:3.8, twentyMin:3.4, watt:244, weight:71.9, selected: false, w5s:736, w10s:0, w15s:639, w30s:474, w1min:395, w2min:302, w5min:272, w10min:0, w20min:244, w30min:0 },
       { id:4, zwift_id:1005339, name:'Evelyn Desmet', sprint:10.1, oneMin:4.4, fiveMin:3.4, twentyMin:3.0, watt:161, weight:53.0, selected: false, w5s:536, w10s:0, w15s:419, w30s:347, w1min:240, w2min:205, w5min:182, w10min:0, w20min:161, w30min:0 },
-      { id:5, zwift_id:1426577, name:'Tom West', sprint:9.8, oneMin:4.9, fiveMin:3.4, twentyMin:3.0, watt:254, weight:85.0, selected: false, w5s:836, w10s:0, w15s:731, w30s:542, w1min:419, w2min:329, w5min:289, w10min:0, w20min:254, w30min:0 },
-      { id:6, zwift_id:3827213, name:'Ross Brown | LEQP', sprint:9.1, oneMin:5.7, fiveMin:4.1, twentyMin:3.4, watt:310, weight:88.2, selected: false, w5s:801, w10s:0, w15s:767, w30s:695, w1min:509, w2min:420, w5min:360, w10min:0, w20min:310, w30min:0 },
-      { id:7, zwift_id:4578513, name:'Lisa Blackley | LEQP', sprint:10.9, oneMin:6.0, fiveMin:3.8, twentyMin:3.3, watt:225, weight:68.0, selected: false, w5s:740, w10s:0, w15s:662, w30s:516, w1min:410, w2min:306, w5min:257, w10min:0, w20min:225, w30min:0 },
-      { id:8, zwift_id:4887309, name:'Tom Barnes | LEQP', sprint:12.9, oneMin:6.0, fiveMin:3.7, twentyMin:3.0, watt:267, weight:87.8, selected: false, w5s:1131, w10s:0, w15s:903, w30s:691, w1min:517, w2min:393, w5min:324, w10min:0, w20min:267, w30min:0 },
-      { id:9, zwift_id:6016552, name:'Rainer W.', sprint:9.5, oneMin:5.4, fiveMin:4.2, twentyMin:3.4, watt:241, weight:70.0, selected: false, w5s:663, w10s:0, w15s:572, w30s:521, w1min:378, w2min:323, w5min:291, w10min:0, w20min:241, w30min:0 },
-      { id:10, zwift_id:6122741, name:'Henning K&uuml;hl', sprint:11.0, oneMin:5.7, fiveMin:3.6, twentyMin:3.2, watt:263, weight:82.0, selected: false, w5s:900, w10s:0, w15s:782, w30s:592, w1min:468, w2min:360, w5min:296, w10min:0, w20min:263, w30min:0 }
+      { id:5, zwift_id:1426577, name:'Tom West', sprint:9.8, oneMin:4.9, fiveMin:3.4, twentyMin:3.0, watt:254, weight:85.0, selected: false, w5s:836, w10s:0, w15s:731, w30s:542, w1min:419, w2min:329, w5min:289, w10min:0, w20min:254, w30min:0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE": {
     name: "LEQP Madeleine",
     captainsHTML: `<div style="display:flex;gap:16px;flex-wrap:wrap;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-bottom:12px;align-items:center;"><div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Captain</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent2);font-weight:700">&#11088; Jo Harris</span></div></div><div style="display:flex;flex-direction:column;gap:4px;flex:2;min-width:160px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Vice Captains</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent3)">J Baggett | LEQP</span><span style="color:var(--accent3)">. Marlijn I LEQP</span></div></div></div>`,
     riders: [
-      { id:1, zwift_id:1132683, name:'Thomas Bultjer (LEQP) ', sprint:9.3, oneMin:5.3, fiveMin:3.6, twentyMin:3.1, watt:275, weight:88.0, selected: false, w5s:815, w10s:0, w15s:769, w30s:596, w1min:463, w2min:374, w5min:319, w10min:0, w20min:275, w30min:0 },
-      { id:2, zwift_id:1342514, name:'Carlo Bloem', sprint:13.2, oneMin:6.4, fiveMin:4.3, twentyMin:3.7, watt:269, weight:73.0, selected: false, w5s:964, w10s:0, w15s:886, w30s:708, w1min:468, w2min:371, w5min:316, w10min:0, w20min:269, w30min:0 },
-      { id:3, zwift_id:1439317, name:'Jamie Carpenter (LEQP x STAGES)', sprint:7.3, oneMin:5.7, fiveMin:4.2, twentyMin:3.5, watt:239, weight:67.7, selected: false, w5s:496, w10s:0, w15s:469, w30s:423, w1min:384, w2min:339, w5min:283, w10min:0, w20min:239, w30min:0 },
-      { id:4, zwift_id:1970165, name:'Jo Harris (LEQP)', sprint:8.9, oneMin:5.3, fiveMin:3.9, twentyMin:3.5, watt:241, weight:69.0, selected: false, w5s:617, w10s:0, w15s:488, w30s:398, w1min:368, w2min:300, w5min:267, w10min:0, w20min:241, w30min:0 },
-      { id:5, zwift_id:2488559, name:'Rob King', sprint:8.2, oneMin:5.8, fiveMin:4.1, twentyMin:3.7, watt:285, weight:78.0, selected: false, w5s:641, w10s:0, w15s:600, w30s:579, w1min:453, w2min:384, w5min:321, w10min:0, w20min:285, w30min:0 }
+
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET": {
@@ -87,10 +78,9 @@ const MY_TEAMS = {
     name: "LEQP Ventoux",
     captainsHTML: `<div style="display:flex;gap:16px;flex-wrap:wrap;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-bottom:12px;align-items:center;"><div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Captain</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent2);font-weight:700">&#11088; Elena Llorente</span></div></div><div style="display:flex;flex-direction:column;gap:4px;flex:2;min-width:160px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Vice Captains</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent3)">David Boyd | LEQP</span><span style="color:var(--accent3)">Wouter Vos | LEQP</span></div></div></div>`,
     riders: [
-      { id:4, zwift_id:407665, name:'matthias hofmann', sprint:9.9, oneMin:5.4, fiveMin:4.5, twentyMin:4.1, watt:328, weight:80.0, selected: false, w5s:791, w10s:0, w15s:753, w30s:576, w1min:436, w2min:420, w5min:362, w10min:0, w20min:328, w30min:0 },
-      { id:5, zwift_id:1462270, name:'O. Beck (JEDI-Sports)', sprint:14.1, oneMin:7.2, fiveMin:4.9, twentyMin:4.2, watt:295, weight:70.0, selected: false, w5s:985, w10s:0, w15s:939, w30s:674, w1min:507, w2min:426, w5min:340, w10min:0, w20min:295, w30min:0 },
-      { id:6, zwift_id:1597372, name:'Pedro Gutierrez ', sprint:10.9, oneMin:6.4, fiveMin:4.6, twentyMin:3.8, watt:316, weight:83.5, selected: false, w5s:914, w10s:0, w15s:834, w30s:649, w1min:534, w2min:443, w5min:386, w10min:0, w20min:316, w30min:0 },
-      { id:7, zwift_id:1889731, name:'Michael Wameling | LEQP', sprint:14.8, oneMin:5.8, fiveMin:4.6, twentyMin:4.0, watt:314, weight:79.0, selected: false, w5s:1169, w10s:0, w15s:891, w30s:685, w1min:467, w2min:437, w5min:373, w10min:0, w20min:314, w30min:0 }
+      { id:2, zwift_id:120423, name:'Bryan Tsui  (LEQP Cingles)', sprint:13.1, oneMin:7.0, fiveMin:4.9, twentyMin:4.3, watt:312, weight:73.0, selected: false, w5s:955, w10s:0, w15s:880, w30s:670, w1min:513, w2min:438, w5min:360, w10min:0, w20min:312, w30min:0 },
+      { id:3, zwift_id:379514, name:'Christophe Cnop | LEQP', sprint:14.3, oneMin:7.6, fiveMin:5.9, twentyMin:5.2, watt:333, weight:64.0, selected: false, w5s:917, w10s:0, w15s:827, w30s:665, w1min:488, w2min:441, w5min:378, w10min:0, w20min:333, w30min:0 },
+      { id:4, zwift_id:407665, name:'matthias hofmann', sprint:9.9, oneMin:5.4, fiveMin:4.5, twentyMin:4.1, watt:328, weight:80.0, selected: false, w5s:791, w10s:0, w15s:753, w30s:576, w1min:436, w2min:420, w5min:362, w10min:0, w20min:328, w30min:0 }
     ]
   }
 };
