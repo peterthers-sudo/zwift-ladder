@@ -333,6 +333,8 @@ const ZWIFT_ROUTES = [
   { name: 'Crit Cross', world: 'Watopia', distance: 13.4, elevation: 33, leadIn: 0.0, profile: 'Flat', flatKm: 11.3 },
   { name: 'Molten Momentum', world: 'Watopia', distance: 20.6, elevation: 202, leadIn: 0.0, profile: 'Rolling', flatKm: 12.4 },
   { name: 'One Ride To Rule Them All', world: 'Watopia', distance: 38.5, elevation: 427, leadIn: 1.8, profile: 'Hilly', flatKm: 16.9 },
+  { name: 'Loopipelago', world: 'Watopia', distance: 18.5, elevation: 35, leadIn: 2.1, profile: 'Flat', flatKm: 15.5 },
+  { name: 'Miles of Isles', world: 'Watopia', distance: 27.2, elevation: 161, leadIn: 1.8, profile: 'Flat', flatKm: 22.8 },
 ];
 
 // Give each route an id and initialize as selected
@@ -2291,7 +2293,7 @@ function toggleCollapsible(header) {
 // INIT & STORAGE
 // ═══════════════════════════════════════════════════════
 
-const APP_VERSION = 'v1.3.250'; // bump this on every update
+const APP_VERSION = 'v1.3.251'; // bump this on every update
 const RIDERS_VERSION = 'v5.1'; // bump this whenever the built-in roster changes
 
 function saveToStorage() {
