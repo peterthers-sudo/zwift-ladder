@@ -24,7 +24,8 @@ const OPPONENT_LIBRARY = {
     positionInRung: 4,
     name: "ART Osmium",
     riders: [
-
+      { id: 2734726, name: "Adrian Bach (ART &#9883;&#65039;)", weight: 112.1, watt: 257, wkg: 2.3, w5s: 734, w10s: 0, w15s: 645, w30s: 585, w1min: 494, w2min: 386, w5min: 305, w10min: 0, w20min: 257, w30min: 0, wkg5s: 6.5, wkg10s: 0.0, wkg15s: 5.8, wkg30s: 5.2, wkg1min: 4.4, wkg2min: 3.4, wkg5min: 2.7, wkg10min: 0.0, wkg20min: 2.3, wkg30min: 0.0 },
+      { id: 4395200, name: "Ben Parkes (ART)", weight: 114.0, watt: 240, wkg: 2.1, w5s: 916, w10s: 0, w15s: 846, w30s: 600, w1min: 406, w2min: 330, w5min: 289, w10min: 0, w20min: 240, w30min: 0, wkg5s: 8.0, wkg10s: 0.0, wkg15s: 7.4, wkg30s: 5.3, wkg1min: 3.6, wkg2min: 2.9, wkg5min: 2.5, wkg10min: 0.0, wkg20min: 2.1, wkg30min: 0.0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ATGNI_ALLOY": {
