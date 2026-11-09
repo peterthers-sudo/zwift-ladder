@@ -434,5 +434,15 @@ const ROUTES = {
   "2919739330": "Mech Isle Mayhem",
   "362278484": "Twilight Crit",
   "4092230492": "Urumaze",
-  "811898717": "WhatYumeziWe'reLost?"
+  "811898717": "WhatYumeziWe'reLost?",
+  "3399412503": "1 x 3 Min Lightning Lap",
+  "568123398": "1 x 4 Min Lightning Lap",
+  "1156630474": "3 x 3 Min Lightning Laps",
+  "2125439468": "4 x 4 Min Lightning Laps",
+  "1507816665": "6 x 4 Min Lightning Laps",
+  "4123597378": "Better Lap Than Never",
+  "2155564554": "Island Interlude",
+  "4236593520": "Loopipelago",
+  "3306391797": "Miles of Isles",
+  "764392844": "Sacré Trois!"
 };
