@@ -6,8 +6,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 1,
     name: "ART Actinides",
     riders: [
-      { id: 4643553, name: "Harry Stromberg [ART]&#127467;&#127470;", weight: 88.0, watt: 262, wkg: 3.0, w5s: 961, w10s: 0, w15s: 930, w30s: 848, w1min: 581, w2min: 410, w5min: 318, w10min: 0, w20min: 262, w30min: 0, wkg5s: 10.9, wkg10s: 0.0, wkg15s: 10.6, wkg30s: 9.6, wkg1min: 6.6, wkg2min: 4.7, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 3.0, wkg30min: 0.0 },
-      { id: 4888136, name: "Big Foot  Sim", weight: 89.1, watt: 241, wkg: 2.7, w5s: 529, w10s: 0, w15s: 494, w30s: 377, w1min: 320, w2min: 284, w5min: 262, w10min: 0, w20min: 241, w30min: 0, wkg5s: 5.9, wkg10s: 0.0, wkg15s: 5.5, wkg30s: 4.2, wkg1min: 3.6, wkg2min: 3.2, wkg5min: 2.9, wkg10min: 0.0, wkg20min: 2.7, wkg30min: 0.0 }
+
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_CUATRO_BOLAS": {
@@ -16,9 +15,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 2,
     name: "ART Cuatro Bolas",
     riders: [
-      { id: 1402263, name: "Graeme Buckman (ART) ", weight: 97.0, watt: 334, wkg: 3.4, w5s: 1090, w10s: 0, w15s: 998, w30s: 849, w1min: 630, w2min: 487, w5min: 391, w10min: 0, w20min: 334, w30min: 0, wkg5s: 11.2, wkg10s: 0.0, wkg15s: 10.3, wkg30s: 8.8, wkg1min: 6.5, wkg2min: 5.0, wkg5min: 4.0, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 3195726, name: "Matt Price", weight: 78.5, watt: 267, wkg: 3.4, w5s: 666, w10s: 0, w15s: 635, w30s: 576, w1min: 425, w2min: 353, w5min: 309, w10min: 0, w20min: 267, w30min: 0, wkg5s: 8.5, wkg10s: 0.0, wkg15s: 8.1, wkg30s: 7.3, wkg1min: 5.4, wkg2min: 4.5, wkg5min: 3.9, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 },
-      { id: 3449821, name: "Chris Cook (ART)", weight: 86.4, watt: 291, wkg: 3.4, w5s: 1110, w10s: 0, w15s: 960, w30s: 769, w1min: 590, w2min: 394, w5min: 330, w10min: 0, w20min: 291, w30min: 0, wkg5s: 12.8, wkg10s: 0.0, wkg15s: 11.1, wkg30s: 8.9, wkg1min: 6.8, wkg2min: 4.6, wkg5min: 3.8, wkg10min: 0.0, wkg20min: 3.4, wkg30min: 0.0 }
+
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_ART_OSMIUM": {
