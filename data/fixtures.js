@@ -1,3 +1,3 @@
 // LEQP_FIXTURES_START
-const LEQP_FIXTURES = [{"date": "2026-11-18", "time": "18:30", "home": "LEQP Colombiere", "away": "Herd of Honey Badgers", "route": "2019 Worlds Harrogate Circuit", "powerups": []}];
+const LEQP_FIXTURES = [{"date": "2026-11-18", "time": "18:30", "home": "LEQP Colombiere", "away": "Herd of Honey Badgers", "route": "2019 Worlds Harrogate Circuit", "powerups": []}, {"date": "2026-11-19", "time": "18:33", "home": "DBR Crazy Dogs", "away": "LEQP Aubisque", "route": "", "powerups": []}, {"date": "2026-11-20", "time": "18:30", "home": "Extraordinary GentleWaTTs", "away": "LEQP Madeleine", "route": "", "powerups": []}];
 // LEQP_FIXTURES_END
