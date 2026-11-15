@@ -39,7 +39,6 @@ const RIDES = {
   4578513: {name:'4 Lisa Blackley | LEQP', rides:[]},
   4887309: {name:'Tom Barnes | LEQP', rides:[]},
   6016552: {name:'Rainer W.', rides:[]},
-  6122741: {name:'Henning K&uuml;hl', rides:[]},
   784472: {name:'..Olly.. | SRT', rides:[]},
   515879: {name:'1.Eirik Tengesdal  [LEQP]', rides:[]},
   979436: {name:'2. Max(LEQP)', rides:[]},
@@ -76,14 +75,15 @@ const RIDES = {
   1619159: {name:'Eky Nixon', rides:[]},
   6159774: {name:'Elena Llorente (LEQP)', rides:[]},
   1165983: {name:'Fergus MacLean [LEQP)', rides:[]},
-  5872599: {name:'First Jacco 🥑 | LEQP GC', rides:[]},
   8167605: {name:'Gem Murray | LEQP', rides:[]},
   4825697: {name:'Giulia Pelo', rides:[]},
   4552601: {name:'H Hallvard', rides:[]},
+  6122741: {name:'Henning Kühl', rides:[]},
   3095497: {name:'Henry Knott (LEQP)', rides:[]},
   5918889: {name:'Inviro I SOX', rides:[]},
   211789: {name:'Issa Abdallah', rides:[]},
   268606: {name:'J Baggett | LEQP', rides:[]},
+  5872599: {name:'Jacco 🥑 | LEQP GC', rides:[]},
   2141445: {name:'Jacky Truong [LEQP]', rides:[]},
   1439317: {name:'Jamie Carpenter (LEQP x STAGES)', rides:[]},
   819327: {name:'Jan Julian', rides:[]},
@@ -152,7 +152,6 @@ const RIDES = {
   116619: {name:'Yutaka Yoshida [RCC]', rides:[]},
   561438: {name:'huw Williams', rides:[]},
   407665: {name:'matthias hofmann', rides:[]},
-  2092882: {name:'mieshkin c', rides:[]},
-  4991114: {name:'riri sfilio', rides:[]}
+  2092882: {name:'mieshkin c', rides:[]}
 };
 // RIDES_END

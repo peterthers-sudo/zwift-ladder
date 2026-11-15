@@ -39,7 +39,6 @@ const LADDER_RACES = {
   4578513: {name:'4 Lisa Blackley | LEQP', races:[]},
   4887309: {name:'Tom Barnes | LEQP', races:[]},
   6016552: {name:'Rainer W.', races:[]},
-  6122741: {name:'Henning K&uuml;hl', races:[]},
   784472: {name:'..Olly.. | SRT', races:[]},
   515879: {name:'1.Eirik Tengesdal  [LEQP]', races:[]},
   979436: {name:'2. Max(LEQP)', races:[]},
@@ -76,14 +75,15 @@ const LADDER_RACES = {
   1619159: {name:'Eky Nixon', races:[]},
   6159774: {name:'Elena Llorente (LEQP)', races:[]},
   1165983: {name:'Fergus MacLean [LEQP)', races:[]},
-  5872599: {name:'First Jacco 🥑 | LEQP GC', races:[]},
   8167605: {name:'Gem Murray | LEQP', races:[]},
   4825697: {name:'Giulia Pelo', races:[]},
   4552601: {name:'H Hallvard', races:[]},
+  6122741: {name:'Henning Kühl', races:[]},
   3095497: {name:'Henry Knott (LEQP)', races:[]},
   5918889: {name:'Inviro I SOX', races:[]},
   211789: {name:'Issa Abdallah', races:[]},
   268606: {name:'J Baggett | LEQP', races:[]},
+  5872599: {name:'Jacco 🥑 | LEQP GC', races:[]},
   2141445: {name:'Jacky Truong [LEQP]', races:[]},
   1439317: {name:'Jamie Carpenter (LEQP x STAGES)', races:[]},
   819327: {name:'Jan Julian', races:[]},
@@ -152,7 +152,6 @@ const LADDER_RACES = {
   116619: {name:'Yutaka Yoshida [RCC]', races:[]},
   561438: {name:'huw Williams', races:[]},
   407665: {name:'matthias hofmann', races:[]},
-  2092882: {name:'mieshkin c', races:[]},
-  4991114: {name:'riri sfilio', races:[]}
+  2092882: {name:'mieshkin c', races:[]}
 };
 // LADDER_RACES_END
