@@ -7,11 +7,11 @@ const MY_TEAMS = {
     riders: [
       { id:1, zwift_id:712347, name:'Manon Ravesteijn', sprint:10.6, oneMin:6.1, fiveMin:4.2, twentyMin:3.5, watt:236, weight:67.0, selected: false, w5s:713, w10s:0, w15s:668, w30s:535, w1min:406, w2min:327, w5min:280, w10min:0, w20min:236, w30min:0 },
       { id:2, zwift_id:1188648, name:'Paul Colley (LEQPxSTAGES)', sprint:12.0, oneMin:6.6, fiveMin:4.2, twentyMin:3.5, watt:302, weight:85.5, selected: false, w5s:1024, w10s:0, w15s:838, w30s:737, w1min:567, w2min:439, w5min:362, w10min:0, w20min:302, w30min:0 },
-      { id:3, zwift_id:1859134, name:'Erwin Meermans', sprint:11.4, oneMin:5.7, fiveMin:4.0, twentyMin:3.6, watt:255, weight:71.0, selected: false, w5s:807, w10s:0, w15s:747, w30s:603, w1min:403, w2min:344, w5min:287, w10min:0, w20min:255, w30min:0 },
+      { id:3, zwift_id:1859134, name:'Erwin Meermans', sprint:11.4, oneMin:5.6, fiveMin:4.0, twentyMin:3.6, watt:255, weight:71.0, selected: false, w5s:807, w10s:0, w15s:747, w30s:603, w1min:399, w2min:344, w5min:287, w10min:0, w20min:255, w30min:0 },
       { id:4, zwift_id:4013675, name:'jonas ruffer', sprint:7.4, oneMin:4.0, fiveMin:3.7, twentyMin:2.9, watt:271, weight:85.0, selected: false, w5s:629, w10s:0, w15s:543, w30s:437, w1min:371, w2min:350, w5min:311, w10min:0, w20min:271, w30min:0 },
       { id:5, zwift_id:4522867, name:'Mojo', sprint:10.2, oneMin:6.4, fiveMin:4.0, twentyMin:3.5, watt:350, weight:100.0, selected: false, w5s:1014, w10s:0, w15s:944, w30s:847, w1min:639, w2min:509, w5min:404, w10min:0, w20min:350, w30min:0 },
       { id:6, zwift_id:4762368, name:'               Hajo Janssen | LEQP', sprint:11.3, oneMin:6.3, fiveMin:4.4, twentyMin:3.7, watt:273, weight:74.0, selected: false, w5s:834, w10s:0, w15s:702, w30s:639, w1min:466, w2min:405, w5min:328, w10min:0, w20min:273, w30min:0 },
-      { id:7, zwift_id:5369322, name:'James chadrides (LEQP)', sprint:11.3, oneMin:6.5, fiveMin:3.7, twentyMin:3.1, watt:273, weight:86.3, selected: false, w5s:973, w10s:0, w15s:877, w30s:747, w1min:563, w2min:378, w5min:320, w10min:0, w20min:273, w30min:0 },
+      { id:7, zwift_id:5369322, name:'James chadrides (Cye)', sprint:11.3, oneMin:6.5, fiveMin:3.7, twentyMin:3.3, watt:278, weight:86.3, selected: false, w5s:973, w10s:0, w15s:877, w30s:747, w1min:563, w2min:378, w5min:320, w10min:0, w20min:278, w30min:0 },
       { id:8, zwift_id:6329623, name:'Mike Thomas | LEQP', sprint:10.8, oneMin:5.9, fiveMin:4.6, twentyMin:4.1, watt:320, weight:78.5, selected: false, w5s:847, w10s:0, w15s:695, w30s:571, w1min:461, w2min:427, w5min:364, w10min:0, w20min:320, w30min:0 },
       { id:9, zwift_id:6744146, name:'Marlot | LEQP', sprint:13.1, oneMin:6.0, fiveMin:4.2, twentyMin:3.6, watt:216, weight:60.0, selected: false, w5s:789, w10s:0, w15s:698, w30s:464, w1min:358, w2min:300, w5min:252, w10min:0, w20min:216, w30min:0 }
     ]
@@ -59,16 +59,18 @@ const MY_TEAMS = {
       { id:4, zwift_id:1005339, name:'Evelyn Desmet', sprint:10.1, oneMin:4.4, fiveMin:3.4, twentyMin:3.0, watt:161, weight:53.0, selected: false, w5s:536, w10s:0, w15s:419, w30s:347, w1min:233, w2min:198, w5min:182, w10min:0, w20min:161, w30min:0 },
       { id:5, zwift_id:1426577, name:'Tom West', sprint:9.7, oneMin:4.9, fiveMin:3.4, twentyMin:3.0, watt:254, weight:85.0, selected: false, w5s:824, w10s:0, w15s:730, w30s:532, w1min:419, w2min:328, w5min:289, w10min:0, w20min:254, w30min:0 },
       { id:6, zwift_id:3827213, name:'Ross Brown | LEQP', sprint:10.9, oneMin:5.7, fiveMin:4.1, twentyMin:3.5, watt:311, weight:88.2, selected: false, w5s:960, w10s:0, w15s:856, w30s:695, w1min:509, w2min:420, w5min:360, w10min:0, w20min:311, w30min:0 },
-      { id:7, zwift_id:4578513, name:'4 Lisa Blackley | LEQP', sprint:10.9, oneMin:6.0, fiveMin:3.8, twentyMin:3.3, watt:225, weight:68.0, selected: false, w5s:740, w10s:0, w15s:662, w30s:516, w1min:410, w2min:306, w5min:257, w10min:0, w20min:225, w30min:0 },
+      { id:7, zwift_id:4578513, name:'Lisa Blackley | LEQP', sprint:10.9, oneMin:6.0, fiveMin:3.8, twentyMin:3.3, watt:225, weight:68.0, selected: false, w5s:740, w10s:0, w15s:662, w30s:516, w1min:410, w2min:306, w5min:257, w10min:0, w20min:225, w30min:0 },
       { id:8, zwift_id:4887309, name:'Tom Barnes | LEQP', sprint:13.0, oneMin:6.0, fiveMin:3.7, twentyMin:3.0, watt:267, weight:87.8, selected: false, w5s:1159, w10s:0, w15s:903, w30s:691, w1min:517, w2min:393, w5min:324, w10min:0, w20min:267, w30min:0 },
-      { id:9, zwift_id:6016552, name:'Rainer W.', sprint:9.5, oneMin:5.4, fiveMin:4.2, twentyMin:3.4, watt:241, weight:70.0, selected: false, w5s:663, w10s:0, w15s:572, w30s:521, w1min:378, w2min:323, w5min:291, w10min:0, w20min:241, w30min:0 }
+      { id:9, zwift_id:6016552, name:'Rainer W.', sprint:9.5, oneMin:5.4, fiveMin:4.2, twentyMin:3.4, watt:241, weight:70.0, selected: false, w5s:663, w10s:0, w15s:572, w30s:521, w1min:378, w2min:323, w5min:291, w10min:0, w20min:241, w30min:0 },
+      { id:10, zwift_id:6122741, name:'Henning K&uuml;hl', sprint:10.2, oneMin:5.7, fiveMin:3.6, twentyMin:3.2, watt:263, weight:82.0, selected: false, w5s:835, w10s:0, w15s:773, w30s:582, w1min:468, w2min:360, w5min:296, w10min:0, w20min:263, w30min:0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_MADELEINE": {
     name: "LEQP Madeleine",
     captainsHTML: `<div style="display:flex;gap:16px;flex-wrap:wrap;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:0.72rem;margin-bottom:12px;align-items:center;"><div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:120px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Captain</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent2);font-weight:700">&#11088; Jo Harris</span></div></div><div style="display:flex;flex-direction:column;gap:4px;flex:2;min-width:160px"><span style="font-size:0.55rem;letter-spacing:2px;color:var(--text-dim);text-transform:uppercase">Vice Captains</span><div style="display:flex;flex-wrap:wrap;gap:8px"><span style="color:var(--accent3)">J Baggett | LEQP</span><span style="color:var(--accent3)">. Marlijn I LEQP</span></div></div></div>`,
     riders: [
-
+      { id:1, zwift_id:1132683, name:'Thomas Bultjer (LEQP) ', sprint:9.3, oneMin:5.3, fiveMin:3.6, twentyMin:3.1, watt:275, weight:88.0, selected: false, w5s:815, w10s:0, w15s:769, w30s:596, w1min:463, w2min:369, w5min:319, w10min:0, w20min:275, w30min:0 },
+      { id:2, zwift_id:1342514, name:'Carlo Bloem', sprint:13.2, oneMin:6.4, fiveMin:4.3, twentyMin:3.7, watt:269, weight:73.0, selected: false, w5s:964, w10s:0, w15s:886, w30s:708, w1min:468, w2min:371, w5min:316, w10min:0, w20min:269, w30min:0 }
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_LEQP_TOURMALET": {
