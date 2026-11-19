@@ -33,9 +33,7 @@ const OPPONENT_LIBRARY = {
     positionInRung: 13,
     name: "ATGNI Alloy",
     riders: [
-      { id: 1089422, name: "3 - Slava Ukraini [ATGNI]", weight: 82.5, watt: 242, wkg: 2.9, w5s: 791, w10s: 0, w15s: 755, w30s: 582, w1min: 455, w2min: 338, w5min: 296, w10min: 0, w20min: 242, w30min: 0, wkg5s: 9.6, wkg10s: 0.0, wkg15s: 9.2, wkg30s: 7.1, wkg1min: 5.5, wkg2min: 4.1, wkg5min: 3.6, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
-      { id: 3336733, name: "Laurence d&#039;Angelo", weight: 103.3, watt: 297, wkg: 2.9, w5s: 1073, w10s: 0, w15s: 960, w30s: 740, w1min: 530, w2min: 426, w5min: 360, w10min: 0, w20min: 297, w30min: 0, wkg5s: 10.4, wkg10s: 0.0, wkg15s: 9.3, wkg30s: 7.1, wkg1min: 5.1, wkg2min: 4.1, wkg5min: 3.5, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 },
-      { id: 3781042, name: " Aurelia Zgaia Herd", weight: 61.0, watt: 178, wkg: 2.9, w5s: 452, w10s: 0, w15s: 401, w30s: 331, w1min: 264, w2min: 233, w5min: 204, w10min: 0, w20min: 178, w30min: 0, wkg5s: 7.4, wkg10s: 0.0, wkg15s: 6.6, wkg30s: 5.4, wkg1min: 4.3, wkg2min: 3.8, wkg5min: 3.3, wkg10min: 0.0, wkg20min: 2.9, wkg30min: 0.0 }
+
     ]
   },
   "VIEW_SOURCE_LADDER_CYCLERACING_CLUB_TEAMVIEW_A_WHOLE_LOT_OF_DANES": {
